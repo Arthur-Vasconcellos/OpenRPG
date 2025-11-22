@@ -1,0 +1,1253 @@
+[
+  {
+    "id": "adamantine_armor",
+    "nameKey": "adamantine_armor_name",
+    "category": "armor",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "adamantine_armor_description",
+    "properties": [
+      {
+        "type": "damage_prevention",
+        "value": "critical_hits_become_normal",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_plus1",
+    "nameKey": "ammunition_plus1_name",
+    "category": "weapon",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "ammunition_plus1_description",
+    "numericalValues": {
+      "attackBonus": 1,
+      "damageBonus": 1
+    },
+    "properties": [
+      {
+        "type": "consumable",
+        "value": true,
+        "target": "ammunition"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_plus2",
+    "nameKey": "ammunition_plus2_name",
+    "category": "weapon",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "ammunition_plus2_description",
+    "numericalValues": {
+      "attackBonus": 2,
+      "damageBonus": 2
+    },
+    "properties": [
+      {
+        "type": "consumable",
+        "value": true,
+        "target": "ammunition"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_plus3",
+    "nameKey": "ammunition_plus3_name",
+    "category": "weapon",
+    "rarity": "veryRare",
+    "requiresAttunement": false,
+    "descriptionKey": "ammunition_plus3_description",
+    "numericalValues": {
+      "attackBonus": 3,
+      "damageBonus": 3
+    },
+    "properties": [
+      {
+        "type": "consumable",
+        "value": true,
+        "target": "ammunition"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_of_slaying",
+    "nameKey": "ammunition_of_slaying_name",
+    "category": "weapon",
+    "rarity": "veryRare",
+    "requiresAttunement": false,
+    "descriptionKey": "ammunition_of_slaying_description",
+    "properties": [
+      {
+        "type": "consumable",
+        "value": true,
+        "target": "ammunition"
+      },
+      {
+        "type": "extra_damage",
+        "value": "6d10_force_on_failed_save",
+        "target": "specific_creature_type"
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "slaying_ammunition_creature_type",
+        "nameKey": "slaying_ammunition_creature_type_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 100
+        },
+        "entries": [
+          {"range": "01-10", "effect": {"descriptionKey": "creature_aberrations", "components": []}},
+          {"range": "11-15", "effect": {"descriptionKey": "creature_beasts", "components": []}},
+          {"range": "16-20", "effect": {"descriptionKey": "creature_celestials", "components": []}},
+          {"range": "21-25", "effect": {"descriptionKey": "creature_constructs", "components": []}},
+          {"range": "26-35", "effect": {"descriptionKey": "creature_dragons", "components": []}},
+          {"range": "36-45", "effect": {"descriptionKey": "creature_elementals", "components": []}},
+          {"range": "46-50", "effect": {"descriptionKey": "creature_humanoids", "components": []}},
+          {"range": "51-60", "effect": {"descriptionKey": "creature_fey", "components": []}},
+          {"range": "61-70", "effect": {"descriptionKey": "creature_fiends", "components": []}},
+          {"range": "71-75", "effect": {"descriptionKey": "creature_giants", "components": []}},
+          {"range": "76-80", "effect": {"descriptionKey": "creature_monstrosities", "components": []}},
+          {"range": "81-85", "effect": {"descriptionKey": "creature_oozes", "components": []}},
+          {"range": "86-90", "effect": {"descriptionKey": "creature_plants", "components": []}},
+          {"range": "91-00", "effect": {"descriptionKey": "creature_undead", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "amulet_of_health",
+    "nameKey": "amulet_of_health_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "amulet_of_health_description",
+    "numericalValues": {
+      "abilityScores": {
+        "constitution": 19
+      }
+    }
+  },
+  {
+    "id": "amulet_of_proof_against_detection_and_location",
+    "nameKey": "amulet_of_proof_against_detection_and_location_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "amulet_of_proof_against_detection_and_location_description",
+    "properties": [
+      {
+        "type": "immunity",
+        "value": "divination_spells",
+        "target": "wearer"
+      },
+      {
+        "type": "immunity",
+        "value": "magical_scrying",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "amulet_of_the_planes",
+    "nameKey": "amulet_of_the_planes_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "amulet_of_the_planes_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "amulet_of_the_planes_activate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "cast_plane_shift_with_intelligence_check"
+        }
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "amulet_planes_mishap",
+        "nameKey": "amulet_planes_mishap_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 100
+        },
+        "entries": [
+          {"range": "01-60", "effect": {"descriptionKey": "random_location_named_plane", "components": []}},
+          {"range": "61-70", "effect": {"descriptionKey": "random_inner_plane", "components": []}},
+          {"range": "71-80", "effect": {"descriptionKey": "random_outer_plane_good", "components": []}},
+          {"range": "81-90", "effect": {"descriptionKey": "random_outer_plane_evil", "components": []}},
+          {"range": "91-00", "effect": {"descriptionKey": "astral_plane", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "animated_shield",
+    "nameKey": "animated_shield_name",
+    "category": "armor",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "animated_shield_description",
+    "actions": [
+      {
+        "type": "bonusAction",
+        "descriptionKey": "animated_shield_animate",
+        "cost": {
+          "type": "bonusAction",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "shield_animates_for_1_minute"
+        }
+      }
+    ]
+  },
+  {
+    "id": "apparatus_of_the_crab",
+    "nameKey": "apparatus_of_the_crab_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": false,
+    "descriptionKey": "apparatus_of_the_crab_description",
+    "properties": [
+      {
+        "type": "vehicle",
+        "value": "underwater_walking_vehicle",
+        "target": "occupants"
+      },
+      {
+        "type": "immunity",
+        "value": "poison_damage",
+        "target": "apparatus"
+      },
+      {
+        "type": "immunity",
+        "value": "psychic_damage",
+        "target": "apparatus"
+      }
+    ],
+    "actions": [
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "apparatus_lever_operate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "operate_two_levers_on_apparatus"
+        }
+      }
+    ]
+  },
+  {
+    "id": "armor_plus1",
+    "nameKey": "armor_plus1_name",
+    "category": "armor",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "armor_plus1_description",
+    "numericalValues": {
+      "acBonus": 1
+    }
+  },
+  {
+    "id": "armor_plus2",
+    "nameKey": "armor_plus2_name",
+    "category": "armor",
+    "rarity": "veryRare",
+    "requiresAttunement": false,
+    "descriptionKey": "armor_plus2_description",
+    "numericalValues": {
+      "acBonus": 2
+    }
+  },
+  {
+    "id": "armor_plus3",
+    "nameKey": "armor_plus3_name",
+    "category": "armor",
+    "rarity": "legendary",
+    "requiresAttunement": false,
+    "descriptionKey": "armor_plus3_description",
+    "numericalValues": {
+      "acBonus": 3
+    }
+  },
+  {
+    "id": "armor_of_invulnerability",
+    "nameKey": "armor_of_invulnerability_name",
+    "category": "armor",
+    "rarity": "legendary",
+    "requiresAttunement": true,
+    "descriptionKey": "armor_of_invulnerability_description",
+    "properties": [
+      {
+        "type": "resistance",
+        "value": "bludgeoning_damage",
+        "target": "wearer"
+      },
+      {
+        "type": "resistance",
+        "value": "piercing_damage",
+        "target": "wearer"
+      },
+      {
+        "type": "resistance",
+        "value": "slashing_damage",
+        "target": "wearer"
+      }
+    ],
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "armor_of_invulnerability_activate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "immunity_to_physical_damage_10_minutes"
+        }
+      }
+    ],
+    "charges": {
+      "max": 1,
+      "recharge": {
+        "rate": "dawn"
+      }
+    }
+  },
+  {
+    "id": "armor_of_resistance",
+    "nameKey": "armor_of_resistance_name",
+    "category": "armor",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "armor_of_resistance_description",
+    "randomTables": [
+      {
+        "id": "armor_resistance_type",
+        "nameKey": "armor_resistance_type_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 10
+        },
+        "entries": [
+          {"range": "1", "effect": {"descriptionKey": "resistance_acid", "components": []}},
+          {"range": "2", "effect": {"descriptionKey": "resistance_cold", "components": []}},
+          {"range": "3", "effect": {"descriptionKey": "resistance_fire", "components": []}},
+          {"range": "4", "effect": {"descriptionKey": "resistance_force", "components": []}},
+          {"range": "5", "effect": {"descriptionKey": "resistance_lightning", "components": []}},
+          {"range": "6", "effect": {"descriptionKey": "resistance_necrotic", "components": []}},
+          {"range": "7", "effect": {"descriptionKey": "resistance_poison", "components": []}},
+          {"range": "8", "effect": {"descriptionKey": "resistance_psychic", "components": []}},
+          {"range": "9", "effect": {"descriptionKey": "resistance_radiant", "components": []}},
+          {"range": "10", "effect": {"descriptionKey": "resistance_thunder", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "armor_of_vulnerability",
+    "nameKey": "armor_of_vulnerability_name",
+    "category": "armor",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "armor_of_vulnerability_description",
+    "curse": {
+      "descriptionKey": "armor_of_vulnerability_curse_description",
+      "effects": [
+        {
+          "type": "condition",
+          "value": "vulnerability_to_two_damage_types"
+        }
+      ]
+    },
+    "properties": [
+      {
+        "type": "resistance",
+        "value": "one_physical_damage_type",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "arrow_catching_shield",
+    "nameKey": "arrow_catching_shield_name",
+    "category": "armor",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "arrow_catching_shield_description",
+    "numericalValues": {
+      "acBonus": 2
+    },
+    "properties": [
+      {
+        "type": "bonus",
+        "value": "ac_vs_ranged_attacks",
+        "target": "wearer"
+      }
+    ],
+    "actions": [
+      {
+        "type": "reaction",
+        "descriptionKey": "arrow_catching_shield_intercept",
+        "cost": {
+          "type": "reaction",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "become_target_of_ranged_attack"
+        }
+      }
+    ]
+  },
+  {
+    "id": "bag_of_beans",
+    "nameKey": "bag_of_beans_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "bag_of_beans_description",
+    "properties": [
+      {
+        "type": "consumable",
+        "value": true,
+        "target": "beans"
+      }
+    ],
+    "actions": [
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "bag_of_beans_plant",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "tableRoll",
+          "value": "bean_plant_effects"
+        }
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "bean_plant_effects",
+        "nameKey": "bag_of_beans_effects_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 100
+        },
+        "entries": [
+          {"range": "01", "effect": {"descriptionKey": "bag_of_beans_effect_01", "components": []}},
+          {"range": "02-10", "effect": {"descriptionKey": "bag_of_beans_effect_02_10", "components": []}},
+          {"range": "11-20", "effect": {"descriptionKey": "bag_of_beans_effect_11_20", "components": []}},
+          {"range": "21-30", "effect": {"descriptionKey": "bag_of_beans_effect_21_30", "components": []}},
+          {"range": "31-40", "effect": {"descriptionKey": "bag_of_beans_effect_31_40", "components": []}},
+          {"range": "41-50", "effect": {"descriptionKey": "bag_of_beans_effect_41_50", "components": []}},
+          {"range": "51-60", "effect": {"descriptionKey": "bag_of_beans_effect_51_60", "components": []}},
+          {"range": "61-70", "effect": {"descriptionKey": "bag_of_beans_effect_61_70", "components": []}},
+          {"range": "71-80", "effect": {"descriptionKey": "bag_of_beans_effect_71_80", "components": []}},
+          {"range": "81-90", "effect": {"descriptionKey": "bag_of_beans_effect_81_90", "components": []}},
+          {"range": "91-95", "effect": {"descriptionKey": "bag_of_beans_effect_91_95", "components": []}},
+          {"range": "96-00", "effect": {"descriptionKey": "bag_of_beans_effect_96_00", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bag_of_devouring",
+    "nameKey": "bag_of_devouring_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": false,
+    "descriptionKey": "bag_of_devouring_description",
+    "properties": [
+      {
+        "type": "hazard",
+        "value": "creatures_pulled_inside_devoured",
+        "target": "users"
+      }
+    ]
+  },
+  {
+    "id": "bag_of_holding",
+    "nameKey": "bag_of_holding_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "bag_of_holding_description",
+    "properties": [
+      {
+        "type": "extradimensional_storage",
+        "value": "500_pounds_64_cubic_feet",
+        "target": "items"
+      }
+    ]
+  },
+  {
+    "id": "bag_of_tricks_gray",
+    "nameKey": "bag_of_tricks_gray_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "bag_of_tricks_gray_description",
+    "charges": {
+      "max": 3,
+      "recharge": {
+        "rate": "dawn"
+      }
+    },
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "bag_of_tricks_draw",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "tableRoll",
+          "value": "gray_bag_of_tricks"
+        }
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "gray_bag_of_tricks",
+        "nameKey": "gray_bag_of_tricks_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 8
+        },
+        "entries": [
+          {"range": "1", "effect": {"descriptionKey": "creature_weasel", "components": []}},
+          {"range": "2", "effect": {"descriptionKey": "creature_giant_rat", "components": []}},
+          {"range": "3", "effect": {"descriptionKey": "creature_badger", "components": []}},
+          {"range": "4", "effect": {"descriptionKey": "creature_boar", "components": []}},
+          {"range": "5", "effect": {"descriptionKey": "creature_panther", "components": []}},
+          {"range": "6", "effect": {"descriptionKey": "creature_giant_badger", "components": []}},
+          {"range": "7", "effect": {"descriptionKey": "creature_dire_wolf", "components": []}},
+          {"range": "8", "effect": {"descriptionKey": "creature_giant_elk", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bag_of_tricks_rust",
+    "nameKey": "bag_of_tricks_rust_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "bag_of_tricks_rust_description",
+    "charges": {
+      "max": 3,
+      "recharge": {
+        "rate": "dawn"
+      }
+    },
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "bag_of_tricks_draw",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "tableRoll",
+          "value": "rust_bag_of_tricks"
+        }
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "rust_bag_of_tricks",
+        "nameKey": "rust_bag_of_tricks_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 8
+        },
+        "entries": [
+          {"range": "1", "effect": {"descriptionKey": "creature_rat", "components": []}},
+          {"range": "2", "effect": {"descriptionKey": "creature_owl", "components": []}},
+          {"range": "3", "effect": {"descriptionKey": "creature_mastiff", "components": []}},
+          {"range": "4", "effect": {"descriptionKey": "creature_goat", "components": []}},
+          {"range": "5", "effect": {"descriptionKey": "creature_giant_goat", "components": []}},
+          {"range": "6", "effect": {"descriptionKey": "creature_giant_boar", "components": []}},
+          {"range": "7", "effect": {"descriptionKey": "creature_lion", "components": []}},
+          {"range": "8", "effect": {"descriptionKey": "creature_brown_bear", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bag_of_tricks_tan",
+    "nameKey": "bag_of_tricks_tan_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "bag_of_tricks_tan_description",
+    "charges": {
+      "max": 3,
+      "recharge": {
+        "rate": "dawn"
+      }
+    },
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "bag_of_tricks_draw",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "tableRoll",
+          "value": "tan_bag_of_tricks"
+        }
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "tan_bag_of_tricks",
+        "nameKey": "tan_bag_of_tricks_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 8
+        },
+        "entries": [
+          {"range": "1", "effect": {"descriptionKey": "creature_jackal", "components": []}},
+          {"range": "2", "effect": {"descriptionKey": "creature_ape", "components": []}},
+          {"range": "3", "effect": {"descriptionKey": "creature_baboon", "components": []}},
+          {"range": "4", "effect": {"descriptionKey": "creature_axe_beak", "components": []}},
+          {"range": "5", "effect": {"descriptionKey": "creature_black_bear", "components": []}},
+          {"range": "6", "effect": {"descriptionKey": "creature_giant_weasel", "components": []}},
+          {"range": "7", "effect": {"descriptionKey": "creature_giant_hyena", "components": []}},
+          {"range": "8", "effect": {"descriptionKey": "creature_tiger", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bead_of_force",
+    "nameKey": "bead_of_force_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "bead_of_force_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "bead_of_force_throw",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "damage",
+          "value": {
+            "dice": "5d4",
+            "type": "force",
+            "saveDC": 15,
+            "saveType": "dexterity"
+          }
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "area_effect",
+        "value": "10_foot_radius_sphere",
+        "target": "creatures"
+      },
+      {
+        "type": "containment",
+        "value": "force_sphere_1_minute",
+        "target": "failed_save_creatures"
+      }
+    ]
+  },
+  {
+    "id": "belt_of_dwarvenkind",
+    "nameKey": "belt_of_dwarvenkind_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_dwarvenkind_description",
+    "properties": [
+      {
+        "type": "language",
+        "value": "dwarvish",
+        "target": "wearer"
+      },
+      {
+        "type": "advantage",
+        "value": "charisma_persuasion_dwarves",
+        "target": "wearer"
+      }
+    ],
+    "numericalValues": {
+      "abilityScores": {
+        "constitution": 2
+      }
+    }
+  },
+  {
+    "id": "belt_of_giant_strength_hill",
+    "nameKey": "belt_of_giant_strength_hill_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_giant_strength_hill_description",
+    "numericalValues": {
+      "abilityScores": {
+        "strength": 21
+      }
+    }
+  },
+  {
+    "id": "belt_of_giant_strength_frost",
+    "nameKey": "belt_of_giant_strength_frost_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_giant_strength_frost_description",
+    "numericalValues": {
+      "abilityScores": {
+        "strength": 23
+      }
+    }
+  },
+  {
+    "id": "belt_of_giant_strength_stone",
+    "nameKey": "belt_of_giant_strength_stone_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_giant_strength_stone_description",
+    "numericalValues": {
+      "abilityScores": {
+        "strength": 23
+      }
+    }
+  },
+  {
+    "id": "belt_of_giant_strength_fire",
+    "nameKey": "belt_of_giant_strength_fire_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_giant_strength_fire_description",
+    "numericalValues": {
+      "abilityScores": {
+        "strength": 25
+      }
+    }
+  },
+  {
+    "id": "belt_of_giant_strength_cloud",
+    "nameKey": "belt_of_giant_strength_cloud_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_giant_strength_cloud_description",
+    "numericalValues": {
+      "abilityScores": {
+        "strength": 27
+      }
+    }
+  },
+  {
+    "id": "belt_of_giant_strength_storm",
+    "nameKey": "belt_of_giant_strength_storm_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": true,
+    "descriptionKey": "belt_of_giant_strength_storm_description",
+    "numericalValues": {
+      "abilityScores": {
+        "strength": 29
+      }
+    }
+  },
+  {
+    "id": "berserker_axe",
+    "nameKey": "berserker_axe_name",
+    "category": "weapon",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "berserker_axe_description",
+    "numericalValues": {
+      "attackBonus": 1,
+      "damageBonus": 1
+    },
+    "properties": [
+      {
+        "type": "hit_point_bonus",
+        "value": "1_per_level",
+        "target": "wielder"
+      }
+    ],
+    "curse": {
+      "descriptionKey": "berserker_axe_curse_description",
+      "effects": [
+        {
+          "type": "condition",
+          "value": "unwilling_to_part_with_weapon"
+        },
+        {
+          "type": "condition",
+          "value": "attack_rolls_with_other_weapons_disadvantage"
+        },
+        {
+          "type": "condition",
+          "value": "berserk_when_damaged"
+        }
+      ]
+    }
+  },
+  {
+    "id": "boots_of_elvenkind",
+    "nameKey": "boots_of_elvenkind_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "boots_of_elvenkind_description",
+    "properties": [
+      {
+        "type": "advantage",
+        "value": "dexterity_stealth",
+        "target": "wearer"
+      },
+      {
+        "type": "silent_movement",
+        "value": "true",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "boots_of_levitation",
+    "nameKey": "boots_of_levitation_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "boots_of_levitation_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "boots_of_levitation_activate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "levitate"
+        }
+      }
+    ]
+  },
+  {
+    "id": "boots_of_speed",
+    "nameKey": "boots_of_speed_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "boots_of_speed_description",
+    "actions": [
+      {
+        "type": "bonusAction",
+        "descriptionKey": "boots_of_speed_activate",
+        "cost": {
+          "type": "bonusAction",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "double_speed_disadvantage_opportunity_attacks"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "duration_limit",
+        "value": "10_minutes_per_day",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "boots_of_striding_and_springing",
+    "nameKey": "boots_of_striding_and_springing_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "boots_of_striding_and_springing_description",
+    "properties": [
+      {
+        "type": "fixed_speed",
+        "value": "30_feet",
+        "target": "wearer"
+      },
+      {
+        "type": "ignore_encumbrance",
+        "value": "true",
+        "target": "wearer"
+      }
+    ],
+    "actions": [
+      {
+        "type": "specialMovement",
+        "descriptionKey": "boots_of_striding_springing_jump",
+        "cost": {
+          "type": "specialMovement",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "jump_30_feet_with_10_feet_movement"
+        }
+      }
+    ]
+  },
+  {
+    "id": "boots_of_the_winterlands",
+    "nameKey": "boots_of_the_winterlands_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "boots_of_the_winterlands_description",
+    "properties": [
+      {
+        "type": "resistance",
+        "value": "cold_damage",
+        "target": "wearer"
+      },
+      {
+        "type": "environmental_protection",
+        "value": "extreme_cold",
+        "target": "wearer"
+      },
+      {
+        "type": "ignore_terrain",
+        "value": "ice_snow_difficult_terrain",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "bowl_of_commanding_water_elementals",
+    "nameKey": "bowl_of_commanding_water_elementals_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "bowl_of_commanding_water_elementals_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "bowl_of_water_elementals_summon",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "summon_water_elemental_for_1_hour"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "cooldown",
+        "value": "once_per_dawn",
+        "target": "item"
+      }
+    ]
+  },
+  {
+    "id": "bracers_of_archery",
+    "nameKey": "bracers_of_archery_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "bracers_of_archery_description",
+    "properties": [
+      {
+        "type": "proficiency",
+        "value": "longbow_shortbow",
+        "target": "wearer"
+      }
+    ],
+    "numericalValues": {
+      "damageBonus": 2
+    }
+  },
+  {
+    "id": "bracers_of_defense",
+    "nameKey": "bracers_of_defense_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "bracers_of_defense_description",
+    "properties": [
+      {
+        "type": "prerequisite",
+        "value": "no_armor_no_shield",
+        "target": "wearer"
+      }
+    ],
+    "numericalValues": {
+      "acBonus": 2
+    }
+  },
+  {
+    "id": "brazier_of_commanding_fire_elementals",
+    "nameKey": "brazier_of_commanding_fire_elementals_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "brazier_of_commanding_fire_elementals_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "brazier_of_fire_elementals_summon",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "summon_fire_elemental_for_1_hour"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "cooldown",
+        "value": "once_per_dawn",
+        "target": "item"
+      }
+    ]
+  },
+  {
+    "id": "brooch_of_shielding",
+    "nameKey": "brooch_of_shielding_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "brooch_of_shielding_description",
+    "properties": [
+      {
+        "type": "resistance",
+        "value": "force_damage",
+        "target": "wearer"
+      },
+      {
+        "type": "immunity",
+        "value": "magic_missile_damage",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "broom_of_flying",
+    "nameKey": "broom_of_flying_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "broom_of_flying_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "broom_of_flying_activate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "gain_fly_speed_50_feet"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "flying_mount",
+        "value": "true",
+        "target": "rider"
+      }
+    ]
+  },
+  {
+    "id": "candle_of_invocation",
+    "nameKey": "candle_of_invocation_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "candle_of_invocation_description",
+    "properties": [
+      {
+        "type": "advantage",
+        "value": "all_d20_tests",
+        "target": "creatures_in_light"
+      },
+      {
+        "type": "spell_slot_conservation",
+        "value": "level_1_spells_no_slot",
+        "target": "clerics_druids_in_light"
+      }
+    ],
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "candle_of_invocation_light",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "light_candle_4_hour_duration"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cape_of_the_mountebank",
+    "nameKey": "cape_of_the_mountebank_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "cape_of_the_mountebank_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "cape_of_the_mountebank_teleport",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "dimension_door"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "cooldown",
+        "value": "once_per_dawn",
+        "target": "item"
+      }
+    ]
+  },
+  {
+    "id": "carpet_of_flying",
+    "nameKey": "carpet_of_flying_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": false,
+    "descriptionKey": "carpet_of_flying_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "carpet_of_flying_activate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "carpet_hovers_and_flies"
+        }
+      }
+    ],
+    "randomTables": [
+      {
+        "id": "carpet_of_flying_sizes",
+        "nameKey": "carpet_of_flying_sizes_name",
+        "diceRoll": {
+          "count": 1,
+          "sides": 100
+        },
+        "entries": [
+          {"range": "01-20", "effect": {"descriptionKey": "carpet_size_3x5", "components": []}},
+          {"range": "21-55", "effect": {"descriptionKey": "carpet_size_4x6", "components": []}},
+          {"range": "56-80", "effect": {"descriptionKey": "carpet_size_5x7", "components": []}},
+          {"range": "81-00", "effect": {"descriptionKey": "carpet_size_6x9", "components": []}}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "censer_of_controlling_air_elementals",
+    "nameKey": "censer_of_controlling_air_elementals_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "censer_of_controlling_air_elementals_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "censer_of_air_elementals_summon",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "summon_air_elemental_for_1_hour"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "cooldown",
+        "value": "once_per_dawn",
+        "target": "item"
+      }
+    ]
+  },
+  {
+    "id": "chime_of_opening",
+    "nameKey": "chime_of_opening_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": false,
+    "descriptionKey": "chime_of_opening_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "chime_of_opening_ring",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "knock"
+        }
+      }
+    ],
+    "charges": {
+      "max": 10,
+      "recharge": {
+        "rate": "never"
+      }
+    }
+  }
+]
