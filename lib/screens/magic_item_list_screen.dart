@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../data/magic_item_repository.dart';
-import '../models/enums.dart';
+import 'package:openrpg/data/magic_item_repository.dart';
+import 'package:openrpg/screens/magic_item_detail_screen.dart';
 import '../models/magic_item.dart';
 import '../models/localization_keys.dart';
-import 'magic_item_detail_screen.dart';
+import '../models/enums.dart';
 
 class MagicItemListScreen extends StatefulWidget {
   const MagicItemListScreen({super.key});
@@ -14,8 +14,8 @@ class MagicItemListScreen extends StatefulWidget {
 
 class _MagicItemListScreenState extends State<MagicItemListScreen> {
   final MagicItemRepository _repository = MagicItemRepository();
-  List<MagicItem> _allItems = []; // NEW: Store all loaded items
-  List<MagicItem> _filteredItems = []; // Filtered subset to display
+  List<MagicItem> _allItems = [];
+  List<MagicItem> _filteredItems = [];
   final TextEditingController _searchController = TextEditingController();
   Rarity? _selectedRarity;
   MagicItemCategory? _selectedCategory;
@@ -29,7 +29,6 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
     _loadItems();
   }
 
-  // NEW: Load items from JSON
   Future<void> _loadItems() async {
     setState(() {
       _isLoading = true;
@@ -39,8 +38,8 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
     try {
       final items = await _repository.loadAllMagicItems();
       setState(() {
-        _allItems = items; // Store all items
-        _filteredItems = items; // Initially show all items
+        _allItems = items.cast<MagicItem>();
+        _filteredItems = items.cast<MagicItem>();
         _isLoading = false;
       });
     } catch (e) {
@@ -48,11 +47,9 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
         _errorMessage = 'Failed to load magic items: $e';
         _isLoading = false;
       });
-      print('Error loading items: $e'); // Add this for debugging
     }
   }
 
-  // UPDATED: Filter from _allItems instead of _filteredItems
   void _filterItems() {
     final query = _searchController.text.toLowerCase();
 
@@ -68,17 +65,15 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
     });
   }
 
-  // UPDATED: Clear filters and reset to all items
   void _clearFilters() {
     setState(() {
       _selectedRarity = null;
       _selectedCategory = null;
       _searchController.clear();
     });
-    _filterItems(); // Re-filter from all items
+    _filterItems();
   }
 
-  // Add this method to show loading/error states
   Widget _buildContent() {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -120,7 +115,6 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
     return _filteredItems.isEmpty ? _buildEmptyState() : _buildItemsList();
   }
 
-  // Update your build method to use _buildContent()
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,10 +131,7 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
       ),
       body: Column(
         children: [
-          // Search and Filters
           _buildFiltersSection(),
-
-          // Results count
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
@@ -161,11 +152,7 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
               ],
             ),
           ),
-
-          // Items List - UPDATED: Use _buildContent()
-          Expanded(
-            child: _buildContent(),
-          ),
+          Expanded(child: _buildContent()),
         ],
       ),
     );
@@ -178,7 +165,6 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Search Bar
             TextField(
               controller: _searchController,
               decoration: const InputDecoration(
@@ -187,37 +173,42 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 16),
-
-            // Filter Chips
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                // Rarity Filter
-                FilterChip(
-                  label: Text(_selectedRarity != null
-                      ? LocalizationService.getRarity(_selectedRarity!)
-                      : 'All Rarities'),
-                  selected: _selectedRarity != null,
-                  onSelected: (selected) {
+                // Rarity Dropdown
+                DropdownButton<Rarity>(
+                  value: _selectedRarity,
+                  hint: const Text('All Rarities'),
+                  items: Rarity.values.map((rarity) {
+                    return DropdownMenuItem<Rarity>(
+                      value: rarity,
+                      child: Text(LocalizationService.getRarity(rarity)),
+                    );
+                  }).toList(),
+                  onChanged: (Rarity? newValue) {
                     setState(() {
-                      _selectedRarity = selected ? Rarity.uncommon : null;
+                      _selectedRarity = newValue;
                       _filterItems();
                     });
                   },
                 ),
-
-                // Category Filter
-                FilterChip(
-                  label: Text(_selectedCategory != null
-                      ? LocalizationService.getCategory(_selectedCategory!)
-                      : 'All Categories'),
-                  selected: _selectedCategory != null,
-                  onSelected: (selected) {
+                const SizedBox(width: 16),
+                // Category Dropdown
+                DropdownButton<MagicItemCategory>(
+                  value: _selectedCategory,
+                  hint: const Text('All Categories'),
+                  items: MagicItemCategory.values.map((category) {
+                    return DropdownMenuItem<MagicItemCategory>(
+                      value: category,
+                      child: Text(LocalizationService.getCategory(category)),
+                    );
+                  }).toList(),
+                  onChanged: (MagicItemCategory? newValue) {
                     setState(() {
-                      _selectedCategory = selected ? MagicItemCategory.weapon : null;
+                      _selectedCategory = newValue;
                       _filterItems();
                     });
                   },
@@ -253,7 +244,6 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              // Item Icon
               Container(
                 width: 48,
                 height: 48,
@@ -269,10 +259,7 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
                   color: _getRarityColor(item.rarity),
                 ),
               ),
-
               const SizedBox(width: 16),
-
-              // Item Details
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,15 +300,21 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
                             backgroundColor: Colors.orange.withOpacity(0.2),
                             side: BorderSide.none,
                           ),
+                        if (item.curse != null)
+                          Chip(
+                            label: const Text(
+                              'Cursed',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            backgroundColor: Colors.red.withOpacity(0.2),
+                            side: BorderSide.none,
+                          ),
                       ],
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(width: 8),
-
-              // Chevron
               Icon(
                 Icons.chevron_right,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,

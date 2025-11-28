@@ -218,23 +218,14 @@
     "rarity": "legendary",
     "requiresAttunement": false,
     "descriptionKey": "apparatus_of_the_crab_description",
-    "properties": [
-      {
-        "type": "vehicle",
-        "value": "underwater_walking_vehicle",
-        "target": "occupants"
-      },
-      {
-        "type": "immunity",
-        "value": "poison_damage",
-        "target": "apparatus"
-      },
-      {
-        "type": "immunity",
-        "value": "psychic_damage",
-        "target": "apparatus"
-      }
-    ],
+    "vehicleProperties": {
+      "ac": 20,
+      "hp": 200,
+      "speeds": {"walk": 30, "swim": 30},
+      "damageImmunities": ["poison", "psychic"],
+      "damageResistances": [],
+      "descriptionKey": "apparatus_vehicle_description"
+    },
     "actions": [
       {
         "type": "utilizeAction",
@@ -315,18 +306,18 @@
           "type": "action",
           "value": null
         },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
         "effect": {
           "type": "custom",
           "value": "immunity_to_physical_damage_10_minutes"
         }
       }
-    ],
-    "charges": {
-      "max": 1,
-      "recharge": {
-        "rate": "dawn"
-      }
-    }
+    ]
   },
   {
     "id": "armor_of_resistance",
@@ -489,13 +480,11 @@
     "rarity": "uncommon",
     "requiresAttunement": false,
     "descriptionKey": "bag_of_holding_description",
-    "properties": [
-      {
-        "type": "extradimensional_storage",
-        "value": "500_pounds_64_cubic_feet",
-        "target": "items"
-      }
-    ]
+    "containerProperties": {
+      "capacity": "500 pounds, 64 cubic feet",
+      "airSupply": "10 minutes divided by number of breathing creatures",
+      "extradimensional": true
+    }
   },
   {
     "id": "bag_of_tricks_gray",
@@ -504,12 +493,6 @@
     "rarity": "uncommon",
     "requiresAttunement": false,
     "descriptionKey": "bag_of_tricks_gray_description",
-    "charges": {
-      "max": 3,
-      "recharge": {
-        "rate": "dawn"
-      }
-    },
     "actions": [
       {
         "type": "magicAction",
@@ -517,6 +500,12 @@
         "cost": {
           "type": "action",
           "value": null
+        },
+        "charges": {
+          "max": 3,
+          "recharge": {
+            "rate": "dawn"
+          }
         },
         "effect": {
           "type": "tableRoll",
@@ -552,12 +541,6 @@
     "rarity": "uncommon",
     "requiresAttunement": false,
     "descriptionKey": "bag_of_tricks_rust_description",
-    "charges": {
-      "max": 3,
-      "recharge": {
-        "rate": "dawn"
-      }
-    },
     "actions": [
       {
         "type": "magicAction",
@@ -565,6 +548,12 @@
         "cost": {
           "type": "action",
           "value": null
+        },
+        "charges": {
+          "max": 3,
+          "recharge": {
+            "rate": "dawn"
+          }
         },
         "effect": {
           "type": "tableRoll",
@@ -600,12 +589,6 @@
     "rarity": "uncommon",
     "requiresAttunement": false,
     "descriptionKey": "bag_of_tricks_tan_description",
-    "charges": {
-      "max": 3,
-      "recharge": {
-        "rate": "dawn"
-      }
-    },
     "actions": [
       {
         "type": "magicAction",
@@ -613,6 +596,12 @@
         "cost": {
           "type": "action",
           "value": null
+        },
+        "charges": {
+          "max": 3,
+          "recharge": {
+            "rate": "dawn"
+          }
         },
         "effect": {
           "type": "tableRoll",
@@ -964,17 +953,16 @@
           "type": "action",
           "value": null
         },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
         "effect": {
           "type": "custom",
           "value": "summon_water_elemental_for_1_hour"
         }
-      }
-    ],
-    "properties": [
-      {
-        "type": "cooldown",
-        "value": "once_per_dawn",
-        "target": "item"
       }
     ]
   },
@@ -1029,17 +1017,16 @@
           "type": "action",
           "value": null
         },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
         "effect": {
-          "type": "custom",
-          "value": "summon_fire_elemental_for_1_hour"
+          "type": "creature",
+          "value": "fire_elemental"
         }
-      }
-    ],
-    "properties": [
-      {
-        "type": "cooldown",
-        "value": "once_per_dawn",
-        "target": "item"
       }
     ]
   },
@@ -1141,17 +1128,16 @@
           "type": "action",
           "value": null
         },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
         "effect": {
           "type": "spell",
           "value": "dimension_door"
         }
-      }
-    ],
-    "properties": [
-      {
-        "type": "cooldown",
-        "value": "once_per_dawn",
-        "target": "item"
       }
     ]
   },
@@ -1208,17 +1194,16 @@
           "type": "action",
           "value": null
         },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
         "effect": {
-          "type": "custom",
-          "value": "summon_air_elemental_for_1_hour"
+          "type": "creature",
+          "value": "air_elemental"
         }
-      }
-    ],
-    "properties": [
-      {
-        "type": "cooldown",
-        "value": "once_per_dawn",
-        "target": "item"
       }
     ]
   },
@@ -1237,17 +1222,72 @@
           "type": "action",
           "value": null
         },
+        "charges": {
+          "max": 10,
+          "recharge": {
+            "rate": "never"
+          }
+        },
         "effect": {
           "type": "spell",
           "value": "knock"
         }
       }
-    ],
-    "charges": {
-      "max": 10,
-      "recharge": {
-        "rate": "never"
+    ]
+  },
+  {
+    "id": "the_rich_eater",
+    "nameKey": "the_rich_eater_name",
+    "category": "weapon",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "the_rich_eater_description",
+    "numericalValues": {
+      "attackBonus": 2,
+      "damageBonus": 2
+    },
+    "sentientInfo": {
+      "abilities": {
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "alignment": "chaotic_good",
+      "communication": {
+        "type": "speech",
+        "languages": ["common", "elvish", "dwarvish"]
+      },
+      "senses": {
+        "range": "60 feet",
+        "darkvision": true
+      },
+      "specialPurpose": "wealth_redistribution"
+    },
+    "properties": [
+      {
+        "type": "sentient",
+        "value": true,
+        "target": "wielder"
+      },
+      {
+        "type": "gold_detection",
+        "value": "60_feet",
+        "target": "wielder"
       }
-    }
+    ],
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "the_rich_eater_wealth_sense",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "detect_gold_and_precious_metals_within_60_feet"
+        }
+      }
+    ]
   }
 ]
