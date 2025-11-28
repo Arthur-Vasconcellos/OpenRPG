@@ -12,6 +12,7 @@ enum MagicItemCategory {
   ammunition('ammunition');
 
   const MagicItemCategory(this.value);
+
   final String value;
 }
 
@@ -24,6 +25,7 @@ enum Rarity {
   artifact('artifact');
 
   const Rarity(this.value);
+
   final String value;
 }
 
@@ -37,6 +39,7 @@ enum ActionType {
   other('other');
 
   const ActionType(this.value);
+
   final String value;
 }
 
@@ -48,6 +51,7 @@ enum ActionCostType {
   reaction('reaction');
 
   const ActionCostType(this.value);
+
   final String value;
 }
 
@@ -60,6 +64,7 @@ enum EffectType {
   creature('creature');
 
   const EffectType(this.value);
+
   final String value;
 }
 
@@ -79,6 +84,7 @@ enum DamageType {
   slashing('slashing');
 
   const DamageType(this.value);
+
   final String value;
 }
 
@@ -99,6 +105,7 @@ enum CreatureType {
   undead('undead');
 
   const CreatureType(this.value);
+
   final String value;
 }
 
@@ -113,6 +120,7 @@ enum RechargeRate {
   never('never');
 
   const RechargeRate(this.value);
+
   final String value;
 }
 
@@ -120,14 +128,22 @@ enum RechargeRate {
 class EnumParser {
   static T fromString<T extends Enum>(List<T> values, String value) {
     for (T enumValue in values) {
-      if (enumValue is MagicItemCategory && enumValue.value == value) return enumValue;
+      if (enumValue is MagicItemCategory && enumValue.value == value)
+        return enumValue;
       if (enumValue is Rarity && enumValue.value == value) return enumValue;
       if (enumValue is ActionType && enumValue.value == value) return enumValue;
-      if (enumValue is ActionCostType && enumValue.value == value) return enumValue;
+      if (enumValue is ActionCostType && enumValue.value == value)
+        return enumValue;
       if (enumValue is EffectType && enumValue.value == value) return enumValue;
       if (enumValue is DamageType && enumValue.value == value) return enumValue;
-      if (enumValue is CreatureType && enumValue.value == value) return enumValue;
-      if (enumValue is RechargeRate && enumValue.value == value) return enumValue;
+      if (enumValue is CreatureType && enumValue.value == value)
+        return enumValue;
+      if (enumValue is RechargeRate && enumValue.value == value)
+        return enumValue;
+      if (enumValue is MoralAlignment && enumValue.value == value)
+        return enumValue;
+      if (enumValue is CommunicationType && enumValue.value == value)
+        return enumValue;
     }
     throw ArgumentError('Unknown enum value: $value for type ${T.toString()}');
   }
@@ -136,8 +152,7 @@ class EnumParser {
   static MagicItemCategory magicItemCategory(String value) =>
       fromString(MagicItemCategory.values, value);
 
-  static Rarity rarity(String value) =>
-      fromString(Rarity.values, value);
+  static Rarity rarity(String value) => fromString(Rarity.values, value);
 
   static ActionType actionType(String value) =>
       fromString(ActionType.values, value);
@@ -156,6 +171,39 @@ class EnumParser {
 
   static RechargeRate rechargeRate(String value) =>
       fromString(RechargeRate.values, value);
+
+  static MoralAlignment moralAlignment(String value) =>
+      fromString(MoralAlignment.values, value);
+
+  static CommunicationType communicationType(String value) =>
+      fromString(CommunicationType.values, value);
+}
+
+// Add to enums.dart
+enum MoralAlignment {
+  lawfulGood('lawful_good'),
+  neutralGood('neutral_good'),
+  chaoticGood('chaotic_good'),
+  lawfulNeutral('lawful_neutral'),
+  neutral('neutral'),
+  chaoticNeutral('chaotic_neutral'),
+  lawfulEvil('lawful_evil'),
+  neutralEvil('neutral_evil'),
+  chaoticEvil('chaotic_evil');
+
+  const MoralAlignment(this.value);
+
+  final String value;
+}
+
+enum CommunicationType {
+  emotions('emotions'),
+  speech('speech'),
+  telepathy('telepathy');
+
+  const CommunicationType(this.value);
+
+  final String value;
 }
 
 // DiceRoll class with JSON support
@@ -164,25 +212,26 @@ class DiceRoll {
   final int count;
 
   const DiceRoll(this.sides, [this.count = 1]);
+
   const DiceRoll.d4([this.count = 1]) : sides = 4;
+
   const DiceRoll.d6([this.count = 1]) : sides = 6;
+
   const DiceRoll.d8([this.count = 1]) : sides = 8;
+
   const DiceRoll.d10([this.count = 1]) : sides = 10;
+
   const DiceRoll.d12([this.count = 1]) : sides = 12;
+
   const DiceRoll.d20([this.count = 1]) : sides = 20;
+
   const DiceRoll.d100([this.count = 1]) : sides = 100;
 
   factory DiceRoll.fromJson(Map<String, dynamic> json) {
-    return DiceRoll(
-      json['sides'] as int,
-      json['count'] as int? ?? 1,
-    );
+    return DiceRoll(json['sides'] as int, json['count'] as int? ?? 1);
   }
 
-  Map<String, dynamic> toJson() => {
-    'sides': sides,
-    'count': count,
-  };
+  Map<String, dynamic> toJson() => {'sides': sides, 'count': count};
 
   @override
   String toString() => count > 1 ? '${count}d$sides' : 'd$sides';

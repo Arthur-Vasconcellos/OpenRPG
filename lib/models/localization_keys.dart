@@ -192,6 +192,28 @@ class LocalizationService {
     'censer_of_controlling_air_elementals_name': 'Censer of Controlling Air Elementals',
     'chime_of_opening_name': 'Chime of Opening',
 
+
+      // Apparatus of the Crab
+      "apparatus_vehicle_description": "The Apparatus of the Crab is a Large object with AC 20, 200 HP, and speeds of 30 ft. walking and swimming.",
+
+      // Bag of Holding
+      "bag_of_holding_interaction_warning": "Placing this bag inside an extradimensional space created by a Handy Haversack, Portable Hole, or similar item instantly destroys both items and opens a gate to the Astral Plane.",
+
+      // The Rich Eater
+      "the_rich_eater_name": "The Rich Eater",
+      "the_rich_eater_description": "This elegant longsword has a blade that seems to shimmer with golden light. Its hilt is adorned with intricate carvings of coins and scales. The sword has a strong personality and constantly seeks to redistribute wealth from the rich to the poor.",
+      "the_rich_eater_wealth_sense": "Sense gold and precious metals",
+      "wealth_redistribution": "Wealth redistribution - the sword seeks to transfer wealth from the rich to the poor",
+      "the_rich_eater_charitable_warning": "The sword may attempt to persuade the wielder to donate large sums of gold to charitable causes",
+      "the_rich_eater_greedy_warning": "The sword becomes restless and difficult when in the presence of greedy individuals",
+
+      // Updated action descriptions for consistency
+      "bowl_of_water_elementals_summon": "Summon a water elemental",
+      "brazier_of_fire_elementals_summon": "Summon a fire elemental",
+      "censer_of_air_elementals_summon": "Summon an air elemental",
+      "cape_of_the_mountebank_teleport": "Cast Dimension Door",
+
+
 // Magic Items - Descriptions
     'berserker_axe_description': 'You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.',
     'boots_of_elvenkind_description': 'While you wear these boots, your steps make no sound, regardless of the surface you are moving across. You also have advantage on Dexterity (Stealth) checks.',
@@ -215,13 +237,9 @@ class LocalizationService {
     'boots_of_levitation_activate': 'Cast Levitate on yourself',
     'boots_of_speed_activate': 'Click heels to double speed',
     'boots_of_striding_springing_jump': 'Make an extraordinary jump',
-    'bowl_of_water_elementals_summon': 'Summon a water elemental',
-    'brazier_of_fire_elementals_summon': 'Summon a fire elemental',
     'broom_of_flying_activate': 'Activate flying capability',
     'candle_of_invocation_light': 'Light the candle',
-    'cape_of_the_mountebank_teleport': 'Cast Dimension Door',
     'carpet_of_flying_activate': 'Activate flying carpet',
-    'censer_of_air_elementals_summon': 'Summon an air elemental',
     'chime_of_opening_ring': 'Ring chime to cast Knock',
 
 // Curse Descriptions
