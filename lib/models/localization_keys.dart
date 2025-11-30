@@ -293,6 +293,65 @@ class LocalizationService {
     'staff_of_healing_cure_wounds': 'Expend 1 charge to cast Cure Wounds',
     'staff_of_healing_lesser_restoration': 'Expend 2 charges to cast Lesser Restoration',
     'staff_of_healing_crafting_description': 'The staff must be carved during a full moon and blessed by a high priest.',
+
+    // Circlet of Blasting
+    'circlet_of_blasting_name': 'Circlet of Blasting',
+    'circlet_of_blasting_description': 'While wearing this circlet, you can use an action to cast the Scorching Ray spell with it. The circlet can\'t be used this way again until the next dawn.',
+    'circlet_of_blasting_activate': 'Cast Scorching Ray',
+
+// Cloak of Arachnida
+    'cloak_of_arachnida_name': 'Cloak of Arachnida',
+    'cloak_of_arachnida_description': 'This fine garment is made of black silk interwoven with faint silvery threads. While wearing it, you gain resistance to poison damage, a climbing speed equal to your walking speed, the ability to move through webs unimpeded, and can cast the Web spell once per day.',
+    'cloak_of_arachnida_web': 'Cast Web (double area)',
+
+// Cloak of Displacement
+    'cloak_of_displacement_name': 'Cloak of Displacement',
+    'cloak_of_displacement_description': 'While you wear this cloak, it projects an illusion that makes you appear to be standing in a place near your actual location, causing any creature to have disadvantage on attack rolls against you. If you take damage, the property ceases to function until the start of your next turn.',
+
+// Cloak of Elvenkind
+    'cloak_of_elvenkind_name': 'Cloak of Elvenkind',
+    'cloak_of_elvenkind_description': 'While you wear this cloak with the hood up, Wisdom (Perception) checks made to see you have disadvantage, and you have advantage on Dexterity (Stealth) checks made to hide, as the cloak\'s color shifts to camouflage you.',
+
+// Cloak of Protection
+    'cloak_of_protection_name': 'Cloak of Protection',
+    'cloak_of_protection_description': 'You gain a +1 bonus to AC and saving throws while you wear this cloak.',
+
+// Cloak of the Bat
+    'cloak_of_the_bat_name': 'Cloak of the Bat',
+    'cloak_of_the_bat_description': 'While wearing this cloak, you have advantage on Dexterity (Stealth) checks. In an area of dim light or darkness, you can grip the edges of the cloak with both hands and use it to fly at a speed of 40 feet.',
+    'cloak_of_the_bat_fly': 'Activate flight in dim light or darkness',
+    'cloak_of_the_bat_polymorph': 'Polymorph into a bat',
+
+// Cloak of the Manta Ray
+    'cloak_of_the_manta_ray_name': 'Cloak of the Manta Ray',
+    'cloak_of_the_manta_ray_description': 'While wearing this cloak with its hood up, you can breathe underwater, and you have a swimming speed of 60 feet. Pulling the hood up or down requires an action.',
+
+// Crystal Balls
+    'crystal_ball_name': 'Crystal Ball',
+    'crystal_ball_description': 'This crystal ball is about 6 inches in diameter. While touching it, you can cast the Scrying spell (save DC 17) with it.',
+    'crystal_ball_scry': 'Cast Scrying',
+
+    'crystal_ball_of_mind_reading_name': 'Crystal Ball of Mind Reading',
+    'crystal_ball_of_mind_reading_description': 'This crystal ball functions like a Crystal Ball of Scrying. In addition, while using it to scry, you can cast the Detect Thoughts spell on creatures you can see within 30 feet of the spell\'s sensor.',
+    'crystal_ball_detect_thoughts': 'Cast Detect Thoughts through sensor',
+
+    'crystal_ball_of_telepathy_name': 'Crystal Ball of Telepathy',
+    'crystal_ball_of_telepathy_description': 'This crystal ball functions like a Crystal Ball of Scrying. In addition, while using it to scry, you can communicate telepathically with creatures you can see within 30 feet of the spell\'s sensor and cast the Suggestion spell on one of them once per day.',
+    'crystal_ball_suggestion': 'Cast Suggestion through sensor',
+
+    'crystal_ball_of_true_seeing_name': 'Crystal Ball of True Seeing',
+    'crystal_ball_of_true_seeing_description': 'This crystal ball functions like a Crystal Ball of Scrying. In addition, while using it to scry, you have truesight with a radius of 120 feet centered on the spell\'s sensor.',
+
+// Cube of Force
+    'cube_of_force_name': 'Cube of Force',
+    'cube_of_force_description': 'This cube is about an inch across. Each face has a distinct marking on it. You can use an action to press one of the cube\'s faces, expending a number of charges based on the face, and thereby cast the spell associated with that face.',
+    'cube_of_force_activate': 'Press face to cast spell',
+
+// Cubic Gate
+    'cubic_gate_name': 'Cubic Gate',
+    'cubic_gate_description': 'This cube is 3 inches across and radiates palpable magical energy. The six sides of the cube are each keyed to a different plane of existence. The cube has 3 charges and regains 1d3 expended charges daily at dawn.',
+    'cubic_gate_gate': 'Cast Gate to linked plane',
+    'cubic_gate_plane_shift': 'Cast Plane Shift to linked plane',
   };
 
   static String getString(String key) {
