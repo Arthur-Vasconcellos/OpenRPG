@@ -1290,4 +1290,483 @@
       }
     ]
   }
+,
+  {
+    "id": "circlet_of_blasting",
+    "nameKey": "circlet_of_blasting_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": false,
+    "descriptionKey": "circlet_of_blasting_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "circlet_of_blasting_activate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
+        "effect": {
+          "type": "spell",
+          "value": "scorching_ray"
+        }
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedAttackBonus": 5,
+      "fixedSaveDC": null,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "cloak_of_arachnida",
+    "nameKey": "cloak_of_arachnida_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "cloak_of_arachnida_description",
+    "properties": [
+      {
+        "type": "resistance",
+        "value": "poison_damage",
+        "target": "wearer"
+      },
+      {
+        "type": "climb_speed",
+        "value": "equal_to_speed",
+        "target": "wearer"
+      },
+      {
+        "type": "ignore_terrain",
+        "value": "webs",
+        "target": "wearer"
+      }
+    ],
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "cloak_of_arachnida_web",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
+        "effect": {
+          "type": "spell",
+          "value": "web"
+        }
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedSaveDC": 13,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "cloak_of_displacement",
+    "nameKey": "cloak_of_displacement_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "cloak_of_displacement_description",
+    "properties": [
+      {
+        "type": "disadvantage",
+        "value": "attack_rolls_against_wearer",
+        "target": "attackers",
+        "condition": "until_damage_taken"
+      }
+    ]
+  },
+  {
+    "id": "cloak_of_elvenkind",
+    "nameKey": "cloak_of_elvenkind_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "cloak_of_elvenkind_description",
+    "properties": [
+      {
+        "type": "advantage",
+        "value": "dexterity_stealth",
+        "target": "wearer"
+      },
+      {
+        "type": "disadvantage",
+        "value": "wisdom_perception_to_perceive_wearer",
+        "target": "observers"
+      }
+    ]
+  },
+  {
+    "id": "cloak_of_protection",
+    "nameKey": "cloak_of_protection_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "cloak_of_protection_description",
+    "numericalValues": {
+      "acBonus": 1,
+      "savingThrowBonus": 1
+    }
+  },
+  {
+    "id": "cloak_of_the_bat",
+    "nameKey": "cloak_of_the_bat_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "cloak_of_the_bat_description",
+    "properties": [
+      {
+        "type": "advantage",
+        "value": "dexterity_stealth",
+        "target": "wearer"
+      }
+    ],
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "cloak_of_the_bat_fly",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "custom",
+          "value": "gain_fly_speed_40_in_dim_light_or_darkness"
+        }
+      },
+      {
+        "type": "magicAction",
+        "descriptionKey": "cloak_of_the_bat_polymorph",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
+        "effect": {
+          "type": "spell",
+          "value": "polymorph"
+        }
+      }
+    ]
+  },
+  {
+    "id": "cloak_of_the_manta_ray",
+    "nameKey": "cloak_of_the_manta_ray_name",
+    "category": "wondrousItem",
+    "rarity": "uncommon",
+    "requiresAttunement": true,
+    "descriptionKey": "cloak_of_the_manta_ray_description",
+    "properties": [
+      {
+        "type": "water_breathing",
+        "value": "true",
+        "target": "wearer"
+      },
+      {
+        "type": "swim_speed",
+        "value": "60",
+        "target": "wearer"
+      }
+    ]
+  },
+  {
+    "id": "crystal_ball",
+    "nameKey": "crystal_ball_name",
+    "category": "wondrousItem",
+    "rarity": "veryRare",
+    "requiresAttunement": true,
+    "descriptionKey": "crystal_ball_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "crystal_ball_scry",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "scrying"
+        }
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedSaveDC": 17,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "crystal_ball_of_mind_reading",
+    "nameKey": "crystal_ball_of_mind_reading_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": true,
+    "descriptionKey": "crystal_ball_of_mind_reading_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "crystal_ball_scry",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "scrying"
+        }
+      },
+      {
+        "type": "magicAction",
+        "descriptionKey": "crystal_ball_detect_thoughts",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "detect_thoughts"
+        }
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedSaveDC": 17,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "crystal_ball_of_telepathy",
+    "nameKey": "crystal_ball_of_telepathy_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": true,
+    "descriptionKey": "crystal_ball_of_telepathy_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "crystal_ball_scry",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "scrying"
+        }
+      },
+      {
+        "type": "magicAction",
+        "descriptionKey": "crystal_ball_suggestion",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "charges": {
+          "max": 1,
+          "recharge": {
+            "rate": "dawn"
+          }
+        },
+        "effect": {
+          "type": "spell",
+          "value": "suggestion"
+        }
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedSaveDC": 17,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "crystal_ball_of_true_seeing",
+    "nameKey": "crystal_ball_of_true_seeing_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": true,
+    "descriptionKey": "crystal_ball_of_true_seeing_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "crystal_ball_scry",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "scrying"
+        }
+      }
+    ],
+    "properties": [
+      {
+        "type": "truesight",
+        "value": "120_feet_centered_on_sensor",
+        "target": "wearer"
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedSaveDC": 17,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "cube_of_force",
+    "nameKey": "cube_of_force_name",
+    "category": "wondrousItem",
+    "rarity": "rare",
+    "requiresAttunement": true,
+    "descriptionKey": "cube_of_force_description",
+    "actions": [
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "cube_of_force_mage_armor",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "mage_armor"
+        },
+        "globalChargeCost": 1
+      },
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "cube_of_force_shield",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "shield"
+        },
+        "globalChargeCost": 1
+      },
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "cube_of_force_tiny_hut",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "tiny_hut"
+        },
+        "globalChargeCost": 3
+      },
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "cube_of_force_private_sanctum",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "private_sanctum"
+        },
+        "globalChargeCost": 4
+      },
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "cube_of_force_resilient_sphere",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "resilient_sphere"
+        },
+        "globalChargeCost": 4
+      },
+      {
+        "type": "utilizeAction",
+        "descriptionKey": "cube_of_force_wall_of_force",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "effect": {
+          "type": "spell",
+          "value": "wall_of_force"
+        },
+        "globalChargeCost": 5
+      }
+    ],
+    "spellCastingProperties": {
+      "fixedSaveDC": 17,
+      "usesUserSpellcastingAbility": false
+    }
+  },
+  {
+    "id": "cubic_gate",
+    "nameKey": "cubic_gate_name",
+    "category": "wondrousItem",
+    "rarity": "legendary",
+    "requiresAttunement": false,
+    "descriptionKey": "cubic_gate_description",
+    "actions": [
+      {
+        "type": "magicAction",
+        "descriptionKey": "cubic_gate_gate",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "charges": {
+          "max": 3,
+          "recharge": {
+            "rate": "dawn",
+            "dice": "1d3"
+          }
+        },
+        "effect": {
+          "type": "spell",
+          "value": "gate"
+        }
+      },
+      {
+        "type": "magicAction",
+        "descriptionKey": "cubic_gate_plane_shift",
+        "cost": {
+          "type": "action",
+          "value": null
+        },
+        "charges": {
+          "max": 3,
+          "recharge": {
+            "rate": "dawn",
+            "dice": "1d3"
+          }
+        },
+        "effect": {
+          "type": "spell",
+          "value": "plane_shift"
+        }
+      }
+    ]
+  }
 ]

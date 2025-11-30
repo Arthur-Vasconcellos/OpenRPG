@@ -215,6 +215,7 @@ class ItemAction {
   final ActionCost cost;
   final Effect effect;
   final ChargeInfo? charges;
+  final int? globalChargeCost;
 
   const ItemAction({
     required this.type,
@@ -222,6 +223,7 @@ class ItemAction {
     required this.cost,
     required this.effect,
     this.charges,
+    this.globalChargeCost,
   });
 
   factory ItemAction.fromJson(Map<String, dynamic> json) {
@@ -233,6 +235,7 @@ class ItemAction {
       charges: json['charges'] != null
           ? ChargeInfo.fromJson(json['charges'] as Map<String, dynamic>)
           : null,
+      globalChargeCost: json['chargeCost'] as int?,
     );
   }
 
@@ -243,6 +246,7 @@ class ItemAction {
       'cost': cost.toJson(),
       'effect': effect.toJson(),
       if (charges != null) 'charges': charges!.toJson(),
+      if (globalChargeCost != null) 'chargeCost': globalChargeCost,
     };
   }
 }
