@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/character_sheet_screen.dart';
 import 'screens/magic_item_list_screen.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class DndSrdApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MagicItemListScreen(),
+      home: const CharacterSheetScreen(), // Changed to character sheet
       debugShowCheckedModeBanner: false,
     );
   }
