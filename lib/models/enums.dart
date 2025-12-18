@@ -334,6 +334,11 @@ enum Skill {
   const Skill(this.value, this.displayName);
 }
 
+enum SkillSortOrder {
+  byProficiency,
+  alphabetical,
+}
+
 enum ProficiencyLevel {
   none('none', 'None'),
   proficient('proficient', 'Proficient'),

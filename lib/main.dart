@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/character_sheet_screen.dart';
+import 'screens/character_sheet/character_sheet_screen.dart';
 import 'screens/magic_item_list_screen.dart';
 
 void main() {
