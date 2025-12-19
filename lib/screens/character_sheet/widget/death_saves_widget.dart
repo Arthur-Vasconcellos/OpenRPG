@@ -22,12 +22,10 @@ class DeathSavesWidget extends StatelessWidget {
     final newCharacter = Character(
       id: character.id,
       name: character.name,
-      characterClass: character.characterClass,
-      subclass: character.subclass,
+      classes: character.classes,
       race: character.race,
       background: character.background,
       moralAlignment: character.moralAlignment,
-      level: character.level,
       experiencePoints: character.experiencePoints,
       inspiration: character.inspiration,
       abilityScores: character.abilityScores,
@@ -46,6 +44,7 @@ class DeathSavesWidget extends StatelessWidget {
       notes: character.notes,
       createdAt: character.createdAt,
       updatedAt: DateTime.now(),
+      equippedCombatStats: character.equippedCombatStats,
     );
 
     onCharacterUpdated(newCharacter);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:openrpg/models/character.dart';
 import 'package:openrpg/models/enums.dart';
+import 'package:openrpg/data/dnd_rules.dart';
 import 'package:openrpg/screens/character_sheet/widget/attribute_card.dart';
 import 'package:openrpg/screens/character_sheet/widget/saving_throw_grid.dart';
 
@@ -28,92 +29,128 @@ class _CoreTabState extends State<CoreTab> {
     _character = widget.character;
   }
 
-  void _updateAttribute(String attribute, int value) {
+  void _updateCharacter(Character newCharacter) {
     setState(() {
-      value = value.clamp(1, 30);
-
-      final newAbilityScores = AbilityScores(
-        strength: attribute == 'strength'
-            ? value
-            : _character.abilityScores.strength,
-        dexterity: attribute == 'dexterity'
-            ? value
-            : _character.abilityScores.dexterity,
-        constitution: attribute == 'constitution'
-            ? value
-            : _character.abilityScores.constitution,
-        intelligence: attribute == 'intelligence'
-            ? value
-            : _character.abilityScores.intelligence,
-        wisdom: attribute == 'wisdom' ? value : _character.abilityScores.wisdom,
-        charisma: attribute == 'charisma' ? value : _character.abilityScores.charisma,
-      );
-
-      _character = Character(
-        id: _character.id,
-        name: _character.name,
-        characterClass: _character.characterClass,
-        subclass: _character.subclass,
-        race: _character.race,
-        background: _character.background,
-        moralAlignment: _character.moralAlignment,
-        level: _character.level,
-        experiencePoints: _character.experiencePoints,
-        inspiration: _character.inspiration,
-        abilityScores: newAbilityScores,
-        modifiers: _character.modifiers,
-        proficiencies: _character.proficiencies,
-        combatStats: _character.combatStats,
-        health: _character.health,
-        equipment: _character.equipment,
-        wealth: _character.wealth,
-        spellcasting: _character.spellcasting,
-        traits: _character.traits,
-        features: _character.features,
-        racialTraits: _character.racialTraits,
-        backgroundTraits: _character.backgroundTraits,
-        physicalDescription: _character.physicalDescription,
-        notes: _character.notes,
-        createdAt: _character.createdAt,
-        updatedAt: DateTime.now(),
-      ).copyWithCalculatedValues();
+      _character = newCharacter;
     });
     widget.onCharacterUpdated(_character);
   }
 
+  void _updateAttribute(String attribute, int value) {
+    value = value.clamp(1, 30);
+
+    final newAbilityScores = _character.abilityScores.copyWith(
+      strength: attribute == 'strength' ? value : null,
+      dexterity: attribute == 'dexterity' ? value : null,
+      constitution: attribute == 'constitution' ? value : null,
+      intelligence: attribute == 'intelligence' ? value : null,
+      wisdom: attribute == 'wisdom' ? value : null,
+      charisma: attribute == 'charisma' ? value : null,
+    );
+
+    final newCharacter = _character.copyWith(
+      abilityScores: newAbilityScores,
+    );
+
+    _updateCharacter(newCharacter);
+  }
+
+  void _updateProficiencyBonus(int newBonus) {
+    final newProficiencies = _character.proficiencies.copyWith(
+      proficiencyBonus: newBonus.clamp(0, 6),
+    );
+
+    final newCharacter = _character.copyWith(
+      proficiencies: newProficiencies,
+    );
+
+    _updateCharacter(newCharacter);
+  }
+
   void _updateField(String field, dynamic value) {
-    setState(() {
-      _character = Character(
-        id: _character.id,
-        name: field == 'name' ? value as String : _character.name,
-        playerName: _character.playerName,
-        characterClass: field == 'characterClass' ? value as CharacterClass : _character.characterClass,
-        subclass: field == 'characterClass' ? Subclass.none : _character.subclass,
-        race: field == 'race' ? value as Race : _character.race,
-        background: field == 'background' ? value as Background : _character.background,
-        moralAlignment: field == 'moralAlignment' ? value as MoralAlignment : _character.moralAlignment,
-        level: field == 'level' ? (value as int).clamp(1, 20) : _character.level,
-        experiencePoints: field == 'experiencePoints' ? value as int : _character.experiencePoints,
-        inspiration: _character.inspiration,
-        abilityScores: _character.abilityScores,
-        modifiers: _character.modifiers,
-        proficiencies: _character.proficiencies,
-        combatStats: _character.combatStats,
-        health: _character.health,
-        equipment: _character.equipment,
-        wealth: _character.wealth,
-        spellcasting: _character.spellcasting,
-        traits: _character.traits,
-        features: field == 'characterClass' ? [] : _character.features,
-        racialTraits: field == 'race' ? [] : _character.racialTraits,
-        backgroundTraits: field == 'background' ? [] : _character.backgroundTraits,
-        physicalDescription: _character.physicalDescription,
-        notes: _character.notes,
-        createdAt: _character.createdAt,
-        updatedAt: DateTime.now(),
-      ).copyWithCalculatedValues();
-    });
-    widget.onCharacterUpdated(_character);
+    Character newCharacter;
+
+    switch (field) {
+      case 'name':
+        newCharacter = _character.copyWith(name: value as String);
+        break;
+      case 'race':
+        newCharacter = _character.copyWith(
+          race: value as Race,
+          racialTraits: [], // Reset racial traits
+        );
+        break;
+      case 'background':
+        newCharacter = _character.copyWith(
+          background: value as Background,
+          backgroundTraits: [], // Reset background traits
+        );
+        break;
+      case 'moralAlignment':
+        newCharacter = _character.copyWith(moralAlignment: value as MoralAlignment);
+        break;
+      case 'experiencePoints':
+        newCharacter = _character.copyWith(experiencePoints: value as int);
+        break;
+      default:
+        return;
+    }
+
+    _updateCharacter(newCharacter);
+  }
+
+  void _addClass() {
+    final newClasses = List<CharacterClassLevel>.from(_character.classes)
+      ..add(CharacterClassLevel(
+        characterClass: CharacterClass.fighter,
+        level: 1,
+      ));
+
+    final newCharacter = _character.copyWith(classes: newClasses);
+    _updateCharacter(newCharacter);
+  }
+
+  void _removeClass(int index) {
+    if (_character.classes.length <= 1) return;
+
+    final newClasses = List<CharacterClassLevel>.from(_character.classes);
+    newClasses.removeAt(index);
+
+    final newCharacter = _character.copyWith(classes: newClasses);
+    _updateCharacter(newCharacter);
+  }
+
+  void _updateClass(int index, CharacterClassLevel updatedClass) {
+    final newClasses = List<CharacterClassLevel>.from(_character.classes);
+    newClasses[index] = updatedClass;
+
+    final newCharacter = _character.copyWith(classes: newClasses);
+    _updateCharacter(newCharacter);
+  }
+
+  void _toggleSkillProficiency(Skill skill, ProficiencyLevel current) {
+    final newProficiencies = Map<Skill, ProficiencyLevel>.from(
+        _character.proficiencies.skills.proficiencies
+    );
+
+    newProficiencies[skill] = current == ProficiencyLevel.none
+        ? ProficiencyLevel.proficient
+        : current == ProficiencyLevel.proficient
+        ? ProficiencyLevel.expert
+        : ProficiencyLevel.none;
+
+    final newSkills = _character.proficiencies.skills.copyWith(
+      proficiencies: newProficiencies,
+    );
+    final newProficiencySet = _character.proficiencies.copyWith(
+      skills: newSkills,
+    );
+
+    final newCharacter = _character.copyWith(
+      proficiencies: newProficiencySet,
+    );
+
+    _updateCharacter(newCharacter);
   }
 
   @override
@@ -135,6 +172,10 @@ class _CoreTabState extends State<CoreTab> {
                 children: [
                   // Character Basics Card
                   _buildCharacterBasicsCard(colorScheme),
+                  const SizedBox(height: 16),
+
+                  // Proficiency Bonus Card
+                  _buildProficiencyBonusCard(colorScheme),
                   const SizedBox(height: 16),
 
                   // Attributes Grid
@@ -192,15 +233,135 @@ class _CoreTabState extends State<CoreTab> {
             ),
             const SizedBox(height: 12),
 
-            // Responsive character fields
-            LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth < 400) {
-                  return _buildVerticalCharacterFields(colorScheme);
-                } else {
-                  return _buildHorizontalCharacterFields(colorScheme);
-                }
-              },
+            // Multiclass fields
+            _buildClassFields(colorScheme),
+            const SizedBox(height: 12),
+
+            // Race, Background, Alignment, XP
+            _buildBasicInfoFields(colorScheme),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClassFields(ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.class_outlined, color: colorScheme.primary, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              'CLASSES (Total Level: ${_character.totalLevel})',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: colorScheme.onSurface.withOpacity(0.7),
+                letterSpacing: 0.5,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              icon: Icon(Icons.add, color: colorScheme.primary),
+              onPressed: _addClass,
+              tooltip: 'Add another class',
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        ..._character.classes.asMap().entries.map((entry) {
+          final index = entry.key;
+          final classLevel = entry.value;
+
+          return _buildClassRow(index, classLevel, colorScheme);
+        }).toList(),
+      ],
+    );
+  }
+
+  Widget _buildClassRow(int index, CharacterClassLevel classLevel, ColorScheme colorScheme) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: colorScheme.outline.withOpacity(0.2)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: DropdownButtonFormField<CharacterClass>(
+                    value: classLevel.characterClass,
+                    decoration: InputDecoration(
+                      labelText: 'Class ${index + 1}',
+                      labelStyle: TextStyle(color: colorScheme.onSurface),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: colorScheme.primary),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                    items: CharacterClass.values.map((cls) {
+                      return DropdownMenuItem(
+                        value: cls,
+                        child: Text(
+                          cls.displayName,
+                          style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        _updateClass(index, classLevel.copyWith(characterClass: value));
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 1,
+                  child: TextField(
+                    controller: TextEditingController(text: classLevel.level.toString()),
+                    decoration: InputDecoration(
+                      labelText: 'Level',
+                      labelStyle: TextStyle(color: colorScheme.onSurface),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: colorScheme.primary),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: colorScheme.onSurface,
+                    ),
+                    onChanged: (value) {
+                      final level = int.tryParse(value) ?? classLevel.level;
+                      _updateClass(index, classLevel.copyWith(level: level.clamp(1, 20)));
+                    },
+                  ),
+                ),
+                if (_character.classes.length > 1)
+                  IconButton(
+                    icon: Icon(Icons.delete_outline, color: colorScheme.error),
+                    onPressed: () => _removeClass(index),
+                    tooltip: 'Remove this class',
+                  ),
+              ],
             ),
           ],
         ),
@@ -208,64 +369,21 @@ class _CoreTabState extends State<CoreTab> {
     );
   }
 
-  Widget _buildVerticalCharacterFields(ColorScheme colorScheme) {
+  Widget _buildBasicInfoFields(ColorScheme colorScheme) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 400) {
+          return _buildVerticalBasicFields(colorScheme);
+        } else {
+          return _buildHorizontalBasicFields(colorScheme);
+        }
+      },
+    );
+  }
+
+  Widget _buildVerticalBasicFields(ColorScheme colorScheme) {
     return Column(
       children: [
-        DropdownButtonFormField<CharacterClass>(
-          value: _character.characterClass,
-          decoration: InputDecoration(
-            labelText: 'Class',
-            labelStyle: TextStyle(color: colorScheme.onSurface),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.primary),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-          ),
-          items: CharacterClass.values.map((cls) {
-            return DropdownMenuItem(
-              value: cls,
-              child: Text(
-                cls.displayName,
-                style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
-              ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            if (value != null) {
-              _updateField('characterClass', value);
-            }
-          },
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: TextEditingController(text: _character.level.toString()),
-          decoration: InputDecoration(
-            labelText: 'Level',
-            labelStyle: TextStyle(color: colorScheme.onSurface),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.primary),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-          ),
-          keyboardType: TextInputType.number,
-          style: TextStyle(
-            fontSize: 16,
-            color: colorScheme.onSurface,
-          ),
-          onChanged: (value) {
-            final level = int.tryParse(value) ?? _character.level;
-            _updateField('level', level);
-          },
-        ),
-        const SizedBox(height: 12),
         DropdownButtonFormField<Race>(
           value: _character.race,
           decoration: InputDecoration(
@@ -393,72 +511,9 @@ class _CoreTabState extends State<CoreTab> {
     );
   }
 
-  Widget _buildHorizontalCharacterFields(ColorScheme colorScheme) {
+  Widget _buildHorizontalBasicFields(ColorScheme colorScheme) {
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<CharacterClass>(
-                value: _character.characterClass,
-                decoration: InputDecoration(
-                  labelText: 'Class',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                ),
-                items: CharacterClass.values.map((cls) {
-                  return DropdownMenuItem(
-                    value: cls,
-                    child: Text(
-                      cls.displayName,
-                      style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  if (value != null) {
-                    _updateField('characterClass', value);
-                  }
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TextField(
-                controller: TextEditingController(text: _character.level.toString()),
-                decoration: InputDecoration(
-                  labelText: 'Level',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                ),
-                keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: colorScheme.onSurface,
-                ),
-                onChanged: (value) {
-                  final level = int.tryParse(value) ?? _character.level;
-                  _updateField('level', level);
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
         Row(
           children: [
             Expanded(
@@ -591,6 +646,155 @@ class _CoreTabState extends State<CoreTab> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildProficiencyBonusCard(ColorScheme colorScheme) {
+    final expectedBonus = DndRules.calculateProficiencyBonus(_character.totalLevel);
+    final isExpected = _character.proficiencies.proficiencyBonus == expectedBonus;
+
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.star_outline, color: colorScheme.primary, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'PROFICIENCY BONUS (Level ${_character.totalLevel})',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: colorScheme.onSurface.withOpacity(0.7),
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const Spacer(),
+                if (!isExpected)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Expected: +$expectedBonus',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        IconButton(
+                          icon: Icon(Icons.refresh, size: 16, color: colorScheme.primary),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          onPressed: () {
+                            _updateProficiencyBonus(expectedBonus);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Current Bonus',
+                        style: TextStyle(
+                          color: colorScheme.onSurface.withOpacity(0.7),
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '+${_character.proficiencies.proficiencyBonus}',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          color: isExpected ? colorScheme.primary : colorScheme.error,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Expected by Level ${_character.totalLevel}',
+                      style: TextStyle(
+                        color: colorScheme.onSurface.withOpacity(0.7),
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '+$expectedBonus',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: colorScheme.onSurface.withOpacity(0.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.remove, size: 20),
+                    label: const Text('Decrease'),
+                    onPressed: () {
+                      if (_character.proficiencies.proficiencyBonus > 0) {
+                        _updateProficiencyBonus(_character.proficiencies.proficiencyBonus - 1);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.error.withOpacity(0.1),
+                      foregroundColor: colorScheme.error,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.add, size: 20),
+                    label: const Text('Increase'),
+                    onPressed: () {
+                      if (_character.proficiencies.proficiencyBonus < 6) {
+                        _updateProficiencyBonus(_character.proficiencies.proficiencyBonus + 1);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary.withOpacity(0.1),
+                      foregroundColor: colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -734,7 +938,6 @@ class _CoreTabState extends State<CoreTab> {
   }
 
   Widget _buildSkillsGrid(ColorScheme colorScheme) {
-    // Get all skills with their data
     final skills = [
       {'skill': Skill.acrobatics, 'name': 'Acrobatics', 'ability': 'DEX'},
       {'skill': Skill.animalHandling, 'name': 'Animal Handling', 'ability': 'WIS'},
@@ -756,7 +959,6 @@ class _CoreTabState extends State<CoreTab> {
       {'skill': Skill.survival, 'name': 'Survival', 'ability': 'WIS'},
     ];
 
-    // Sort skills based on current sort order
     List<Map<String, dynamic>> sortedSkills = List.from(skills);
 
     if (_skillSortOrder == SkillSortOrder.byProficiency) {
@@ -767,24 +969,19 @@ class _CoreTabState extends State<CoreTab> {
         final proficiencyA = _character.proficiencies.skills.proficiencies[skillA] ?? ProficiencyLevel.none;
         final proficiencyB = _character.proficiencies.skills.proficiencies[skillB] ?? ProficiencyLevel.none;
 
-        // Sort by proficiency level: expert -> proficient -> none
         if (proficiencyA != proficiencyB) {
-          return proficiencyB.index.compareTo(proficiencyA.index); // Higher proficiency first
+          return proficiencyB.index.compareTo(proficiencyA.index);
         }
 
-        // Then sort alphabetically within same proficiency level
         return (a['name'] as String).compareTo(b['name'] as String);
       });
     } else {
-      // Sort alphabetically
       sortedSkills.sort((a, b) => (a['name'] as String).compareTo(b['name'] as String));
     }
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final crossAxisCount = constraints.maxWidth < 400 ? 1 : 2;
-
-        // For better aspect ratio based on screen width
         final childAspectRatio = constraints.maxWidth < 400 ? 5.0 : 4.0;
 
         return GridView.builder(
@@ -913,65 +1110,6 @@ class _CoreTabState extends State<CoreTab> {
     }
   }
 
-  void _toggleSkillProficiency(Skill skill, ProficiencyLevel current) {
-    final newProficiencies = Map<Skill, ProficiencyLevel>.from(
-        _character.proficiencies.skills.proficiencies
-    );
-
-    newProficiencies[skill] = current == ProficiencyLevel.none
-        ? ProficiencyLevel.proficient
-        : current == ProficiencyLevel.proficient
-        ? ProficiencyLevel.expert
-        : ProficiencyLevel.none;
-
-    final newSkills = SkillProficiencies(proficiencies: newProficiencies);
-    final newProficiencySet = ProficiencySet(
-      proficiencyBonus: _character.proficiencies.proficiencyBonus,
-      skills: newSkills,
-      savingThrows: _character.proficiencies.savingThrows,
-      languages: _character.proficiencies.languages,
-      tools: _character.proficiencies.tools,
-      weapons: _character.proficiencies.weapons,
-      armor: _character.proficiencies.armor,
-      other: _character.proficiencies.other,
-    );
-
-    final newCharacter = Character(
-      id: _character.id,
-      name: _character.name,
-      playerName: _character.playerName,
-      characterClass: _character.characterClass,
-      subclass: _character.subclass,
-      race: _character.race,
-      background: _character.background,
-      moralAlignment: _character.moralAlignment,
-      level: _character.level,
-      experiencePoints: _character.experiencePoints,
-      inspiration: _character.inspiration,
-      abilityScores: _character.abilityScores,
-      modifiers: _character.modifiers,
-      proficiencies: newProficiencySet,
-      combatStats: _character.combatStats,
-      health: _character.health,
-      equipment: _character.equipment,
-      wealth: _character.wealth,
-      spellcasting: _character.spellcasting,
-      traits: _character.traits,
-      features: _character.features,
-      racialTraits: _character.racialTraits,
-      backgroundTraits: _character.backgroundTraits,
-      physicalDescription: _character.physicalDescription,
-      notes: _character.notes,
-      createdAt: _character.createdAt,
-      updatedAt: DateTime.now(),
-    ).copyWithCalculatedValues();
-
-    setState(() {
-      _character = newCharacter;
-    });
-    widget.onCharacterUpdated(_character);
-  }
-
   Widget _buildSavingThrowsCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
@@ -988,10 +1126,7 @@ class _CoreTabState extends State<CoreTab> {
             SavingThrowGrid(
               character: _character,
               onCharacterUpdated: (newCharacter) {
-                setState(() {
-                  _character = newCharacter;
-                });
-                widget.onCharacterUpdated(_character);
+                _updateCharacter(newCharacter);
               },
             ),
           ],
@@ -1017,9 +1152,4 @@ class _CoreTabState extends State<CoreTab> {
       ],
     );
   }
-}
-
-enum SkillSortOrder {
-  byProficiency,
-  alphabetical,
 }

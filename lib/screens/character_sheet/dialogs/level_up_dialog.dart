@@ -19,7 +19,7 @@ class LevelUpDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Advancing to level ${character.level + 1}'),
+          Text('Advancing to level ${character.classes[0].level + 1}'),
           const SizedBox(height: 16),
           const Text('New Hit Points:'),
           Text('+? HP (+${character.modifiers.constitution} from CON)'),

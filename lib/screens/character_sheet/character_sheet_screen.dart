@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:openrpg/models/character.dart';
 import 'package:openrpg/models/enums.dart';
+import 'package:openrpg/data/dnd_rules.dart';
 import 'package:openrpg/screens/character_sheet/tabs/core_tab.dart';
 import 'package:openrpg/screens/character_sheet/tabs/combat_tab.dart';
 import 'package:openrpg/screens/character_sheet/tabs/equipment_tab.dart';
@@ -80,12 +81,17 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
     return Character(
       id: '1',
       name: 'New Character',
-      characterClass: CharacterClass.fighter,
-      subclass: Subclass.none,
+      playerName: '',
+      classes: [
+        CharacterClassLevel(
+          characterClass: CharacterClass.fighter,
+          subclass: Subclass.none,
+          level: 1,
+        )
+      ],
       race: Race.human,
       background: Background.folkHero,
       moralAlignment: MoralAlignment.neutral,
-      level: 1,
       experiencePoints: 0,
       inspiration: 0,
       abilityScores: abilityScores,
@@ -109,6 +115,19 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
       backgroundTraits: [],
       physicalDescription: physicalDescription,
       notes: notes,
+      equippedCombatStats: EquippedCombatStats(
+        equippedArmor: EquippedArmor(
+          armorType: 'cloth', // or 'light', 'medium', 'heavy'
+          baseAC: 10,
+          manualBonus: 0,
+          usesDexterity: true,
+          maxDexBonus: 999,
+        ),
+        equippedMeleeWeapon: null,
+        equippedRangedWeapon: null,
+        weaponProficiencies: [],
+        armorProficiencies: [],
+      ),
     ).copyWithCalculatedValues();
   }
 
@@ -145,6 +164,223 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
     });
   }
 
+  void _showSetToExpectedMenu() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return _buildSetToExpectedMenu(context);
+      },
+    );
+  }
+
+  Widget _buildSetToExpectedMenu(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Override with Expected Values',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'WARNING: This will override any custom values and reset to D&D 5e rules.',
+            style: TextStyle(
+              color: colorScheme.error,
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Calculations are based on character classes, total level, and Constitution.',
+            style: TextStyle(
+              color: colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.star_outline),
+                  label: const Text('Override Proficiency Bonus'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _showConfirmationDialog(
+                      context,
+                      'Override Proficiency Bonus',
+                      'This will replace your current proficiency bonus (+${_character.proficiencies.proficiencyBonus}) with the expected value for level ${_character.totalLevel} (+${DndRules.calculateProficiencyBonus(_character.totalLevel)}).',
+                      _setProficiencyBonusToExpected,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.error.withOpacity(0.1),
+                    foregroundColor: colorScheme.error,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.favorite_outline),
+                  label: const Text('Override Hit Points'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    final expectedHP = DndRules.calculateExpectedMaxHP(
+                      classes: _character.classes,
+                      constitutionScore: _character.abilityScores.constitution,
+                    );
+                    _showConfirmationDialog(
+                      context,
+                      'Override Hit Points',
+                      'This will replace your current max HP (${_character.health.maxHitPoints}) with the expected value ($expectedHP) based on your classes, total level, and Constitution.',
+                      _setHitPointsToExpected,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.error.withOpacity(0.1),
+                    foregroundColor: colorScheme.error,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.all_inclusive),
+                  label: const Text('Override Both'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    final expectedBonus = DndRules.calculateProficiencyBonus(_character.totalLevel);
+                    final expectedHP = DndRules.calculateExpectedMaxHP(
+                      classes: _character.classes,
+                      constitutionScore: _character.abilityScores.constitution,
+                    );
+                    _showConfirmationDialog(
+                      context,
+                      'Override All',
+                      'This will override both proficiency bonus (+${_character.proficiencies.proficiencyBonus} → +$expectedBonus) and hit points (${_character.health.maxHitPoints} → $expectedHP) with expected values.',
+                      _setBothToExpected,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorScheme.error,
+                    foregroundColor: colorScheme.onPrimary,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showConfirmationDialog(BuildContext context, String title, String message, VoidCallback onConfirm) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context); // Close confirmation
+              onConfirm(); // Execute the override
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            child: const Text('Override'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _setProficiencyBonusToExpected() {
+    final expectedBonus = DndRules.calculateProficiencyBonus(_character.totalLevel);
+
+    final newProficiencies = _character.proficiencies.copyWith(
+      proficiencyBonus: expectedBonus,
+    );
+
+    final newCharacter = _character.copyWith(
+      proficiencies: newProficiencies,
+    );
+
+    _updateCharacter(newCharacter);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Proficiency bonus overridden and set to +$expectedBonus (level ${_character.totalLevel})'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+
+  void _setHitPointsToExpected() {
+    final expectedHP = DndRules.calculateExpectedMaxHP(
+      classes: _character.classes,
+      constitutionScore: _character.abilityScores.constitution,
+    );
+
+    final newHealth = _character.health.copyWith(
+      maxHitPoints: expectedHP,
+      // Keep current HP if it's less than new max, otherwise cap it
+      currentHitPoints: _character.health.currentHitPoints > expectedHP
+          ? expectedHP
+          : _character.health.currentHitPoints,
+    );
+
+    final newCharacter = _character.copyWith(
+      health: newHealth,
+    );
+
+    _updateCharacter(newCharacter);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Max HP overridden and set to $expectedHP (multiclass calculation)'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+
+  void _setBothToExpected() {
+    _setProficiencyBonusToExpected();
+    _setHitPointsToExpected();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -152,12 +388,25 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _character.name.isEmpty ? 'New Character' : _character.name,
-          style: TextStyle(
-            color: colorScheme.onPrimary,
-            fontWeight: FontWeight.w600,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _character.name.isEmpty ? 'New Character' : _character.name,
+              style: TextStyle(
+                color: colorScheme.onPrimary,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+            Text(
+              'Level ${_character.totalLevel} ${_character.classes.map((c) => '${c.characterClass.displayName} ${c.level}').join('/')}',
+              style: TextStyle(
+                color: colorScheme.onPrimary.withOpacity(0.8),
+                fontSize: 12,
+              ),
+            ),
+          ],
         ),
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
@@ -173,6 +422,11 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                 ),
               );
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.calculate_outlined),
+            onPressed: _showSetToExpectedMenu,
+            tooltip: 'Set to Expected',
           ),
           IconButton(
             icon: const Icon(Icons.auto_awesome_outlined),
