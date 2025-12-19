@@ -35,7 +35,7 @@ class SpellsTab extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              '${character.characterClass.displayName} does not have spellcasting',
+              '${character.classes[0].characterClass} does not have spellcasting',
               style: TextStyle(
                 color: colorScheme.onSurface.withOpacity(0.5),
               ),

@@ -39,12 +39,10 @@ class _NotesTabState extends State<NotesTab> {
         id: _character.id,
         name: _character.name,
         playerName: _character.playerName,
-        characterClass: _character.characterClass,
-        subclass: _character.subclass,
+        classes: _character.classes,
         race: _character.race,
         background: _character.background,
         moralAlignment: _character.moralAlignment,
-        level: _character.level,
         experiencePoints: _character.experiencePoints,
         inspiration: _character.inspiration,
         abilityScores: _character.abilityScores,
@@ -63,6 +61,7 @@ class _NotesTabState extends State<NotesTab> {
         notes: _character.notes,
         createdAt: _character.createdAt,
         updatedAt: DateTime.now(),
+        equippedCombatStats: _character.equippedCombatStats,
       ).copyWithCalculatedValues();
     });
     widget.onCharacterUpdated(_character);
@@ -83,12 +82,10 @@ class _NotesTabState extends State<NotesTab> {
         id: _character.id,
         name: _character.name,
         playerName: _character.playerName,
-        characterClass: _character.characterClass,
-        subclass: _character.subclass,
+        classes: _character.classes,
         race: _character.race,
         background: _character.background,
         moralAlignment: _character.moralAlignment,
-        level: _character.level,
         experiencePoints: _character.experiencePoints,
         inspiration: _character.inspiration,
         abilityScores: _character.abilityScores,
@@ -107,6 +104,7 @@ class _NotesTabState extends State<NotesTab> {
         notes: newNotes,
         createdAt: _character.createdAt,
         updatedAt: DateTime.now(),
+        equippedCombatStats: _character.equippedCombatStats,
       ).copyWithCalculatedValues();
     });
     widget.onCharacterUpdated(_character);
@@ -129,12 +127,10 @@ class _NotesTabState extends State<NotesTab> {
         id: _character.id,
         name: _character.name,
         playerName: _character.playerName,
-        characterClass: _character.characterClass,
-        subclass: _character.subclass,
+        classes: _character.classes,
         race: _character.race,
         background: _character.background,
         moralAlignment: _character.moralAlignment,
-        level: _character.level,
         experiencePoints: _character.experiencePoints,
         inspiration: _character.inspiration,
         abilityScores: _character.abilityScores,
@@ -153,6 +149,7 @@ class _NotesTabState extends State<NotesTab> {
         notes: _character.notes,
         createdAt: _character.createdAt,
         updatedAt: DateTime.now(),
+        equippedCombatStats: _character.equippedCombatStats,
       ).copyWithCalculatedValues();
     });
     widget.onCharacterUpdated(_character);

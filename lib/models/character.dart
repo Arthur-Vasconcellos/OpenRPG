@@ -3,58 +3,56 @@ import 'enums.dart';
 class Character {
   final String id;
   final String name;
-  final String playerName; // Add playerName field
-  final CharacterClass characterClass;
-  final Subclass subclass;
+  final String playerName;
+  final List<CharacterClassLevel> classes;
   final Race race;
   final Background background;
   final MoralAlignment moralAlignment;
-  final int level;
   final int experiencePoints;
   final int inspiration;
 
-  // Core Stats
   final AbilityScores abilityScores;
   final CalculatedModifiers modifiers;
 
-  // Proficiencies
   final ProficiencySet proficiencies;
 
-  // Combat
   final CombatStats combatStats;
   final Health health;
 
-  // Equipment & Wealth
   final Equipment equipment;
   final Wealth wealth;
 
-  // Spellcasting (optional)
   final SpellcastingInfo? spellcasting;
 
-  // Features & Traits
   final Traits traits;
   final List<Feature> features;
   final List<Feature> racialTraits;
   final List<Feature> backgroundTraits;
 
-  // Description & Notes
   final PhysicalDescription physicalDescription;
   final Notes notes;
 
-  // Tracking
   final DateTime createdAt;
   final DateTime updatedAt;
+
+  final EquippedCombatStats equippedCombatStats;
+
+  int get totalLevel => classes.fold(0, (sum, cls) => sum + cls.level);
+
+  CharacterClass get primaryClass =>
+      classes.isNotEmpty ? classes.first.characterClass : CharacterClass.fighter;
+
+  Subclass get primarySubclass =>
+      classes.isNotEmpty ? classes.first.subclass : Subclass.none;
 
   Character({
     required this.id,
     required this.name,
     this.playerName = '',
-    required this.characterClass,
-    this.subclass = Subclass.none,
+    required this.classes,
     required this.race,
     required this.background,
     required this.moralAlignment,
-    this.level = 1,
     this.experiencePoints = 0,
     this.inspiration = 0,
     required this.abilityScores,
@@ -73,19 +71,34 @@ class Character {
     required this.notes,
     DateTime? createdAt,
     DateTime? updatedAt,
+    required this.equippedCombatStats,
   })  : createdAt = createdAt ?? DateTime.now(),
         updatedAt = updatedAt ?? DateTime.now();
 
   factory Character.fromJson(Map<String, dynamic> json) {
+    final List<CharacterClassLevel> classes;
+
+    if (json['classes'] != null) {
+      classes = (json['classes'] as List)
+          .map((e) => CharacterClassLevel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } else {
+      classes = [
+        CharacterClassLevel(
+          characterClass: EnumParser.characterClass(json['characterClass'] as String),
+          subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
+          level: json['level'] as int? ?? 1,
+        )
+      ];
+    }
+
     return Character(
       id: json['id'] as String,
       name: json['name'] as String,
-      characterClass: EnumParser.characterClass(json['characterClass'] as String),
-      subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
+      classes: classes,
       race: EnumParser.race(json['race'] as String),
       background: EnumParser.background(json['background'] as String),
       moralAlignment: EnumParser.moralAlignment(json['moralAlignment'] as String),
-      level: json['level'] as int? ?? 1,
       experiencePoints: json['experiencePoints'] as int? ?? 0,
       inspiration: json['inspiration'] as int? ?? 0,
       abilityScores: AbilityScores.fromJson(json['abilityScores'] as Map<String, dynamic>),
@@ -112,6 +125,44 @@ class Character {
       notes: Notes.fromJson(json['notes'] as Map<String, dynamic>),
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : DateTime.now(),
       updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : DateTime.now(),
+      equippedCombatStats: EquippedCombatStats.fromJson(json['equippedCombatStats'] as Map<String, dynamic>),
+    );
+  }
+
+  Character copyWithPartial({
+    CombatStats? combatStats,
+    Health? health,
+    Equipment? equipment,
+    ProficiencySet? proficiencies,
+    EquippedCombatStats? equippedCombatStats, // Added this parameter
+  }) {
+    return Character(
+      id: id,
+      name: name,
+      playerName: playerName,
+      classes: classes,
+      race: race,
+      background: background,
+      moralAlignment: moralAlignment,
+      experiencePoints: experiencePoints,
+      inspiration: inspiration,
+      abilityScores: abilityScores,
+      modifiers: modifiers,
+      proficiencies: proficiencies ?? this.proficiencies,
+      combatStats: combatStats ?? this.combatStats,
+      health: health ?? this.health,
+      equipment: equipment ?? this.equipment,
+      wealth: wealth,
+      spellcasting: spellcasting,
+      traits: traits,
+      features: features,
+      racialTraits: racialTraits,
+      backgroundTraits: backgroundTraits,
+      physicalDescription: physicalDescription,
+      notes: notes,
+      createdAt: createdAt,
+      updatedAt: DateTime.now(),
+      equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats, // Added this
     );
   }
 
@@ -119,12 +170,10 @@ class Character {
     return {
       'id': id,
       'name': name,
-      'characterClass': characterClass.value,
-      'subclass': subclass.value,
+      'classes': classes.map((e) => e.toJson()).toList(),
       'race': race.value,
       'background': background.value,
       'moralAlignment': moralAlignment.value,
-      'level': level,
       'experiencePoints': experiencePoints,
       'inspiration': inspiration,
       'abilityScores': abilityScores.toJson(),
@@ -143,20 +192,73 @@ class Character {
       'notes': notes.toJson(),
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'equippedCombatStats': equippedCombatStats.toJson(),
     };
   }
 
-  // Calculate all derived values
+  Character copyWith({
+    String? id,
+    String? name,
+    String? playerName,
+    List<CharacterClassLevel>? classes,
+    Race? race,
+    Background? background,
+    MoralAlignment? moralAlignment,
+    int? experiencePoints,
+    int? inspiration,
+    AbilityScores? abilityScores,
+    CalculatedModifiers? modifiers,
+    ProficiencySet? proficiencies,
+    CombatStats? combatStats,
+    Health? health,
+    Equipment? equipment,
+    Wealth? wealth,
+    SpellcastingInfo? spellcasting,
+    Traits? traits,
+    List<Feature>? features,
+    List<Feature>? racialTraits,
+    List<Feature>? backgroundTraits,
+    PhysicalDescription? physicalDescription,
+    Notes? notes,
+    EquippedCombatStats? equippedCombatStats,
+  }) {
+    return Character(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      playerName: playerName ?? this.playerName,
+      classes: classes ?? List.from(this.classes),
+      race: race ?? this.race,
+      background: background ?? this.background,
+      moralAlignment: moralAlignment ?? this.moralAlignment,
+      experiencePoints: experiencePoints ?? this.experiencePoints,
+      inspiration: inspiration ?? this.inspiration,
+      abilityScores: abilityScores ?? this.abilityScores,
+      modifiers: modifiers ?? this.modifiers,
+      proficiencies: proficiencies ?? this.proficiencies,
+      combatStats: combatStats ?? this.combatStats,
+      health: health ?? this.health,
+      equipment: equipment ?? this.equipment,
+      wealth: wealth ?? this.wealth,
+      spellcasting: spellcasting ?? this.spellcasting,
+      traits: traits ?? this.traits,
+      features: features ?? List.from(this.features),
+      racialTraits: racialTraits ?? List.from(this.racialTraits),
+      backgroundTraits: backgroundTraits ?? List.from(this.backgroundTraits),
+      physicalDescription: physicalDescription ?? this.physicalDescription,
+      notes: notes ?? this.notes,
+      createdAt: this.createdAt,
+      updatedAt: DateTime.now(),
+      equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats,
+    ).copyWithCalculatedValues();
+  }
+
   Character copyWithCalculatedValues() {
+    final totalLevel = this.totalLevel;
     final calculatedModifiers = _calculateModifiers(abilityScores);
-    final proficiencyBonus = _calculateProficiencyBonus(level);
+    final proficiencyBonus = _calculateProficiencyBonus(totalLevel);
 
     final updatedHealth = health.copyWith(
-      maxHitPoints: _calculateMaxHitPoints(
-        abilityScores.constitution,
-        level,
-        characterClass,
-      ),
+      maxHitPoints: _calculateMulticlassHP(classes, abilityScores.constitution),
     );
 
     final updatedCombatStats = combatStats.copyWith(
@@ -170,17 +272,16 @@ class Character {
     return Character(
       id: id,
       name: name,
-      characterClass: characterClass,
-      subclass: subclass,
+      playerName: playerName,
+      classes: classes,
       race: race,
       background: background,
       moralAlignment: moralAlignment,
-      level: level,
       experiencePoints: experiencePoints,
       inspiration: inspiration,
       abilityScores: abilityScores,
       modifiers: calculatedModifiers,
-      proficiencies: proficiencies,
+      proficiencies: proficiencies.copyWith(proficiencyBonus: proficiencyBonus),
       combatStats: updatedCombatStats,
       health: updatedHealth,
       equipment: equipment,
@@ -197,6 +298,7 @@ class Character {
       notes: notes,
       createdAt: createdAt,
       updatedAt: DateTime.now(),
+      equippedCombatStats: equippedCombatStats, // Use the existing equippedCombatStats
     );
   }
 
@@ -215,63 +317,90 @@ class Character {
     return 2 + ((level - 1) / 4).ceil();
   }
 
-  int _calculateMaxHitPoints(int constitution, int level, CharacterClass characterClass) {
+  int _calculateMulticlassHP(List<CharacterClassLevel> classes, int constitution) {
     final conModifier = ((constitution - 10) / 2).floor();
-    int baseHP = 0;
+    int totalHP = 0;
+    bool isFirstClass = true;
 
-    switch (characterClass) {
-      case CharacterClass.barbarian:
-        baseHP = 12 + conModifier;
-        break;
-      case CharacterClass.fighter:
-      case CharacterClass.paladin:
-      case CharacterClass.ranger:
-      case CharacterClass.bloodHunter:
-        baseHP = 10 + conModifier;
-        break;
-      case CharacterClass.bard:
-      case CharacterClass.cleric:
-      case CharacterClass.druid:
-      case CharacterClass.monk:
-      case CharacterClass.rogue:
-      case CharacterClass.warlock:
-      case CharacterClass.artificer:
-        baseHP = 8 + conModifier;
-        break;
-      case CharacterClass.sorcerer:
-      case CharacterClass.wizard:
-        baseHP = 6 + conModifier;
-        break;
-      case CharacterClass.custom:
-        baseHP = 8 + conModifier;
-        break;
+    for (final classLevel in classes) {
+      final characterClass = classLevel.characterClass;
+      final level = classLevel.level;
+
+      int hitDie;
+      switch (characterClass.hitDie) {
+        case '1d12':
+          hitDie = 12;
+          break;
+        case '1d10':
+          hitDie = 10;
+          break;
+        case '1d8':
+          hitDie = 8;
+          break;
+        case '1d6':
+          hitDie = 6;
+          break;
+        default:
+          hitDie = 8;
+      }
+
+      if (isFirstClass) {
+        totalHP += hitDie + conModifier;
+        isFirstClass = false;
+
+        for (int i = 2; i <= level; i++) {
+          totalHP += (hitDie / 2).ceil() + conModifier;
+        }
+      } else {
+        for (int i = 1; i <= level; i++) {
+          totalHP += (hitDie / 2).ceil() + conModifier;
+        }
+      }
     }
 
-    // Add average for additional levels
-    for (int i = 2; i <= level; i++) {
-      baseHP += _getAverageHitDie(characterClass) + conModifier;
-    }
-
-    return baseHP;
-  }
-
-  int _getAverageHitDie(CharacterClass characterClass) {
-    switch (characterClass.hitDie) {
-      case '1d12':
-        return 7;
-      case '1d10':
-        return 6;
-      case '1d8':
-        return 5;
-      case '1d6':
-        return 4;
-      default:
-        return 5;
-    }
+    return totalHP;
   }
 }
 
-// Supporting Classes
+class CharacterClassLevel {
+  final CharacterClass characterClass;
+  final Subclass subclass;
+  final int level;
+
+  const CharacterClassLevel({
+    required this.characterClass,
+    this.subclass = Subclass.none,
+    required this.level,
+  });
+
+  factory CharacterClassLevel.fromJson(Map<String, dynamic> json) {
+    return CharacterClassLevel(
+      characterClass: EnumParser.characterClass(json['characterClass'] as String),
+      subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
+      level: json['level'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'characterClass': characterClass.value,
+      'subclass': subclass.value,
+      'level': level,
+    };
+  }
+
+  CharacterClassLevel copyWith({
+    CharacterClass? characterClass,
+    Subclass? subclass,
+    int? level,
+  }) {
+    return CharacterClassLevel(
+      characterClass: characterClass ?? this.characterClass,
+      subclass: subclass ?? this.subclass,
+      level: level ?? this.level,
+    );
+  }
+}
 
 class AbilityScores {
   final int strength;
@@ -310,6 +439,24 @@ class AbilityScores {
       'wisdom': wisdom,
       'charisma': charisma,
     };
+  }
+
+  AbilityScores copyWith({
+    int? strength,
+    int? dexterity,
+    int? constitution,
+    int? intelligence,
+    int? wisdom,
+    int? charisma,
+  }) {
+    return AbilityScores(
+      strength: strength ?? this.strength,
+      dexterity: dexterity ?? this.dexterity,
+      constitution: constitution ?? this.constitution,
+      intelligence: intelligence ?? this.intelligence,
+      wisdom: wisdom ?? this.wisdom,
+      charisma: charisma ?? this.charisma,
+    );
   }
 }
 
@@ -350,6 +497,24 @@ class CalculatedModifiers {
       'wisdom': wisdom,
       'charisma': charisma,
     };
+  }
+
+  CalculatedModifiers copyWith({
+    int? strength,
+    int? dexterity,
+    int? constitution,
+    int? intelligence,
+    int? wisdom,
+    int? charisma,
+  }) {
+    return CalculatedModifiers(
+      strength: strength ?? this.strength,
+      dexterity: dexterity ?? this.dexterity,
+      constitution: constitution ?? this.constitution,
+      intelligence: intelligence ?? this.intelligence,
+      wisdom: wisdom ?? this.wisdom,
+      charisma: charisma ?? this.charisma,
+    );
   }
 }
 
@@ -398,6 +563,28 @@ class ProficiencySet {
       'armor': armor,
       'other': other,
     };
+  }
+
+  ProficiencySet copyWith({
+    int? proficiencyBonus,
+    SkillProficiencies? skills,
+    SavingThrowProficiencies? savingThrows,
+    List<String>? languages,
+    List<String>? tools,
+    List<String>? weapons,
+    List<String>? armor,
+    List<String>? other,
+  }) {
+    return ProficiencySet(
+      proficiencyBonus: proficiencyBonus ?? this.proficiencyBonus,
+      skills: skills ?? this.skills,
+      savingThrows: savingThrows ?? this.savingThrows,
+      languages: languages ?? List.from(this.languages),
+      tools: tools ?? List.from(this.tools),
+      weapons: weapons ?? List.from(this.weapons),
+      armor: armor ?? List.from(this.armor),
+      other: other ?? List.from(this.other),
+    );
   }
 }
 
@@ -473,6 +660,14 @@ class SkillProficiencies {
       map[entry.key.value] = entry.value.value;
     }
     return {'proficiencies': map};
+  }
+
+  SkillProficiencies copyWith({
+    Map<Skill, ProficiencyLevel>? proficiencies,
+  }) {
+    return SkillProficiencies(
+      proficiencies: proficiencies ?? Map.from(this.proficiencies),
+    );
   }
 }
 
@@ -654,7 +849,7 @@ class Health {
       maxHitPoints: maxHitPoints ?? this.maxHitPoints,
       currentHitPoints: currentHitPoints ?? this.currentHitPoints,
       temporaryHitPoints: temporaryHitPoints ?? this.temporaryHitPoints,
-      hitDice: hitDice ?? this.hitDice,
+      hitDice: hitDice ?? List.from(this.hitDice),
       deathSaves: deathSaves ?? this.deathSaves,
       exhaustionLevel: exhaustionLevel ?? this.exhaustionLevel,
     );
@@ -775,6 +970,20 @@ class Equipment {
       'totalWeight': totalWeight,
     };
   }
+
+  Equipment copyWith({
+    List<EquipmentItem>? inventory,
+    List<Weapon>? weapons,
+    List<Armor>? armor,
+    double? totalWeight,
+  }) {
+    return Equipment(
+      inventory: inventory ?? List.from(this.inventory),
+      weapons: weapons ?? List.from(this.weapons),
+      armor: armor ?? List.from(this.armor),
+      totalWeight: totalWeight ?? this.totalWeight,
+    );
+  }
 }
 
 class EquipmentItem {
@@ -815,6 +1024,24 @@ class EquipmentItem {
       'isEquipped': isEquipped,
     };
   }
+
+  EquipmentItem copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? quantity,
+    double? weight,
+    bool? isEquipped,
+  }) {
+    return EquipmentItem(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      quantity: quantity ?? this.quantity,
+      weight: weight ?? this.weight,
+      isEquipped: isEquipped ?? this.isEquipped,
+    );
+  }
 }
 
 class Weapon extends EquipmentItem {
@@ -824,6 +1051,11 @@ class Weapon extends EquipmentItem {
   final int attackBonus;
   final int damageBonus;
   final bool isProficient;
+  final String attackAbility; // New: 'strength', 'dexterity', etc.
+  final int enhancementBonus; // New: +1, +2, +3
+  final bool isFinesse;
+  final String weaponType; // 'simple', 'martial', 'firearm', 'natural', 'improvised'
+  final String? damageAbility; // Optional: different ability for damage (rare)
 
   const Weapon({
     required super.id,
@@ -838,6 +1070,11 @@ class Weapon extends EquipmentItem {
     this.attackBonus = 0,
     this.damageBonus = 0,
     this.isProficient = true,
+    this.attackAbility = 'strength',
+    this.enhancementBonus = 0,
+    this.isFinesse = false,
+    this.weaponType = 'simple',
+    this.damageAbility,
   });
 
   @override
@@ -855,6 +1092,11 @@ class Weapon extends EquipmentItem {
       attackBonus: json['attackBonus'] as int? ?? 0,
       damageBonus: json['damageBonus'] as int? ?? 0,
       isProficient: json['isProficient'] as bool? ?? true,
+      attackAbility: json['attackAbility'] as String? ?? 'strength',
+      enhancementBonus: json['enhancementBonus'] as int? ?? 0,
+      isFinesse: json['isFinesse'] as bool? ?? false,
+      weaponType: json['weaponType'] as String? ?? 'simple',
+      damageAbility: json['damageAbility'] as String?,
     );
   }
 
@@ -868,7 +1110,58 @@ class Weapon extends EquipmentItem {
       'attackBonus': attackBonus,
       'damageBonus': damageBonus,
       'isProficient': isProficient,
+      'attackAbility': attackAbility,
+      'enhancementBonus': enhancementBonus,
+      'isFinesse': isFinesse,
+      'weaponType': weaponType,
+      if (damageAbility != null) 'damageAbility': damageAbility,
     };
+  }
+
+  Weapon copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? quantity,
+    double? weight,
+    bool? isEquipped,
+    String? damage,
+    String? damageType,
+    String? properties,
+    int? attackBonus,
+    int? damageBonus,
+    bool? isProficient,
+    String? attackAbility,
+    int? enhancementBonus,
+    bool? isFinesse,
+    String? weaponType,
+    String? damageAbility,
+  }) {
+    return Weapon(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      quantity: quantity ?? this.quantity,
+      weight: weight ?? this.weight,
+      isEquipped: isEquipped ?? this.isEquipped,
+      damage: damage ?? this.damage,
+      damageType: damageType ?? this.damageType,
+      properties: properties ?? this.properties,
+      attackBonus: attackBonus ?? this.attackBonus,
+      damageBonus: damageBonus ?? this.damageBonus,
+      isProficient: isProficient ?? this.isProficient,
+      attackAbility: attackAbility ?? this.attackAbility,
+      enhancementBonus: enhancementBonus ?? this.enhancementBonus,
+      isFinesse: isFinesse ?? this.isFinesse,
+      weaponType: weaponType ?? this.weaponType,
+      damageAbility: damageAbility ?? this.damageAbility,
+    );
+  }
+  String get displayName {
+    if (enhancementBonus > 0) {
+      return '+$enhancementBonus $name';
+    }
+    return name;
   }
 }
 
@@ -919,6 +1212,32 @@ class Armor extends EquipmentItem {
       'strengthRequirement': strengthRequirement,
       'stealthDisadvantage': stealthDisadvantage,
     };
+  }
+
+  Armor copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? quantity,
+    double? weight,
+    bool? isEquipped,
+    int? baseAC,
+    ArmorType? armorType,
+    int? strengthRequirement,
+    bool? stealthDisadvantage,
+  }) {
+    return Armor(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      quantity: quantity ?? this.quantity,
+      weight: weight ?? this.weight,
+      isEquipped: isEquipped ?? this.isEquipped,
+      baseAC: baseAC ?? this.baseAC,
+      armorType: armorType ?? this.armorType,
+      strengthRequirement: strengthRequirement ?? this.strengthRequirement,
+      stealthDisadvantage: stealthDisadvantage ?? this.stealthDisadvantage,
+    );
   }
 }
 
@@ -994,9 +1313,9 @@ class SpellcastingInfo {
       spellcastingAbility: spellcastingAbility ?? this.spellcastingAbility,
       spellSaveDC: spellSaveDC ?? this.spellSaveDC,
       spellAttackBonus: spellAttackBonus ?? this.spellAttackBonus,
-      spellSlots: spellSlots ?? this.spellSlots,
-      preparedSpells: preparedSpells ?? this.preparedSpells,
-      knownSpells: knownSpells ?? this.knownSpells,
+      spellSlots: spellSlots ?? List.from(this.spellSlots),
+      preparedSpells: preparedSpells ?? List.from(this.preparedSpells),
+      knownSpells: knownSpells ?? List.from(this.knownSpells),
     );
   }
 
@@ -1146,7 +1465,7 @@ class Feature {
   final String name;
   final String description;
   final int levelObtained;
-  final String source; // 'class', 'race', 'background', 'feat'
+  final String source;
 
   const Feature({
     required this.id,
@@ -1257,7 +1576,6 @@ class Notes {
   }
 }
 
-// Helper extension for spellcasting ability
 extension SpellcastingAbilityExtension on String {
   int getModifier(CalculatedModifiers modifiers) {
     switch (this.toLowerCase()) {
@@ -1276,5 +1594,177 @@ extension SpellcastingAbilityExtension on String {
       default:
         return 0;
     }
+  }
+}
+
+class EquippedCombatStats {
+  final EquippedWeapon? equippedMeleeWeapon;
+  final EquippedWeapon? equippedRangedWeapon;
+  final EquippedArmor equippedArmor;
+  final List<String> weaponProficiencies;
+  final List<String> armorProficiencies;
+
+  const EquippedCombatStats({
+    this.equippedMeleeWeapon,
+    this.equippedRangedWeapon,
+    required this.equippedArmor,
+    this.weaponProficiencies = const [],
+    this.armorProficiencies = const [],
+  });
+
+  factory EquippedCombatStats.fromJson(Map<String, dynamic> json) {
+    return EquippedCombatStats(
+      equippedMeleeWeapon: json['equippedMeleeWeapon'] != null
+          ? EquippedWeapon.fromJson(json['equippedMeleeWeapon'] as Map<String, dynamic>)
+          : null,
+      equippedRangedWeapon: json['equippedRangedWeapon'] != null
+          ? EquippedWeapon.fromJson(json['equippedRangedWeapon'] as Map<String, dynamic>)
+          : null,
+      equippedArmor: EquippedArmor.fromJson(json['equippedArmor'] as Map<String, dynamic>),
+      weaponProficiencies: json['weaponProficiencies'] != null ? List<String>.from(json['weaponProficiencies']) : [],
+      armorProficiencies: json['armorProficiencies'] != null ? List<String>.from(json['armorProficiencies']) : [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (equippedMeleeWeapon != null) 'equippedMeleeWeapon': equippedMeleeWeapon!.toJson(),
+      if (equippedRangedWeapon != null) 'equippedRangedWeapon': equippedRangedWeapon!.toJson(),
+      'equippedArmor': equippedArmor.toJson(),
+      'weaponProficiencies': weaponProficiencies,
+      'armorProficiencies': armorProficiencies,
+    };
+  }
+
+  EquippedCombatStats copyWith({
+    EquippedWeapon? equippedMeleeWeapon,
+    EquippedWeapon? equippedRangedWeapon,
+    EquippedArmor? equippedArmor,
+    List<String>? weaponProficiencies,
+    List<String>? armorProficiencies,
+  }) {
+    return EquippedCombatStats(
+      equippedMeleeWeapon: equippedMeleeWeapon ?? this.equippedMeleeWeapon,
+      equippedRangedWeapon: equippedRangedWeapon ?? this.equippedRangedWeapon,
+      equippedArmor: equippedArmor ?? this.equippedArmor,
+      weaponProficiencies: weaponProficiencies ?? List.from(this.weaponProficiencies),
+      armorProficiencies: armorProficiencies ?? List.from(this.armorProficiencies),
+    );
+  }
+}
+
+class EquippedWeapon {
+  final String weaponClass;
+  final int enhancementBonus; // +0, +1, +2, +3
+  final String ability; // 'strength', 'dexterity', etc.
+  final bool isProficient;
+  final bool isFinesse;
+  final String damageDice; // e.g., "1d8", "2d6"
+  final String damageType; // e.g., "slashing", "piercing"
+
+  const EquippedWeapon({
+    required this.weaponClass,
+    this.enhancementBonus = 0,
+    this.ability = 'strength',
+    this.isProficient = false,
+    this.isFinesse = false,
+    required this.damageDice,
+    required this.damageType,
+  });
+
+  factory EquippedWeapon.fromJson(Map<String, dynamic> json) {
+    return EquippedWeapon(
+      weaponClass: json['weaponClass'] as String,
+      enhancementBonus: json['enhancementBonus'] as int? ?? 0,
+      ability: json['ability'] as String? ?? 'strength',
+      isProficient: json['isProficient'] as bool? ?? false,
+      isFinesse: json['isFinesse'] as bool? ?? false,
+      damageDice: json['damageDice'] as String,
+      damageType: json['damageType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'weaponClass': weaponClass,
+      'enhancementBonus': enhancementBonus,
+      'ability': ability,
+      'isProficient': isProficient,
+      'isFinesse': isFinesse,
+      'damageDice': damageDice,
+      'damageType': damageType,
+    };
+  }
+
+  EquippedWeapon copyWith({
+    String? weaponClass,
+    int? enhancementBonus,
+    String? ability,
+    bool? isProficient,
+    bool? isFinesse,
+    String? damageDice,
+    String? damageType,
+  }) {
+    return EquippedWeapon(
+      weaponClass: weaponClass ?? this.weaponClass,
+      enhancementBonus: enhancementBonus ?? this.enhancementBonus,
+      ability: ability ?? this.ability,
+      isProficient: isProficient ?? this.isProficient,
+      isFinesse: isFinesse ?? this.isFinesse,
+      damageDice: damageDice ?? this.damageDice,
+      damageType: damageType ?? this.damageType,
+    );
+  }
+}
+
+class EquippedArmor {
+  final String armorType; // 'cloth', 'light', 'medium', 'heavy'
+  final int baseAC;
+  final int manualBonus; // User can add/subtract from calculated AC
+  final bool usesDexterity;
+  final int maxDexBonus; // 0 for heavy armor, 2 for medium, unlimited for light/cloth
+
+  const EquippedArmor({
+    required this.armorType,
+    required this.baseAC,
+    this.manualBonus = 0,
+    this.usesDexterity = true,
+    this.maxDexBonus = 999,
+  });
+
+  factory EquippedArmor.fromJson(Map<String, dynamic> json) {
+    return EquippedArmor(
+      armorType: json['armorType'] as String,
+      baseAC: json['baseAC'] as int,
+      manualBonus: json['manualBonus'] as int? ?? 0,
+      usesDexterity: json['usesDexterity'] as bool? ?? true,
+      maxDexBonus: json['maxDexBonus'] as int? ?? 999,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'armorType': armorType,
+      'baseAC': baseAC,
+      'manualBonus': manualBonus,
+      'usesDexterity': usesDexterity,
+      'maxDexBonus': maxDexBonus,
+    };
+  }
+
+  EquippedArmor copyWith({
+    String? armorType,
+    int? baseAC,
+    int? manualBonus,
+    bool? usesDexterity,
+    int? maxDexBonus,
+  }) {
+    return EquippedArmor(
+      armorType: armorType ?? this.armorType,
+      baseAC: baseAC ?? this.baseAC,
+      manualBonus: manualBonus ?? this.manualBonus,
+      usesDexterity: usesDexterity ?? this.usesDexterity,
+      maxDexBonus: maxDexBonus ?? this.maxDexBonus,
+    );
   }
 }
