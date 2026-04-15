@@ -41,7 +41,10 @@ const _supportCollectionKeys = <String>{
   'vehicleFluff',
 };
 
-const _defaultBundledRulesetPath = 'assets/rulesets/default_srd.ruleset.json';
+const _legacyMixedBundledRulesetPath =
+    'assets/rulesets/default_srd.ruleset.json';
+const _starterBundledRulesetPath =
+    'assets/rulesets/starter_2024_srd.ruleset.json';
 const _browseManifestPath = 'assets/rulesets/browse_manifest.json';
 const _browseDirectoryPath = 'assets/rulesets/browse';
 
@@ -73,8 +76,51 @@ const _linkTagMap = <String, String>{
 
 final _tagExpression = RegExp(r'\{@([a-zA-Z]+)\s+([^}]+)\}');
 
+class _BundleProfile {
+  final String id;
+  final String name;
+  final String description;
+  final String license;
+  final String assetPath;
+  final bool includeOnlyExplicitSrd52;
+  final bool preserveExtraCollections;
+
+  const _BundleProfile({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.license,
+    required this.assetPath,
+    required this.includeOnlyExplicitSrd52,
+    required this.preserveExtraCollections,
+  });
+}
+
+const _starterBundleProfile = _BundleProfile(
+  id: 'starter_2024_srd',
+  name: '2024 SRD Starter',
+  description:
+      'Bundled 2024 SRD starter content filtered to entries explicitly marked srd52 == true.',
+  license: 'CC-BY-4.0',
+  assetPath: _starterBundledRulesetPath,
+  includeOnlyExplicitSrd52: true,
+  preserveExtraCollections: false,
+);
+
+const _mixedDevBundleProfile = _BundleProfile(
+  id: 'default_srd',
+  name: 'OpenRPG Reference Compendium',
+  description:
+      'Bundled reference data generated from the local 5etools export.',
+  license: 'Local 5etools import',
+  assetPath: _legacyMixedBundledRulesetPath,
+  includeOnlyExplicitSrd52: false,
+  preserveExtraCollections: true,
+);
+
 void main(List<String> args) async {
   final projectRoot = Directory.current;
+  final profile = _resolveBundleProfile(_readArg(args, '--profile'));
   final schemaFile = File(
     p.join(
       projectRoot.path,
@@ -113,15 +159,41 @@ void main(List<String> args) async {
   stdout.writeln('Wrote ${generatedFile.path}');
 
   final sourceRootArg = _readArg(args, '--source-root');
+  final inputRulesetArg = _readArg(args, '--input-ruleset');
   final bundledRulesetArg = _readArg(args, '--bundled-ruleset');
   final bundledOutput = File(
     bundledRulesetArg?.trim().isNotEmpty == true
-        ? bundledRulesetArg!
-        : p.join(projectRoot.path, _defaultBundledRulesetPath),
+        ? _resolvePath(projectRoot, bundledRulesetArg!)
+        : p.join(projectRoot.path, profile.assetPath),
   );
 
   if (sourceRootArg == null || sourceRootArg.trim().isEmpty) {
-    if (await bundledOutput.exists()) {
+    final existingRulesetSource = await _resolveExistingRulesetSource(
+      projectRoot: projectRoot,
+      profile: profile,
+      bundledOutput: bundledOutput,
+      inputRulesetArg: inputRulesetArg,
+    );
+    if (existingRulesetSource != null && await existingRulesetSource.exists()) {
+      final sourceRuleset =
+          jsonDecode(await existingRulesetSource.readAsString())
+              as Map<String, dynamic>;
+      final bundledRuleset = _applyBundleProfile(
+        baseRuleset: sourceRuleset,
+        schemas: schemas,
+        profile: profile,
+      );
+      await bundledOutput.writeAsString(
+        const JsonEncoder.withIndent('  ').convert(bundledRuleset),
+      );
+      stdout.writeln('Wrote ${bundledOutput.path}');
+      await _writeBrowseAssets(
+        projectRoot: projectRoot,
+        bundledOutput: bundledOutput,
+        bundledRuleset: bundledRuleset,
+        schemas: schemas,
+      );
+    } else if (await bundledOutput.exists()) {
       final bundledRuleset =
           jsonDecode(await bundledOutput.readAsString())
               as Map<String, dynamic>;
@@ -135,7 +207,7 @@ void main(List<String> args) async {
     return;
   }
 
-  final sourceRoot = Directory(sourceRootArg);
+  final sourceRoot = Directory(_resolvePath(projectRoot, sourceRootArg));
   if (!await sourceRoot.exists()) {
     stderr.writeln('Source root ${sourceRoot.path} does not exist.');
     exitCode = 2;
@@ -161,9 +233,14 @@ void main(List<String> args) async {
     return;
   }
 
-  final bundledRuleset = await _buildBundledRuleset(
+  final baseBundledRuleset = await _buildBundledRuleset(
     sourceRoot: sourceRoot,
     schemas: schemas,
+  );
+  final bundledRuleset = _applyBundleProfile(
+    baseRuleset: baseBundledRuleset,
+    schemas: schemas,
+    profile: profile,
   );
   await bundledOutput.writeAsString(
     const JsonEncoder.withIndent('  ').convert(bundledRuleset),
@@ -185,6 +262,175 @@ String? _readArg(List<String> args, String name) {
   }
 
   return null;
+}
+
+_BundleProfile _resolveBundleProfile(String? rawProfile) {
+  switch (rawProfile?.trim()) {
+    case null:
+    case '':
+    case 'starter':
+    case 'starter_2024_srd':
+      return _starterBundleProfile;
+    case 'mixed_dev':
+    case 'default_srd':
+      return _mixedDevBundleProfile;
+    default:
+      stderr.writeln(
+        'Unknown bundle profile "$rawProfile". Falling back to starter_2024_srd.',
+      );
+      return _starterBundleProfile;
+  }
+}
+
+String _resolvePath(Directory projectRoot, String pathValue) {
+  return p.isAbsolute(pathValue)
+      ? pathValue
+      : p.join(projectRoot.path, pathValue);
+}
+
+Future<File?> _resolveExistingRulesetSource({
+  required Directory projectRoot,
+  required _BundleProfile profile,
+  required File bundledOutput,
+  required String? inputRulesetArg,
+}) async {
+  if (inputRulesetArg != null && inputRulesetArg.trim().isNotEmpty) {
+    return File(_resolvePath(projectRoot, inputRulesetArg.trim()));
+  }
+
+  if (await bundledOutput.exists()) {
+    return bundledOutput;
+  }
+
+  if (profile.includeOnlyExplicitSrd52) {
+    final legacyMixed = File(
+      p.join(projectRoot.path, _legacyMixedBundledRulesetPath),
+    );
+    if (await legacyMixed.exists()) {
+      stdout.writeln(
+        'Using ${legacyMixed.path} as the local development source for the starter profile.',
+      );
+      return legacyMixed;
+    }
+  }
+
+  return null;
+}
+
+Map<String, dynamic> _applyBundleProfile({
+  required Map<String, dynamic> baseRuleset,
+  required List<Map<String, dynamic>> schemas,
+  required _BundleProfile profile,
+}) {
+  final knownMetadataKeys = <String>{
+    'schemaVersion',
+    'id',
+    'name',
+    'description',
+    'author',
+    'version',
+    'license',
+    'mode',
+    'createdAt',
+    'updatedAt',
+  };
+  final schemaFieldKeys = {
+    for (final schema in schemas) schema['fieldKey'] as String,
+  };
+
+  final collections = <String, List<Map<String, dynamic>>>{};
+  final omittedCollections = <String>[];
+
+  for (final schema in schemas) {
+    final fieldKey = schema['fieldKey'] as String;
+    final label = schema['label']?.toString() ?? _humanize(fieldKey);
+    final rawCollection = baseRuleset[fieldKey];
+    final normalizedItems = rawCollection is List
+        ? rawCollection
+              .whereType<Map>()
+              .map((item) => item.cast<String, dynamic>())
+              .map(_cloneJsonMap)
+              .toList(growable: false)
+        : const <Map<String, dynamic>>[];
+
+    if (!profile.includeOnlyExplicitSrd52) {
+      collections[fieldKey] = normalizedItems;
+      continue;
+    }
+
+    final filteredItems = normalizedItems
+        .where(_isExplicitSrd52Entity)
+        .map(_cloneJsonMap)
+        .toList(growable: false);
+    if (normalizedItems.isNotEmpty && filteredItems.isEmpty) {
+      omittedCollections.add(label);
+    }
+    collections[fieldKey] = filteredItems;
+  }
+
+  if (omittedCollections.isNotEmpty) {
+    stdout.writeln(
+      'Starter profile omitted collections without explicit srd52 support: ${omittedCollections.join(', ')}',
+    );
+  }
+
+  final normalized = <String, dynamic>{
+    'schemaVersion':
+        baseRuleset['schemaVersion']?.toString().trim().isNotEmpty == true
+        ? baseRuleset['schemaVersion'].toString()
+        : '1.0.0',
+    'id': profile.id,
+    'name': profile.name,
+    'description': profile.description,
+    'author': baseRuleset['author']?.toString() ?? 'OpenRPG',
+    'version': baseRuleset['version']?.toString() ?? '1.0.0',
+    'license': profile.license,
+    'mode': 'bundled',
+    'createdAt':
+        baseRuleset['createdAt']?.toString() ??
+        DateTime.now().toUtc().toIso8601String(),
+    'updatedAt': DateTime.now().toUtc().toIso8601String(),
+    ...collections,
+  };
+
+  if (profile.preserveExtraCollections) {
+    for (final entry in baseRuleset.entries) {
+      if (knownMetadataKeys.contains(entry.key) ||
+          schemaFieldKeys.contains(entry.key)) {
+        continue;
+      }
+
+      normalized[entry.key] = _cloneJson(entry.value);
+    }
+  }
+
+  return normalized;
+}
+
+bool _isExplicitSrd52Entity(Map<String, dynamic> entity) {
+  if (entity['srd52'] == true) {
+    return true;
+  }
+
+  final data = entity['data'];
+  return data is Map && data['srd52'] == true;
+}
+
+dynamic _cloneJson(dynamic value) {
+  if (value is Map<String, dynamic>) {
+    return _cloneJsonMap(value);
+  }
+  if (value is Map) {
+    return _cloneJsonMap(value.cast<String, dynamic>());
+  }
+  if (value is List) {
+    return value.map(_cloneJson).toList(growable: false);
+  }
+  return value;
+}
+
+Map<String, dynamic> _cloneJsonMap(Map<String, dynamic> value) {
+  return value.map((key, entryValue) => MapEntry(key, _cloneJson(entryValue)));
 }
 
 Future<Set<String>> _scanSourceKeys(Directory sourceRoot) async {
@@ -352,7 +598,11 @@ Future<void> _writeBrowseAssets({
   }
   await browseDirectory.create(recursive: true);
 
-  final rulesetId = bundledRuleset['id']?.toString() ?? 'default_srd';
+  final rulesetId =
+      bundledRuleset['id']?.toString() ?? _starterBundleProfile.id;
+  final bundledAssetPath = p
+      .relative(bundledOutput.path, from: projectRoot.path)
+      .replaceAll('\\', '/');
 
   final schemaByFieldKey = <String, Map<String, dynamic>>{
     for (final schema in schemas) schema['fieldKey'] as String: schema,
@@ -366,16 +616,13 @@ Future<void> _writeBrowseAssets({
     final fieldKey = entry.key;
     final schema = entry.value;
     final rawCollection = bundledRuleset[fieldKey];
-    if (rawCollection is! List || rawCollection.isEmpty) {
-      continue;
-    }
-
     final entityType = schema['objectType'] as String;
     final label = schema['label']?.toString() ?? _humanize(entityType);
     final entityRows = <Map<String, dynamic>>[];
     final linkRows = <Map<String, dynamic>>[];
+    final rawItems = rawCollection is List ? rawCollection : const <dynamic>[];
 
-    for (final rawItem in rawCollection) {
+    for (final rawItem in rawItems) {
       if (rawItem is! Map) {
         continue;
       }
@@ -420,6 +667,16 @@ Future<void> _writeBrowseAssets({
     });
 
     totalEntityCount += entityRows.length;
+    collectionStats.add({
+      'entityType': entityType,
+      'collectionKey': fieldKey,
+      'label': label,
+      'entityCount': entityRows.length,
+    });
+
+    if (entityRows.isEmpty) {
+      continue;
+    }
 
     final shardFileName = '${_slugify(rulesetId)}_${_slugify(fieldKey)}.json';
     final assetPath = 'assets/rulesets/browse/$shardFileName';
@@ -434,12 +691,6 @@ Future<void> _writeBrowseAssets({
       }),
     );
 
-    collectionStats.add({
-      'entityType': entityType,
-      'collectionKey': fieldKey,
-      'label': label,
-      'entityCount': entityRows.length,
-    });
     shards.add({
       'entityType': entityType,
       'collectionKey': fieldKey,
@@ -472,7 +723,7 @@ Future<void> _writeBrowseAssets({
           'entityCount': totalEntityCount,
           'createdAt': bundledRuleset['createdAt']?.toString(),
           'updatedAt': bundledRuleset['updatedAt']?.toString(),
-          'filePath': _defaultBundledRulesetPath,
+          'filePath': bundledAssetPath,
           'collectionStats': collectionStats,
           'shards': shards,
         },

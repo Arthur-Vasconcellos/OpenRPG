@@ -3,55 +3,136 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:openrpg/compendium/data/compendium_bootstrap_service.dart';
 import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
+import 'package:openrpg/compendium/models/compendium_browse_asset.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/screens/rulesets/ruleset_detail_screen.dart';
 
 class RulesetLibraryScreen extends StatefulWidget {
-  const RulesetLibraryScreen({super.key});
+  final CompendiumBootstrapService bootstrapService;
+  final CompendiumBrowseRepository browseRepository;
+  final CompendiumRepository repository;
+
+  RulesetLibraryScreen({
+    super.key,
+    CompendiumBootstrapService? bootstrapService,
+    CompendiumBrowseRepository? browseRepository,
+    CompendiumRepository? repository,
+  }) : bootstrapService = bootstrapService ?? CompendiumBootstrapService(),
+       browseRepository = browseRepository ?? CompendiumBrowseRepository(),
+       repository = repository ?? CompendiumRepository();
 
   @override
   State<RulesetLibraryScreen> createState() => _RulesetLibraryScreenState();
 }
 
+enum _RulesetLibraryStartupState { initializing, ready, failed }
+
 class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
-  final CompendiumBootstrapService _bootstrapService =
-      CompendiumBootstrapService();
-  final CompendiumBrowseRepository _browseRepository =
-      CompendiumBrowseRepository();
-  final CompendiumRepository _repository = CompendiumRepository();
   late final Stream<List<RulesetSummary>> _rulesetStream;
   Stream<CompendiumBootstrapStatus>? _bootstrapStatusStream;
+  _RulesetLibraryStartupState _startupState =
+      _RulesetLibraryStartupState.initializing;
+  String? _startupErrorMessage;
 
   @override
   void initState() {
     super.initState();
-    _rulesetStream = _browseRepository.watchInstalledRulesets();
+    _rulesetStream = widget.browseRepository.watchInstalledRulesets();
     unawaited(_initializeBootstrap());
   }
 
   Future<void> _initializeBootstrap() async {
-    final manifest = await _bootstrapService.loadManifest();
-    final bundledRulesetId = manifest.rulesets.isEmpty
-        ? null
-        : manifest.rulesets.first.rulesetId;
-    if (!mounted) {
-      return;
+    if (mounted) {
+      setState(() {
+        _startupState = _RulesetLibraryStartupState.initializing;
+        _startupErrorMessage = null;
+      });
     }
 
-    setState(() {
-      _bootstrapStatusStream = bundledRulesetId == null
-          ? null
-          : _bootstrapService.watchStatus(bundledRulesetId);
-    });
-    unawaited(_bootstrapService.ensureBootstrapped());
+    String? bundledRulesetId;
+    try {
+      final manifest = await widget.bootstrapService.loadManifest();
+      bundledRulesetId = _resolveBundledRulesetId(manifest);
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _bootstrapStatusStream = widget.bootstrapService.watchStatus(
+          bundledRulesetId!,
+        );
+        _startupState = _RulesetLibraryStartupState.ready;
+        _startupErrorMessage = null;
+      });
+
+      await widget.bootstrapService.ensureBootstrappedWithManifest(manifest);
+    } catch (error, stackTrace) {
+      final trackedFailure = await _hasTrackedBootstrapFailure(
+        bundledRulesetId,
+      );
+      _reportBootstrapError(error, stackTrace);
+      if (!mounted || trackedFailure) {
+        return;
+      }
+
+      setState(() {
+        _startupState = _RulesetLibraryStartupState.failed;
+        _startupErrorMessage = _formatStartupError(error);
+      });
+    }
+  }
+
+  String _resolveBundledRulesetId(CompendiumBrowseManifest manifest) {
+    if (manifest.rulesets.isEmpty) {
+      throw const CompendiumBootstrapFailure(
+        stage: CompendiumBootstrapFailureStage.manifestValidation,
+        message: 'The bundled starter manifest does not list any rulesets.',
+      );
+    }
+
+    final rulesetId = manifest.rulesets.first.rulesetId.trim();
+    if (rulesetId.isEmpty) {
+      throw const CompendiumBootstrapFailure(
+        stage: CompendiumBootstrapFailureStage.manifestValidation,
+        message: 'The bundled starter manifest is missing a ruleset id.',
+      );
+    }
+
+    return rulesetId;
+  }
+
+  Future<bool> _hasTrackedBootstrapFailure(String? rulesetId) async {
+    if (rulesetId == null || rulesetId.isEmpty) {
+      return false;
+    }
+
+    try {
+      final status = await widget.bootstrapService.loadStatus(rulesetId);
+      return status.isFailed;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  String _formatStartupError(Object error) {
+    if (error is CompendiumBootstrapFailure) {
+      return error.toString();
+    }
+
+    return error.toString();
+  }
+
+  void _reportBootstrapError(Object error, StackTrace stackTrace) {
+    debugPrint(
+      'Ruleset library bootstrap error while preparing the bundled starter:\n$error\n$stackTrace',
+    );
   }
 
   Future<void> _retryBootstrap() async {
-    await _bootstrapService.ensureBootstrapped();
+    await _initializeBootstrap();
   }
 
   Future<void> _createRuleset() async {
@@ -63,67 +144,104 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
       return;
     }
 
-    await _repository.createRuleset(
+    final created = await widget.repository.createRuleset(
       name: result.name,
       description: result.description,
+    );
+    if (!mounted) {
+      return;
+    }
+
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => RulesetDetailScreen(rulesetId: created.id),
+      ),
     );
   }
 
   Future<void> _importRuleset() async {
-    final picked = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: const ['json'],
-      withData: true,
-    );
-    if (picked == null) {
-      return;
-    }
+    try {
+      final picked = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['json'],
+        withData: true,
+      );
+      if (picked == null) {
+        return;
+      }
 
-    final file = picked.files.single;
-    final bytes = file.bytes;
-    if (bytes == null) {
+      final file = picked.files.single;
+      final bytes = file.bytes;
+      if (bytes == null) {
+        if (!mounted) {
+          return;
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Unable to read the selected file on this platform.'),
+          ),
+        );
+        return;
+      }
+
+      final jsonString = utf8.decode(bytes);
+      final imported = await widget.repository.importRulesetJson(jsonString);
       if (!mounted) {
         return;
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to read the selected file on this platform.'),
+        SnackBar(content: Text('Imported ${file.name} successfully.')),
+      );
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => RulesetDetailScreen(rulesetId: imported.id),
         ),
       );
-      return;
-    }
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
 
-    final jsonString = utf8.decode(bytes);
-    await _repository.importRulesetJson(jsonString);
-    if (!mounted) {
-      return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Import failed: $error')));
     }
-
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Imported ${file.name}')));
   }
 
   Future<void> _duplicateRuleset(RulesetSummary summary) async {
-    await _repository.duplicateRuleset(summary.id);
-  }
-
-  Future<void> _exportRuleset(RulesetSummary summary) async {
-    final json = await _repository.exportRulesetJson(summary.id);
-    final export = await _repository.exportRulesetFile(summary.id);
-    await Clipboard.setData(ClipboardData(text: json));
+    final duplicate = await widget.repository.duplicateRuleset(summary.id);
     if (!mounted) {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Exported to ${export.locationDescription} and copied JSON to the clipboard.',
-        ),
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => RulesetDetailScreen(rulesetId: duplicate.id),
       ),
     );
+  }
+
+  Future<void> _exportRuleset(RulesetSummary summary) async {
+    try {
+      final export = await widget.repository.exportRulesetFile(summary.id);
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Exported via ${export.locationDescription}.')),
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Export failed: $error')));
+    }
   }
 
   Future<void> _deleteRuleset(RulesetSummary summary) async {
@@ -148,7 +266,7 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
       return;
     }
 
-    await _repository.deleteRuleset(summary.id);
+    await widget.repository.deleteRuleset(summary.id);
   }
 
   @override
@@ -181,6 +299,11 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
         builder: (context, bootstrapSnapshot) {
           final bootstrapStatus =
               bootstrapSnapshot.data ?? const CompendiumBootstrapStatus.idle();
+          final isStartupInitializing =
+              _startupState == _RulesetLibraryStartupState.initializing;
+          final hasStartupFailure =
+              _startupState == _RulesetLibraryStartupState.failed &&
+              (_startupErrorMessage?.trim().isNotEmpty ?? false);
 
           return StreamBuilder<List<RulesetSummary>>(
             stream: _rulesetStream,
@@ -198,6 +321,19 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
               }
 
               final rulesets = rulesetSnapshot.data ?? const <RulesetSummary>[];
+              final showPreparingShell =
+                  rulesets.isEmpty &&
+                  (isStartupInitializing ||
+                      (_startupState == _RulesetLibraryStartupState.ready &&
+                          _bootstrapStatusStream != null &&
+                          !bootstrapStatus.isReady &&
+                          !bootstrapStatus.isFailed));
+              final showEmptyLibrary =
+                  rulesets.isEmpty &&
+                  _startupState == _RulesetLibraryStartupState.ready &&
+                  !bootstrapStatus.isRunning &&
+                  !bootstrapStatus.isFailed;
+
               return ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
@@ -218,47 +354,119 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Offline rulesets, editable homebrew, portable JSON.',
+                          'Built-in 2024 SRD starter ruleset, editable homebrew, portable JSON.',
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Bundled data now indexes in the background, so the library stays responsive while browse data becomes available.',
+                          'The starter compendium indexes in the background so the library stays responsive, and you can still import JSON or create blank rulesets immediately.',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
-                  if (bootstrapStatus.isRunning)
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Bring content in or out',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Import JSON from your device, duplicate the bundled starter into editable homebrew, or export any editable ruleset when you want to share it.',
+                          ),
+                          const SizedBox(height: 12),
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              FilledButton.tonalIcon(
+                                onPressed: _importRuleset,
+                                icon: const Icon(Icons.file_upload_outlined),
+                                label: const Text('Import JSON'),
+                              ),
+                              FilledButton.tonalIcon(
+                                onPressed: _createRuleset,
+                                icon: const Icon(Icons.add),
+                                label: const Text('Blank Ruleset'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  if (isStartupInitializing)
+                    const _StartupStatusCard(
+                      message:
+                          'Preparing the bundled starter and wiring up bootstrap status...',
+                    ),
+                  if (hasStartupFailure)
+                    _StartupFailureCard(
+                      message: _startupErrorMessage!,
+                      onRetry: _retryBootstrap,
+                    ),
+                  if (isStartupInitializing || hasStartupFailure)
+                    const SizedBox(height: 20),
+                  if (!hasStartupFailure && bootstrapStatus.isRunning)
                     _BootstrapStatusCard(
                       label: 'Indexing bundled compendium',
                       progress: bootstrapStatus.progress,
                     ),
-                  if (bootstrapStatus.isFailed)
+                  if (!hasStartupFailure && bootstrapStatus.isFailed)
                     _BootstrapErrorCard(
                       message:
                           bootstrapStatus.lastError ??
                           'The bundled compendium index failed to build.',
                       onRetry: _retryBootstrap,
                     ),
-                  if (bootstrapStatus.isRunning || bootstrapStatus.isFailed)
+                  if (!hasStartupFailure &&
+                      (bootstrapStatus.isRunning || bootstrapStatus.isFailed))
                     const SizedBox(height: 20),
-                  if (rulesets.isEmpty && bootstrapStatus.isRunning)
+                  if (showPreparingShell)
                     const Center(
                       child: Padding(
                         padding: EdgeInsets.all(32),
                         child: Text('Preparing the bundled compendium...'),
                       ),
                     )
-                  else if (rulesets.isEmpty)
-                    const Center(
+                  else if (showEmptyLibrary)
+                    Center(
                       child: Padding(
-                        padding: EdgeInsets.all(32),
-                        child: Text('No rulesets installed yet.'),
+                        padding: const EdgeInsets.all(32),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'No rulesets installed yet.',
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 12),
+                            Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              alignment: WrapAlignment.center,
+                              children: [
+                                OutlinedButton(
+                                  onPressed: _importRuleset,
+                                  child: const Text('Import JSON'),
+                                ),
+                                OutlinedButton(
+                                  onPressed: _createRuleset,
+                                  child: const Text('Create Blank Ruleset'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     )
-                  else
+                  else if (rulesets.isNotEmpty)
                     ...rulesets.map((summary) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 16),
@@ -365,6 +573,61 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class _StartupStatusCard extends StatelessWidget {
+  final String message;
+
+  const _StartupStatusCard({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Preparing Bundled Starter',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(message),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StartupFailureCard extends StatelessWidget {
+  final String message;
+  final Future<void> Function() onRetry;
+
+  const _StartupFailureCard({required this.message, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Bundled starter startup failed',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(message),
+            const SizedBox(height: 12),
+            FilledButton(onPressed: onRetry, child: const Text('Retry')),
+          ],
+        ),
       ),
     );
   }

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
-import 'package:openrpg/compendium/generated/compendium_generated.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_detail_screen.dart';
+import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
 import 'package:openrpg/screens/rulesets/ruleset_collection_screen.dart';
 
 class RulesetDetailScreen extends StatefulWidget {
@@ -20,16 +20,22 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
   final CompendiumBrowseRepository _browseRepository =
       CompendiumBrowseRepository();
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _collectionFilterController =
+      TextEditingController();
 
   late Future<_RulesetDetailState> _futureState;
   Future<List<CompendiumSearchResult>>? _futureSearchResults;
   Timer? _searchDebounce;
+  String? _selectedEntityType;
+  String? _selectedSource;
+  String? _selectedEdition;
 
   @override
   void initState() {
     super.initState();
     _futureState = _loadState();
     _searchController.addListener(_onSearchChanged);
+    _collectionFilterController.addListener(_onCollectionFilterChanged);
   }
 
   @override
@@ -37,6 +43,9 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
     _searchDebounce?.cancel();
     _searchController
       ..removeListener(_onSearchChanged)
+      ..dispose();
+    _collectionFilterController
+      ..removeListener(_onCollectionFilterChanged)
       ..dispose();
     super.dispose();
   }
@@ -48,7 +57,14 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
     final collections = await _browseRepository.loadCollectionSummaries(
       widget.rulesetId,
     );
-    return _RulesetDetailState(summary: summary, collections: collections);
+    final facets = await _browseRepository.loadSearchFacets(
+      rulesetId: widget.rulesetId,
+    );
+    return _RulesetDetailState(
+      summary: summary,
+      collections: collections,
+      facets: facets,
+    );
   }
 
   void _onSearchChanged() {
@@ -65,33 +81,43 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
       if (!mounted) {
         return;
       }
+      _runSearch();
+    });
+  }
 
-      setState(() {
-        _futureSearchResults = _browseRepository.searchEntityPreviews(
-          CompendiumSearchQuery(
-            text: query,
-            rulesetIds: [widget.rulesetId],
-            limit: 150,
-          ),
-        );
-      });
+  void _onCollectionFilterChanged() {
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+  }
+
+  void _runSearch() {
+    setState(() {
+      _futureSearchResults = _browseRepository.searchEntityPreviews(
+        CompendiumSearchQuery(
+          text: _searchController.text.trim(),
+          rulesetIds: [widget.rulesetId],
+          entityTypes: _selectedEntityType == null
+              ? const []
+              : <String>[_selectedEntityType!],
+          source: _selectedSource,
+          edition: _selectedEdition,
+          limit: 150,
+        ),
+      );
     });
   }
 
   Future<void> _reload() async {
     setState(() {
       _futureState = _loadState();
-      if (_searchController.text.trim().isNotEmpty) {
-        _futureSearchResults = _browseRepository.searchEntityPreviews(
-          CompendiumSearchQuery(
-            text: _searchController.text.trim(),
-            rulesetIds: [widget.rulesetId],
-            limit: 150,
-          ),
-        );
-      }
     });
     await _futureState;
+
+    if (_searchController.text.trim().isNotEmpty && mounted) {
+      _runSearch();
+    }
   }
 
   @override
@@ -119,79 +145,81 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
 
           final state = snapshot.data!;
           final query = _searchController.text.trim();
+          final filteredCollections = _filterCollections(state.collections);
 
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        state.summary.name,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      const SizedBox(height: 8),
-                      if (state.summary.description.trim().isNotEmpty)
-                        Text(state.summary.description),
-                      const SizedBox(height: 16),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: [
-                          Chip(label: Text('Mode: ${state.summary.mode}')),
-                          Chip(
-                            label: Text(
-                              'Entities: ${state.summary.entityCount}',
-                            ),
-                          ),
-                          Chip(
-                            label: Text(
-                              'Schema: ${state.summary.schemaVersion}',
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: _searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Search this ruleset',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              _RulesetHeaderCard(
+                summary: state.summary,
+                searchController: _searchController,
               ),
               const SizedBox(height: 18),
-              if (query.isEmpty)
-                ...state.collections
-                    .where((view) => view.entityCount > 0)
-                    .map(
-                      (view) => Card(
-                        child: ListTile(
-                          title: Text(view.label),
-                          subtitle: Text('${view.entityCount} records'),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () async {
-                            await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => RulesetCollectionScreen(
-                                  rulesetId: state.summary.id,
-                                  entityType: view.entityType,
-                                ),
+              if (query.isEmpty) ...[
+                TextField(
+                  controller: _collectionFilterController,
+                  decoration: const InputDecoration(
+                    hintText: 'Filter collection types',
+                    prefixIcon: Icon(Icons.tune),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                if (filteredCollections.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.all(24),
+                    child: Center(
+                      child: Text('No collection types matched that filter.'),
+                    ),
+                  )
+                else
+                  ...filteredCollections.map(
+                    (view) => Padding(
+                      padding: const EdgeInsets.only(bottom: 14),
+                      child: _RulesetCollectionCard(
+                        summary: state.summary,
+                        collection: view,
+                        onTap: () async {
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => RulesetCollectionScreen(
+                                rulesetId: state.summary.id,
+                                entityType: view.entityType,
                               ),
-                            );
-                            await _reload();
-                          },
-                        ),
+                            ),
+                          );
+                          await _reload();
+                        },
                       ),
-                    )
-              else
+                    ),
+                  ),
+              ] else ...[
+                _RulesetSearchFiltersCard(
+                  collections: state.collections,
+                  facets: state.facets,
+                  selectedEntityType: _selectedEntityType,
+                  selectedSource: _selectedSource,
+                  selectedEdition: _selectedEdition,
+                  onEntityTypeChanged: (value) {
+                    setState(() {
+                      _selectedEntityType = value;
+                    });
+                    _runSearch();
+                  },
+                  onSourceChanged: (value) {
+                    setState(() {
+                      _selectedSource = value;
+                    });
+                    _runSearch();
+                  },
+                  onEditionChanged: (value) {
+                    setState(() {
+                      _selectedEdition = value;
+                    });
+                    _runSearch();
+                  },
+                ),
+                const SizedBox(height: 18),
                 FutureBuilder<List<CompendiumSearchResult>>(
                   future: _futureSearchResults,
                   builder: (context, searchSnapshot) {
@@ -226,50 +254,338 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
 
                     return Column(
                       children: results
-                          .map((result) {
-                            final preview = result.preview;
-                            final descriptor = descriptorForType(
-                              preview.entityType,
-                            );
-                            return Card(
-                              child: ListTile(
-                                title: Text(preview.displayName),
-                                subtitle: Text(
-                                  '${descriptor?.collection.label ?? preview.entityType}'
-                                  '${preview.source.isNotEmpty ? ' - ${preview.source}' : ''}',
-                                ),
-                                trailing: const Icon(Icons.chevron_right),
+                          .map(
+                            (result) => Padding(
+                              padding: const EdgeInsets.only(bottom: 14),
+                              child: _SearchResultCard(
+                                result: result,
                                 onTap: () async {
                                   await Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) =>
                                           CompendiumEntityDetailScreen(
-                                            rulesetId: preview.rulesetId,
-                                            entityType: preview.entityType,
-                                            entityId: preview.entityId,
+                                            rulesetId: result.preview.rulesetId,
+                                            entityType:
+                                                result.preview.entityType,
+                                            entityId: result.preview.entityId,
                                           ),
                                     ),
                                   );
                                   await _reload();
                                 },
                               ),
-                            );
-                          })
+                            ),
+                          )
                           .toList(growable: false),
                     );
                   },
                 ),
+              ],
             ],
           );
         },
       ),
     );
   }
+
+  List<RulesetCollectionSummary> _filterCollections(
+    List<RulesetCollectionSummary> collections,
+  ) {
+    final query = _collectionFilterController.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      return collections;
+    }
+
+    return collections
+        .where((collection) {
+          return collection.label.toLowerCase().contains(query) ||
+              collection.entityType.toLowerCase().contains(query);
+        })
+        .toList(growable: false);
+  }
 }
 
 class _RulesetDetailState {
   final RulesetSummary summary;
   final List<RulesetCollectionSummary> collections;
+  final CompendiumSearchFacets facets;
 
-  const _RulesetDetailState({required this.summary, required this.collections});
+  const _RulesetDetailState({
+    required this.summary,
+    required this.collections,
+    required this.facets,
+  });
+}
+
+class _RulesetHeaderCard extends StatelessWidget {
+  final RulesetSummary summary;
+  final TextEditingController searchController;
+
+  const _RulesetHeaderCard({
+    required this.summary,
+    required this.searchController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final modeMessage = switch (summary.mode) {
+      'bundled' =>
+        'Bundled starter content is read-only. Duplicate it from the library to turn it into editable homebrew.',
+      'editable' =>
+        'This ruleset is editable inside the app, including empty collections that are ready for authoring.',
+      _ =>
+        'Imported rulesets stay editable and can be re-exported as portable JSON.',
+    };
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              summary.name,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 8),
+            if (summary.description.trim().isNotEmpty)
+              Text(summary.description),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                Chip(label: Text('Mode: ${summary.mode}')),
+                Chip(label: Text('Entities: ${summary.entityCount}')),
+                Chip(label: Text('Schema: ${summary.schemaVersion}')),
+                if (summary.version.trim().isNotEmpty)
+                  Chip(label: Text('Version: ${summary.version}')),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(modeMessage),
+            const SizedBox(height: 16),
+            TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                hintText: 'Search this ruleset',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _RulesetCollectionCard extends StatelessWidget {
+  final RulesetSummary summary;
+  final RulesetCollectionSummary collection;
+  final Future<void> Function() onTap;
+
+  const _RulesetCollectionCard({
+    required this.summary,
+    required this.collection,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final statusLabel = collection.entityCount == 0
+        ? summary.mode == 'bundled'
+              ? 'No starter entries'
+              : 'Ready for authoring'
+        : '${collection.entityCount} entries';
+
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      collection.label,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  CompendiumTypeBadge(entityType: collection.entityType),
+                  Chip(label: Text(statusLabel)),
+                  if (summary.mode == 'bundled')
+                    const Chip(label: Text('Read-only starter')),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RulesetSearchFiltersCard extends StatelessWidget {
+  final List<RulesetCollectionSummary> collections;
+  final CompendiumSearchFacets facets;
+  final String? selectedEntityType;
+  final String? selectedSource;
+  final String? selectedEdition;
+  final ValueChanged<String?> onEntityTypeChanged;
+  final ValueChanged<String?> onSourceChanged;
+  final ValueChanged<String?> onEditionChanged;
+
+  const _RulesetSearchFiltersCard({
+    required this.collections,
+    required this.facets,
+    required this.selectedEntityType,
+    required this.selectedSource,
+    required this.selectedEdition,
+    required this.onEntityTypeChanged,
+    required this.onSourceChanged,
+    required this.onEditionChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Search Filters',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String?>(
+              initialValue: selectedEntityType,
+              decoration: const InputDecoration(
+                labelText: 'Entity type',
+                border: OutlineInputBorder(),
+              ),
+              items: [
+                const DropdownMenuItem<String?>(
+                  value: null,
+                  child: Text('All Types'),
+                ),
+                ...collections.map(
+                  (collection) => DropdownMenuItem<String?>(
+                    value: collection.entityType,
+                    child: Text(collection.label),
+                  ),
+                ),
+              ],
+              onChanged: onEntityTypeChanged,
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String?>(
+              initialValue: selectedSource,
+              decoration: const InputDecoration(
+                labelText: 'Source',
+                border: OutlineInputBorder(),
+              ),
+              items: [
+                const DropdownMenuItem<String?>(
+                  value: null,
+                  child: Text('All Sources'),
+                ),
+                ...facets.sources.map(
+                  (source) => DropdownMenuItem<String?>(
+                    value: source,
+                    child: Text(source),
+                  ),
+                ),
+              ],
+              onChanged: onSourceChanged,
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String?>(
+              initialValue: selectedEdition,
+              decoration: const InputDecoration(
+                labelText: 'Edition',
+                border: OutlineInputBorder(),
+              ),
+              items: [
+                const DropdownMenuItem<String?>(
+                  value: null,
+                  child: Text('All Editions'),
+                ),
+                ...facets.editions.map(
+                  (edition) => DropdownMenuItem<String?>(
+                    value: edition,
+                    child: Text(edition),
+                  ),
+                ),
+              ],
+              onChanged: onEditionChanged,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchResultCard extends StatelessWidget {
+  final CompendiumSearchResult result;
+  final Future<void> Function() onTap;
+
+  const _SearchResultCard({required this.result, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final preview = result.preview;
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      preview.displayName,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  CompendiumTypeBadge(entityType: preview.entityType),
+                  if (preview.source.trim().isNotEmpty)
+                    Chip(label: Text('Source: ${preview.source}')),
+                  if (preview.edition?.trim().isNotEmpty == true)
+                    Chip(label: Text('Edition: ${preview.edition}')),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -3,7 +3,9 @@ import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
+import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
 import 'package:openrpg/screens/rulesets/compendium_rich_content_renderer.dart';
+import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
 import 'package:openrpg/screens/rulesets/ruleset_object_editor_screen.dart';
 
 class CompendiumEntityDetailScreen extends StatefulWidget {
@@ -55,21 +57,17 @@ class _CompendiumEntityDetailScreenState
     await _futureState;
   }
 
-  Future<void> _openResolvedLink(CompendiumSearchResult? result) async {
+  Future<void> _openResolvedLinkPreview(CompendiumSearchResult? result) async {
     if (result == null) {
       return;
     }
 
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => CompendiumEntityDetailScreen(
-          rulesetId: result.preview.rulesetId,
-          entityType: result.preview.entityType,
-          entityId: result.preview.entityId,
-        ),
-      ),
+    await showCompendiumEntityPreviewSheet(
+      context,
+      rulesetId: result.preview.rulesetId,
+      entityType: result.preview.entityType,
+      entityId: result.preview.entityId,
     );
-    await _reload();
   }
 
   Future<void> _editEntity(_EntityDetailState state) async {
@@ -114,6 +112,7 @@ class _CompendiumEntityDetailScreenState
           final state = snapshot.data!;
           final entity = state.detail.entity;
           final data = entity.data;
+          final accent = CompendiumTypeStyle.colorFor(entity.entityType);
           final narrativeContent =
               data['entries'] ??
               data['entry'] ??
@@ -143,7 +142,7 @@ class _CompendiumEntityDetailScreenState
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Theme.of(context).colorScheme.primaryContainer,
+                          accent.withValues(alpha: 0.18),
                           Theme.of(context).colorScheme.secondaryContainer,
                         ],
                         begin: Alignment.topLeft,
@@ -161,7 +160,7 @@ class _CompendiumEntityDetailScreenState
                       spacing: 10,
                       runSpacing: 10,
                       children: [
-                        Chip(label: Text('Type: ${entity.entityType}')),
+                        CompendiumTypeBadge(entityType: entity.entityType),
                         if (entity.source.trim().isNotEmpty)
                           Chip(label: Text('Source: ${entity.source}')),
                         if (entity.edition?.trim().isNotEmpty == true)
@@ -179,7 +178,7 @@ class _CompendiumEntityDetailScreenState
                             candidate,
                             preferredRulesetId: widget.rulesetId,
                           );
-                          await _openResolvedLink(resolved);
+                          await _openResolvedLinkPreview(resolved);
                         },
                       ),
                     ExpansionTile(
@@ -224,7 +223,7 @@ class _CompendiumEntityDetailScreenState
                     candidate,
                     preferredRulesetId: widget.rulesetId,
                   );
-                  await _openResolvedLink(resolved);
+                  await _openResolvedLinkPreview(resolved);
                 },
               ),
             ],

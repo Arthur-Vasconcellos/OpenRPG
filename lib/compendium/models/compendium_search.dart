@@ -106,6 +106,7 @@ class CompendiumCollectionPage {
   final String entityType;
   final List<CompendiumEntityPreview> items;
   final List<String> availableSources;
+  final List<String> availableEditions;
   final int page;
   final int pageSize;
   final int totalCount;
@@ -116,6 +117,7 @@ class CompendiumCollectionPage {
     required this.entityType,
     required this.items,
     required this.availableSources,
+    required this.availableEditions,
     required this.page,
     required this.pageSize,
     required this.totalCount,
@@ -123,11 +125,19 @@ class CompendiumCollectionPage {
   });
 }
 
+class CompendiumSearchFacets {
+  final List<String> sources;
+  final List<String> editions;
+
+  const CompendiumSearchFacets({required this.sources, required this.editions});
+}
+
 class CompendiumSearchQuery {
   final String text;
   final List<String> rulesetIds;
   final List<String> entityTypes;
   final String? source;
+  final String? edition;
   final int limit;
 
   const CompendiumSearchQuery({
@@ -135,6 +145,7 @@ class CompendiumSearchQuery {
     this.rulesetIds = const [],
     this.entityTypes = const [],
     this.source,
+    this.edition,
     this.limit = 100,
   });
 }

@@ -8,6 +8,7 @@ import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/compendium/models/ruleset.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_detail_screen.dart';
+import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
 import 'package:openrpg/screens/rulesets/ruleset_object_editor_screen.dart';
 
 class RulesetCollectionScreen extends StatefulWidget {
@@ -34,10 +35,12 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
   RulesetSummary? _summary;
   final List<CompendiumEntityPreview> _items = [];
   List<String> _availableSources = const [];
+  List<String> _availableEditions = const [];
   bool _isInitialLoading = true;
   bool _isLoadingMore = false;
   bool _hasMore = false;
   String? _selectedSource;
+  String? _selectedEdition;
   int _page = 0;
   Timer? _searchDebounce;
 
@@ -81,6 +84,7 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
       entityType: widget.entityType,
       query: _searchController.text,
       source: _selectedSource,
+      edition: _selectedEdition,
       page: 0,
       pageSize: 100,
     );
@@ -95,6 +99,7 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
         ..clear()
         ..addAll(page.items);
       _availableSources = page.availableSources;
+      _availableEditions = page.availableEditions;
       _hasMore = page.hasMore;
       _isInitialLoading = false;
     });
@@ -115,6 +120,7 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
       entityType: widget.entityType,
       query: _searchController.text,
       source: _selectedSource,
+      edition: _selectedEdition,
       page: nextPage,
       pageSize: 100,
     );
@@ -200,49 +206,117 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: const InputDecoration(
-                      hintText: 'Search this collection',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                if (_availableSources.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: DropdownButton<String?>(
-                        value: _selectedSource,
-                        hint: const Text('Filter by source'),
-                        items: [
-                          const DropdownMenuItem<String?>(
-                            value: null,
-                            child: Text('All Sources'),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              CompendiumTypeBadge(
+                                entityType: widget.entityType,
+                                label: descriptor?.collection.label,
+                              ),
+                              if (_summary?.mode == RulesetMode.bundled.name)
+                                const Chip(label: Text('Read-only starter')),
+                              if (_summary?.mode != RulesetMode.bundled.name)
+                                const Chip(label: Text('Editable')),
+                            ],
                           ),
-                          ..._availableSources.map(
-                            (source) => DropdownMenuItem<String?>(
-                              value: source,
-                              child: Text(source),
+                          const SizedBox(height: 14),
+                          TextField(
+                            controller: _searchController,
+                            decoration: const InputDecoration(
+                              hintText: 'Search this collection',
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(),
                             ),
                           ),
                         ],
-                        onChanged: (value) async {
-                          setState(() {
-                            _selectedSource = value;
-                          });
-                          await _reload();
-                        },
                       ),
+                    ),
+                  ),
+                ),
+                if (_availableSources.isNotEmpty ||
+                    _availableEditions.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        if (_availableSources.isNotEmpty)
+                          DropdownButtonFormField<String?>(
+                            initialValue: _selectedSource,
+                            decoration: const InputDecoration(
+                              labelText: 'Source',
+                              border: OutlineInputBorder(),
+                            ),
+                            items: [
+                              const DropdownMenuItem<String?>(
+                                value: null,
+                                child: Text('All Sources'),
+                              ),
+                              ..._availableSources.map(
+                                (source) => DropdownMenuItem<String?>(
+                                  value: source,
+                                  child: Text(source),
+                                ),
+                              ),
+                            ],
+                            onChanged: (value) async {
+                              setState(() {
+                                _selectedSource = value;
+                              });
+                              await _reload();
+                            },
+                          ),
+                        if (_availableSources.isNotEmpty &&
+                            _availableEditions.isNotEmpty)
+                          const SizedBox(height: 12),
+                        if (_availableEditions.isNotEmpty)
+                          DropdownButtonFormField<String?>(
+                            initialValue: _selectedEdition,
+                            decoration: const InputDecoration(
+                              labelText: 'Edition',
+                              border: OutlineInputBorder(),
+                            ),
+                            items: [
+                              const DropdownMenuItem<String?>(
+                                value: null,
+                                child: Text('All Editions'),
+                              ),
+                              ..._availableEditions.map(
+                                (edition) => DropdownMenuItem<String?>(
+                                  value: edition,
+                                  child: Text(edition),
+                                ),
+                              ),
+                            ],
+                            onChanged: (value) async {
+                              setState(() {
+                                _selectedEdition = value;
+                              });
+                              await _reload();
+                            },
+                          ),
+                      ],
                     ),
                   ),
                 const SizedBox(height: 6),
                 Expanded(
                   child: _items.isEmpty
-                      ? const Center(
-                          child: Text('No entities matched this collection.'),
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Text(
+                              canEdit
+                                  ? 'No entities matched this collection yet. Use Add Entity to start authoring.'
+                                  : 'No entities matched this collection.',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         )
                       : ListView.separated(
                           padding: const EdgeInsets.all(16),
@@ -263,52 +337,109 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
 
                             final entity = _items[index];
                             return Card(
-                              child: ListTile(
-                                title: Text(entity.displayName),
-                                subtitle: Text(
-                                  entity.source.isEmpty
-                                      ? entity.entityId
-                                      : '${entity.source}\n${entity.entityId}',
-                                ),
-                                isThreeLine: entity.source.isNotEmpty,
-                                trailing: PopupMenuButton<String>(
-                                  onSelected: (value) async {
-                                    switch (value) {
-                                      case 'open':
-                                        await _openEntity(entity);
-                                        break;
-                                      case 'edit':
-                                        final detail = await _browseRepository
-                                            .loadEntityDetail(
-                                              rulesetId: widget.rulesetId,
-                                              entityType: entity.entityType,
-                                              entityId: entity.entityId,
-                                            );
-                                        await _editEntity(detail.entity);
-                                        break;
-                                      case 'delete':
-                                        await _deleteEntity(entity);
-                                        break;
-                                    }
-                                  },
-                                  itemBuilder: (context) => [
-                                    const PopupMenuItem(
-                                      value: 'open',
-                                      child: Text('Open'),
-                                    ),
-                                    if (canEdit)
-                                      const PopupMenuItem(
-                                        value: 'edit',
-                                        child: Text('Edit'),
-                                      ),
-                                    if (canEdit)
-                                      const PopupMenuItem(
-                                        value: 'delete',
-                                        child: Text('Delete'),
-                                      ),
-                                  ],
-                                ),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(24),
                                 onTap: () => _openEntity(entity),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(18),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              entity.displayName,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.titleLarge,
+                                            ),
+                                          ),
+                                          PopupMenuButton<String>(
+                                            onSelected: (value) async {
+                                              switch (value) {
+                                                case 'open':
+                                                  await _openEntity(entity);
+                                                  break;
+                                                case 'edit':
+                                                  final detail =
+                                                      await _browseRepository
+                                                          .loadEntityDetail(
+                                                            rulesetId: widget
+                                                                .rulesetId,
+                                                            entityType: entity
+                                                                .entityType,
+                                                            entityId:
+                                                                entity.entityId,
+                                                          );
+                                                  await _editEntity(
+                                                    detail.entity,
+                                                  );
+                                                  break;
+                                                case 'delete':
+                                                  await _deleteEntity(entity);
+                                                  break;
+                                              }
+                                            },
+                                            itemBuilder: (context) => [
+                                              const PopupMenuItem(
+                                                value: 'open',
+                                                child: Text('Open'),
+                                              ),
+                                              if (canEdit)
+                                                const PopupMenuItem(
+                                                  value: 'edit',
+                                                  child: Text('Edit'),
+                                                ),
+                                              if (canEdit)
+                                                const PopupMenuItem(
+                                                  value: 'delete',
+                                                  child: Text('Delete'),
+                                                ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: [
+                                          CompendiumTypeBadge(
+                                            entityType: entity.entityType,
+                                          ),
+                                          if (entity.source.trim().isNotEmpty)
+                                            Chip(
+                                              label: Text(
+                                                'Source: ${entity.source}',
+                                              ),
+                                            ),
+                                          if (entity.edition
+                                                  ?.trim()
+                                                  .isNotEmpty ==
+                                              true)
+                                            Chip(
+                                              label: Text(
+                                                'Edition: ${entity.edition}',
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      if (entity.entityId
+                                          .trim()
+                                          .isNotEmpty) ...[
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          entity.entityId,
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall,
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
                               ),
                             );
                           },

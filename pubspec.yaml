@@ -30,6 +30,7 @@ flutter:
 
   assets:
     - assets/magic_items.json
-    - assets/rulesets/
+    - assets/rulesets/ruleset_schema_catalog.json
+    - assets/rulesets/starter_2024_srd.ruleset.json
     - assets/rulesets/browse_manifest.json
     - assets/rulesets/browse/

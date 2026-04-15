@@ -63,9 +63,7 @@ class WorkspaceHomeScreen extends StatelessWidget {
                 icon: Icons.auto_stories_outlined,
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const RulesetLibraryScreen(),
-                    ),
+                    MaterialPageRoute(builder: (_) => RulesetLibraryScreen()),
                   );
                 },
               ),

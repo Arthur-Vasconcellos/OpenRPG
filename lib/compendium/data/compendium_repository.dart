@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' as drift;
 import 'package:flutter/services.dart';
 import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_database.dart';
+import 'package:openrpg/compendium/data/compendium_database_provider.dart';
 import 'package:openrpg/compendium/data/ruleset_portability.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_link.dart';
@@ -14,7 +15,7 @@ typedef AssetStringLoader = Future<String> Function(String path);
 
 class CompendiumRepository {
   static const List<String> bundledRulesetAssets = <String>[
-    'assets/rulesets/default_srd.ruleset.json',
+    'assets/rulesets/starter_2024_srd.ruleset.json',
   ];
 
   final CompendiumDatabase _database;
@@ -24,10 +25,10 @@ class CompendiumRepository {
   CompendiumRepository({
     CompendiumDatabase? database,
     AssetStringLoader? assetLoader,
-  }) : _database = database ?? const _CompendiumDatabaseFactory().instance,
+  }) : _database = database ?? sharedCompendiumDatabase,
        _assetLoader = assetLoader ?? rootBundle.loadString,
        _browseRepository = CompendiumBrowseRepository(
-         database: database ?? const _CompendiumDatabaseFactory().instance,
+         database: database ?? sharedCompendiumDatabase,
        );
 
   Future<void> seedBundledRulesets() async {
@@ -168,6 +169,7 @@ class CompendiumRepository {
     required String entityType,
     String query = '',
     String? source,
+    String? edition,
     int page = 0,
     int pageSize = 100,
   }) async {
@@ -176,6 +178,7 @@ class CompendiumRepository {
       entityType: entityType,
       query: query,
       source: source,
+      edition: edition,
       page: page,
       pageSize: pageSize,
     );
@@ -439,12 +442,4 @@ class CompendiumRepository {
     final base = CompendiumJsonUtils.slugify(name.isEmpty ? 'ruleset' : name);
     return base.isEmpty ? 'ruleset' : base;
   }
-}
-
-class _CompendiumDatabaseFactory {
-  const _CompendiumDatabaseFactory();
-
-  static final CompendiumDatabase _shared = CompendiumDatabase();
-
-  CompendiumDatabase get instance => _shared;
 }
