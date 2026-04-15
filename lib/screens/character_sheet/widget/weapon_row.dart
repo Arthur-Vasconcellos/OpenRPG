@@ -4,10 +4,7 @@ import 'package:openrpg/models/character.dart';
 class WeaponRow extends StatelessWidget {
   final Weapon weapon;
 
-  const WeaponRow({
-    super.key,
-    required this.weapon,
-  });
+  const WeaponRow({super.key, required this.weapon});
 
   @override
   Widget build(BuildContext context) {

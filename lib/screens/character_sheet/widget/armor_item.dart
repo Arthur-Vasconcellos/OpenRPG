@@ -4,10 +4,7 @@ import 'package:openrpg/models/character.dart';
 class ArmorItemWidget extends StatelessWidget {
   final Armor armor;
 
-  const ArmorItemWidget({
-    super.key,
-    required this.armor,
-  });
+  const ArmorItemWidget({super.key, required this.armor});
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +44,15 @@ class ArmorItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 2),
                 child: Row(
                   children: [
-                    Icon(Icons.visibility_off, size: 12, color: colorScheme.error),
+                    Icon(
+                      Icons.visibility_off,
+                      size: 12,
+                      color: colorScheme.error,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       'Stealth Disadvantage',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: colorScheme.error,
-                      ),
+                      style: TextStyle(fontSize: 12, color: colorScheme.error),
                     ),
                   ],
                 ),

@@ -57,8 +57,10 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
       _filteredItems = _allItems.where((item) {
         final name = LocalizationService.getString(item.nameKey).toLowerCase();
         final matchesSearch = query.isEmpty || name.contains(query);
-        final matchesRarity = _selectedRarity == null || item.rarity == _selectedRarity;
-        final matchesCategory = _selectedCategory == null || item.category == _selectedCategory;
+        final matchesRarity =
+            _selectedRarity == null || item.rarity == _selectedRarity;
+        final matchesCategory =
+            _selectedCategory == null || item.category == _selectedCategory;
 
         return matchesSearch && matchesRarity && matchesCategory;
       }).toList();
@@ -103,10 +105,7 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _loadItems,
-              child: const Text('Retry'),
-            ),
+            ElevatedButton(onPressed: _loadItems, child: const Text('Retry')),
           ],
         ),
       );
@@ -127,10 +126,7 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadItems,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadItems),
         ],
       ),
       body: Column(
@@ -148,7 +144,9 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
                   ),
                 ),
                 const Spacer(),
-                if (_selectedRarity != null || _selectedCategory != null || _searchController.text.isNotEmpty)
+                if (_selectedRarity != null ||
+                    _selectedCategory != null ||
+                    _searchController.text.isNotEmpty)
                   TextButton(
                     onPressed: _clearFilters,
                     child: const Text('Clear Filters'),
@@ -284,7 +282,9 @@ class _MagicItemListScreenState extends State<MagicItemListScreen> {
                             LocalizationService.getRarity(item.rarity),
                             style: const TextStyle(fontSize: 12),
                           ),
-                          backgroundColor: _getRarityColor(item.rarity).withOpacity(0.2),
+                          backgroundColor: _getRarityColor(
+                            item.rarity,
+                          ).withOpacity(0.2),
                           side: BorderSide.none,
                         ),
                         Chip(

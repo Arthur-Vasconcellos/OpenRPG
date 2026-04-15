@@ -12,8 +12,10 @@ class HitPointsWidget extends StatelessWidget {
   });
 
   void _updateCurrentHP(int change) {
-    final newCurrentHP = (character.health.currentHitPoints + change)
-        .clamp(0, character.health.maxHitPoints);
+    final newCurrentHP = (character.health.currentHitPoints + change).clamp(
+      0,
+      character.health.maxHitPoints,
+    );
     final newHealth = character.health.copyWith(currentHitPoints: newCurrentHP);
 
     final newCharacter = character.copyWith(health: newHealth);
@@ -21,7 +23,10 @@ class HitPointsWidget extends StatelessWidget {
   }
 
   void _updateTempHP(int change) {
-    final newTempHP = (character.health.temporaryHitPoints + change).clamp(0, 999);
+    final newTempHP = (character.health.temporaryHitPoints + change).clamp(
+      0,
+      999,
+    );
     final newHealth = character.health.copyWith(temporaryHitPoints: newTempHP);
 
     final newCharacter = character.copyWith(health: newHealth);
@@ -96,9 +101,15 @@ class HitPointsWidget extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              final currentHP = int.tryParse(currentHPController.text) ?? character.health.currentHitPoints;
-              final maxHP = int.tryParse(maxHPController.text) ?? character.health.maxHitPoints;
-              final tempHP = int.tryParse(tempHPController.text) ?? character.health.temporaryHitPoints;
+              final currentHP =
+                  int.tryParse(currentHPController.text) ??
+                  character.health.currentHitPoints;
+              final maxHP =
+                  int.tryParse(maxHPController.text) ??
+                  character.health.maxHitPoints;
+              final tempHP =
+                  int.tryParse(tempHPController.text) ??
+                  character.health.temporaryHitPoints;
 
               final newHealth = character.health.copyWith(
                 currentHitPoints: currentHP.clamp(0, maxHP),
@@ -138,9 +149,7 @@ class HitPointsWidget extends StatelessWidget {
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -195,7 +204,10 @@ class HitPointsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.remove_circle_outline, color: colorScheme.error),
+                    icon: Icon(
+                      Icons.remove_circle_outline,
+                      color: colorScheme.error,
+                    ),
                     onPressed: () => _updateCurrentHP(-1),
                   ),
                   Column(
@@ -234,7 +246,10 @@ class HitPointsWidget extends StatelessWidget {
                     ],
                   ),
                   IconButton(
-                    icon: Icon(Icons.add_circle_outline, color: colorScheme.primary),
+                    icon: Icon(
+                      Icons.add_circle_outline,
+                      color: colorScheme.primary,
+                    ),
                     onPressed: () => _updateCurrentHP(1),
                   ),
                 ],
@@ -339,12 +354,16 @@ class HitPointsWidget extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 4,
                     children: character.health.hitDice
-                        .map((hd) => Chip(
-                      label: Text('${hd.remaining}/${hd.count}d${hd.sides}'),
-                      backgroundColor: hd.remaining > 0
-                          ? colorScheme.surfaceVariant
-                          : colorScheme.error.withOpacity(0.2),
-                    ))
+                        .map(
+                          (hd) => Chip(
+                            label: Text(
+                              '${hd.remaining}/${hd.count}d${hd.sides}',
+                            ),
+                            backgroundColor: hd.remaining > 0
+                                ? colorScheme.surfaceVariant
+                                : colorScheme.error.withOpacity(0.2),
+                          ),
+                        )
                         .toList(),
                   ),
                 ],
@@ -356,24 +375,42 @@ class HitPointsWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildRestButton('Use Hit Die', colorScheme, onPressed: () {
-                  // TODO: Implement hit dice usage
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Hit dice usage not implemented yet')),
-                  );
-                }),
-                _buildRestButton('Short Rest', colorScheme, onPressed: () {
-                  // TODO: Implement short rest
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Short rest not implemented yet')),
-                  );
-                }),
-                _buildRestButton('Long Rest', colorScheme, onPressed: () {
-                  // TODO: Implement long rest
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Long rest not implemented yet')),
-                  );
-                }),
+                _buildRestButton(
+                  'Use Hit Die',
+                  colorScheme,
+                  onPressed: () {
+                    // TODO: Implement hit dice usage
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Hit dice usage not implemented yet'),
+                      ),
+                    );
+                  },
+                ),
+                _buildRestButton(
+                  'Short Rest',
+                  colorScheme,
+                  onPressed: () {
+                    // TODO: Implement short rest
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Short rest not implemented yet'),
+                      ),
+                    );
+                  },
+                ),
+                _buildRestButton(
+                  'Long Rest',
+                  colorScheme,
+                  onPressed: () {
+                    // TODO: Implement long rest
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Long rest not implemented yet'),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ],
@@ -382,16 +419,18 @@ class HitPointsWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRestButton(String text, ColorScheme colorScheme, {required VoidCallback onPressed}) {
+  Widget _buildRestButton(
+    String text,
+    ColorScheme colorScheme, {
+    required VoidCallback onPressed,
+  }) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: colorScheme.surfaceVariant,
         foregroundColor: colorScheme.onSurfaceVariant,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       ),
       child: Text(

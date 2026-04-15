@@ -22,8 +22,11 @@ class SpellsTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.auto_awesome_outlined,
-                size: 80, color: colorScheme.onSurface.withOpacity(0.3)),
+            Icon(
+              Icons.auto_awesome_outlined,
+              size: 80,
+              color: colorScheme.onSurface.withOpacity(0.3),
+            ),
             const SizedBox(height: 20),
             Text(
               'No Spellcasting',
@@ -36,9 +39,7 @@ class SpellsTab extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               '${character.classes[0].characterClass} does not have spellcasting',
-              style: TextStyle(
-                color: colorScheme.onSurface.withOpacity(0.5),
-              ),
+              style: TextStyle(color: colorScheme.onSurface.withOpacity(0.5)),
             ),
           ],
         ),
@@ -63,8 +64,11 @@ class SpellsTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.auto_awesome_outlined,
-                            color: colorScheme.tertiary, size: 20),
+                        Icon(
+                          Icons.auto_awesome_outlined,
+                          color: colorScheme.tertiary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'SPELLCASTING',
@@ -81,14 +85,23 @@ class SpellsTab extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildSpellStat('SPELL DC',
-                            '${character.spellcasting!.spellSaveDC}', colorScheme),
-                        _buildSpellStat('ATTACK BONUS',
-                            '+${character.spellcasting!.spellAttackBonus}', colorScheme),
-                        _buildSpellStat('ABILITY',
-                            character.spellcasting!.spellcastingAbility
-                                ?.toUpperCase() ??
-                                '', colorScheme),
+                        _buildSpellStat(
+                          'SPELL DC',
+                          '${character.spellcasting!.spellSaveDC}',
+                          colorScheme,
+                        ),
+                        _buildSpellStat(
+                          'ATTACK BONUS',
+                          '+${character.spellcasting!.spellAttackBonus}',
+                          colorScheme,
+                        ),
+                        _buildSpellStat(
+                          'ABILITY',
+                          character.spellcasting!.spellcastingAbility
+                                  ?.toUpperCase() ??
+                              '',
+                          colorScheme,
+                        ),
                       ],
                     ),
                   ],
@@ -111,8 +124,11 @@ class SpellsTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.layers_outlined,
-                            color: colorScheme.onSurface, size: 20),
+                        Icon(
+                          Icons.layers_outlined,
+                          color: colorScheme.onSurface,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'SPELL SLOTS',
@@ -147,8 +163,11 @@ class SpellsTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.book_outlined,
-                            color: colorScheme.onSurface, size: 20),
+                        Icon(
+                          Icons.book_outlined,
+                          color: colorScheme.onSurface,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'PREPARED SPELLS',
@@ -269,14 +288,18 @@ class SpellsTab extends StatelessWidget {
           children: [
             if (spell.isRitual)
               Chip(
-                label: Text('Ritual',
-                    style: TextStyle(fontSize: 10, color: colorScheme.primary)),
+                label: Text(
+                  'Ritual',
+                  style: TextStyle(fontSize: 10, color: colorScheme.primary),
+                ),
                 backgroundColor: colorScheme.primary.withOpacity(0.1),
               ),
             if (spell.isConcentration)
               Chip(
-                label: Text('Conc.',
-                    style: TextStyle(fontSize: 10, color: colorScheme.secondary)),
+                label: Text(
+                  'Conc.',
+                  style: TextStyle(fontSize: 10, color: colorScheme.secondary),
+                ),
                 backgroundColor: colorScheme.secondary.withOpacity(0.1),
               ),
           ],

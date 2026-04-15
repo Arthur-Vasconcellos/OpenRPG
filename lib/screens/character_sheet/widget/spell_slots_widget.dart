@@ -4,10 +4,7 @@ import 'package:openrpg/models/character.dart';
 class SpellSlotsWidget extends StatelessWidget {
   final SpellcastingInfo? spellcasting;
 
-  const SpellSlotsWidget({
-    super.key,
-    required this.spellcasting,
-  });
+  const SpellSlotsWidget({super.key, required this.spellcasting});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class SpellSlotsWidget extends StatelessWidget {
       runSpacing: 12,
       children: List.generate(9, (index) {
         final slot = spellcasting!.spellSlots.firstWhere(
-              (s) => s.level == index + 1,
+          (s) => s.level == index + 1,
           orElse: () => SpellSlot(level: index + 1, total: 0, used: 0),
         );
 

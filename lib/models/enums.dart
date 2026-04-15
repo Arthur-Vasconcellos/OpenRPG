@@ -334,10 +334,7 @@ enum Skill {
   const Skill(this.value, this.displayName);
 }
 
-enum SkillSortOrder {
-  byProficiency,
-  alphabetical,
-}
+enum SkillSortOrder { byProficiency, alphabetical }
 
 enum ProficiencyLevel {
   none('none', 'None'),
@@ -354,35 +351,35 @@ enum ProficiencyLevel {
 // Generic enum parsing utilities
 class EnumParser {
   static T fromString<T extends Enum>(List<T> values, String value) {
-  for (T enumValue in values) {
-  if (enumValue is MagicItemCategory && enumValue.value == value)
-  return enumValue;
-  if (enumValue is Rarity && enumValue.value == value) return enumValue;
-  if (enumValue is ActionType && enumValue.value == value) return enumValue;
-  if (enumValue is ActionCostType && enumValue.value == value)
-  return enumValue;
-  if (enumValue is EffectType && enumValue.value == value) return enumValue;
-  if (enumValue is DamageType && enumValue.value == value) return enumValue;
-  if (enumValue is CreatureType && enumValue.value == value)
-  return enumValue;
-  if (enumValue is RechargeRate && enumValue.value == value)
-  return enumValue;
-  if (enumValue is MoralAlignment && enumValue.value == value)
-  return enumValue;
-  if (enumValue is CommunicationType && enumValue.value == value)
-  return enumValue;
-  if (enumValue is CharacterClass && enumValue.value == value)
-  return enumValue;
-  if (enumValue is Race && enumValue.value == value) return enumValue;
-  if (enumValue is Background && enumValue.value == value) return enumValue;
-  // Remove Alignment from here since we're using MoralAlignment
-  if (enumValue is Subclass && enumValue.value == value) return enumValue;
-  if (enumValue is Skill && enumValue.value == value) return enumValue;
-  if (enumValue is ProficiencyLevel && enumValue.value == value)
-  return enumValue;
-  if (enumValue is ArmorType && enumValue.value == value) return enumValue;
-  }
-  throw ArgumentError('Unknown enum value: $value for type ${T.toString()}');
+    for (T enumValue in values) {
+      if (enumValue is MagicItemCategory && enumValue.value == value)
+        return enumValue;
+      if (enumValue is Rarity && enumValue.value == value) return enumValue;
+      if (enumValue is ActionType && enumValue.value == value) return enumValue;
+      if (enumValue is ActionCostType && enumValue.value == value)
+        return enumValue;
+      if (enumValue is EffectType && enumValue.value == value) return enumValue;
+      if (enumValue is DamageType && enumValue.value == value) return enumValue;
+      if (enumValue is CreatureType && enumValue.value == value)
+        return enumValue;
+      if (enumValue is RechargeRate && enumValue.value == value)
+        return enumValue;
+      if (enumValue is MoralAlignment && enumValue.value == value)
+        return enumValue;
+      if (enumValue is CommunicationType && enumValue.value == value)
+        return enumValue;
+      if (enumValue is CharacterClass && enumValue.value == value)
+        return enumValue;
+      if (enumValue is Race && enumValue.value == value) return enumValue;
+      if (enumValue is Background && enumValue.value == value) return enumValue;
+      // Remove Alignment from here since we're using MoralAlignment
+      if (enumValue is Subclass && enumValue.value == value) return enumValue;
+      if (enumValue is Skill && enumValue.value == value) return enumValue;
+      if (enumValue is ProficiencyLevel && enumValue.value == value)
+        return enumValue;
+      if (enumValue is ArmorType && enumValue.value == value) return enumValue;
+    }
+    throw ArgumentError('Unknown enum value: $value for type ${T.toString()}');
   }
 
   // Convenience methods for each enum type

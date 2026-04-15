@@ -56,21 +56,33 @@ class MagicItem {
       rarity: EnumParser.rarity(json['rarity'] as String),
       requiresAttunement: json['requiresAttunement'] as bool,
       attunementPrerequisites: json['attunementPrerequisites'] != null
-          ? AttunementPrerequisites.fromJson(json['attunementPrerequisites'] as Map<String, dynamic>)
+          ? AttunementPrerequisites.fromJson(
+              json['attunementPrerequisites'] as Map<String, dynamic>,
+            )
           : null,
       descriptionKey: json['descriptionKey'] as String,
       numericalValues: json['numericalValues'] != null
-          ? NumericalValues.fromJson(json['numericalValues'] as Map<String, dynamic>)
+          ? NumericalValues.fromJson(
+              json['numericalValues'] as Map<String, dynamic>,
+            )
           : null,
       properties: json['properties'] != null
-          ? (json['properties'] as List).map((e) => ItemProperty.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['properties'] as List)
+                .map((e) => ItemProperty.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       actions: json['actions'] != null
-          ? (json['actions'] as List).map((e) => ItemAction.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['actions'] as List)
+                .map((e) => ItemAction.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
-      curse: json['curse'] != null ? Curse.fromJson(json['curse'] as Map<String, dynamic>) : null,
+      curse: json['curse'] != null
+          ? Curse.fromJson(json['curse'] as Map<String, dynamic>)
+          : null,
       randomTables: json['randomTables'] != null
-          ? (json['randomTables'] as List).map((e) => RandomTable.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['randomTables'] as List)
+                .map((e) => RandomTable.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
       craftingInfo: json['craftingInfo'] != null
           ? CraftingInfo.fromJson(json['craftingInfo'] as Map<String, dynamic>)
@@ -80,22 +92,32 @@ class MagicItem {
           : null,
       pairedItemId: json['pairedItemId'] as String?,
       vehicleProperties: json['vehicleProperties'] != null
-          ? VehicleProperties.fromJson(json['vehicleProperties'] as Map<String, dynamic>)
+          ? VehicleProperties.fromJson(
+              json['vehicleProperties'] as Map<String, dynamic>,
+            )
           : null,
       containerProperties: json['containerProperties'] != null
-          ? ContainerProperties.fromJson(json['containerProperties'] as Map<String, dynamic>)
+          ? ContainerProperties.fromJson(
+              json['containerProperties'] as Map<String, dynamic>,
+            )
           : null,
       scrollProperties: json['scrollProperties'] != null
-          ? ScrollProperties.fromJson(json['scrollProperties'] as Map<String, dynamic>)
+          ? ScrollProperties.fromJson(
+              json['scrollProperties'] as Map<String, dynamic>,
+            )
           : null,
       durability: json['durability'] != null
           ? Durability.fromJson(json['durability'] as Map<String, dynamic>)
           : null,
       artifactProperties: json['artifactProperties'] != null
-          ? ArtifactProperties.fromJson(json['artifactProperties'] as Map<String, dynamic>)
+          ? ArtifactProperties.fromJson(
+              json['artifactProperties'] as Map<String, dynamic>,
+            )
           : null,
       spellCastingProperties: json['spellCastingProperties'] != null
-          ? SpellCastingProperties.fromJson(json['spellCastingProperties'] as Map<String, dynamic>)
+          ? SpellCastingProperties.fromJson(
+              json['spellCastingProperties'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
@@ -119,12 +141,17 @@ class MagicItem {
       if (craftingInfo != null) 'craftingInfo': craftingInfo!.toJson(),
       if (sentientInfo != null) 'sentientInfo': sentientInfo!.toJson(),
       if (pairedItemId != null) 'pairedItemId': pairedItemId,
-      if (vehicleProperties != null) 'vehicleProperties': vehicleProperties!.toJson(),
-      if (containerProperties != null) 'containerProperties': containerProperties!.toJson(),
-      if (scrollProperties != null) 'scrollProperties': scrollProperties!.toJson(),
+      if (vehicleProperties != null)
+        'vehicleProperties': vehicleProperties!.toJson(),
+      if (containerProperties != null)
+        'containerProperties': containerProperties!.toJson(),
+      if (scrollProperties != null)
+        'scrollProperties': scrollProperties!.toJson(),
       if (durability != null) 'durability': durability!.toJson(),
-      if (artifactProperties != null) 'artifactProperties': artifactProperties!.toJson(),
-      if (spellCastingProperties != null) 'spellCastingProperties': spellCastingProperties!.toJson(),
+      if (artifactProperties != null)
+        'artifactProperties': artifactProperties!.toJson(),
+      if (spellCastingProperties != null)
+        'spellCastingProperties': spellCastingProperties!.toJson(),
     };
   }
 }
@@ -255,10 +282,7 @@ class ActionCost {
   final ActionCostType type;
   final int? value;
 
-  const ActionCost({
-    required this.type,
-    this.value,
-  });
+  const ActionCost({required this.type, this.value});
 
   factory ActionCost.fromJson(Map<String, dynamic> json) {
     return ActionCost(
@@ -268,10 +292,7 @@ class ActionCost {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.value,
-      if (value != null) 'value': value,
-    };
+    return {'type': type.value, if (value != null) 'value': value};
   }
 }
 
@@ -279,10 +300,7 @@ class ChargeInfo {
   final int max;
   final RechargeInfo recharge;
 
-  const ChargeInfo({
-    required this.max,
-    required this.recharge,
-  });
+  const ChargeInfo({required this.max, required this.recharge});
 
   factory ChargeInfo.fromJson(Map<String, dynamic> json) {
     return ChargeInfo(
@@ -292,10 +310,7 @@ class ChargeInfo {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'max': max,
-      'recharge': recharge.toJson(),
-    };
+    return {'max': max, 'recharge': recharge.toJson()};
   }
 }
 
@@ -303,10 +318,7 @@ class RechargeInfo {
   final RechargeRate rate;
   final String? dice;
 
-  const RechargeInfo({
-    required this.rate,
-    this.dice,
-  });
+  const RechargeInfo({required this.rate, this.dice});
 
   factory RechargeInfo.fromJson(Map<String, dynamic> json) {
     return RechargeInfo(
@@ -316,10 +328,7 @@ class RechargeInfo {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'rate': rate.value,
-      if (dice != null) 'dice': dice,
-    };
+    return {'rate': rate.value, if (dice != null) 'dice': dice};
   }
 }
 
@@ -327,15 +336,14 @@ class Curse {
   final String descriptionKey;
   final List<Effect> effects;
 
-  const Curse({
-    required this.descriptionKey,
-    required this.effects,
-  });
+  const Curse({required this.descriptionKey, required this.effects});
 
   factory Curse.fromJson(Map<String, dynamic> json) {
     return Curse(
       descriptionKey: json['descriptionKey'] as String,
-      effects: (json['effects'] as List).map((e) => Effect.fromJson(e as Map<String, dynamic>)).toList(),
+      effects: (json['effects'] as List)
+          .map((e) => Effect.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -368,7 +376,9 @@ class RandomTable {
       nameKey: json['nameKey'] as String,
       descriptionKey: json['descriptionKey'] as String?,
       diceRoll: DiceRoll.fromJson(json['diceRoll'] as Map<String, dynamic>),
-      entries: (json['entries'] as List).map((e) => RandomTableEntry.fromJson(e as Map<String, dynamic>)).toList(),
+      entries: (json['entries'] as List)
+          .map((e) => RandomTableEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -387,23 +397,14 @@ class DiceRoll {
   final int count;
   final int sides;
 
-  const DiceRoll({
-    required this.count,
-    required this.sides,
-  });
+  const DiceRoll({required this.count, required this.sides});
 
   factory DiceRoll.fromJson(Map<String, dynamic> json) {
-    return DiceRoll(
-      count: json['count'] as int,
-      sides: json['sides'] as int,
-    );
+    return DiceRoll(count: json['count'] as int, sides: json['sides'] as int);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'count': count,
-      'sides': sides,
-    };
+    return {'count': count, 'sides': sides};
   }
 }
 
@@ -411,10 +412,7 @@ class RandomTableEntry {
   final String range;
   final TableEffect effect;
 
-  const RandomTableEntry({
-    required this.range,
-    required this.effect,
-  });
+  const RandomTableEntry({required this.range, required this.effect});
 
   factory RandomTableEntry.fromJson(Map<String, dynamic> json) {
     return RandomTableEntry(
@@ -424,10 +422,7 @@ class RandomTableEntry {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'range': range,
-      'effect': effect.toJson(),
-    };
+    return {'range': range, 'effect': effect.toJson()};
   }
 }
 
@@ -435,10 +430,7 @@ class EffectComponent {
   final EffectType type;
   final dynamic value;
 
-  const EffectComponent({
-    required this.type,
-    required this.value,
-  });
+  const EffectComponent({required this.type, required this.value});
 
   factory EffectComponent.fromJson(Map<String, dynamic> json) {
     return EffectComponent(
@@ -448,10 +440,7 @@ class EffectComponent {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.value,
-      'value': value,
-    };
+    return {'type': type.value, 'value': value};
   }
 }
 
@@ -460,36 +449,32 @@ class Effect {
   final dynamic value;
   final String? duration;
 
-  const Effect({
-    required this.type,
-    required this.value,
-    this.duration,
-  });
+  const Effect({required this.type, required this.value, this.duration});
 
   const Effect.tableRoll(String tableId)
-      : type = EffectType.tableRoll,
-        value = tableId,
-        duration = null;
+    : type = EffectType.tableRoll,
+      value = tableId,
+      duration = null;
 
   const Effect.damage(Damage damage)
-      : type = EffectType.damage,
-        value = damage,
-        duration = null;
+    : type = EffectType.damage,
+      value = damage,
+      duration = null;
 
   const Effect.condition(String condition)
-      : type = EffectType.condition,
-        value = condition,
-        duration = null;
+    : type = EffectType.condition,
+      value = condition,
+      duration = null;
 
   const Effect.spell(String spellName)
-      : type = EffectType.spell,
-        value = spellName,
-        duration = null;
+    : type = EffectType.spell,
+      value = spellName,
+      duration = null;
 
   const Effect.custom(String description)
-      : type = EffectType.custom,
-        value = description,
-        duration = null;
+    : type = EffectType.custom,
+      value = description,
+      duration = null;
 
   factory Effect.fromJson(Map<String, dynamic> json) {
     return Effect(
@@ -556,13 +541,13 @@ class TableEffect {
       descriptionKey: json['descriptionKey'] as String,
       components: json['components'] != null
           ? (json['components'] as List)
-          .map((e) => EffectComponent.fromJson(e as Map<String, dynamic>))
-          .toList()
+                .map((e) => EffectComponent.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       nestedTables: json['nestedTables'] != null
           ? (json['nestedTables'] as List)
-          .map((e) => RandomTable.fromJson(e as Map<String, dynamic>))
-          .toList()
+                .map((e) => RandomTable.fromJson(e as Map<String, dynamic>))
+                .toList()
           : null,
     );
   }
@@ -596,7 +581,9 @@ class AttunementPrerequisites {
 
   factory AttunementPrerequisites.fromJson(Map<String, dynamic> json) {
     return AttunementPrerequisites(
-      classes: json['classes'] != null ? List<String>.from(json['classes']) : [],
+      classes: json['classes'] != null
+          ? List<String>.from(json['classes'])
+          : [],
       races: json['races'] != null ? List<String>.from(json['races']) : [],
       spellcaster: json['spellcaster'] as bool?,
       minimumLevel: json['minimumLevel'] as int?,
@@ -636,7 +623,9 @@ class SentientInfo {
     return SentientInfo(
       abilities: Abilities.fromJson(json['abilities'] as Map<String, dynamic>),
       alignment: EnumParser.moralAlignment(json['alignment'] as String),
-      communication: Communication.fromJson(json['communication'] as Map<String, dynamic>),
+      communication: Communication.fromJson(
+        json['communication'] as Map<String, dynamic>,
+      ),
       senses: Senses.fromJson(json['senses'] as Map<String, dynamic>),
       specialPurpose: json['specialPurpose'] as String?,
     );
@@ -685,23 +674,19 @@ class Communication {
   final CommunicationType type;
   final List<String> languages;
 
-  const Communication({
-    required this.type,
-    this.languages = const [],
-  });
+  const Communication({required this.type, this.languages = const []});
 
   factory Communication.fromJson(Map<String, dynamic> json) {
     return Communication(
       type: EnumParser.communicationType(json['type'] as String),
-      languages: json['languages'] != null ? List<String>.from(json['languages']) : [],
+      languages: json['languages'] != null
+          ? List<String>.from(json['languages'])
+          : [],
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'type': type.value,
-      'languages': languages,
-    };
+    return {'type': type.value, 'languages': languages};
   }
 }
 
@@ -709,10 +694,7 @@ class Senses {
   final String range;
   final bool darkvision;
 
-  const Senses({
-    required this.range,
-    this.darkvision = false,
-  });
+  const Senses({required this.range, this.darkvision = false});
 
   factory Senses.fromJson(Map<String, dynamic> json) {
     return Senses(
@@ -722,10 +704,7 @@ class Senses {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'range': range,
-      'darkvision': darkvision,
-    };
+    return {'range': range, 'darkvision': darkvision};
   }
 }
 
@@ -752,10 +731,14 @@ class VehicleProperties {
       hp: json['hp'] as int,
       speeds: Map<String, int>.from(json['speeds']),
       damageImmunities: json['damageImmunities'] != null
-          ? (json['damageImmunities'] as List).map((e) => EnumParser.damageType(e as String)).toList()
+          ? (json['damageImmunities'] as List)
+                .map((e) => EnumParser.damageType(e as String))
+                .toList()
           : [],
       damageResistances: json['damageResistances'] != null
-          ? (json['damageResistances'] as List).map((e) => EnumParser.damageType(e as String)).toList()
+          ? (json['damageResistances'] as List)
+                .map((e) => EnumParser.damageType(e as String))
+                .toList()
           : [],
       descriptionKey: json['descriptionKey'] as String,
     );
@@ -853,10 +836,14 @@ class Durability {
       ac: json['ac'] as int?,
       hp: json['hp'] as int?,
       immunities: json['immunities'] != null
-          ? (json['immunities'] as List).map((e) => EnumParser.damageType(e as String)).toList()
+          ? (json['immunities'] as List)
+                .map((e) => EnumParser.damageType(e as String))
+                .toList()
           : [],
       resistances: json['resistances'] != null
-          ? (json['resistances'] as List).map((e) => EnumParser.damageType(e as String)).toList()
+          ? (json['resistances'] as List)
+                .map((e) => EnumParser.damageType(e as String))
+                .toList()
           : [],
       specialDestruction: json['specialDestruction'] as String?,
     );
@@ -916,7 +903,8 @@ class SpellCastingProperties {
 
   factory SpellCastingProperties.fromJson(Map<String, dynamic> json) {
     return SpellCastingProperties(
-      usesUserSpellcastingAbility: json['usesUserSpellcastingAbility'] as bool? ?? false,
+      usesUserSpellcastingAbility:
+          json['usesUserSpellcastingAbility'] as bool? ?? false,
       fixedSaveDC: json['fixedSaveDC'] as int?,
       fixedAttackBonus: json['fixedAttackBonus'] as int?,
       ignoreComponents: json['ignoreComponents'] as bool? ?? false,

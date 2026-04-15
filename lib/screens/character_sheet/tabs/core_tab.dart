@@ -48,9 +48,7 @@ class _CoreTabState extends State<CoreTab> {
       charisma: attribute == 'charisma' ? value : null,
     );
 
-    final newCharacter = _character.copyWith(
-      abilityScores: newAbilityScores,
-    );
+    final newCharacter = _character.copyWith(abilityScores: newAbilityScores);
 
     _updateCharacter(newCharacter);
   }
@@ -60,9 +58,7 @@ class _CoreTabState extends State<CoreTab> {
       proficiencyBonus: newBonus.clamp(0, 6),
     );
 
-    final newCharacter = _character.copyWith(
-      proficiencies: newProficiencies,
-    );
+    final newCharacter = _character.copyWith(proficiencies: newProficiencies);
 
     _updateCharacter(newCharacter);
   }
@@ -87,7 +83,9 @@ class _CoreTabState extends State<CoreTab> {
         );
         break;
       case 'moralAlignment':
-        newCharacter = _character.copyWith(moralAlignment: value as MoralAlignment);
+        newCharacter = _character.copyWith(
+          moralAlignment: value as MoralAlignment,
+        );
         break;
       case 'experiencePoints':
         newCharacter = _character.copyWith(experiencePoints: value as int);
@@ -101,10 +99,9 @@ class _CoreTabState extends State<CoreTab> {
 
   void _addClass() {
     final newClasses = List<CharacterClassLevel>.from(_character.classes)
-      ..add(CharacterClassLevel(
-        characterClass: CharacterClass.fighter,
-        level: 1,
-      ));
+      ..add(
+        CharacterClassLevel(characterClass: CharacterClass.fighter, level: 1),
+      );
 
     final newCharacter = _character.copyWith(classes: newClasses);
     _updateCharacter(newCharacter);
@@ -130,7 +127,7 @@ class _CoreTabState extends State<CoreTab> {
 
   void _toggleSkillProficiency(Skill skill, ProficiencyLevel current) {
     final newProficiencies = Map<Skill, ProficiencyLevel>.from(
-        _character.proficiencies.skills.proficiencies
+      _character.proficiencies.skills.proficiencies,
     );
 
     newProficiencies[skill] = current == ProficiencyLevel.none
@@ -146,9 +143,7 @@ class _CoreTabState extends State<CoreTab> {
       skills: newSkills,
     );
 
-    final newCharacter = _character.copyWith(
-      proficiencies: newProficiencySet,
-    );
+    final newCharacter = _character.copyWith(proficiencies: newProficiencySet);
 
     _updateCharacter(newCharacter);
   }
@@ -162,9 +157,7 @@ class _CoreTabState extends State<CoreTab> {
       builder: (context, constraints) {
         return SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight,
-            ),
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Column(
@@ -201,15 +194,17 @@ class _CoreTabState extends State<CoreTab> {
   Widget _buildCharacterBasicsCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('CHARACTER BASICS', Icons.person_outline, colorScheme),
+            _buildSectionTitle(
+              'CHARACTER BASICS',
+              Icons.person_outline,
+              colorScheme,
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: TextEditingController(text: _character.name),
@@ -223,12 +218,12 @@ class _CoreTabState extends State<CoreTab> {
                   borderSide: BorderSide(color: colorScheme.primary),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 14,
+                ),
               ),
-              style: TextStyle(
-                fontSize: 16,
-                color: colorScheme.onSurface,
-              ),
+              style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
               onChanged: (value) => _updateField('name', value),
             ),
             const SizedBox(height: 12),
@@ -281,7 +276,11 @@ class _CoreTabState extends State<CoreTab> {
     );
   }
 
-  Widget _buildClassRow(int index, CharacterClassLevel classLevel, ColorScheme colorScheme) {
+  Widget _buildClassRow(
+    int index,
+    CharacterClassLevel classLevel,
+    ColorScheme colorScheme,
+  ) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 0,
@@ -309,20 +308,29 @@ class _CoreTabState extends State<CoreTab> {
                         borderSide: BorderSide(color: colorScheme.primary),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
                     ),
                     items: CharacterClass.values.map((cls) {
                       return DropdownMenuItem(
                         value: cls,
                         child: Text(
                           cls.displayName,
-                          style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+                          style: TextStyle(
+                            color: colorScheme.onSurface,
+                            fontSize: 14,
+                          ),
                         ),
                       );
                     }).toList(),
                     onChanged: (value) {
                       if (value != null) {
-                        _updateClass(index, classLevel.copyWith(characterClass: value));
+                        _updateClass(
+                          index,
+                          classLevel.copyWith(characterClass: value),
+                        );
                       }
                     },
                   ),
@@ -331,7 +339,9 @@ class _CoreTabState extends State<CoreTab> {
                 Expanded(
                   flex: 1,
                   child: TextField(
-                    controller: TextEditingController(text: classLevel.level.toString()),
+                    controller: TextEditingController(
+                      text: classLevel.level.toString(),
+                    ),
                     decoration: InputDecoration(
                       labelText: 'Level',
                       labelStyle: TextStyle(color: colorScheme.onSurface),
@@ -342,7 +352,10 @@ class _CoreTabState extends State<CoreTab> {
                         borderSide: BorderSide(color: colorScheme.primary),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
                     ),
                     keyboardType: TextInputType.number,
                     style: TextStyle(
@@ -351,7 +364,10 @@ class _CoreTabState extends State<CoreTab> {
                     ),
                     onChanged: (value) {
                       final level = int.tryParse(value) ?? classLevel.level;
-                      _updateClass(index, classLevel.copyWith(level: level.clamp(1, 20)));
+                      _updateClass(
+                        index,
+                        classLevel.copyWith(level: level.clamp(1, 20)),
+                      );
                     },
                   ),
                 ),
@@ -389,14 +405,15 @@ class _CoreTabState extends State<CoreTab> {
           decoration: InputDecoration(
             labelText: 'Race',
             labelStyle: TextStyle(color: colorScheme.onSurface),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: colorScheme.primary),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 14,
+            ),
           ),
           items: Race.values.map((race) {
             return DropdownMenuItem(
@@ -419,14 +436,15 @@ class _CoreTabState extends State<CoreTab> {
           decoration: InputDecoration(
             labelText: 'Background',
             labelStyle: TextStyle(color: colorScheme.onSurface),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: colorScheme.primary),
               borderRadius: BorderRadius.circular(8),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 14,
+            ),
           ),
           items: Background.values.map((bg) {
             return DropdownMenuItem(
@@ -459,14 +477,20 @@ class _CoreTabState extends State<CoreTab> {
                     borderSide: BorderSide(color: colorScheme.primary),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 items: MoralAlignment.values.map((align) {
                   return DropdownMenuItem<MoralAlignment>(
                     value: align,
                     child: Text(
                       align.displayName,
-                      style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -481,7 +505,8 @@ class _CoreTabState extends State<CoreTab> {
             Expanded(
               child: TextField(
                 controller: TextEditingController(
-                    text: _character.experiencePoints.toString()),
+                  text: _character.experiencePoints.toString(),
+                ),
                 decoration: InputDecoration(
                   labelText: 'XP',
                   labelStyle: TextStyle(color: colorScheme.onSurface),
@@ -492,13 +517,13 @@ class _CoreTabState extends State<CoreTab> {
                     borderSide: BorderSide(color: colorScheme.primary),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: colorScheme.onSurface,
-                ),
+                style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
                 onChanged: (value) {
                   final xp = int.tryParse(value) ?? _character.experiencePoints;
                   _updateField('experiencePoints', xp);
@@ -529,14 +554,20 @@ class _CoreTabState extends State<CoreTab> {
                     borderSide: BorderSide(color: colorScheme.primary),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 items: Race.values.map((race) {
                   return DropdownMenuItem(
                     value: race,
                     child: Text(
                       race.displayName,
-                      style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -561,14 +592,20 @@ class _CoreTabState extends State<CoreTab> {
                     borderSide: BorderSide(color: colorScheme.primary),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 items: Background.values.map((bg) {
                   return DropdownMenuItem(
                     value: bg,
                     child: Text(
                       bg.displayName,
-                      style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -597,14 +634,20 @@ class _CoreTabState extends State<CoreTab> {
                     borderSide: BorderSide(color: colorScheme.primary),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 items: MoralAlignment.values.map((align) {
                   return DropdownMenuItem<MoralAlignment>(
                     value: align,
                     child: Text(
                       align.displayName,
-                      style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -619,7 +662,8 @@ class _CoreTabState extends State<CoreTab> {
             Expanded(
               child: TextField(
                 controller: TextEditingController(
-                    text: _character.experiencePoints.toString()),
+                  text: _character.experiencePoints.toString(),
+                ),
                 decoration: InputDecoration(
                   labelText: 'XP',
                   labelStyle: TextStyle(color: colorScheme.onSurface),
@@ -630,13 +674,13 @@ class _CoreTabState extends State<CoreTab> {
                     borderSide: BorderSide(color: colorScheme.primary),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                 ),
                 keyboardType: TextInputType.number,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: colorScheme.onSurface,
-                ),
+                style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
                 onChanged: (value) {
                   final xp = int.tryParse(value) ?? _character.experiencePoints;
                   _updateField('experiencePoints', xp);
@@ -650,14 +694,15 @@ class _CoreTabState extends State<CoreTab> {
   }
 
   Widget _buildProficiencyBonusCard(ColorScheme colorScheme) {
-    final expectedBonus = DndRules.calculateProficiencyBonus(_character.totalLevel);
-    final isExpected = _character.proficiencies.proficiencyBonus == expectedBonus;
+    final expectedBonus = DndRules.calculateProficiencyBonus(
+      _character.totalLevel,
+    );
+    final isExpected =
+        _character.proficiencies.proficiencyBonus == expectedBonus;
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -679,7 +724,10 @@ class _CoreTabState extends State<CoreTab> {
                 const Spacer(),
                 if (!isExpected)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: colorScheme.primary.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
@@ -695,7 +743,11 @@ class _CoreTabState extends State<CoreTab> {
                         ),
                         const SizedBox(width: 4),
                         IconButton(
-                          icon: Icon(Icons.refresh, size: 16, color: colorScheme.primary),
+                          icon: Icon(
+                            Icons.refresh,
+                            size: 16,
+                            color: colorScheme.primary,
+                          ),
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
                           onPressed: () {
@@ -727,7 +779,9 @@ class _CoreTabState extends State<CoreTab> {
                         style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w700,
-                          color: isExpected ? colorScheme.primary : colorScheme.error,
+                          color: isExpected
+                              ? colorScheme.primary
+                              : colorScheme.error,
                         ),
                       ),
                     ],
@@ -765,7 +819,9 @@ class _CoreTabState extends State<CoreTab> {
                     label: const Text('Decrease'),
                     onPressed: () {
                       if (_character.proficiencies.proficiencyBonus > 0) {
-                        _updateProficiencyBonus(_character.proficiencies.proficiencyBonus - 1);
+                        _updateProficiencyBonus(
+                          _character.proficiencies.proficiencyBonus - 1,
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -781,7 +837,9 @@ class _CoreTabState extends State<CoreTab> {
                     label: const Text('Increase'),
                     onPressed: () {
                       if (_character.proficiencies.proficiencyBonus < 6) {
-                        _updateProficiencyBonus(_character.proficiencies.proficiencyBonus + 1);
+                        _updateProficiencyBonus(
+                          _character.proficiencies.proficiencyBonus + 1,
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -801,20 +859,24 @@ class _CoreTabState extends State<CoreTab> {
   Widget _buildAttributesCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('ATTRIBUTES', Icons.fitness_center_outlined, colorScheme),
+            _buildSectionTitle(
+              'ATTRIBUTES',
+              Icons.fitness_center_outlined,
+              colorScheme,
+            ),
             const SizedBox(height: 16),
             LayoutBuilder(
               builder: (context, constraints) {
                 final crossAxisCount = constraints.maxWidth < 400 ? 2 : 3;
-                final childAspectRatio = constraints.maxWidth < 400 ? 0.9 : 0.85;
+                final childAspectRatio = constraints.maxWidth < 400
+                    ? 0.9
+                    : 0.85;
 
                 return GridView.count(
                   shrinkWrap: true,
@@ -829,48 +891,84 @@ class _CoreTabState extends State<CoreTab> {
                       name: 'Strength',
                       value: _character.abilityScores.strength,
                       modifier: _character.modifiers.strength,
-                      onDecrement: () => _updateAttribute('strength', _character.abilityScores.strength - 1),
-                      onIncrement: () => _updateAttribute('strength', _character.abilityScores.strength + 1),
+                      onDecrement: () => _updateAttribute(
+                        'strength',
+                        _character.abilityScores.strength - 1,
+                      ),
+                      onIncrement: () => _updateAttribute(
+                        'strength',
+                        _character.abilityScores.strength + 1,
+                      ),
                     ),
                     AttributeCard(
                       abbreviation: 'DEX',
                       name: 'Dexterity',
                       value: _character.abilityScores.dexterity,
                       modifier: _character.modifiers.dexterity,
-                      onDecrement: () => _updateAttribute('dexterity', _character.abilityScores.dexterity - 1),
-                      onIncrement: () => _updateAttribute('dexterity', _character.abilityScores.dexterity + 1),
+                      onDecrement: () => _updateAttribute(
+                        'dexterity',
+                        _character.abilityScores.dexterity - 1,
+                      ),
+                      onIncrement: () => _updateAttribute(
+                        'dexterity',
+                        _character.abilityScores.dexterity + 1,
+                      ),
                     ),
                     AttributeCard(
                       abbreviation: 'CON',
                       name: 'Constitution',
                       value: _character.abilityScores.constitution,
                       modifier: _character.modifiers.constitution,
-                      onDecrement: () => _updateAttribute('constitution', _character.abilityScores.constitution - 1),
-                      onIncrement: () => _updateAttribute('constitution', _character.abilityScores.constitution + 1),
+                      onDecrement: () => _updateAttribute(
+                        'constitution',
+                        _character.abilityScores.constitution - 1,
+                      ),
+                      onIncrement: () => _updateAttribute(
+                        'constitution',
+                        _character.abilityScores.constitution + 1,
+                      ),
                     ),
                     AttributeCard(
                       abbreviation: 'INT',
                       name: 'Intelligence',
                       value: _character.abilityScores.intelligence,
                       modifier: _character.modifiers.intelligence,
-                      onDecrement: () => _updateAttribute('intelligence', _character.abilityScores.intelligence - 1),
-                      onIncrement: () => _updateAttribute('intelligence', _character.abilityScores.intelligence + 1),
+                      onDecrement: () => _updateAttribute(
+                        'intelligence',
+                        _character.abilityScores.intelligence - 1,
+                      ),
+                      onIncrement: () => _updateAttribute(
+                        'intelligence',
+                        _character.abilityScores.intelligence + 1,
+                      ),
                     ),
                     AttributeCard(
                       abbreviation: 'WIS',
                       name: 'Wisdom',
                       value: _character.abilityScores.wisdom,
                       modifier: _character.modifiers.wisdom,
-                      onDecrement: () => _updateAttribute('wisdom', _character.abilityScores.wisdom - 1),
-                      onIncrement: () => _updateAttribute('wisdom', _character.abilityScores.wisdom + 1),
+                      onDecrement: () => _updateAttribute(
+                        'wisdom',
+                        _character.abilityScores.wisdom - 1,
+                      ),
+                      onIncrement: () => _updateAttribute(
+                        'wisdom',
+                        _character.abilityScores.wisdom + 1,
+                      ),
                     ),
                     AttributeCard(
                       abbreviation: 'CHA',
                       name: 'Charisma',
                       value: _character.abilityScores.charisma,
                       modifier: _character.modifiers.charisma,
-                      onDecrement: () => _updateAttribute('charisma', _character.abilityScores.charisma - 1),
-                      onIncrement: () => _updateAttribute('charisma', _character.abilityScores.charisma + 1),
+                      onDecrement: () => _updateAttribute(
+                        'charisma',
+                        _character.abilityScores.charisma - 1,
+                      ),
+                      onIncrement: () => _updateAttribute(
+                        'charisma',
+                        _character.abilityScores.charisma + 1,
+                      ),
                     ),
                   ],
                 );
@@ -885,9 +983,7 @@ class _CoreTabState extends State<CoreTab> {
   Widget _buildSkillsCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -896,7 +992,11 @@ class _CoreTabState extends State<CoreTab> {
           children: [
             Row(
               children: [
-                Icon(Icons.psychology_outlined, color: colorScheme.primary, size: 20),
+                Icon(
+                  Icons.psychology_outlined,
+                  color: colorScheme.primary,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'SKILLS',
@@ -918,7 +1018,8 @@ class _CoreTabState extends State<CoreTab> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _skillSortOrder = _skillSortOrder == SkillSortOrder.byProficiency
+                      _skillSortOrder =
+                          _skillSortOrder == SkillSortOrder.byProficiency
                           ? SkillSortOrder.alphabetical
                           : SkillSortOrder.byProficiency;
                     });
@@ -940,7 +1041,11 @@ class _CoreTabState extends State<CoreTab> {
   Widget _buildSkillsGrid(ColorScheme colorScheme) {
     final skills = [
       {'skill': Skill.acrobatics, 'name': 'Acrobatics', 'ability': 'DEX'},
-      {'skill': Skill.animalHandling, 'name': 'Animal Handling', 'ability': 'WIS'},
+      {
+        'skill': Skill.animalHandling,
+        'name': 'Animal Handling',
+        'ability': 'WIS',
+      },
       {'skill': Skill.arcana, 'name': 'Arcana', 'ability': 'INT'},
       {'skill': Skill.athletics, 'name': 'Athletics', 'ability': 'STR'},
       {'skill': Skill.deception, 'name': 'Deception', 'ability': 'CHA'},
@@ -954,7 +1059,11 @@ class _CoreTabState extends State<CoreTab> {
       {'skill': Skill.performance, 'name': 'Performance', 'ability': 'CHA'},
       {'skill': Skill.persuasion, 'name': 'Persuasion', 'ability': 'CHA'},
       {'skill': Skill.religion, 'name': 'Religion', 'ability': 'INT'},
-      {'skill': Skill.sleightOfHand, 'name': 'Sleight of Hand', 'ability': 'DEX'},
+      {
+        'skill': Skill.sleightOfHand,
+        'name': 'Sleight of Hand',
+        'ability': 'DEX',
+      },
       {'skill': Skill.stealth, 'name': 'Stealth', 'ability': 'DEX'},
       {'skill': Skill.survival, 'name': 'Survival', 'ability': 'WIS'},
     ];
@@ -966,8 +1075,12 @@ class _CoreTabState extends State<CoreTab> {
         final skillA = a['skill'] as Skill;
         final skillB = b['skill'] as Skill;
 
-        final proficiencyA = _character.proficiencies.skills.proficiencies[skillA] ?? ProficiencyLevel.none;
-        final proficiencyB = _character.proficiencies.skills.proficiencies[skillB] ?? ProficiencyLevel.none;
+        final proficiencyA =
+            _character.proficiencies.skills.proficiencies[skillA] ??
+            ProficiencyLevel.none;
+        final proficiencyB =
+            _character.proficiencies.skills.proficiencies[skillB] ??
+            ProficiencyLevel.none;
 
         if (proficiencyA != proficiencyB) {
           return proficiencyB.index.compareTo(proficiencyA.index);
@@ -976,7 +1089,9 @@ class _CoreTabState extends State<CoreTab> {
         return (a['name'] as String).compareTo(b['name'] as String);
       });
     } else {
-      sortedSkills.sort((a, b) => (a['name'] as String).compareTo(b['name'] as String));
+      sortedSkills.sort(
+        (a, b) => (a['name'] as String).compareTo(b['name'] as String),
+      );
     }
 
     return LayoutBuilder(
@@ -1000,11 +1115,13 @@ class _CoreTabState extends State<CoreTab> {
             final name = skillData['name'] as String;
             final ability = skillData['ability'] as String;
             final mod = _character.proficiencies.skills.getModifier(
-                skill,
-                _character.modifiers,
-                _character.proficiencies.proficiencyBonus
+              skill,
+              _character.modifiers,
+              _character.proficiencies.proficiencyBonus,
             );
-            final proficiency = _character.proficiencies.skills.proficiencies[skill] ?? ProficiencyLevel.none;
+            final proficiency =
+                _character.proficiencies.skills.proficiencies[skill] ??
+                ProficiencyLevel.none;
 
             return GestureDetector(
               onTap: () {
@@ -1020,7 +1137,10 @@ class _CoreTabState extends State<CoreTab> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -1071,9 +1191,14 @@ class _CoreTabState extends State<CoreTab> {
                               ),
                             ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
-                              color: colorScheme.surfaceVariant.withOpacity(0.5),
+                              color: colorScheme.surfaceVariant.withOpacity(
+                                0.5,
+                              ),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -1097,7 +1222,10 @@ class _CoreTabState extends State<CoreTab> {
     );
   }
 
-  Color _getSkillBorderColor(ProficiencyLevel proficiency, ColorScheme colorScheme) {
+  Color _getSkillBorderColor(
+    ProficiencyLevel proficiency,
+    ColorScheme colorScheme,
+  ) {
     switch (proficiency) {
       case ProficiencyLevel.expert:
         return Colors.blue;
@@ -1113,15 +1241,17 @@ class _CoreTabState extends State<CoreTab> {
   Widget _buildSavingThrowsCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('SAVING THROWS', Icons.shield_outlined, colorScheme),
+            _buildSectionTitle(
+              'SAVING THROWS',
+              Icons.shield_outlined,
+              colorScheme,
+            ),
             const SizedBox(height: 12),
             SavingThrowGrid(
               character: _character,
@@ -1135,7 +1265,11 @@ class _CoreTabState extends State<CoreTab> {
     );
   }
 
-  Widget _buildSectionTitle(String title, IconData icon, ColorScheme colorScheme) {
+  Widget _buildSectionTitle(
+    String title,
+    IconData icon,
+    ColorScheme colorScheme,
+  ) {
     return Row(
       children: [
         Icon(icon, color: colorScheme.primary, size: 20),

@@ -59,10 +59,18 @@ class _WeaponEditorDialogState extends State<WeaponEditorDialog> {
     final weapon = widget.weapon;
     _nameController = TextEditingController(text: weapon?.name ?? '');
     _damageController = TextEditingController(text: weapon?.damage ?? '1d8');
-    _damageTypeController = TextEditingController(text: weapon?.damageType ?? 'piercing');
-    _propertiesController = TextEditingController(text: weapon?.properties ?? '');
-    _weightController = TextEditingController(text: weapon?.weight.toString() ?? '0');
-    _quantityController = TextEditingController(text: weapon?.quantity.toString() ?? '1');
+    _damageTypeController = TextEditingController(
+      text: weapon?.damageType ?? 'piercing',
+    );
+    _propertiesController = TextEditingController(
+      text: weapon?.properties ?? '',
+    );
+    _weightController = TextEditingController(
+      text: weapon?.weight.toString() ?? '0',
+    );
+    _quantityController = TextEditingController(
+      text: weapon?.quantity.toString() ?? '1',
+    );
 
     _attackAbility = weapon?.attackAbility ?? 'strength';
     _enhancementBonus = weapon?.enhancementBonus ?? 0;
@@ -289,10 +297,7 @@ class _WeaponEditorDialogState extends State<WeaponEditorDialog> {
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
-        ElevatedButton(
-          onPressed: _saveWeapon,
-          child: const Text('Save'),
-        ),
+        ElevatedButton(onPressed: _saveWeapon, child: const Text('Save')),
       ],
     );
   }

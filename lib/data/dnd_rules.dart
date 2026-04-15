@@ -67,10 +67,7 @@ class DndRules {
   }) {
     return calculateExpectedMaxHP(
       classes: [
-        CharacterClassLevel(
-          characterClass: characterClass,
-          level: level,
-        )
+        CharacterClassLevel(characterClass: characterClass, level: level),
       ],
       constitutionScore: constitutionScore,
     );
@@ -124,13 +121,20 @@ class DndRules {
   // Get ability abbreviation
   static String getAbilityAbbreviation(String ability) {
     switch (ability.toLowerCase()) {
-      case 'strength': return 'STR';
-      case 'dexterity': return 'DEX';
-      case 'constitution': return 'CON';
-      case 'intelligence': return 'INT';
-      case 'wisdom': return 'WIS';
-      case 'charisma': return 'CHA';
-      default: return ability.substring(0, 3).toUpperCase();
+      case 'strength':
+        return 'STR';
+      case 'dexterity':
+        return 'DEX';
+      case 'constitution':
+        return 'CON';
+      case 'intelligence':
+        return 'INT';
+      case 'wisdom':
+        return 'WIS';
+      case 'charisma':
+        return 'CHA';
+      default:
+        return ability.substring(0, 3).toUpperCase();
     }
   }
 

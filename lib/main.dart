@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/character_sheet/character_sheet_screen.dart';
-import 'screens/magic_item_list_screen.dart';
+import 'screens/workspace_home_screen.dart';
 
 void main() {
   runApp(const DndSrdApp());
@@ -11,16 +10,27 @@ class DndSrdApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'D&D SRD Compendium',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
+    final base = ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF2F6B62),
+        brightness: Brightness.light,
       ),
-      home: const CharacterSheetScreen(), // Changed to character sheet
+      useMaterial3: true,
+      fontFamily: 'Georgia',
+    );
+
+    return MaterialApp(
+      title: 'OpenRPG',
+      theme: base.copyWith(
+        scaffoldBackgroundColor: const Color(0xFFF4EEE1),
+        cardTheme: base.cardTheme.copyWith(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
+      ),
+      home: const WorkspaceHomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

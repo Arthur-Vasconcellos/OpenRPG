@@ -49,10 +49,13 @@ class SkillsGrid extends StatelessWidget {
         final skill = skillData['skill'] as Skill;
         final name = skillData['name'] as String;
         final mod = character.proficiencies.skills.getModifier(
-            skill, character.modifiers, character.proficiencies.proficiencyBonus);
+          skill,
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        );
         final proficiency =
             character.proficiencies.skills.proficiencies[skill] ??
-                ProficiencyLevel.none;
+            ProficiencyLevel.none;
 
         return GestureDetector(
           onTap: () {
@@ -62,9 +65,7 @@ class SkillsGrid extends StatelessWidget {
             decoration: BoxDecoration(
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: colorScheme.outline.withOpacity(0.2),
-              ),
+              border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -104,7 +105,9 @@ class SkillsGrid extends StatelessWidget {
                         ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceVariant.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(6),
@@ -130,7 +133,8 @@ class SkillsGrid extends StatelessWidget {
 
   void _toggleSkillProficiency(Skill skill, ProficiencyLevel current) {
     final newProficiencies = Map<Skill, ProficiencyLevel>.from(
-        character.proficiencies.skills.proficiencies);
+      character.proficiencies.skills.proficiencies,
+    );
 
     newProficiencies[skill] = current == ProficiencyLevel.none
         ? ProficiencyLevel.proficient
@@ -150,34 +154,9 @@ class SkillsGrid extends StatelessWidget {
       other: character.proficiencies.other,
     );
 
-    final newCharacter = Character(
-      id: character.id,
-      name: character.name,
-      characterClass: character.characterClass,
-      subclass: character.subclass,
-      race: character.race,
-      background: character.background,
-      moralAlignment: character.moralAlignment,
-      level: character.level,
-      experiencePoints: character.experiencePoints,
-      inspiration: character.inspiration,
-      abilityScores: character.abilityScores,
-      modifiers: character.modifiers,
-      proficiencies: newProficiencySet,
-      combatStats: character.combatStats,
-      health: character.health,
-      equipment: character.equipment,
-      wealth: character.wealth,
-      spellcasting: character.spellcasting,
-      traits: character.traits,
-      features: character.features,
-      racialTraits: character.racialTraits,
-      backgroundTraits: character.backgroundTraits,
-      physicalDescription: character.physicalDescription,
-      notes: character.notes,
-      createdAt: character.createdAt,
-      updatedAt: DateTime.now(),
-    ).copyWithCalculatedValues();
+    final newCharacter = character
+        .copyWith(proficiencies: newProficiencySet)
+        .copyWithCalculatedValues();
 
     onCharacterUpdated(newCharacter);
   }

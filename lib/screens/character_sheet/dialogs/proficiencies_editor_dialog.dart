@@ -12,7 +12,8 @@ class ProficienciesEditorDialog extends StatefulWidget {
   });
 
   @override
-  State<ProficienciesEditorDialog> createState() => _ProficienciesEditorDialogState();
+  State<ProficienciesEditorDialog> createState() =>
+      _ProficienciesEditorDialogState();
 }
 
 class _ProficienciesEditorDialogState extends State<ProficienciesEditorDialog> {
@@ -270,9 +271,7 @@ class _ProficienciesEditorDialogState extends State<ProficienciesEditorDialog> {
           const SizedBox(height: 12),
           Text(
             'Check the weapons your character is proficient with:',
-            style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.7),
-            ),
+            style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7)),
           ),
           const SizedBox(height: 16),
 
@@ -308,9 +307,7 @@ class _ProficienciesEditorDialogState extends State<ProficienciesEditorDialog> {
           const SizedBox(height: 12),
           Text(
             'Add any custom or homebrew weapon proficiencies:',
-            style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.7),
-            ),
+            style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7)),
           ),
           const SizedBox(height: 16),
 
@@ -390,9 +387,7 @@ class _ProficienciesEditorDialogState extends State<ProficienciesEditorDialog> {
           const SizedBox(height: 12),
           Text(
             'Check the armor types your character is proficient with:',
-            style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.7),
-            ),
+            style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7)),
           ),
           const SizedBox(height: 16),
 
@@ -428,9 +423,7 @@ class _ProficienciesEditorDialogState extends State<ProficienciesEditorDialog> {
           const SizedBox(height: 12),
           Text(
             'Add any custom or homebrew armor proficiencies:',
-            style: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.7),
-            ),
+            style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7)),
           ),
           const SizedBox(height: 16),
 

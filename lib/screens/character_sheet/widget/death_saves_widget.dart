@@ -57,9 +57,7 @@ class DeathSavesWidget extends StatelessWidget {
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -67,8 +65,11 @@ class DeathSavesWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.medical_information_outlined,
-                    color: colorScheme.error, size: 20),
+                Icon(
+                  Icons.medical_information_outlined,
+                  color: colorScheme.error,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'DEATH SAVES',
@@ -87,11 +88,13 @@ class DeathSavesWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Text('Successes',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withOpacity(0.7),
-                          )),
+                      Text(
+                        'Successes',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -106,8 +109,9 @@ class DeathSavesWidget extends StatelessWidget {
                               height: 36,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: index <
-                                    character.health.deathSaves.successes
+                                color:
+                                    index <
+                                        character.health.deathSaves.successes
                                     ? colorScheme.primary
                                     : colorScheme.surfaceVariant,
                                 border: Border.all(
@@ -115,10 +119,13 @@ class DeathSavesWidget extends StatelessWidget {
                                   width: 2,
                                 ),
                               ),
-                              child: index <
-                                  character.health.deathSaves.successes
-                                  ? Icon(Icons.check,
-                                  size: 20, color: Colors.white)
+                              child:
+                                  index < character.health.deathSaves.successes
+                                  ? Icon(
+                                      Icons.check,
+                                      size: 20,
+                                      color: Colors.white,
+                                    )
                                   : null,
                             ),
                           );
@@ -135,11 +142,13 @@ class DeathSavesWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Text('Failures',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withOpacity(0.7),
-                          )),
+                      Text(
+                        'Failures',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -154,8 +163,8 @@ class DeathSavesWidget extends StatelessWidget {
                               height: 36,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: index <
-                                    character.health.deathSaves.failures
+                                color:
+                                    index < character.health.deathSaves.failures
                                     ? colorScheme.error
                                     : colorScheme.surfaceVariant,
                                 border: Border.all(
@@ -163,10 +172,13 @@ class DeathSavesWidget extends StatelessWidget {
                                   width: 2,
                                 ),
                               ),
-                              child: index <
-                                  character.health.deathSaves.failures
-                                  ? Icon(Icons.close,
-                                  size: 20, color: Colors.white)
+                              child:
+                                  index < character.health.deathSaves.failures
+                                  ? Icon(
+                                      Icons.close,
+                                      size: 20,
+                                      color: Colors.white,
+                                    )
                                   : null,
                             ),
                           );

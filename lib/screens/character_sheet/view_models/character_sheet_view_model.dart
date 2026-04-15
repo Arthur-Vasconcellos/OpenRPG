@@ -1,11 +1,12 @@
 import 'package:openrpg/models/character.dart';
+import 'package:openrpg/models/enums.dart';
 
 class CharacterSheetViewModel {
   Character updateCharacterAttribute(
-      Character character,
-      String attribute,
-      int value,
-      ) {
+    Character character,
+    String attribute,
+    int value,
+  ) {
     // Centralize attribute update logic here
     final newValue = value.clamp(1, 30);
     final newAbilityScores = _updateAbilityScore(
@@ -14,37 +15,36 @@ class CharacterSheetViewModel {
       newValue,
     );
 
-    return character.copyWith(
-      abilityScores: newAbilityScores,
-    ).copyWithCalculatedValues();
+    return character
+        .copyWith(abilityScores: newAbilityScores)
+        .copyWithCalculatedValues();
   }
 
   AbilityScores _updateAbilityScore(
-      AbilityScores abilityScores,
-      String attribute,
-      int value,
-      ) {
+    AbilityScores abilityScores,
+    String attribute,
+    int value,
+  ) {
     switch (attribute) {
       case 'strength':
         return abilityScores.copyWith(strength: value);
       case 'dexterity':
         return abilityScores.copyWith(dexterity: value);
-    // ... other attributes
+      // ... other attributes
       default:
         return abilityScores;
     }
   }
 
-  Character updateSkillProficiency(
-      Character character,
-      Skill skill,
-      ) {
+  Character updateSkillProficiency(Character character, Skill skill) {
     // Centralize skill proficiency update logic
     // ...
+    return character;
   }
 
   Character levelUpCharacter(Character character) {
     // Level up logic
     // ...
+    return character;
   }
 }

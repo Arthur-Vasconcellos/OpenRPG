@@ -39,8 +39,9 @@ class Character {
 
   int get totalLevel => classes.fold(0, (sum, cls) => sum + cls.level);
 
-  CharacterClass get primaryClass =>
-      classes.isNotEmpty ? classes.first.characterClass : CharacterClass.fighter;
+  CharacterClass get primaryClass => classes.isNotEmpty
+      ? classes.first.characterClass
+      : CharacterClass.fighter;
 
   Subclass get primarySubclass =>
       classes.isNotEmpty ? classes.first.subclass : Subclass.none;
@@ -72,8 +73,8 @@ class Character {
     DateTime? createdAt,
     DateTime? updatedAt,
     required this.equippedCombatStats,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+  }) : createdAt = createdAt ?? DateTime.now(),
+       updatedAt = updatedAt ?? DateTime.now();
 
   factory Character.fromJson(Map<String, dynamic> json) {
     final List<CharacterClassLevel> classes;
@@ -85,10 +86,12 @@ class Character {
     } else {
       classes = [
         CharacterClassLevel(
-          characterClass: EnumParser.characterClass(json['characterClass'] as String),
+          characterClass: EnumParser.characterClass(
+            json['characterClass'] as String,
+          ),
           subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
           level: json['level'] as int? ?? 1,
-        )
+        ),
       ];
     }
 
@@ -98,34 +101,60 @@ class Character {
       classes: classes,
       race: EnumParser.race(json['race'] as String),
       background: EnumParser.background(json['background'] as String),
-      moralAlignment: EnumParser.moralAlignment(json['moralAlignment'] as String),
+      moralAlignment: EnumParser.moralAlignment(
+        json['moralAlignment'] as String,
+      ),
       experiencePoints: json['experiencePoints'] as int? ?? 0,
       inspiration: json['inspiration'] as int? ?? 0,
-      abilityScores: AbilityScores.fromJson(json['abilityScores'] as Map<String, dynamic>),
-      modifiers: CalculatedModifiers.fromJson(json['modifiers'] as Map<String, dynamic>),
-      proficiencies: ProficiencySet.fromJson(json['proficiencies'] as Map<String, dynamic>),
-      combatStats: CombatStats.fromJson(json['combatStats'] as Map<String, dynamic>),
+      abilityScores: AbilityScores.fromJson(
+        json['abilityScores'] as Map<String, dynamic>,
+      ),
+      modifiers: CalculatedModifiers.fromJson(
+        json['modifiers'] as Map<String, dynamic>,
+      ),
+      proficiencies: ProficiencySet.fromJson(
+        json['proficiencies'] as Map<String, dynamic>,
+      ),
+      combatStats: CombatStats.fromJson(
+        json['combatStats'] as Map<String, dynamic>,
+      ),
       health: Health.fromJson(json['health'] as Map<String, dynamic>),
       equipment: Equipment.fromJson(json['equipment'] as Map<String, dynamic>),
       wealth: Wealth.fromJson(json['wealth'] as Map<String, dynamic>),
       spellcasting: json['spellcasting'] != null
-          ? SpellcastingInfo.fromJson(json['spellcasting'] as Map<String, dynamic>)
+          ? SpellcastingInfo.fromJson(
+              json['spellcasting'] as Map<String, dynamic>,
+            )
           : null,
       traits: Traits.fromJson(json['traits'] as Map<String, dynamic>),
       features: json['features'] != null
-          ? (json['features'] as List).map((e) => Feature.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['features'] as List)
+                .map((e) => Feature.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       racialTraits: json['racialTraits'] != null
-          ? (json['racialTraits'] as List).map((e) => Feature.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['racialTraits'] as List)
+                .map((e) => Feature.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       backgroundTraits: json['backgroundTraits'] != null
-          ? (json['backgroundTraits'] as List).map((e) => Feature.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['backgroundTraits'] as List)
+                .map((e) => Feature.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
-      physicalDescription: PhysicalDescription.fromJson(json['physicalDescription'] as Map<String, dynamic>),
+      physicalDescription: PhysicalDescription.fromJson(
+        json['physicalDescription'] as Map<String, dynamic>,
+      ),
       notes: Notes.fromJson(json['notes'] as Map<String, dynamic>),
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : DateTime.now(),
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : DateTime.now(),
-      equippedCombatStats: EquippedCombatStats.fromJson(json['equippedCombatStats'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'] as String)
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'] as String)
+          : DateTime.now(),
+      equippedCombatStats: EquippedCombatStats.fromJson(
+        json['equippedCombatStats'] as Map<String, dynamic>,
+      ),
     );
   }
 
@@ -162,7 +191,8 @@ class Character {
       notes: notes,
       createdAt: createdAt,
       updatedAt: DateTime.now(),
-      equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats, // Added this
+      equippedCombatStats:
+          equippedCombatStats ?? this.equippedCombatStats, // Added this
     );
   }
 
@@ -264,9 +294,27 @@ class Character {
     final updatedCombatStats = combatStats.copyWith(
       proficiencyBonus: proficiencyBonus,
       initiative: calculatedModifiers.dexterity,
-      passivePerception: 10 + proficiencies.skills.getModifier(Skill.perception, calculatedModifiers, proficiencyBonus),
-      passiveInsight: 10 + proficiencies.skills.getModifier(Skill.insight, calculatedModifiers, proficiencyBonus),
-      passiveInvestigation: 10 + proficiencies.skills.getModifier(Skill.investigation, calculatedModifiers, proficiencyBonus),
+      passivePerception:
+          10 +
+          proficiencies.skills.getModifier(
+            Skill.perception,
+            calculatedModifiers,
+            proficiencyBonus,
+          ),
+      passiveInsight:
+          10 +
+          proficiencies.skills.getModifier(
+            Skill.insight,
+            calculatedModifiers,
+            proficiencyBonus,
+          ),
+      passiveInvestigation:
+          10 +
+          proficiencies.skills.getModifier(
+            Skill.investigation,
+            calculatedModifiers,
+            proficiencyBonus,
+          ),
     );
 
     return Character(
@@ -287,8 +335,19 @@ class Character {
       equipment: equipment,
       wealth: wealth,
       spellcasting: spellcasting?.copyWith(
-        spellSaveDC: 8 + proficiencyBonus + (spellcasting?.spellcastingAbility?.getModifier(calculatedModifiers) ?? 0),
-        spellAttackBonus: proficiencyBonus + (spellcasting?.spellcastingAbility?.getModifier(calculatedModifiers) ?? 0),
+        spellSaveDC:
+            8 +
+            proficiencyBonus +
+            (spellcasting?.spellcastingAbility?.getModifier(
+                  calculatedModifiers,
+                ) ??
+                0),
+        spellAttackBonus:
+            proficiencyBonus +
+            (spellcasting?.spellcastingAbility?.getModifier(
+                  calculatedModifiers,
+                ) ??
+                0),
       ),
       traits: traits,
       features: features,
@@ -298,7 +357,8 @@ class Character {
       notes: notes,
       createdAt: createdAt,
       updatedAt: DateTime.now(),
-      equippedCombatStats: equippedCombatStats, // Use the existing equippedCombatStats
+      equippedCombatStats:
+          equippedCombatStats, // Use the existing equippedCombatStats
     );
   }
 
@@ -317,7 +377,10 @@ class Character {
     return 2 + ((level - 1) / 4).ceil();
   }
 
-  int _calculateMulticlassHP(List<CharacterClassLevel> classes, int constitution) {
+  int _calculateMulticlassHP(
+    List<CharacterClassLevel> classes,
+    int constitution,
+  ) {
     final conModifier = ((constitution - 10) / 2).floor();
     int totalHP = 0;
     bool isFirstClass = true;
@@ -375,7 +438,9 @@ class CharacterClassLevel {
 
   factory CharacterClassLevel.fromJson(Map<String, dynamic> json) {
     return CharacterClassLevel(
-      characterClass: EnumParser.characterClass(json['characterClass'] as String),
+      characterClass: EnumParser.characterClass(
+        json['characterClass'] as String,
+      ),
       subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
       level: json['level'] as int,
     );
@@ -542,11 +607,19 @@ class ProficiencySet {
   factory ProficiencySet.fromJson(Map<String, dynamic> json) {
     return ProficiencySet(
       proficiencyBonus: json['proficiencyBonus'] as int,
-      skills: SkillProficiencies.fromJson(json['skills'] as Map<String, dynamic>),
-      savingThrows: SavingThrowProficiencies.fromJson(json['savingThrows'] as Map<String, dynamic>),
-      languages: json['languages'] != null ? List<String>.from(json['languages']) : [],
+      skills: SkillProficiencies.fromJson(
+        json['skills'] as Map<String, dynamic>,
+      ),
+      savingThrows: SavingThrowProficiencies.fromJson(
+        json['savingThrows'] as Map<String, dynamic>,
+      ),
+      languages: json['languages'] != null
+          ? List<String>.from(json['languages'])
+          : [],
       tools: json['tools'] != null ? List<String>.from(json['tools']) : [],
-      weapons: json['weapons'] != null ? List<String>.from(json['weapons']) : [],
+      weapons: json['weapons'] != null
+          ? List<String>.from(json['weapons'])
+          : [],
       armor: json['armor'] != null ? List<String>.from(json['armor']) : [],
       other: json['other'] != null ? List<String>.from(json['other']) : [],
     );
@@ -591,11 +664,13 @@ class ProficiencySet {
 class SkillProficiencies {
   final Map<Skill, ProficiencyLevel> proficiencies;
 
-  const SkillProficiencies({
-    required this.proficiencies,
-  });
+  const SkillProficiencies({required this.proficiencies});
 
-  int getModifier(Skill skill, CalculatedModifiers modifiers, int proficiencyBonus) {
+  int getModifier(
+    Skill skill,
+    CalculatedModifiers modifiers,
+    int proficiencyBonus,
+  ) {
     final abilityModifier = _getAbilityModifierForSkill(skill, modifiers);
     final proficiency = proficiencies[skill] ?? ProficiencyLevel.none;
 
@@ -662,9 +737,7 @@ class SkillProficiencies {
     return {'proficiencies': map};
   }
 
-  SkillProficiencies copyWith({
-    Map<Skill, ProficiencyLevel>? proficiencies,
-  }) {
+  SkillProficiencies copyWith({Map<Skill, ProficiencyLevel>? proficiencies}) {
     return SkillProficiencies(
       proficiencies: proficiencies ?? Map.from(this.proficiencies),
     );
@@ -688,7 +761,11 @@ class SavingThrowProficiencies {
     this.charisma = false,
   });
 
-  int getModifier(String ability, CalculatedModifiers modifiers, int proficiencyBonus) {
+  int getModifier(
+    String ability,
+    CalculatedModifiers modifiers,
+    int proficiencyBonus,
+  ) {
     final baseModifier = _getAbilityModifier(ability, modifiers);
     final isProficient = _isProficient(ability);
 
@@ -861,9 +938,13 @@ class Health {
       currentHitPoints: json['currentHitPoints'] as int,
       temporaryHitPoints: json['temporaryHitPoints'] as int? ?? 0,
       hitDice: json['hitDice'] != null
-          ? (json['hitDice'] as List).map((e) => HitDie.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['hitDice'] as List)
+                .map((e) => HitDie.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
-      deathSaves: DeathSaves.fromJson(json['deathSaves'] as Map<String, dynamic>),
+      deathSaves: DeathSaves.fromJson(
+        json['deathSaves'] as Map<String, dynamic>,
+      ),
       exhaustionLevel: json['exhaustionLevel'] as int? ?? 0,
     );
   }
@@ -885,11 +966,7 @@ class HitDie {
   final int count;
   final int used;
 
-  const HitDie({
-    required this.sides,
-    required this.count,
-    this.used = 0,
-  });
+  const HitDie({required this.sides, required this.count, this.used = 0});
 
   int get remaining => count - used;
 
@@ -902,11 +979,7 @@ class HitDie {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'sides': sides,
-      'count': count,
-      'used': used,
-    };
+    return {'sides': sides, 'count': count, 'used': used};
   }
 }
 
@@ -914,10 +987,7 @@ class DeathSaves {
   final int successes;
   final int failures;
 
-  const DeathSaves({
-    this.successes = 0,
-    this.failures = 0,
-  });
+  const DeathSaves({this.successes = 0, this.failures = 0});
 
   factory DeathSaves.fromJson(Map<String, dynamic> json) {
     return DeathSaves(
@@ -927,10 +997,7 @@ class DeathSaves {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'successes': successes,
-      'failures': failures,
-    };
+    return {'successes': successes, 'failures': failures};
   }
 }
 
@@ -950,13 +1017,19 @@ class Equipment {
   factory Equipment.fromJson(Map<String, dynamic> json) {
     return Equipment(
       inventory: json['inventory'] != null
-          ? (json['inventory'] as List).map((e) => EquipmentItem.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['inventory'] as List)
+                .map((e) => EquipmentItem.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       weapons: json['weapons'] != null
-          ? (json['weapons'] as List).map((e) => Weapon.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['weapons'] as List)
+                .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       armor: json['armor'] != null
-          ? (json['armor'] as List).map((e) => Armor.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['armor'] as List)
+                .map((e) => Armor.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       totalWeight: (json['totalWeight'] as num?)?.toDouble() ?? 0,
     );
@@ -1054,7 +1127,8 @@ class Weapon extends EquipmentItem {
   final String attackAbility; // New: 'strength', 'dexterity', etc.
   final int enhancementBonus; // New: +1, +2, +3
   final bool isFinesse;
-  final String weaponType; // 'simple', 'martial', 'firearm', 'natural', 'improvised'
+  final String
+  weaponType; // 'simple', 'martial', 'firearm', 'natural', 'improvised'
   final String? damageAbility; // Optional: different ability for damage (rare)
 
   const Weapon({
@@ -1157,6 +1231,7 @@ class Weapon extends EquipmentItem {
       damageAbility: damageAbility ?? this.damageAbility,
     );
   }
+
   String get displayName {
     if (enhancementBonus > 0) {
       return '+$enhancementBonus $name';
@@ -1195,7 +1270,7 @@ class Armor extends EquipmentItem {
       isEquipped: json['isEquipped'] as bool? ?? false,
       baseAC: json['baseAC'] as int,
       armorType: ArmorType.values.firstWhere(
-            (e) => e.toString() == 'ArmorType.${json['armorType']}',
+        (e) => e.toString() == 'ArmorType.${json['armorType']}',
         orElse: () => ArmorType.light,
       ),
       strengthRequirement: json['strengthRequirement'] as int? ?? 0,
@@ -1241,12 +1316,7 @@ class Armor extends EquipmentItem {
   }
 }
 
-enum ArmorType {
-  light,
-  medium,
-  heavy,
-  shield,
-}
+enum ArmorType { light, medium, heavy, shield }
 
 class Wealth {
   final int copper;
@@ -1325,20 +1395,27 @@ class SpellcastingInfo {
       spellSaveDC: json['spellSaveDC'] as int,
       spellAttackBonus: json['spellAttackBonus'] as int,
       spellSlots: json['spellSlots'] != null
-          ? (json['spellSlots'] as List).map((e) => SpellSlot.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['spellSlots'] as List)
+                .map((e) => SpellSlot.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       preparedSpells: json['preparedSpells'] != null
-          ? (json['preparedSpells'] as List).map((e) => Spell.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['preparedSpells'] as List)
+                .map((e) => Spell.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
       knownSpells: json['knownSpells'] != null
-          ? (json['knownSpells'] as List).map((e) => Spell.fromJson(e as Map<String, dynamic>)).toList()
+          ? (json['knownSpells'] as List)
+                .map((e) => Spell.fromJson(e as Map<String, dynamic>))
+                .toList()
           : [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      if (spellcastingAbility != null) 'spellcastingAbility': spellcastingAbility,
+      if (spellcastingAbility != null)
+        'spellcastingAbility': spellcastingAbility,
       'spellSaveDC': spellSaveDC,
       'spellAttackBonus': spellAttackBonus,
       'spellSlots': spellSlots.map((e) => e.toJson()).toList(),
@@ -1353,11 +1430,7 @@ class SpellSlot {
   final int total;
   final int used;
 
-  const SpellSlot({
-    required this.level,
-    required this.total,
-    this.used = 0,
-  });
+  const SpellSlot({required this.level, required this.total, this.used = 0});
 
   int get remaining => total - used;
 
@@ -1370,11 +1443,7 @@ class SpellSlot {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'level': level,
-      'total': total,
-      'used': used,
-    };
+    return {'level': level, 'total': total, 'used': used};
   }
 }
 
@@ -1615,21 +1684,33 @@ class EquippedCombatStats {
   factory EquippedCombatStats.fromJson(Map<String, dynamic> json) {
     return EquippedCombatStats(
       equippedMeleeWeapon: json['equippedMeleeWeapon'] != null
-          ? EquippedWeapon.fromJson(json['equippedMeleeWeapon'] as Map<String, dynamic>)
+          ? EquippedWeapon.fromJson(
+              json['equippedMeleeWeapon'] as Map<String, dynamic>,
+            )
           : null,
       equippedRangedWeapon: json['equippedRangedWeapon'] != null
-          ? EquippedWeapon.fromJson(json['equippedRangedWeapon'] as Map<String, dynamic>)
+          ? EquippedWeapon.fromJson(
+              json['equippedRangedWeapon'] as Map<String, dynamic>,
+            )
           : null,
-      equippedArmor: EquippedArmor.fromJson(json['equippedArmor'] as Map<String, dynamic>),
-      weaponProficiencies: json['weaponProficiencies'] != null ? List<String>.from(json['weaponProficiencies']) : [],
-      armorProficiencies: json['armorProficiencies'] != null ? List<String>.from(json['armorProficiencies']) : [],
+      equippedArmor: EquippedArmor.fromJson(
+        json['equippedArmor'] as Map<String, dynamic>,
+      ),
+      weaponProficiencies: json['weaponProficiencies'] != null
+          ? List<String>.from(json['weaponProficiencies'])
+          : [],
+      armorProficiencies: json['armorProficiencies'] != null
+          ? List<String>.from(json['armorProficiencies'])
+          : [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      if (equippedMeleeWeapon != null) 'equippedMeleeWeapon': equippedMeleeWeapon!.toJson(),
-      if (equippedRangedWeapon != null) 'equippedRangedWeapon': equippedRangedWeapon!.toJson(),
+      if (equippedMeleeWeapon != null)
+        'equippedMeleeWeapon': equippedMeleeWeapon!.toJson(),
+      if (equippedRangedWeapon != null)
+        'equippedRangedWeapon': equippedRangedWeapon!.toJson(),
       'equippedArmor': equippedArmor.toJson(),
       'weaponProficiencies': weaponProficiencies,
       'armorProficiencies': armorProficiencies,
@@ -1647,8 +1728,10 @@ class EquippedCombatStats {
       equippedMeleeWeapon: equippedMeleeWeapon ?? this.equippedMeleeWeapon,
       equippedRangedWeapon: equippedRangedWeapon ?? this.equippedRangedWeapon,
       equippedArmor: equippedArmor ?? this.equippedArmor,
-      weaponProficiencies: weaponProficiencies ?? List.from(this.weaponProficiencies),
-      armorProficiencies: armorProficiencies ?? List.from(this.armorProficiencies),
+      weaponProficiencies:
+          weaponProficiencies ?? List.from(this.weaponProficiencies),
+      armorProficiencies:
+          armorProficiencies ?? List.from(this.armorProficiencies),
     );
   }
 }
@@ -1722,7 +1805,8 @@ class EquippedArmor {
   final int baseAC;
   final int manualBonus; // User can add/subtract from calculated AC
   final bool usesDexterity;
-  final int maxDexBonus; // 0 for heavy armor, 2 for medium, unlimited for light/cloth
+  final int
+  maxDexBonus; // 0 for heavy armor, 2 for medium, unlimited for light/cloth
 
   const EquippedArmor({
     required this.armorType,

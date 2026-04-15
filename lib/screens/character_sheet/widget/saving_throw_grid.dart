@@ -20,48 +20,56 @@ class SavingThrowGrid extends StatelessWidget {
       {
         'name': 'STR',
         'mod': character.proficiencies.savingThrows.getModifier(
-            'strength',
-            character.modifiers,
-            character.proficiencies.proficiencyBonus),
-        'proficient': character.proficiencies.savingThrows.strength
+          'strength',
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        ),
+        'proficient': character.proficiencies.savingThrows.strength,
       },
       {
         'name': 'DEX',
         'mod': character.proficiencies.savingThrows.getModifier(
-            'dexterity',
-            character.modifiers,
-            character.proficiencies.proficiencyBonus),
-        'proficient': character.proficiencies.savingThrows.dexterity
+          'dexterity',
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        ),
+        'proficient': character.proficiencies.savingThrows.dexterity,
       },
       {
         'name': 'CON',
         'mod': character.proficiencies.savingThrows.getModifier(
-            'constitution',
-            character.modifiers,
-            character.proficiencies.proficiencyBonus),
-        'proficient': character.proficiencies.savingThrows.constitution
+          'constitution',
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        ),
+        'proficient': character.proficiencies.savingThrows.constitution,
       },
       {
         'name': 'INT',
         'mod': character.proficiencies.savingThrows.getModifier(
-            'intelligence',
-            character.modifiers,
-            character.proficiencies.proficiencyBonus),
-        'proficient': character.proficiencies.savingThrows.intelligence
+          'intelligence',
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        ),
+        'proficient': character.proficiencies.savingThrows.intelligence,
       },
       {
         'name': 'WIS',
-        'mod': character.proficiencies.savingThrows.getModifier('wisdom',
-            character.modifiers, character.proficiencies.proficiencyBonus),
-        'proficient': character.proficiencies.savingThrows.wisdom
+        'mod': character.proficiencies.savingThrows.getModifier(
+          'wisdom',
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        ),
+        'proficient': character.proficiencies.savingThrows.wisdom,
       },
       {
         'name': 'CHA',
         'mod': character.proficiencies.savingThrows.getModifier(
-            'charisma',
-            character.modifiers,
-            character.proficiencies.proficiencyBonus),
-        'proficient': character.proficiencies.savingThrows.charisma
+          'charisma',
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        ),
+        'proficient': character.proficiencies.savingThrows.charisma,
       },
     ];
 
@@ -137,12 +145,24 @@ class SavingThrowGrid extends StatelessWidget {
 
   void _toggleSavingThrow(String ability, bool current) {
     final newSavingThrows = SavingThrowProficiencies(
-      strength: ability == 'STR' ? !current : character.proficiencies.savingThrows.strength,
-      dexterity: ability == 'DEX' ? !current : character.proficiencies.savingThrows.dexterity,
-      constitution: ability == 'CON' ? !current : character.proficiencies.savingThrows.constitution,
-      intelligence: ability == 'INT' ? !current : character.proficiencies.savingThrows.intelligence,
-      wisdom: ability == 'WIS' ? !current : character.proficiencies.savingThrows.wisdom,
-      charisma: ability == 'CHA' ? !current : character.proficiencies.savingThrows.charisma,
+      strength: ability == 'STR'
+          ? !current
+          : character.proficiencies.savingThrows.strength,
+      dexterity: ability == 'DEX'
+          ? !current
+          : character.proficiencies.savingThrows.dexterity,
+      constitution: ability == 'CON'
+          ? !current
+          : character.proficiencies.savingThrows.constitution,
+      intelligence: ability == 'INT'
+          ? !current
+          : character.proficiencies.savingThrows.intelligence,
+      wisdom: ability == 'WIS'
+          ? !current
+          : character.proficiencies.savingThrows.wisdom,
+      charisma: ability == 'CHA'
+          ? !current
+          : character.proficiencies.savingThrows.charisma,
     );
 
     final newProficiencies = ProficiencySet(

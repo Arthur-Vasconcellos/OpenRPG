@@ -54,7 +54,10 @@ class CombatCalculations {
 
     // Ability modifier (for most weapons)
     if (!_isTwoHandedWeapon(weapon.weaponClass)) {
-      final abilityMod = _getAbilityModifier(character.modifiers, weapon.ability);
+      final abilityMod = _getAbilityModifier(
+        character.modifiers,
+        weapon.ability,
+      );
       bonus += abilityMod;
     }
 
@@ -75,7 +78,10 @@ class CombatCalculations {
     final bonus = parsed['bonus'] as int;
 
     // Add ability modifier to damage bonus for range calculation
-    final damageBonus = calculateDamageBonus(character: character, weapon: weapon);
+    final damageBonus = calculateDamageBonus(
+      character: character,
+      weapon: weapon,
+    );
     final totalBonus = bonus + damageBonus;
 
     final minDamage = count + totalBonus;
@@ -105,10 +111,12 @@ class CombatCalculations {
 
     // Add CON modifier for Barbarian/Monk unarmored defense
     for (final classLevel in character.classes) {
-      if (classLevel.characterClass == CharacterClass.barbarian && armor.armorType == 'cloth') {
+      if (classLevel.characterClass == CharacterClass.barbarian &&
+          armor.armorType == 'cloth') {
         ac += character.modifiers.constitution;
       }
-      if (classLevel.characterClass == CharacterClass.monk && armor.armorType == 'cloth') {
+      if (classLevel.characterClass == CharacterClass.monk &&
+          armor.armorType == 'cloth') {
         ac += character.modifiers.wisdom;
       }
     }
@@ -127,26 +135,42 @@ class CombatCalculations {
     final expectedAC = calculateExpectedAC(character: character, armor: armor);
 
     // If combatStats.armorClass is different from expected, use that (manual override)
-    return character.combatStats.armorClass != 10 ? character.combatStats.armorClass : expectedAC;
+    return character.combatStats.armorClass != 10
+        ? character.combatStats.armorClass
+        : expectedAC;
   }
 
   // Get ability modifier
-  static int _getAbilityModifier(CalculatedModifiers modifiers, String ability) {
+  static int _getAbilityModifier(
+    CalculatedModifiers modifiers,
+    String ability,
+  ) {
     switch (ability.toLowerCase()) {
-      case 'strength': return modifiers.strength;
-      case 'dexterity': return modifiers.dexterity;
-      case 'constitution': return modifiers.constitution;
-      case 'intelligence': return modifiers.intelligence;
-      case 'wisdom': return modifiers.wisdom;
-      case 'charisma': return modifiers.charisma;
-      default: return 0;
+      case 'strength':
+        return modifiers.strength;
+      case 'dexterity':
+        return modifiers.dexterity;
+      case 'constitution':
+        return modifiers.constitution;
+      case 'intelligence':
+        return modifiers.intelligence;
+      case 'wisdom':
+        return modifiers.wisdom;
+      case 'charisma':
+        return modifiers.charisma;
+      default:
+        return 0;
     }
   }
 
   // Check if weapon is two-handed (no ability bonus to damage)
   static bool _isTwoHandedWeapon(String weaponClass) {
     final twoHandedWeapons = [
-      'Greatsword', 'Greataxe', 'Maul', 'Heavy Crossbow', 'Longbow'
+      'Greatsword',
+      'Greataxe',
+      'Maul',
+      'Heavy Crossbow',
+      'Longbow',
     ];
     return twoHandedWeapons.contains(weaponClass);
   }
@@ -175,7 +199,9 @@ class CombatCalculations {
   }
 
   // Calculate expected hit dice based on classes
-  static List<HitDie> calculateExpectedHitDice(List<CharacterClassLevel> classes) {
+  static List<HitDie> calculateExpectedHitDice(
+    List<CharacterClassLevel> classes,
+  ) {
     final hitDice = <HitDie>[];
 
     for (final classLevel in classes) {
@@ -184,11 +210,20 @@ class CombatCalculations {
 
       int sides;
       switch (characterClass.hitDie) {
-        case '1d12': sides = 12; break;
-        case '1d10': sides = 10; break;
-        case '1d8': sides = 8; break;
-        case '1d6': sides = 6; break;
-        default: sides = 8;
+        case '1d12':
+          sides = 12;
+          break;
+        case '1d10':
+          sides = 10;
+          break;
+        case '1d8':
+          sides = 8;
+          break;
+        case '1d6':
+          sides = 6;
+          break;
+        default:
+          sides = 8;
       }
 
       hitDice.add(HitDie(sides: sides, count: level, used: 0));
@@ -199,7 +234,10 @@ class CombatCalculations {
 
   // Check if character has proficiency
   static bool hasProficiency(List<String> proficiencies, String proficiency) {
-    return proficiencies.any((p) => p.toLowerCase().contains(proficiency.toLowerCase()) ||
-        proficiency.toLowerCase().contains(p.toLowerCase()));
+    return proficiencies.any(
+      (p) =>
+          p.toLowerCase().contains(proficiency.toLowerCase()) ||
+          proficiency.toLowerCase().contains(p.toLowerCase()),
+    );
   }
 }

@@ -35,8 +35,11 @@ class FeaturesTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.class_outlined,
-                            color: colorScheme.primary, size: 20),
+                        Icon(
+                          Icons.class_outlined,
+                          color: colorScheme.primary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'CLASS FEATURES',
@@ -86,8 +89,11 @@ class FeaturesTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.people_outline,
-                            color: colorScheme.secondary, size: 20),
+                        Icon(
+                          Icons.people_outline,
+                          color: colorScheme.secondary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'RACIAL FEATURES',
@@ -112,8 +118,9 @@ class FeaturesTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ...character.racialTraits
-                        .map((feature) => FeatureItem(feature: feature)),
+                    ...character.racialTraits.map(
+                      (feature) => FeatureItem(feature: feature),
+                    ),
                   ],
                 ),
               ),
@@ -134,8 +141,11 @@ class FeaturesTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.work_outline,
-                            color: colorScheme.tertiary, size: 20),
+                        Icon(
+                          Icons.work_outline,
+                          color: colorScheme.tertiary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'BACKGROUND FEATURES',
@@ -160,8 +170,9 @@ class FeaturesTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ...character.backgroundTraits
-                        .map((feature) => FeatureItem(feature: feature)),
+                    ...character.backgroundTraits.map(
+                      (feature) => FeatureItem(feature: feature),
+                    ),
                   ],
                 ),
               ),

@@ -4,10 +4,7 @@ import 'package:openrpg/models/character.dart';
 class FeatureItem extends StatelessWidget {
   final Feature feature;
 
-  const FeatureItem({
-    super.key,
-    required this.feature,
-  });
+  const FeatureItem({super.key, required this.feature});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +35,7 @@ class FeatureItem extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Text(
               feature.description,
-              style: TextStyle(
-                color: colorScheme.onSurface,
-                height: 1.5,
-              ),
+              style: TextStyle(color: colorScheme.onSurface, height: 1.5),
             ),
           ),
         ],

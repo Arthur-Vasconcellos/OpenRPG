@@ -27,7 +27,9 @@ class _NotesTabState extends State<NotesTab> {
   void _updateTraits(String field, String value) {
     setState(() {
       final newTraits = Traits(
-        personalityTraits: field == 'personalityTraits' ? value : _character.traits.personalityTraits,
+        personalityTraits: field == 'personalityTraits'
+            ? value
+            : _character.traits.personalityTraits,
         ideals: field == 'ideals' ? value : _character.traits.ideals,
         bonds: field == 'bonds' ? value : _character.traits.bonds,
         flaws: field == 'flaws' ? value : _character.traits.flaws,
@@ -113,9 +115,15 @@ class _NotesTabState extends State<NotesTab> {
   void _updatePhysicalDescription(String field, String value) {
     setState(() {
       final newPhysicalDescription = PhysicalDescription(
-        age: field == 'age' ? int.tryParse(value) ?? _character.physicalDescription.age : _character.physicalDescription.age,
-        height: field == 'height' ? value : _character.physicalDescription.height,
-        weight: field == 'weight' ? value : _character.physicalDescription.weight,
+        age: field == 'age'
+            ? int.tryParse(value) ?? _character.physicalDescription.age
+            : _character.physicalDescription.age,
+        height: field == 'height'
+            ? value
+            : _character.physicalDescription.height,
+        weight: field == 'weight'
+            ? value
+            : _character.physicalDescription.weight,
         eyes: field == 'eyes' ? value : _character.physicalDescription.eyes,
         skin: field == 'skin' ? value : _character.physicalDescription.skin,
         hair: field == 'hair' ? value : _character.physicalDescription.hair,
@@ -185,27 +193,41 @@ class _NotesTabState extends State<NotesTab> {
   Widget _buildPersonalityCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('PERSONALITY', Icons.psychology_outlined, colorScheme),
+            _buildSectionTitle(
+              'PERSONALITY',
+              Icons.psychology_outlined,
+              colorScheme,
+            ),
             const SizedBox(height: 20),
-            _buildLargeTextField('Personality Traits', _character.traits.personalityTraits,
-                    (value) => _updateTraits('personalityTraits', value)),
+            _buildLargeTextField(
+              'Personality Traits',
+              _character.traits.personalityTraits,
+              (value) => _updateTraits('personalityTraits', value),
+            ),
             const SizedBox(height: 16),
-            _buildLargeTextField('Ideals', _character.traits.ideals,
-                    (value) => _updateTraits('ideals', value)),
+            _buildLargeTextField(
+              'Ideals',
+              _character.traits.ideals,
+              (value) => _updateTraits('ideals', value),
+            ),
             const SizedBox(height: 16),
-            _buildLargeTextField('Bonds', _character.traits.bonds,
-                    (value) => _updateTraits('bonds', value)),
+            _buildLargeTextField(
+              'Bonds',
+              _character.traits.bonds,
+              (value) => _updateTraits('bonds', value),
+            ),
             const SizedBox(height: 16),
-            _buildLargeTextField('Flaws', _character.traits.flaws,
-                    (value) => _updateTraits('flaws', value)),
+            _buildLargeTextField(
+              'Flaws',
+              _character.traits.flaws,
+              (value) => _updateTraits('flaws', value),
+            ),
           ],
         ),
       ),
@@ -215,21 +237,29 @@ class _NotesTabState extends State<NotesTab> {
   Widget _buildBackstoryCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('BACKSTORY & APPEARANCE', Icons.history_outlined, colorScheme),
+            _buildSectionTitle(
+              'BACKSTORY & APPEARANCE',
+              Icons.history_outlined,
+              colorScheme,
+            ),
             const SizedBox(height: 20),
-            _buildLargeTextField('Backstory', _character.notes.backstory,
-                    (value) => _updateNotes('backstory', value)),
+            _buildLargeTextField(
+              'Backstory',
+              _character.notes.backstory,
+              (value) => _updateNotes('backstory', value),
+            ),
             const SizedBox(height: 16),
-            _buildLargeTextField('Appearance', _character.notes.appearance,
-                    (value) => _updateNotes('appearance', value)),
+            _buildLargeTextField(
+              'Appearance',
+              _character.notes.appearance,
+              (value) => _updateNotes('appearance', value),
+            ),
           ],
         ),
       ),
@@ -239,15 +269,17 @@ class _NotesTabState extends State<NotesTab> {
   Widget _buildPhysicalDescriptionCard(ColorScheme colorScheme) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('PHYSICAL DESCRIPTION', Icons.person_outline_outlined, colorScheme),
+            _buildSectionTitle(
+              'PHYSICAL DESCRIPTION',
+              Icons.person_outline_outlined,
+              colorScheme,
+            ),
             const SizedBox(height: 20),
             GridView.count(
               shrinkWrap: true,
@@ -257,30 +289,55 @@ class _NotesTabState extends State<NotesTab> {
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               children: [
-                _buildDescriptionField('Age', _character.physicalDescription.age.toString(),
-                        (value) => _updatePhysicalDescription('age', value)),
-                _buildDescriptionField('Height', _character.physicalDescription.height,
-                        (value) => _updatePhysicalDescription('height', value)),
-                _buildDescriptionField('Weight', _character.physicalDescription.weight,
-                        (value) => _updatePhysicalDescription('weight', value)),
-                _buildDescriptionField('Eyes', _character.physicalDescription.eyes,
-                        (value) => _updatePhysicalDescription('eyes', value)),
-                _buildDescriptionField('Skin', _character.physicalDescription.skin,
-                        (value) => _updatePhysicalDescription('skin', value)),
-                _buildDescriptionField('Hair', _character.physicalDescription.hair,
-                        (value) => _updatePhysicalDescription('hair', value)),
+                _buildDescriptionField(
+                  'Age',
+                  _character.physicalDescription.age.toString(),
+                  (value) => _updatePhysicalDescription('age', value),
+                ),
+                _buildDescriptionField(
+                  'Height',
+                  _character.physicalDescription.height,
+                  (value) => _updatePhysicalDescription('height', value),
+                ),
+                _buildDescriptionField(
+                  'Weight',
+                  _character.physicalDescription.weight,
+                  (value) => _updatePhysicalDescription('weight', value),
+                ),
+                _buildDescriptionField(
+                  'Eyes',
+                  _character.physicalDescription.eyes,
+                  (value) => _updatePhysicalDescription('eyes', value),
+                ),
+                _buildDescriptionField(
+                  'Skin',
+                  _character.physicalDescription.skin,
+                  (value) => _updatePhysicalDescription('skin', value),
+                ),
+                _buildDescriptionField(
+                  'Hair',
+                  _character.physicalDescription.hair,
+                  (value) => _updatePhysicalDescription('hair', value),
+                ),
               ],
             ),
             const SizedBox(height: 16),
-            _buildDescriptionField('Deity', _character.physicalDescription.deity,
-                    (value) => _updatePhysicalDescription('deity', value)),
+            _buildDescriptionField(
+              'Deity',
+              _character.physicalDescription.deity,
+              (value) => _updatePhysicalDescription('deity', value),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLargeTextField(String label, String value, Function(String) onChanged) {
+  Widget _buildLargeTextField(
+    String label,
+    String value,
+    Function(String) onChanged,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -318,7 +375,11 @@ class _NotesTabState extends State<NotesTab> {
     );
   }
 
-  Widget _buildDescriptionField(String label, String value, Function(String) onChanged) {
+  Widget _buildDescriptionField(
+    String label,
+    String value,
+    Function(String) onChanged,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -338,8 +399,10 @@ class _NotesTabState extends State<NotesTab> {
           controller: TextEditingController(text: value),
           decoration: InputDecoration(
             isDense: true,
-            contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 10,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: colorScheme.outline),
@@ -356,7 +419,11 @@ class _NotesTabState extends State<NotesTab> {
     );
   }
 
-  Widget _buildSectionTitle(String title, IconData icon, ColorScheme colorScheme) {
+  Widget _buildSectionTitle(
+    String title,
+    IconData icon,
+    ColorScheme colorScheme,
+  ) {
     return Row(
       children: [
         Icon(icon, color: colorScheme.primary, size: 20),

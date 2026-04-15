@@ -35,8 +35,11 @@ class EquipmentTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.monetization_on_outlined,
-                            color: colorScheme.secondary, size: 20),
+                        Icon(
+                          Icons.monetization_on_outlined,
+                          color: colorScheme.secondary,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'CURRENCY',
@@ -71,8 +74,11 @@ class EquipmentTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.backpack_outlined,
-                            color: colorScheme.onSurface, size: 20),
+                        Icon(
+                          Icons.backpack_outlined,
+                          color: colorScheme.onSurface,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'EQUIPMENT',
@@ -97,8 +103,9 @@ class EquipmentTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ...character.equipment.inventory
-                        .map((item) => _buildEquipmentItem(item, colorScheme)),
+                    ...character.equipment.inventory.map(
+                      (item) => _buildEquipmentItem(item, colorScheme),
+                    ),
                   ],
                 ),
               ),
@@ -119,8 +126,11 @@ class EquipmentTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.shield_outlined,
-                            color: colorScheme.onSurface, size: 20),
+                        Icon(
+                          Icons.shield_outlined,
+                          color: colorScheme.onSurface,
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'ARMOR',
@@ -145,8 +155,9 @@ class EquipmentTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ...character.equipment.armor
-                        .map((armor) => _buildArmorItem(armor, colorScheme)),
+                    ...character.equipment.armor.map(
+                      (armor) => _buildArmorItem(armor, colorScheme),
+                    ),
                   ],
                 ),
               ),
@@ -185,8 +196,10 @@ class EquipmentTab extends StatelessWidget {
           style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7)),
         ),
         trailing: IconButton(
-          icon: Icon(Icons.delete_outline,
-              color: colorScheme.onSurface.withOpacity(0.5)),
+          icon: Icon(
+            Icons.delete_outline,
+            color: colorScheme.onSurface.withOpacity(0.5),
+          ),
           onPressed: () {
             // TODO: Remove equipment
           },
@@ -229,14 +242,15 @@ class EquipmentTab extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 2),
                 child: Row(
                   children: [
-                    Icon(Icons.visibility_off, size: 12, color: colorScheme.error),
+                    Icon(
+                      Icons.visibility_off,
+                      size: 12,
+                      color: colorScheme.error,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       'Stealth Disadvantage',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: colorScheme.error,
-                      ),
+                      style: TextStyle(fontSize: 12, color: colorScheme.error),
                     ),
                   ],
                 ),

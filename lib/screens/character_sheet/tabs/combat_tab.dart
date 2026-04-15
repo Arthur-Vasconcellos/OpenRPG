@@ -74,9 +74,15 @@ class _CombatTabState extends State<CombatTab> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final expectedInitiative = CombatCalculations.calculateExpectedInitiative(widget.character);
-    final expectedSpeed = CombatCalculations.calculateExpectedSpeed(widget.character);
-    final expectedProficiency = DndRules.calculateProficiencyBonus(widget.character.totalLevel);
+    final expectedInitiative = CombatCalculations.calculateExpectedInitiative(
+      widget.character,
+    );
+    final expectedSpeed = CombatCalculations.calculateExpectedSpeed(
+      widget.character,
+    );
+    final expectedProficiency = DndRules.calculateProficiencyBonus(
+      widget.character.totalLevel,
+    );
 
     // Get equipped armor or default
     final equippedArmor = widget.character.equippedCombatStats.equippedArmor;
@@ -168,13 +174,8 @@ class _CombatTabState extends State<CombatTab> {
     final isExpected = value == expectedValue;
 
     return GestureDetector(
-      onTap: () => _showEditStatDialog(
-        context,
-        label,
-        value,
-        expectedValue,
-        onUpdate,
-      ),
+      onTap: () =>
+          _showEditStatDialog(context, label, value, expectedValue, onUpdate),
       child: Column(
         children: [
           Icon(icon, color: color, size: 20),
@@ -242,9 +243,7 @@ class _CombatTabState extends State<CombatTab> {
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -252,7 +251,11 @@ class _CombatTabState extends State<CombatTab> {
           children: [
             Row(
               children: [
-                Icon(Icons.shield_outlined, color: colorScheme.primary, size: 20),
+                Icon(
+                  Icons.shield_outlined,
+                  color: colorScheme.primary,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'ARMOR',
@@ -295,7 +298,9 @@ class _CombatTabState extends State<CombatTab> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextField(
-                    controller: TextEditingController(text: equippedArmor.baseAC.toString()),
+                    controller: TextEditingController(
+                      text: equippedArmor.baseAC.toString(),
+                    ),
                     decoration: InputDecoration(
                       labelText: 'Base AC',
                       border: OutlineInputBorder(
@@ -304,7 +309,8 @@ class _CombatTabState extends State<CombatTab> {
                     ),
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
-                      final baseAC = int.tryParse(value) ?? equippedArmor.baseAC;
+                      final baseAC =
+                          int.tryParse(value) ?? equippedArmor.baseAC;
                       _updateArmor(equippedArmor.copyWith(baseAC: baseAC));
                     },
                   ),
@@ -369,9 +375,12 @@ class _CombatTabState extends State<CombatTab> {
                               IconButton(
                                 icon: const Icon(Icons.remove, size: 16),
                                 onPressed: () {
-                                  _updateArmor(equippedArmor.copyWith(
-                                    manualBonus: equippedArmor.manualBonus - 1,
-                                  ));
+                                  _updateArmor(
+                                    equippedArmor.copyWith(
+                                      manualBonus:
+                                          equippedArmor.manualBonus - 1,
+                                    ),
+                                  );
                                 },
                               ),
                               Text(
@@ -391,9 +400,12 @@ class _CombatTabState extends State<CombatTab> {
                               IconButton(
                                 icon: const Icon(Icons.add, size: 16),
                                 onPressed: () {
-                                  _updateArmor(equippedArmor.copyWith(
-                                    manualBonus: equippedArmor.manualBonus + 1,
-                                  ));
+                                  _updateArmor(
+                                    equippedArmor.copyWith(
+                                      manualBonus:
+                                          equippedArmor.manualBonus + 1,
+                                    ),
+                                  );
                                 },
                               ),
                             ],
@@ -471,14 +483,14 @@ class _CombatTabState extends State<CombatTab> {
   Widget _buildWeaponsSection(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final meleeWeapon = widget.character.equippedCombatStats.equippedMeleeWeapon;
-    final rangedWeapon = widget.character.equippedCombatStats.equippedRangedWeapon;
+    final meleeWeapon =
+        widget.character.equippedCombatStats.equippedMeleeWeapon;
+    final rangedWeapon =
+        widget.character.equippedCombatStats.equippedRangedWeapon;
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -486,7 +498,11 @@ class _CombatTabState extends State<CombatTab> {
           children: [
             Row(
               children: [
-                Icon(Icons.gavel_outlined, color: colorScheme.primary, size: 20),
+                Icon(
+                  Icons.gavel_outlined,
+                  color: colorScheme.primary,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'WEAPONS',
@@ -586,7 +602,8 @@ class _CombatTabState extends State<CombatTab> {
 
         // Create a unique weapon class name that includes the weapon string
         // This ensures uniqueness even for weapons with the same name
-        final uniqueWeaponClass = weaponString; // Use the full string as the unique identifier
+        final uniqueWeaponClass =
+            weaponString; // Use the full string as the unique identifier
 
         return EquippedWeapon(
           weaponClass: uniqueWeaponClass,
@@ -616,9 +633,7 @@ class _CombatTabState extends State<CombatTab> {
           value: weapon?.weaponClass,
           decoration: InputDecoration(
             labelText: 'Select Weapon',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
           items: [
             DropdownMenuItem(
@@ -699,13 +714,20 @@ class _CombatTabState extends State<CombatTab> {
               ),
               DropdownButton<String>(
                 value: weapon.ability,
-                items: ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma']
-                    .map((ability) {
-                  return DropdownMenuItem(
-                    value: ability,
-                    child: Text(ability.substring(0, 3).toUpperCase()),
-                  );
-                }).toList(),
+                items:
+                    [
+                      'strength',
+                      'dexterity',
+                      'constitution',
+                      'intelligence',
+                      'wisdom',
+                      'charisma',
+                    ].map((ability) {
+                      return DropdownMenuItem(
+                        value: ability,
+                        child: Text(ability.substring(0, 3).toUpperCase()),
+                      );
+                    }).toList(),
                 onChanged: (value) {
                   if (value != null) {
                     onUpdate(weapon.copyWith(ability: value));
@@ -755,10 +777,7 @@ class _CombatTabState extends State<CombatTab> {
                             ),
                           ),
                           Text(
-                            '+${CombatCalculations.calculateAttackBonus(
-                              character: widget.character,
-                              weapon: weapon,
-                            )}',
+                            '+${CombatCalculations.calculateAttackBonus(character: widget.character, weapon: weapon)}',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -779,10 +798,7 @@ class _CombatTabState extends State<CombatTab> {
                             ),
                           ),
                           Text(
-                            '+${CombatCalculations.calculateDamageBonus(
-                              character: widget.character,
-                              weapon: weapon,
-                            )}',
+                            '+${CombatCalculations.calculateDamageBonus(character: widget.character, weapon: weapon)}',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -872,28 +888,53 @@ class _CombatTabState extends State<CombatTab> {
 
     // D&D 5e standard proficiencies
     final simpleMeleeWeapons = [
-      'Club', 'Dagger', 'Greatclub', 'Handaxe', 'Javelin', 'Light Hammer',
-      'Mace', 'Quarterstaff', 'Sickle', 'Spear'
+      'Club',
+      'Dagger',
+      'Greatclub',
+      'Handaxe',
+      'Javelin',
+      'Light Hammer',
+      'Mace',
+      'Quarterstaff',
+      'Sickle',
+      'Spear',
     ];
 
     simpleMeleeWeapons.sort();
 
-    final simpleRangedWeapons = [
-      'Light Crossbow', 'Dart', 'Shortbow', 'Sling'
-    ];
+    final simpleRangedWeapons = ['Light Crossbow', 'Dart', 'Shortbow', 'Sling'];
 
     simpleRangedWeapons.sort();
 
     final martialMeleeWeapons = [
-      'Battleaxe', 'Flail', 'Glaive', 'Greataxe', 'Greatsword', 'Halberd',
-      'Lance', 'Longsword', 'Maul', 'Morningstar', 'Pike', 'Rapier',
-      'Scimitar', 'Shortsword', 'Trident', 'War Pick', 'Warhammer', 'Whip'
+      'Battleaxe',
+      'Flail',
+      'Glaive',
+      'Greataxe',
+      'Greatsword',
+      'Halberd',
+      'Lance',
+      'Longsword',
+      'Maul',
+      'Morningstar',
+      'Pike',
+      'Rapier',
+      'Scimitar',
+      'Shortsword',
+      'Trident',
+      'War Pick',
+      'Warhammer',
+      'Whip',
     ];
 
     martialMeleeWeapons.sort();
 
     final martialRangedWeapons = [
-      'Blowgun', 'Hand Crossbow', 'Heavy Crossbow', 'Longbow', 'Net'
+      'Blowgun',
+      'Hand Crossbow',
+      'Heavy Crossbow',
+      'Longbow',
+      'Net',
     ];
 
     martialRangedWeapons.sort();
@@ -905,7 +946,8 @@ class _CombatTabState extends State<CombatTab> {
       'Shields',
     ];
 
-    final currentProficiencies = widget.character.equippedCombatStats.weaponProficiencies;
+    final currentProficiencies =
+        widget.character.equippedCombatStats.weaponProficiencies;
 
     void _toggleProficiency(String proficiency) {
       final newProficiencies = List<String>.from(currentProficiencies);
@@ -963,9 +1005,7 @@ class _CombatTabState extends State<CombatTab> {
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -973,7 +1013,11 @@ class _CombatTabState extends State<CombatTab> {
           children: [
             Row(
               children: [
-                Icon(Icons.checklist_outlined, color: colorScheme.primary, size: 20),
+                Icon(
+                  Icons.checklist_outlined,
+                  color: colorScheme.primary,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'PROFICIENCIES',
@@ -998,10 +1042,22 @@ class _CombatTabState extends State<CombatTab> {
             const SizedBox(height: 16),
 
             // Simple Weapons
-            _buildProficiencyCategory('Simple Melee Weapons', simpleMeleeWeapons),
-            _buildProficiencyCategory('Simple Ranged Weapons', simpleRangedWeapons),
-            _buildProficiencyCategory('Martial Melee Weapons', martialMeleeWeapons),
-            _buildProficiencyCategory('Martial Ranged Weapons', martialRangedWeapons),
+            _buildProficiencyCategory(
+              'Simple Melee Weapons',
+              simpleMeleeWeapons,
+            ),
+            _buildProficiencyCategory(
+              'Simple Ranged Weapons',
+              simpleRangedWeapons,
+            ),
+            _buildProficiencyCategory(
+              'Martial Melee Weapons',
+              martialMeleeWeapons,
+            ),
+            _buildProficiencyCategory(
+              'Martial Ranged Weapons',
+              martialRangedWeapons,
+            ),
 
             // Armor Proficiencies
             Column(
@@ -1020,13 +1076,20 @@ class _CombatTabState extends State<CombatTab> {
                   spacing: 8,
                   runSpacing: 4,
                   children: armorProficiencies.map((proficiency) {
-                    final isProficient = widget.character.equippedCombatStats.armorProficiencies.contains(proficiency);
+                    final isProficient = widget
+                        .character
+                        .equippedCombatStats
+                        .armorProficiencies
+                        .contains(proficiency);
                     return FilterChip(
                       label: Text(proficiency),
                       selected: isProficient,
                       onSelected: (selected) {
                         final newArmorProficiencies = List<String>.from(
-                            widget.character.equippedCombatStats.armorProficiencies
+                          widget
+                              .character
+                              .equippedCombatStats
+                              .armorProficiencies,
                         );
                         if (selected) {
                           newArmorProficiencies.add(proficiency);
@@ -1034,9 +1097,12 @@ class _CombatTabState extends State<CombatTab> {
                           newArmorProficiencies.remove(proficiency);
                         }
 
-                        final newCombatStats = widget.character.equippedCombatStats.copyWith(
-                          armorProficiencies: newArmorProficiencies,
-                        );
+                        final newCombatStats = widget
+                            .character
+                            .equippedCombatStats
+                            .copyWith(
+                              armorProficiencies: newArmorProficiencies,
+                            );
 
                         final newCharacter = widget.character.copyWith(
                           equippedCombatStats: newCombatStats,
@@ -1047,7 +1113,9 @@ class _CombatTabState extends State<CombatTab> {
                       checkmarkColor: Colors.white,
                       selectedColor: Colors.green,
                       labelStyle: TextStyle(
-                        color: isProficient ? Colors.white : colorScheme.onSurface,
+                        color: isProficient
+                            ? Colors.white
+                            : colorScheme.onSurface,
                       ),
                     );
                   }).toList(),
@@ -1066,13 +1134,13 @@ class _CombatTabState extends State<CombatTab> {
     final health = widget.character.health;
 
     // Calculate expected hit dice
-    final expectedHitDice = CombatCalculations.calculateExpectedHitDice(widget.character.classes);
+    final expectedHitDice = CombatCalculations.calculateExpectedHitDice(
+      widget.character.classes,
+    );
 
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -1126,7 +1194,9 @@ class _CombatTabState extends State<CombatTab> {
                           ),
                           Expanded(
                             child: TextField(
-                              controller: TextEditingController(text: health.maxHitPoints.toString()),
+                              controller: TextEditingController(
+                                text: health.maxHitPoints.toString(),
+                              ),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24,
@@ -1139,8 +1209,11 @@ class _CombatTabState extends State<CombatTab> {
                                 contentPadding: EdgeInsets.zero,
                               ),
                               onChanged: (value) {
-                                final maxHP = int.tryParse(value) ?? health.maxHitPoints;
-                                final newHealth = health.copyWith(maxHitPoints: maxHP);
+                                final maxHP =
+                                    int.tryParse(value) ?? health.maxHitPoints;
+                                final newHealth = health.copyWith(
+                                  maxHitPoints: maxHP,
+                                );
                                 final newCharacter = widget.character.copyWith(
                                   health: newHealth,
                                 );
@@ -1199,7 +1272,9 @@ class _CombatTabState extends State<CombatTab> {
                           ),
                           Expanded(
                             child: TextField(
-                              controller: TextEditingController(text: health.currentHitPoints.toString()),
+                              controller: TextEditingController(
+                                text: health.currentHitPoints.toString(),
+                              ),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24,
@@ -1212,8 +1287,12 @@ class _CombatTabState extends State<CombatTab> {
                                 contentPadding: EdgeInsets.zero,
                               ),
                               onChanged: (value) {
-                                final currentHP = int.tryParse(value) ?? health.currentHitPoints;
-                                final newHealth = health.copyWith(currentHitPoints: currentHP);
+                                final currentHP =
+                                    int.tryParse(value) ??
+                                    health.currentHitPoints;
+                                final newHealth = health.copyWith(
+                                  currentHitPoints: currentHP,
+                                );
                                 final newCharacter = widget.character.copyWith(
                                   health: newHealth,
                                 );
@@ -1306,12 +1385,12 @@ class _CombatTabState extends State<CombatTab> {
 
   // Helper Methods
   void _showEditStatDialog(
-      BuildContext context,
-      String label,
-      int currentValue,
-      int expectedValue,
-      Function(int) onUpdate,
-      ) {
+    BuildContext context,
+    String label,
+    int currentValue,
+    int expectedValue,
+    Function(int) onUpdate,
+  ) {
     final controller = TextEditingController(text: currentValue.toString());
 
     showDialog(
@@ -1336,7 +1415,8 @@ class _CombatTabState extends State<CombatTab> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      final value = int.tryParse(controller.text) ?? currentValue;
+                      final value =
+                          int.tryParse(controller.text) ?? currentValue;
                       onUpdate(value);
                       Navigator.pop(context);
                     },
@@ -1371,9 +1451,7 @@ class _CombatTabState extends State<CombatTab> {
     final newCombatStats = widget.character.combatStats.copyWith(
       armorClass: value,
     );
-    final newCharacter = widget.character.copyWith(
-      combatStats: newCombatStats,
-    );
+    final newCharacter = widget.character.copyWith(combatStats: newCombatStats);
     widget.onCharacterUpdated(newCharacter);
   }
 
@@ -1381,19 +1459,13 @@ class _CombatTabState extends State<CombatTab> {
     final newCombatStats = widget.character.combatStats.copyWith(
       initiative: value,
     );
-    final newCharacter = widget.character.copyWith(
-      combatStats: newCombatStats,
-    );
+    final newCharacter = widget.character.copyWith(combatStats: newCombatStats);
     widget.onCharacterUpdated(newCharacter);
   }
 
   void _updateSpeed(int value) {
-    final newCombatStats = widget.character.combatStats.copyWith(
-      speed: value,
-    );
-    final newCharacter = widget.character.copyWith(
-      combatStats: newCombatStats,
-    );
+    final newCombatStats = widget.character.combatStats.copyWith(speed: value);
+    final newCharacter = widget.character.copyWith(combatStats: newCombatStats);
     widget.onCharacterUpdated(newCharacter);
   }
 
@@ -1455,15 +1527,15 @@ class _CombatTabState extends State<CombatTab> {
       temporaryHitPoints: 0,
     );
 
-    final newCharacter = widget.character.copyWith(
-      health: newHealth,
-    );
+    final newCharacter = widget.character.copyWith(health: newHealth);
 
     widget.onCharacterUpdated(newCharacter);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Long rest: Full health restored, hit dice partially restored.'),
+        content: const Text(
+          'Long rest: Full health restored, hit dice partially restored.',
+        ),
         backgroundColor: Colors.green,
       ),
     );

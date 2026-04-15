@@ -8,10 +8,13 @@ class MagicItemRepository {
 
   Future<List<MagicItem>> loadAllMagicItems() async {
     try {
-      final List<dynamic> jsonArray = await JsonLoaderService.loadJsonArrayAsset(_assetPath);
+      final List<dynamic> jsonArray =
+          await JsonLoaderService.loadJsonArrayAsset(_assetPath);
 
       print('Processing ${jsonArray.length} items');
-      return jsonArray.map((json) => MagicItem.fromJson(json as Map<String, dynamic>)).toList();
+      return jsonArray
+          .map((json) => MagicItem.fromJson(json as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       print('Error in loadAllMagicItems: $e');
       throw Exception('Failed to load magic items: $e');
@@ -23,7 +26,9 @@ class MagicItemRepository {
     return allItems.firstWhere((item) => item.id == id);
   }
 
-  Future<List<MagicItem>> getMagicItemsByCategory(MagicItemCategory category) async {
+  Future<List<MagicItem>> getMagicItemsByCategory(
+    MagicItemCategory category,
+  ) async {
     final allItems = await loadAllMagicItems();
     return allItems.where((item) => item.category == category).toList();
   }

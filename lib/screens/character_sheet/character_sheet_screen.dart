@@ -87,7 +87,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
           characterClass: CharacterClass.fighter,
           subclass: Subclass.none,
           level: 1,
-        )
+        ),
       ],
       race: Race.human,
       background: Background.folkHero,
@@ -139,9 +139,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
 
   void _navigateToMagicItems() {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const MagicItemListScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const MagicItemListScreen()),
     );
   }
 
@@ -194,10 +192,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
           const SizedBox(height: 16),
           Text(
             'WARNING: This will override any custom values and reset to D&D 5e rules.',
-            style: TextStyle(
-              color: colorScheme.error,
-              fontSize: 12,
-            ),
+            style: TextStyle(color: colorScheme.error, fontSize: 12),
           ),
           const SizedBox(height: 8),
           Text(
@@ -270,7 +265,9 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                   label: const Text('Override Both'),
                   onPressed: () {
                     Navigator.pop(context);
-                    final expectedBonus = DndRules.calculateProficiencyBonus(_character.totalLevel);
+                    final expectedBonus = DndRules.calculateProficiencyBonus(
+                      _character.totalLevel,
+                    );
                     final expectedHP = DndRules.calculateExpectedMaxHP(
                       classes: _character.classes,
                       constitutionScore: _character.abilityScores.constitution,
@@ -301,7 +298,12 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, String title, String message, VoidCallback onConfirm) {
+  void _showConfirmationDialog(
+    BuildContext context,
+    String title,
+    String message,
+    VoidCallback onConfirm,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -328,21 +330,23 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
   }
 
   void _setProficiencyBonusToExpected() {
-    final expectedBonus = DndRules.calculateProficiencyBonus(_character.totalLevel);
+    final expectedBonus = DndRules.calculateProficiencyBonus(
+      _character.totalLevel,
+    );
 
     final newProficiencies = _character.proficiencies.copyWith(
       proficiencyBonus: expectedBonus,
     );
 
-    final newCharacter = _character.copyWith(
-      proficiencies: newProficiencies,
-    );
+    final newCharacter = _character.copyWith(proficiencies: newProficiencies);
 
     _updateCharacter(newCharacter);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Proficiency bonus overridden and set to +$expectedBonus (level ${_character.totalLevel})'),
+        content: Text(
+          'Proficiency bonus overridden and set to +$expectedBonus (level ${_character.totalLevel})',
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );
@@ -362,15 +366,15 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
           : _character.health.currentHitPoints,
     );
 
-    final newCharacter = _character.copyWith(
-      health: newHealth,
-    );
+    final newCharacter = _character.copyWith(health: newHealth);
 
     _updateCharacter(newCharacter);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Max HP overridden and set to $expectedHP (multiclass calculation)'),
+        content: Text(
+          'Max HP overridden and set to $expectedHP (multiclass calculation)',
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );
