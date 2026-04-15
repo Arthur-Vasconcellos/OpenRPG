@@ -66,7 +66,9 @@ void main() {
     final results = await repository.searchEntities(
       CompendiumSearchQuery(text: 'ember', rulesetIds: [created.id]),
     );
-    expect(results.single.entity.displayName, 'Ember Bolt');
+    expect(results.single.preview.displayName, 'Ember Bolt');
+    expect(results.single.preview.entityType, 'spell');
+    expect(results.single.preview.rulesetId, created.id);
 
     final exported = await repository.exportRulesetJson(created.id);
     expect(exported, contains('Ember Bolt'));

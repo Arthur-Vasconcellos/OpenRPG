@@ -41,6 +41,38 @@ const _supportCollectionKeys = <String>{
   'vehicleFluff',
 };
 
+const _defaultBundledRulesetPath = 'assets/rulesets/default_srd.ruleset.json';
+const _browseManifestPath = 'assets/rulesets/browse_manifest.json';
+const _browseDirectoryPath = 'assets/rulesets/browse';
+
+const _linkTagMap = <String, String>{
+  'action': 'action',
+  'background': 'background',
+  'book': 'book',
+  'class': 'class',
+  'classFeature': 'classFeature',
+  'condition': 'condition',
+  'creature': 'monster',
+  'deity': 'deity',
+  'feat': 'feat',
+  'item': 'item',
+  'object': 'object',
+  'optfeature': 'optionalfeature',
+  'optionalfeature': 'optionalfeature',
+  'race': 'race',
+  'reward': 'reward',
+  'spell': 'spell',
+  'status': 'status',
+  'subclass': 'subclass',
+  'subclassFeature': 'subclassFeature',
+  'table': 'table',
+  'trap': 'trap',
+  'vehicle': 'vehicle',
+  'variantrule': 'variantrule',
+};
+
+final _tagExpression = RegExp(r'\{@([a-zA-Z]+)\s+([^}]+)\}');
+
 void main(List<String> args) async {
   final projectRoot = Directory.current;
   final schemaFile = File(
@@ -81,7 +113,25 @@ void main(List<String> args) async {
   stdout.writeln('Wrote ${generatedFile.path}');
 
   final sourceRootArg = _readArg(args, '--source-root');
+  final bundledRulesetArg = _readArg(args, '--bundled-ruleset');
+  final bundledOutput = File(
+    bundledRulesetArg?.trim().isNotEmpty == true
+        ? bundledRulesetArg!
+        : p.join(projectRoot.path, _defaultBundledRulesetPath),
+  );
+
   if (sourceRootArg == null || sourceRootArg.trim().isEmpty) {
+    if (await bundledOutput.exists()) {
+      final bundledRuleset =
+          jsonDecode(await bundledOutput.readAsString())
+              as Map<String, dynamic>;
+      await _writeBrowseAssets(
+        projectRoot: projectRoot,
+        bundledOutput: bundledOutput,
+        bundledRuleset: bundledRuleset,
+        schemas: schemas,
+      );
+    }
     return;
   }
 
@@ -115,13 +165,16 @@ void main(List<String> args) async {
     sourceRoot: sourceRoot,
     schemas: schemas,
   );
-  final bundledOutput = File(
-    p.join(projectRoot.path, 'assets', 'rulesets', 'default_srd.ruleset.json'),
-  );
   await bundledOutput.writeAsString(
     const JsonEncoder.withIndent('  ').convert(bundledRuleset),
   );
   stdout.writeln('Wrote ${bundledOutput.path}');
+  await _writeBrowseAssets(
+    projectRoot: projectRoot,
+    bundledOutput: bundledOutput,
+    bundledRuleset: bundledRuleset,
+    schemas: schemas,
+  );
 }
 
 String? _readArg(List<String> args, String name) {
@@ -185,6 +238,13 @@ bool _isExcluded(File file) {
   }
 
   return false;
+}
+
+String _slugify(String value) {
+  final normalized = value.trim().toLowerCase();
+  final collapsed = normalized.replaceAll(RegExp(r'[^a-z0-9]+'), '_');
+  final sanitized = collapsed.replaceAll(RegExp(r'^_+|_+$'), '');
+  return sanitized.isEmpty ? 'collection' : sanitized;
 }
 
 Future<Map<String, dynamic>> _buildBundledRuleset({
@@ -276,6 +336,232 @@ Future<Map<String, dynamic>> _buildBundledRuleset({
     ...collections,
     ...supportCollections,
   };
+}
+
+Future<void> _writeBrowseAssets({
+  required Directory projectRoot,
+  required File bundledOutput,
+  required Map<String, dynamic> bundledRuleset,
+  required List<Map<String, dynamic>> schemas,
+}) async {
+  final browseDirectory = Directory(
+    p.join(projectRoot.path, _browseDirectoryPath),
+  );
+  if (await browseDirectory.exists()) {
+    await browseDirectory.delete(recursive: true);
+  }
+  await browseDirectory.create(recursive: true);
+
+  final rulesetId = bundledRuleset['id']?.toString() ?? 'default_srd';
+
+  final schemaByFieldKey = <String, Map<String, dynamic>>{
+    for (final schema in schemas) schema['fieldKey'] as String: schema,
+  };
+
+  final collectionStats = <Map<String, dynamic>>[];
+  final shards = <Map<String, dynamic>>[];
+  var totalEntityCount = 0;
+
+  for (final entry in schemaByFieldKey.entries) {
+    final fieldKey = entry.key;
+    final schema = entry.value;
+    final rawCollection = bundledRuleset[fieldKey];
+    if (rawCollection is! List || rawCollection.isEmpty) {
+      continue;
+    }
+
+    final entityType = schema['objectType'] as String;
+    final label = schema['label']?.toString() ?? _humanize(entityType);
+    final entityRows = <Map<String, dynamic>>[];
+    final linkRows = <Map<String, dynamic>>[];
+
+    for (final rawItem in rawCollection) {
+      if (rawItem is! Map) {
+        continue;
+      }
+
+      final item = Map<String, dynamic>.from(rawItem);
+      final payloadJson = jsonEncode(item);
+      final entityId = item['id']?.toString() ?? '';
+      final entityName = item['name']?.toString() ?? entityId;
+      final entityData = item['data'];
+
+      entityRows.add({
+        'entityId': entityId,
+        'name': entityName,
+        'source': item['source']?.toString() ?? '',
+        'sourceFile': item['sourceFile']?.toString() ?? '',
+        'edition': item['edition']?.toString(),
+        'sortName': entityName.trim().toLowerCase(),
+        'searchText': _flattenedSearchText(item).toLowerCase(),
+        'payloadJson': payloadJson,
+      });
+
+      linkRows.addAll(
+        _extractLinkRows(
+          entityType: entityType,
+          entityId: entityId,
+          value: entityData,
+        ),
+      );
+    }
+
+    entityRows.sort((left, right) {
+      final leftSort = left['sortName']?.toString() ?? '';
+      final rightSort = right['sortName']?.toString() ?? '';
+      final nameCompare = leftSort.compareTo(rightSort);
+      if (nameCompare != 0) {
+        return nameCompare;
+      }
+
+      return (left['entityId']?.toString() ?? '').compareTo(
+        right['entityId']?.toString() ?? '',
+      );
+    });
+
+    totalEntityCount += entityRows.length;
+
+    final shardFileName = '${_slugify(rulesetId)}_${_slugify(fieldKey)}.json';
+    final assetPath = 'assets/rulesets/browse/$shardFileName';
+    final shardFile = File(p.join(browseDirectory.path, shardFileName));
+    await shardFile.writeAsString(
+      const JsonEncoder.withIndent('  ').convert({
+        'rulesetId': rulesetId,
+        'entityType': entityType,
+        'collectionKey': fieldKey,
+        'entityRows': entityRows,
+        'linkRows': linkRows,
+      }),
+    );
+
+    collectionStats.add({
+      'entityType': entityType,
+      'collectionKey': fieldKey,
+      'label': label,
+      'entityCount': entityRows.length,
+    });
+    shards.add({
+      'entityType': entityType,
+      'collectionKey': fieldKey,
+      'assetPath': assetPath,
+      'entityCount': entityRows.length,
+      'linkCount': linkRows.length,
+    });
+    stdout.writeln('Wrote ${shardFile.path}');
+  }
+
+  final bundledStat = await bundledOutput.stat();
+  final assetVersion =
+      '${bundledStat.modified.toUtc().millisecondsSinceEpoch}-${bundledStat.size}';
+  final manifestFile = File(p.join(projectRoot.path, _browseManifestPath));
+  await manifestFile.writeAsString(
+    const JsonEncoder.withIndent('  ').convert({
+      'assetVersion': assetVersion,
+      'generatedAt': DateTime.now().toUtc().toIso8601String(),
+      'rulesets': [
+        {
+          'rulesetId': rulesetId,
+          'name': bundledRuleset['name']?.toString() ?? rulesetId,
+          'description': bundledRuleset['description']?.toString() ?? '',
+          'mode': bundledRuleset['mode']?.toString() ?? 'bundled',
+          'schemaVersion':
+              bundledRuleset['schemaVersion']?.toString() ?? '1.0.0',
+          'author': bundledRuleset['author']?.toString() ?? '',
+          'version': bundledRuleset['version']?.toString() ?? '1.0.0',
+          'license': bundledRuleset['license']?.toString() ?? '',
+          'entityCount': totalEntityCount,
+          'createdAt': bundledRuleset['createdAt']?.toString(),
+          'updatedAt': bundledRuleset['updatedAt']?.toString(),
+          'filePath': _defaultBundledRulesetPath,
+          'collectionStats': collectionStats,
+          'shards': shards,
+        },
+      ],
+    }),
+  );
+  stdout.writeln('Wrote ${manifestFile.path}');
+}
+
+List<Map<String, dynamic>> _extractLinkRows({
+  required String entityType,
+  required String entityId,
+  required dynamic value,
+}) {
+  final rows = <Map<String, dynamic>>[];
+
+  void visit(dynamic node) {
+    if (node is String) {
+      for (final match in _tagExpression.allMatches(node)) {
+        final tag = match.group(1)?.trim() ?? '';
+        final body = match.group(2)?.trim() ?? '';
+        if (tag.isEmpty || body.isEmpty) {
+          continue;
+        }
+
+        final parts = body.split('|');
+        rows.add({
+          'sourceEntityType': entityType,
+          'sourceEntityId': entityId,
+          'targetTag': tag,
+          'rawReference': body,
+          'displayText': parts.first.trim(),
+          'sourceHint': parts.length > 1 && parts[1].trim().isNotEmpty
+              ? parts[1].trim().toUpperCase()
+              : null,
+          'targetEntityType': _linkTagMap[tag] ?? tag,
+        });
+      }
+      return;
+    }
+
+    if (node is List) {
+      for (final item in node) {
+        visit(item);
+      }
+      return;
+    }
+
+    if (node is Map) {
+      for (final item in node.values) {
+        visit(item);
+      }
+    }
+  }
+
+  visit(value);
+  return rows;
+}
+
+String _flattenedSearchText(dynamic value) {
+  final buffer = StringBuffer();
+
+  void append(dynamic node) {
+    if (node == null) {
+      return;
+    }
+
+    if (node is String || node is num || node is bool) {
+      buffer.write(' ');
+      buffer.write(node.toString());
+      return;
+    }
+
+    if (node is List) {
+      for (final item in node) {
+        append(item);
+      }
+      return;
+    }
+
+    if (node is Map) {
+      for (final item in node.values) {
+        append(item);
+      }
+    }
+  }
+
+  append(value);
+  return buffer.toString().trim().replaceAll(RegExp(r'\s+'), ' ');
 }
 
 String _buildGeneratedRegistry(List<Map<String, dynamic>> schemas) {
@@ -472,10 +758,10 @@ String _emitFieldDescriptor(Map<String, dynamic> field, int indentLevel) {
     ..writeln('${childIndent}isArray: ${field['isArray'] == true},')
     ..writeln('${childIndent}choices: [');
   for (final choice in (field['choices'] as List<dynamic>? ?? const [])) {
-    buffer.writeln("${childIndent}  '${_escape(choice.toString())}',");
+    buffer.writeln("$childIndent  '${_escape(choice.toString())}',");
   }
   buffer
-    ..writeln('${childIndent}],')
+    ..writeln('$childIndent],')
     ..writeln('${childIndent}fields: [');
   for (final nested in (field['fields'] as List<dynamic>? ?? const [])) {
     buffer.writeln(
@@ -483,12 +769,12 @@ String _emitFieldDescriptor(Map<String, dynamic> field, int indentLevel) {
     );
   }
   buffer
-    ..writeln('${childIndent}],')
+    ..writeln('$childIndent],')
     ..writeln(
       '${childIndent}itemDescriptor: ${_emitItemDescriptor(field['itemSchema'], indentLevel + 1)},',
     )
     ..writeln('${childIndent}sampleCount: ${field['sampleCount'] ?? 0},')
-    ..write('${indent})');
+    ..write('$indent)');
   return buffer.toString();
 }
 
@@ -497,7 +783,7 @@ String _emitItemDescriptor(dynamic itemSchema, int indentLevel) {
     return 'null';
   }
   return _emitFieldDescriptor(
-    Map<String, dynamic>.from(itemSchema as Map),
+    Map<String, dynamic>.from(itemSchema),
     indentLevel,
   );
 }

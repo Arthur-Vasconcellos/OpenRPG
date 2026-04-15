@@ -31,3 +31,5 @@ flutter:
   assets:
     - assets/magic_items.json
     - assets/rulesets/
+    - assets/rulesets/browse_manifest.json
+    - assets/rulesets/browse/

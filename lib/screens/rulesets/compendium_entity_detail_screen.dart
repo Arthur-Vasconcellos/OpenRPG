@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
-import 'package:openrpg/compendium/models/ruleset.dart';
 import 'package:openrpg/screens/rulesets/compendium_rich_content_renderer.dart';
 import 'package:openrpg/screens/rulesets/ruleset_object_editor_screen.dart';
 
@@ -25,6 +25,8 @@ class CompendiumEntityDetailScreen extends StatefulWidget {
 
 class _CompendiumEntityDetailScreenState
     extends State<CompendiumEntityDetailScreen> {
+  final CompendiumBrowseRepository _browseRepository =
+      CompendiumBrowseRepository();
   final CompendiumRepository _repository = CompendiumRepository();
   late Future<_EntityDetailState> _futureState;
 
@@ -35,8 +37,10 @@ class _CompendiumEntityDetailScreenState
   }
 
   Future<_EntityDetailState> _loadState() async {
-    final ruleset = await _repository.loadRuleset(widget.rulesetId);
-    final detail = await _repository.getEntityDetail(
+    final ruleset = await _browseRepository.loadRulesetSummary(
+      widget.rulesetId,
+    );
+    final detail = await _browseRepository.loadEntityDetail(
       rulesetId: widget.rulesetId,
       entityType: widget.entityType,
       entityId: widget.entityId,
@@ -59,9 +63,9 @@ class _CompendiumEntityDetailScreenState
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => CompendiumEntityDetailScreen(
-          rulesetId: result.rulesetId,
-          entityType: result.entity.entityType,
-          entityId: result.entity.id,
+          rulesetId: result.preview.rulesetId,
+          entityType: result.preview.entityType,
+          entityId: result.preview.entityId,
         ),
       ),
     );
@@ -122,7 +126,7 @@ class _CompendiumEntityDetailScreenState
                 pinned: true,
                 expandedHeight: 200,
                 actions: [
-                  if (state.ruleset.mode != RulesetMode.bundled)
+                  if (state.ruleset.mode != 'bundled')
                     IconButton(
                       onPressed: () => _editEntity(state),
                       icon: const Icon(Icons.edit_outlined),
@@ -171,7 +175,7 @@ class _CompendiumEntityDetailScreenState
                       CompendiumRichContentRenderer(
                         content: narrativeContent,
                         onLinkTap: (candidate) async {
-                          final resolved = await _repository.resolveLink(
+                          final resolved = await _browseRepository.resolveLink(
                             candidate,
                             preferredRulesetId: widget.rulesetId,
                           );
@@ -216,7 +220,7 @@ class _CompendiumEntityDetailScreenState
               CompendiumRichContentRenderer(
                 content: entry.value,
                 onLinkTap: (candidate) async {
-                  final resolved = await _repository.resolveLink(
+                  final resolved = await _browseRepository.resolveLink(
                     candidate,
                     preferredRulesetId: widget.rulesetId,
                   );
@@ -238,7 +242,7 @@ class _CompendiumEntityDetailScreenState
 }
 
 class _EntityDetailState {
-  final Ruleset ruleset;
+  final RulesetSummary ruleset;
   final CompendiumEntityDetail detail;
 
   const _EntityDetailState({required this.ruleset, required this.detail});

@@ -2057,12 +2057,823 @@ class EntityLinksCompanion extends UpdateCompanion<EntityLink> {
   }
 }
 
+class $RulesetCollectionStatsTable extends RulesetCollectionStats
+    with TableInfo<$RulesetCollectionStatsTable, RulesetCollectionStat> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RulesetCollectionStatsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _rulesetIdMeta = const VerificationMeta(
+    'rulesetId',
+  );
+  @override
+  late final GeneratedColumn<String> rulesetId = GeneratedColumn<String>(
+    'ruleset_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
+  @override
+  late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
+    'entity_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _collectionKeyMeta = const VerificationMeta(
+    'collectionKey',
+  );
+  @override
+  late final GeneratedColumn<String> collectionKey = GeneratedColumn<String>(
+    'collection_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _labelMeta = const VerificationMeta('label');
+  @override
+  late final GeneratedColumn<String> label = GeneratedColumn<String>(
+    'label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityCountMeta = const VerificationMeta(
+    'entityCount',
+  );
+  @override
+  late final GeneratedColumn<int> entityCount = GeneratedColumn<int>(
+    'entity_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    rulesetId,
+    entityType,
+    collectionKey,
+    label,
+    entityCount,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'ruleset_collection_stats';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RulesetCollectionStat> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('ruleset_id')) {
+      context.handle(
+        _rulesetIdMeta,
+        rulesetId.isAcceptableOrUnknown(data['ruleset_id']!, _rulesetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rulesetIdMeta);
+    }
+    if (data.containsKey('entity_type')) {
+      context.handle(
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entityTypeMeta);
+    }
+    if (data.containsKey('collection_key')) {
+      context.handle(
+        _collectionKeyMeta,
+        collectionKey.isAcceptableOrUnknown(
+          data['collection_key']!,
+          _collectionKeyMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_collectionKeyMeta);
+    }
+    if (data.containsKey('label')) {
+      context.handle(
+        _labelMeta,
+        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelMeta);
+    }
+    if (data.containsKey('entity_count')) {
+      context.handle(
+        _entityCountMeta,
+        entityCount.isAcceptableOrUnknown(
+          data['entity_count']!,
+          _entityCountMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {rulesetId, entityType};
+  @override
+  RulesetCollectionStat map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RulesetCollectionStat(
+      rulesetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ruleset_id'],
+      )!,
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      )!,
+      collectionKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}collection_key'],
+      )!,
+      label: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}label'],
+      )!,
+      entityCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}entity_count'],
+      )!,
+    );
+  }
+
+  @override
+  $RulesetCollectionStatsTable createAlias(String alias) {
+    return $RulesetCollectionStatsTable(attachedDatabase, alias);
+  }
+}
+
+class RulesetCollectionStat extends DataClass
+    implements Insertable<RulesetCollectionStat> {
+  final String rulesetId;
+  final String entityType;
+  final String collectionKey;
+  final String label;
+  final int entityCount;
+  const RulesetCollectionStat({
+    required this.rulesetId,
+    required this.entityType,
+    required this.collectionKey,
+    required this.label,
+    required this.entityCount,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['ruleset_id'] = Variable<String>(rulesetId);
+    map['entity_type'] = Variable<String>(entityType);
+    map['collection_key'] = Variable<String>(collectionKey);
+    map['label'] = Variable<String>(label);
+    map['entity_count'] = Variable<int>(entityCount);
+    return map;
+  }
+
+  RulesetCollectionStatsCompanion toCompanion(bool nullToAbsent) {
+    return RulesetCollectionStatsCompanion(
+      rulesetId: Value(rulesetId),
+      entityType: Value(entityType),
+      collectionKey: Value(collectionKey),
+      label: Value(label),
+      entityCount: Value(entityCount),
+    );
+  }
+
+  factory RulesetCollectionStat.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RulesetCollectionStat(
+      rulesetId: serializer.fromJson<String>(json['rulesetId']),
+      entityType: serializer.fromJson<String>(json['entityType']),
+      collectionKey: serializer.fromJson<String>(json['collectionKey']),
+      label: serializer.fromJson<String>(json['label']),
+      entityCount: serializer.fromJson<int>(json['entityCount']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'rulesetId': serializer.toJson<String>(rulesetId),
+      'entityType': serializer.toJson<String>(entityType),
+      'collectionKey': serializer.toJson<String>(collectionKey),
+      'label': serializer.toJson<String>(label),
+      'entityCount': serializer.toJson<int>(entityCount),
+    };
+  }
+
+  RulesetCollectionStat copyWith({
+    String? rulesetId,
+    String? entityType,
+    String? collectionKey,
+    String? label,
+    int? entityCount,
+  }) => RulesetCollectionStat(
+    rulesetId: rulesetId ?? this.rulesetId,
+    entityType: entityType ?? this.entityType,
+    collectionKey: collectionKey ?? this.collectionKey,
+    label: label ?? this.label,
+    entityCount: entityCount ?? this.entityCount,
+  );
+  RulesetCollectionStat copyWithCompanion(
+    RulesetCollectionStatsCompanion data,
+  ) {
+    return RulesetCollectionStat(
+      rulesetId: data.rulesetId.present ? data.rulesetId.value : this.rulesetId,
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
+      collectionKey: data.collectionKey.present
+          ? data.collectionKey.value
+          : this.collectionKey,
+      label: data.label.present ? data.label.value : this.label,
+      entityCount: data.entityCount.present
+          ? data.entityCount.value
+          : this.entityCount,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RulesetCollectionStat(')
+          ..write('rulesetId: $rulesetId, ')
+          ..write('entityType: $entityType, ')
+          ..write('collectionKey: $collectionKey, ')
+          ..write('label: $label, ')
+          ..write('entityCount: $entityCount')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(rulesetId, entityType, collectionKey, label, entityCount);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RulesetCollectionStat &&
+          other.rulesetId == this.rulesetId &&
+          other.entityType == this.entityType &&
+          other.collectionKey == this.collectionKey &&
+          other.label == this.label &&
+          other.entityCount == this.entityCount);
+}
+
+class RulesetCollectionStatsCompanion
+    extends UpdateCompanion<RulesetCollectionStat> {
+  final Value<String> rulesetId;
+  final Value<String> entityType;
+  final Value<String> collectionKey;
+  final Value<String> label;
+  final Value<int> entityCount;
+  final Value<int> rowid;
+  const RulesetCollectionStatsCompanion({
+    this.rulesetId = const Value.absent(),
+    this.entityType = const Value.absent(),
+    this.collectionKey = const Value.absent(),
+    this.label = const Value.absent(),
+    this.entityCount = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  RulesetCollectionStatsCompanion.insert({
+    required String rulesetId,
+    required String entityType,
+    required String collectionKey,
+    required String label,
+    this.entityCount = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : rulesetId = Value(rulesetId),
+       entityType = Value(entityType),
+       collectionKey = Value(collectionKey),
+       label = Value(label);
+  static Insertable<RulesetCollectionStat> custom({
+    Expression<String>? rulesetId,
+    Expression<String>? entityType,
+    Expression<String>? collectionKey,
+    Expression<String>? label,
+    Expression<int>? entityCount,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (rulesetId != null) 'ruleset_id': rulesetId,
+      if (entityType != null) 'entity_type': entityType,
+      if (collectionKey != null) 'collection_key': collectionKey,
+      if (label != null) 'label': label,
+      if (entityCount != null) 'entity_count': entityCount,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  RulesetCollectionStatsCompanion copyWith({
+    Value<String>? rulesetId,
+    Value<String>? entityType,
+    Value<String>? collectionKey,
+    Value<String>? label,
+    Value<int>? entityCount,
+    Value<int>? rowid,
+  }) {
+    return RulesetCollectionStatsCompanion(
+      rulesetId: rulesetId ?? this.rulesetId,
+      entityType: entityType ?? this.entityType,
+      collectionKey: collectionKey ?? this.collectionKey,
+      label: label ?? this.label,
+      entityCount: entityCount ?? this.entityCount,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (rulesetId.present) {
+      map['ruleset_id'] = Variable<String>(rulesetId.value);
+    }
+    if (entityType.present) {
+      map['entity_type'] = Variable<String>(entityType.value);
+    }
+    if (collectionKey.present) {
+      map['collection_key'] = Variable<String>(collectionKey.value);
+    }
+    if (label.present) {
+      map['label'] = Variable<String>(label.value);
+    }
+    if (entityCount.present) {
+      map['entity_count'] = Variable<int>(entityCount.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RulesetCollectionStatsCompanion(')
+          ..write('rulesetId: $rulesetId, ')
+          ..write('entityType: $entityType, ')
+          ..write('collectionKey: $collectionKey, ')
+          ..write('label: $label, ')
+          ..write('entityCount: $entityCount, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CompendiumBootstrapStatesTable extends CompendiumBootstrapStates
+    with TableInfo<$CompendiumBootstrapStatesTable, CompendiumBootstrapState> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CompendiumBootstrapStatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _rulesetIdMeta = const VerificationMeta(
+    'rulesetId',
+  );
+  @override
+  late final GeneratedColumn<String> rulesetId = GeneratedColumn<String>(
+    'ruleset_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _assetVersionMeta = const VerificationMeta(
+    'assetVersion',
+  );
+  @override
+  late final GeneratedColumn<String> assetVersion = GeneratedColumn<String>(
+    'asset_version',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _stateMeta = const VerificationMeta('state');
+  @override
+  late final GeneratedColumn<String> state = GeneratedColumn<String>(
+    'state',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('idle'),
+  );
+  static const VerificationMeta _progressMeta = const VerificationMeta(
+    'progress',
+  );
+  @override
+  late final GeneratedColumn<double> progress = GeneratedColumn<double>(
+    'progress',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _lastErrorMeta = const VerificationMeta(
+    'lastError',
+  );
+  @override
+  late final GeneratedColumn<String> lastError = GeneratedColumn<String>(
+    'last_error',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    rulesetId,
+    assetVersion,
+    state,
+    progress,
+    lastError,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'compendium_bootstrap_states';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CompendiumBootstrapState> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('ruleset_id')) {
+      context.handle(
+        _rulesetIdMeta,
+        rulesetId.isAcceptableOrUnknown(data['ruleset_id']!, _rulesetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rulesetIdMeta);
+    }
+    if (data.containsKey('asset_version')) {
+      context.handle(
+        _assetVersionMeta,
+        assetVersion.isAcceptableOrUnknown(
+          data['asset_version']!,
+          _assetVersionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('state')) {
+      context.handle(
+        _stateMeta,
+        state.isAcceptableOrUnknown(data['state']!, _stateMeta),
+      );
+    }
+    if (data.containsKey('progress')) {
+      context.handle(
+        _progressMeta,
+        progress.isAcceptableOrUnknown(data['progress']!, _progressMeta),
+      );
+    }
+    if (data.containsKey('last_error')) {
+      context.handle(
+        _lastErrorMeta,
+        lastError.isAcceptableOrUnknown(data['last_error']!, _lastErrorMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {rulesetId};
+  @override
+  CompendiumBootstrapState map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CompendiumBootstrapState(
+      rulesetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ruleset_id'],
+      )!,
+      assetVersion: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}asset_version'],
+      )!,
+      state: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}state'],
+      )!,
+      progress: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}progress'],
+      )!,
+      lastError: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_error'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+    );
+  }
+
+  @override
+  $CompendiumBootstrapStatesTable createAlias(String alias) {
+    return $CompendiumBootstrapStatesTable(attachedDatabase, alias);
+  }
+}
+
+class CompendiumBootstrapState extends DataClass
+    implements Insertable<CompendiumBootstrapState> {
+  final String rulesetId;
+  final String assetVersion;
+  final String state;
+  final double progress;
+  final String? lastError;
+  final DateTime? updatedAt;
+  const CompendiumBootstrapState({
+    required this.rulesetId,
+    required this.assetVersion,
+    required this.state,
+    required this.progress,
+    this.lastError,
+    this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['ruleset_id'] = Variable<String>(rulesetId);
+    map['asset_version'] = Variable<String>(assetVersion);
+    map['state'] = Variable<String>(state);
+    map['progress'] = Variable<double>(progress);
+    if (!nullToAbsent || lastError != null) {
+      map['last_error'] = Variable<String>(lastError);
+    }
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  CompendiumBootstrapStatesCompanion toCompanion(bool nullToAbsent) {
+    return CompendiumBootstrapStatesCompanion(
+      rulesetId: Value(rulesetId),
+      assetVersion: Value(assetVersion),
+      state: Value(state),
+      progress: Value(progress),
+      lastError: lastError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastError),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory CompendiumBootstrapState.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CompendiumBootstrapState(
+      rulesetId: serializer.fromJson<String>(json['rulesetId']),
+      assetVersion: serializer.fromJson<String>(json['assetVersion']),
+      state: serializer.fromJson<String>(json['state']),
+      progress: serializer.fromJson<double>(json['progress']),
+      lastError: serializer.fromJson<String?>(json['lastError']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'rulesetId': serializer.toJson<String>(rulesetId),
+      'assetVersion': serializer.toJson<String>(assetVersion),
+      'state': serializer.toJson<String>(state),
+      'progress': serializer.toJson<double>(progress),
+      'lastError': serializer.toJson<String?>(lastError),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  CompendiumBootstrapState copyWith({
+    String? rulesetId,
+    String? assetVersion,
+    String? state,
+    double? progress,
+    Value<String?> lastError = const Value.absent(),
+    Value<DateTime?> updatedAt = const Value.absent(),
+  }) => CompendiumBootstrapState(
+    rulesetId: rulesetId ?? this.rulesetId,
+    assetVersion: assetVersion ?? this.assetVersion,
+    state: state ?? this.state,
+    progress: progress ?? this.progress,
+    lastError: lastError.present ? lastError.value : this.lastError,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+  );
+  CompendiumBootstrapState copyWithCompanion(
+    CompendiumBootstrapStatesCompanion data,
+  ) {
+    return CompendiumBootstrapState(
+      rulesetId: data.rulesetId.present ? data.rulesetId.value : this.rulesetId,
+      assetVersion: data.assetVersion.present
+          ? data.assetVersion.value
+          : this.assetVersion,
+      state: data.state.present ? data.state.value : this.state,
+      progress: data.progress.present ? data.progress.value : this.progress,
+      lastError: data.lastError.present ? data.lastError.value : this.lastError,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CompendiumBootstrapState(')
+          ..write('rulesetId: $rulesetId, ')
+          ..write('assetVersion: $assetVersion, ')
+          ..write('state: $state, ')
+          ..write('progress: $progress, ')
+          ..write('lastError: $lastError, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    rulesetId,
+    assetVersion,
+    state,
+    progress,
+    lastError,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CompendiumBootstrapState &&
+          other.rulesetId == this.rulesetId &&
+          other.assetVersion == this.assetVersion &&
+          other.state == this.state &&
+          other.progress == this.progress &&
+          other.lastError == this.lastError &&
+          other.updatedAt == this.updatedAt);
+}
+
+class CompendiumBootstrapStatesCompanion
+    extends UpdateCompanion<CompendiumBootstrapState> {
+  final Value<String> rulesetId;
+  final Value<String> assetVersion;
+  final Value<String> state;
+  final Value<double> progress;
+  final Value<String?> lastError;
+  final Value<DateTime?> updatedAt;
+  final Value<int> rowid;
+  const CompendiumBootstrapStatesCompanion({
+    this.rulesetId = const Value.absent(),
+    this.assetVersion = const Value.absent(),
+    this.state = const Value.absent(),
+    this.progress = const Value.absent(),
+    this.lastError = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CompendiumBootstrapStatesCompanion.insert({
+    required String rulesetId,
+    this.assetVersion = const Value.absent(),
+    this.state = const Value.absent(),
+    this.progress = const Value.absent(),
+    this.lastError = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : rulesetId = Value(rulesetId);
+  static Insertable<CompendiumBootstrapState> custom({
+    Expression<String>? rulesetId,
+    Expression<String>? assetVersion,
+    Expression<String>? state,
+    Expression<double>? progress,
+    Expression<String>? lastError,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (rulesetId != null) 'ruleset_id': rulesetId,
+      if (assetVersion != null) 'asset_version': assetVersion,
+      if (state != null) 'state': state,
+      if (progress != null) 'progress': progress,
+      if (lastError != null) 'last_error': lastError,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CompendiumBootstrapStatesCompanion copyWith({
+    Value<String>? rulesetId,
+    Value<String>? assetVersion,
+    Value<String>? state,
+    Value<double>? progress,
+    Value<String?>? lastError,
+    Value<DateTime?>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return CompendiumBootstrapStatesCompanion(
+      rulesetId: rulesetId ?? this.rulesetId,
+      assetVersion: assetVersion ?? this.assetVersion,
+      state: state ?? this.state,
+      progress: progress ?? this.progress,
+      lastError: lastError ?? this.lastError,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (rulesetId.present) {
+      map['ruleset_id'] = Variable<String>(rulesetId.value);
+    }
+    if (assetVersion.present) {
+      map['asset_version'] = Variable<String>(assetVersion.value);
+    }
+    if (state.present) {
+      map['state'] = Variable<String>(state.value);
+    }
+    if (progress.present) {
+      map['progress'] = Variable<double>(progress.value);
+    }
+    if (lastError.present) {
+      map['last_error'] = Variable<String>(lastError.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CompendiumBootstrapStatesCompanion(')
+          ..write('rulesetId: $rulesetId, ')
+          ..write('assetVersion: $assetVersion, ')
+          ..write('state: $state, ')
+          ..write('progress: $progress, ')
+          ..write('lastError: $lastError, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$CompendiumDatabase extends GeneratedDatabase {
   _$CompendiumDatabase(QueryExecutor e) : super(e);
   $CompendiumDatabaseManager get managers => $CompendiumDatabaseManager(this);
   late final $RulesetRecordsTable rulesetRecords = $RulesetRecordsTable(this);
   late final $EntityRecordsTable entityRecords = $EntityRecordsTable(this);
   late final $EntityLinksTable entityLinks = $EntityLinksTable(this);
+  late final $RulesetCollectionStatsTable rulesetCollectionStats =
+      $RulesetCollectionStatsTable(this);
+  late final $CompendiumBootstrapStatesTable compendiumBootstrapStates =
+      $CompendiumBootstrapStatesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2071,6 +2882,8 @@ abstract class _$CompendiumDatabase extends GeneratedDatabase {
     rulesetRecords,
     entityRecords,
     entityLinks,
+    rulesetCollectionStats,
+    compendiumBootstrapStates,
   ];
 }
 
@@ -3077,6 +3890,471 @@ typedef $$EntityLinksTableProcessedTableManager =
       EntityLink,
       PrefetchHooks Function()
     >;
+typedef $$RulesetCollectionStatsTableCreateCompanionBuilder =
+    RulesetCollectionStatsCompanion Function({
+      required String rulesetId,
+      required String entityType,
+      required String collectionKey,
+      required String label,
+      Value<int> entityCount,
+      Value<int> rowid,
+    });
+typedef $$RulesetCollectionStatsTableUpdateCompanionBuilder =
+    RulesetCollectionStatsCompanion Function({
+      Value<String> rulesetId,
+      Value<String> entityType,
+      Value<String> collectionKey,
+      Value<String> label,
+      Value<int> entityCount,
+      Value<int> rowid,
+    });
+
+class $$RulesetCollectionStatsTableFilterComposer
+    extends Composer<_$CompendiumDatabase, $RulesetCollectionStatsTable> {
+  $$RulesetCollectionStatsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get rulesetId => $composableBuilder(
+    column: $table.rulesetId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get collectionKey => $composableBuilder(
+    column: $table.collectionKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get entityCount => $composableBuilder(
+    column: $table.entityCount,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$RulesetCollectionStatsTableOrderingComposer
+    extends Composer<_$CompendiumDatabase, $RulesetCollectionStatsTable> {
+  $$RulesetCollectionStatsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get rulesetId => $composableBuilder(
+    column: $table.rulesetId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get collectionKey => $composableBuilder(
+    column: $table.collectionKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get entityCount => $composableBuilder(
+    column: $table.entityCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$RulesetCollectionStatsTableAnnotationComposer
+    extends Composer<_$CompendiumDatabase, $RulesetCollectionStatsTable> {
+  $$RulesetCollectionStatsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get rulesetId =>
+      $composableBuilder(column: $table.rulesetId, builder: (column) => column);
+
+  GeneratedColumn<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get collectionKey => $composableBuilder(
+    column: $table.collectionKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get label =>
+      $composableBuilder(column: $table.label, builder: (column) => column);
+
+  GeneratedColumn<int> get entityCount => $composableBuilder(
+    column: $table.entityCount,
+    builder: (column) => column,
+  );
+}
+
+class $$RulesetCollectionStatsTableTableManager
+    extends
+        RootTableManager<
+          _$CompendiumDatabase,
+          $RulesetCollectionStatsTable,
+          RulesetCollectionStat,
+          $$RulesetCollectionStatsTableFilterComposer,
+          $$RulesetCollectionStatsTableOrderingComposer,
+          $$RulesetCollectionStatsTableAnnotationComposer,
+          $$RulesetCollectionStatsTableCreateCompanionBuilder,
+          $$RulesetCollectionStatsTableUpdateCompanionBuilder,
+          (
+            RulesetCollectionStat,
+            BaseReferences<
+              _$CompendiumDatabase,
+              $RulesetCollectionStatsTable,
+              RulesetCollectionStat
+            >,
+          ),
+          RulesetCollectionStat,
+          PrefetchHooks Function()
+        > {
+  $$RulesetCollectionStatsTableTableManager(
+    _$CompendiumDatabase db,
+    $RulesetCollectionStatsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RulesetCollectionStatsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$RulesetCollectionStatsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$RulesetCollectionStatsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> rulesetId = const Value.absent(),
+                Value<String> entityType = const Value.absent(),
+                Value<String> collectionKey = const Value.absent(),
+                Value<String> label = const Value.absent(),
+                Value<int> entityCount = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RulesetCollectionStatsCompanion(
+                rulesetId: rulesetId,
+                entityType: entityType,
+                collectionKey: collectionKey,
+                label: label,
+                entityCount: entityCount,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String rulesetId,
+                required String entityType,
+                required String collectionKey,
+                required String label,
+                Value<int> entityCount = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RulesetCollectionStatsCompanion.insert(
+                rulesetId: rulesetId,
+                entityType: entityType,
+                collectionKey: collectionKey,
+                label: label,
+                entityCount: entityCount,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$RulesetCollectionStatsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CompendiumDatabase,
+      $RulesetCollectionStatsTable,
+      RulesetCollectionStat,
+      $$RulesetCollectionStatsTableFilterComposer,
+      $$RulesetCollectionStatsTableOrderingComposer,
+      $$RulesetCollectionStatsTableAnnotationComposer,
+      $$RulesetCollectionStatsTableCreateCompanionBuilder,
+      $$RulesetCollectionStatsTableUpdateCompanionBuilder,
+      (
+        RulesetCollectionStat,
+        BaseReferences<
+          _$CompendiumDatabase,
+          $RulesetCollectionStatsTable,
+          RulesetCollectionStat
+        >,
+      ),
+      RulesetCollectionStat,
+      PrefetchHooks Function()
+    >;
+typedef $$CompendiumBootstrapStatesTableCreateCompanionBuilder =
+    CompendiumBootstrapStatesCompanion Function({
+      required String rulesetId,
+      Value<String> assetVersion,
+      Value<String> state,
+      Value<double> progress,
+      Value<String?> lastError,
+      Value<DateTime?> updatedAt,
+      Value<int> rowid,
+    });
+typedef $$CompendiumBootstrapStatesTableUpdateCompanionBuilder =
+    CompendiumBootstrapStatesCompanion Function({
+      Value<String> rulesetId,
+      Value<String> assetVersion,
+      Value<String> state,
+      Value<double> progress,
+      Value<String?> lastError,
+      Value<DateTime?> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$CompendiumBootstrapStatesTableFilterComposer
+    extends Composer<_$CompendiumDatabase, $CompendiumBootstrapStatesTable> {
+  $$CompendiumBootstrapStatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get rulesetId => $composableBuilder(
+    column: $table.rulesetId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get assetVersion => $composableBuilder(
+    column: $table.assetVersion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get progress => $composableBuilder(
+    column: $table.progress,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastError => $composableBuilder(
+    column: $table.lastError,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CompendiumBootstrapStatesTableOrderingComposer
+    extends Composer<_$CompendiumDatabase, $CompendiumBootstrapStatesTable> {
+  $$CompendiumBootstrapStatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get rulesetId => $composableBuilder(
+    column: $table.rulesetId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get assetVersion => $composableBuilder(
+    column: $table.assetVersion,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get state => $composableBuilder(
+    column: $table.state,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get progress => $composableBuilder(
+    column: $table.progress,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastError => $composableBuilder(
+    column: $table.lastError,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CompendiumBootstrapStatesTableAnnotationComposer
+    extends Composer<_$CompendiumDatabase, $CompendiumBootstrapStatesTable> {
+  $$CompendiumBootstrapStatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get rulesetId =>
+      $composableBuilder(column: $table.rulesetId, builder: (column) => column);
+
+  GeneratedColumn<String> get assetVersion => $composableBuilder(
+    column: $table.assetVersion,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get state =>
+      $composableBuilder(column: $table.state, builder: (column) => column);
+
+  GeneratedColumn<double> get progress =>
+      $composableBuilder(column: $table.progress, builder: (column) => column);
+
+  GeneratedColumn<String> get lastError =>
+      $composableBuilder(column: $table.lastError, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$CompendiumBootstrapStatesTableTableManager
+    extends
+        RootTableManager<
+          _$CompendiumDatabase,
+          $CompendiumBootstrapStatesTable,
+          CompendiumBootstrapState,
+          $$CompendiumBootstrapStatesTableFilterComposer,
+          $$CompendiumBootstrapStatesTableOrderingComposer,
+          $$CompendiumBootstrapStatesTableAnnotationComposer,
+          $$CompendiumBootstrapStatesTableCreateCompanionBuilder,
+          $$CompendiumBootstrapStatesTableUpdateCompanionBuilder,
+          (
+            CompendiumBootstrapState,
+            BaseReferences<
+              _$CompendiumDatabase,
+              $CompendiumBootstrapStatesTable,
+              CompendiumBootstrapState
+            >,
+          ),
+          CompendiumBootstrapState,
+          PrefetchHooks Function()
+        > {
+  $$CompendiumBootstrapStatesTableTableManager(
+    _$CompendiumDatabase db,
+    $CompendiumBootstrapStatesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CompendiumBootstrapStatesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$CompendiumBootstrapStatesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$CompendiumBootstrapStatesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> rulesetId = const Value.absent(),
+                Value<String> assetVersion = const Value.absent(),
+                Value<String> state = const Value.absent(),
+                Value<double> progress = const Value.absent(),
+                Value<String?> lastError = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CompendiumBootstrapStatesCompanion(
+                rulesetId: rulesetId,
+                assetVersion: assetVersion,
+                state: state,
+                progress: progress,
+                lastError: lastError,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String rulesetId,
+                Value<String> assetVersion = const Value.absent(),
+                Value<String> state = const Value.absent(),
+                Value<double> progress = const Value.absent(),
+                Value<String?> lastError = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CompendiumBootstrapStatesCompanion.insert(
+                rulesetId: rulesetId,
+                assetVersion: assetVersion,
+                state: state,
+                progress: progress,
+                lastError: lastError,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CompendiumBootstrapStatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CompendiumDatabase,
+      $CompendiumBootstrapStatesTable,
+      CompendiumBootstrapState,
+      $$CompendiumBootstrapStatesTableFilterComposer,
+      $$CompendiumBootstrapStatesTableOrderingComposer,
+      $$CompendiumBootstrapStatesTableAnnotationComposer,
+      $$CompendiumBootstrapStatesTableCreateCompanionBuilder,
+      $$CompendiumBootstrapStatesTableUpdateCompanionBuilder,
+      (
+        CompendiumBootstrapState,
+        BaseReferences<
+          _$CompendiumDatabase,
+          $CompendiumBootstrapStatesTable,
+          CompendiumBootstrapState
+        >,
+      ),
+      CompendiumBootstrapState,
+      PrefetchHooks Function()
+    >;
 
 class $CompendiumDatabaseManager {
   final _$CompendiumDatabase _db;
@@ -3087,4 +4365,14 @@ class $CompendiumDatabaseManager {
       $$EntityRecordsTableTableManager(_db, _db.entityRecords);
   $$EntityLinksTableTableManager get entityLinks =>
       $$EntityLinksTableTableManager(_db, _db.entityLinks);
+  $$RulesetCollectionStatsTableTableManager get rulesetCollectionStats =>
+      $$RulesetCollectionStatsTableTableManager(
+        _db,
+        _db.rulesetCollectionStats,
+      );
+  $$CompendiumBootstrapStatesTableTableManager get compendiumBootstrapStates =>
+      $$CompendiumBootstrapStatesTableTableManager(
+        _db,
+        _db.compendiumBootstrapStates,
+      );
 }

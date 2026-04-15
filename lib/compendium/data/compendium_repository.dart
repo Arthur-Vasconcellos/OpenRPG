@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/services.dart';
+import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_database.dart';
 import 'package:openrpg/compendium/data/ruleset_portability.dart';
-import 'package:openrpg/compendium/generated/compendium_generated.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_link.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
@@ -19,27 +19,22 @@ class CompendiumRepository {
 
   final CompendiumDatabase _database;
   final AssetStringLoader _assetLoader;
+  final CompendiumBrowseRepository _browseRepository;
 
   CompendiumRepository({
     CompendiumDatabase? database,
     AssetStringLoader? assetLoader,
   }) : _database = database ?? const _CompendiumDatabaseFactory().instance,
-       _assetLoader = assetLoader ?? rootBundle.loadString;
+       _assetLoader = assetLoader ?? rootBundle.loadString,
+       _browseRepository = CompendiumBrowseRepository(
+         database: database ?? const _CompendiumDatabaseFactory().instance,
+       );
 
   Future<void> seedBundledRulesets() async {
-    for (final assetPath in bundledRulesetAssets) {
-      final jsonString = await _assetLoader(assetPath);
-      final ruleset = _normalizeRuleset(
-        jsonDecode(jsonString) as Map<String, dynamic>,
-        forcedMode: RulesetMode.bundled,
-      );
-      await _indexRuleset(ruleset, assetPath);
-    }
+    return;
   }
 
   Future<List<RulesetSummary>> loadInstalledRulesets() async {
-    await seedBundledRulesets();
-
     final query = _database.select(_database.rulesetRecords)
       ..orderBy([(tbl) => drift.OrderingTerm.asc(tbl.name)]);
     final records = await query.get();
@@ -109,6 +104,9 @@ class CompendiumRepository {
         _database.entityRecords,
       )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
       await (_database.delete(
+        _database.rulesetCollectionStats,
+      )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
+      await (_database.delete(
         _database.rulesetRecords,
       )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
     });
@@ -170,89 +168,23 @@ class CompendiumRepository {
     required String entityType,
     String query = '',
     String? source,
+    int page = 0,
+    int pageSize = 100,
   }) async {
-    final descriptor = descriptorForType(entityType);
-    if (descriptor == null) {
-      throw StateError('Unknown entity type $entityType.');
-    }
-
-    final selection = _database.select(_database.entityRecords)
-      ..where((tbl) => tbl.rulesetId.equals(rulesetId))
-      ..where((tbl) => tbl.entityType.equals(entityType));
-
-    if (source != null && source.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.source.equals(source.trim()));
-    }
-
-    final trimmedQuery = query.trim().toLowerCase();
-    if (trimmedQuery.isNotEmpty) {
-      selection.where((tbl) => tbl.searchText.like('%$trimmedQuery%'));
-    }
-
-    selection.orderBy([(tbl) => drift.OrderingTerm.asc(tbl.sortName)]);
-
-    final rows = await selection.get();
-    final items = rows
-        .map(
-          (row) => parseEntityJson(
-            entityType,
-            jsonDecode(row.payloadJson) as Map<String, dynamic>,
-          ),
-        )
-        .whereType<CompendiumEntity>()
-        .toList(growable: false);
-
-    final sources = <String>{
-      for (final row in rows)
-        if (row.source.trim().isNotEmpty) row.source.trim(),
-    }.toList()..sort();
-
-    return CompendiumCollectionPage(
+    return _browseRepository.loadCollectionPage(
       rulesetId: rulesetId,
       entityType: entityType,
-      items: items,
-      availableSources: sources,
+      query: query,
+      source: source,
+      page: page,
+      pageSize: pageSize,
     );
   }
 
   Future<List<CompendiumSearchResult>> searchEntities(
     CompendiumSearchQuery query,
   ) async {
-    final selection = _database.select(_database.entityRecords);
-
-    if (query.rulesetIds.isNotEmpty) {
-      selection.where((tbl) => tbl.rulesetId.isIn(query.rulesetIds));
-    }
-
-    if (query.entityTypes.isNotEmpty) {
-      selection.where((tbl) => tbl.entityType.isIn(query.entityTypes));
-    }
-
-    if (query.source != null && query.source!.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.source.equals(query.source!.trim()));
-    }
-
-    final trimmed = query.text.trim().toLowerCase();
-    if (trimmed.isNotEmpty) {
-      selection.where((tbl) => tbl.searchText.like('%$trimmed%'));
-    }
-
-    selection
-      ..orderBy([(tbl) => drift.OrderingTerm.asc(tbl.sortName)])
-      ..limit(query.limit);
-
-    final rows = await selection.get();
-    return rows
-        .map(
-          (row) => CompendiumSearchResult(
-            rulesetId: row.rulesetId,
-            entity: parseEntityJson(
-              row.entityType,
-              jsonDecode(row.payloadJson) as Map<String, dynamic>,
-            )!,
-          ),
-        )
-        .toList(growable: false);
+    return _browseRepository.searchEntityPreviews(query);
   }
 
   Future<CompendiumEntityDetail> getEntityDetail({
@@ -260,25 +192,10 @@ class CompendiumRepository {
     required String entityType,
     required String entityId,
   }) async {
-    final row =
-        await (_database.select(_database.entityRecords)
-              ..where((tbl) => tbl.rulesetId.equals(rulesetId))
-              ..where((tbl) => tbl.entityType.equals(entityType))
-              ..where((tbl) => tbl.entityId.equals(entityId)))
-            .getSingleOrNull();
-    if (row == null) {
-      throw StateError('Entity $entityId was not found.');
-    }
-
-    final entity = parseEntityJson(
-      entityType,
-      jsonDecode(row.payloadJson) as Map<String, dynamic>,
-    )!;
-
-    return CompendiumEntityDetail(
+    return _browseRepository.loadEntityDetail(
       rulesetId: rulesetId,
-      entity: entity,
-      outgoingLinks: _extractLinks(entity),
+      entityType: entityType,
+      entityId: entityId,
     );
   }
 
@@ -286,43 +203,9 @@ class CompendiumRepository {
     CompendiumLinkCandidate candidate, {
     String? preferredRulesetId,
   }) async {
-    if (candidate.targetEntityType == null) {
-      return null;
-    }
-
-    final selection = _database.select(_database.entityRecords)
-      ..where((tbl) => tbl.entityType.equals(candidate.targetEntityType!))
-      ..where((tbl) => tbl.name.equals(candidate.displayText));
-
-    if (candidate.source != null && candidate.source!.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.source.equals(candidate.source!.trim()));
-    }
-
-    selection.limit(20);
-    final rows = await selection.get();
-    if (rows.isEmpty) {
-      return null;
-    }
-
-    rows.sort((left, right) {
-      final leftPreferred =
-          preferredRulesetId != null && left.rulesetId == preferredRulesetId;
-      final rightPreferred =
-          preferredRulesetId != null && right.rulesetId == preferredRulesetId;
-      if (leftPreferred != rightPreferred) {
-        return leftPreferred ? -1 : 1;
-      }
-
-      return left.name.compareTo(right.name);
-    });
-
-    final row = rows.first;
-    return CompendiumSearchResult(
-      rulesetId: row.rulesetId,
-      entity: parseEntityJson(
-        row.entityType,
-        jsonDecode(row.payloadJson) as Map<String, dynamic>,
-      )!,
+    return _browseRepository.resolveLink(
+      candidate,
+      preferredRulesetId: preferredRulesetId,
     );
   }
 
@@ -378,6 +261,9 @@ class CompendiumRepository {
       await (_database.delete(
         _database.entityRecords,
       )..where((tbl) => tbl.rulesetId.equals(ruleset.id))).go();
+      await (_database.delete(
+        _database.rulesetCollectionStats,
+      )..where((tbl) => tbl.rulesetId.equals(ruleset.id))).go();
 
       await _database
           .into(_database.rulesetRecords)
@@ -399,6 +285,20 @@ class CompendiumRepository {
               extraJson: drift.Value(jsonEncode(ruleset.extra)),
             ),
           );
+
+      for (final view in ruleset.collectionViews) {
+        await _database
+            .into(_database.rulesetCollectionStats)
+            .insertOnConflictUpdate(
+              RulesetCollectionStatsCompanion.insert(
+                rulesetId: ruleset.id,
+                entityType: view.definition.entityType,
+                collectionKey: view.definition.collectionKey,
+                label: view.definition.label,
+                entityCount: drift.Value(view.entities.length),
+              ),
+            );
+      }
 
       for (final entity in ruleset.allEntities) {
         await _database

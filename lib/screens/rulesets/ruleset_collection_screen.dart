@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/generated/compendium_generated.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
@@ -23,48 +26,112 @@ class RulesetCollectionScreen extends StatefulWidget {
 }
 
 class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
+  final CompendiumBrowseRepository _browseRepository =
+      CompendiumBrowseRepository();
   final CompendiumRepository _repository = CompendiumRepository();
   final TextEditingController _searchController = TextEditingController();
-  late Future<_CollectionState> _futureState;
+
+  RulesetSummary? _summary;
+  final List<CompendiumEntityPreview> _items = [];
+  List<String> _availableSources = const [];
+  bool _isInitialLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMore = false;
   String? _selectedSource;
+  int _page = 0;
+  Timer? _searchDebounce;
 
   @override
   void initState() {
     super.initState();
-    _futureState = _loadState();
-    _searchController.addListener(() {
-      setState(() {});
-    });
+    _searchController.addListener(_onSearchChanged);
+    unawaited(_reload());
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    _searchDebounce?.cancel();
+    _searchController
+      ..removeListener(_onSearchChanged)
+      ..dispose();
     super.dispose();
   }
 
-  Future<_CollectionState> _loadState() async {
-    final ruleset = await _repository.loadRuleset(widget.rulesetId);
-    final page = await _repository.getCollectionPage(
-      rulesetId: widget.rulesetId,
-      entityType: widget.entityType,
-      query: _searchController.text,
-      source: _selectedSource,
-    );
-    return _CollectionState(ruleset: ruleset, page: page);
+  void _onSearchChanged() {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
+      if (!mounted) {
+        return;
+      }
+      unawaited(_reload());
+    });
   }
 
   Future<void> _reload() async {
     setState(() {
-      _futureState = _loadState();
+      _isInitialLoading = true;
+      _page = 0;
     });
-    await _futureState;
+
+    final summary = await _browseRepository.loadRulesetSummary(
+      widget.rulesetId,
+    );
+    final page = await _browseRepository.loadCollectionPage(
+      rulesetId: widget.rulesetId,
+      entityType: widget.entityType,
+      query: _searchController.text,
+      source: _selectedSource,
+      page: 0,
+      pageSize: 100,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _summary = summary;
+      _items
+        ..clear()
+        ..addAll(page.items);
+      _availableSources = page.availableSources;
+      _hasMore = page.hasMore;
+      _isInitialLoading = false;
+    });
   }
 
-  Future<void> _editEntity(
-    _CollectionState state, [
-    CompendiumEntity? entity,
-  ]) async {
+  Future<void> _loadMore() async {
+    if (_isLoadingMore || !_hasMore) {
+      return;
+    }
+
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    final nextPage = _page + 1;
+    final page = await _browseRepository.loadCollectionPage(
+      rulesetId: widget.rulesetId,
+      entityType: widget.entityType,
+      query: _searchController.text,
+      source: _selectedSource,
+      page: nextPage,
+      pageSize: 100,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _page = nextPage;
+      _items.addAll(page.items);
+      _hasMore = page.hasMore;
+      _isLoadingMore = false;
+    });
+  }
+
+  Future<void> _editEntity([CompendiumEntity? entity]) async {
     final updated = await Navigator.of(context).push<CompendiumEntity>(
       MaterialPageRoute(
         builder: (_) => RulesetObjectEditorScreen(
@@ -81,10 +148,7 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
     await _reload();
   }
 
-  Future<void> _deleteEntity(
-    _CollectionState state,
-    CompendiumEntity entity,
-  ) async {
+  Future<void> _deleteEntity(CompendiumEntityPreview entity) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -109,7 +173,7 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
     await _repository.deleteEntity(
       rulesetId: widget.rulesetId,
       entityType: entity.entityType,
-      entityId: entity.id,
+      entityId: entity.entityId,
     );
     await _reload();
   }
@@ -117,173 +181,154 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
   @override
   Widget build(BuildContext context) {
     final descriptor = descriptorForType(widget.entityType);
+    final canEdit = _summary?.mode != RulesetMode.bundled.name;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(descriptor?.collection.label ?? widget.entityType),
       ),
-      floatingActionButton: FutureBuilder<_CollectionState>(
-        future: _futureState,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData ||
-              snapshot.data!.ruleset.mode == RulesetMode.bundled) {
-            return const SizedBox.shrink();
-          }
-
-          return FloatingActionButton.extended(
-            onPressed: () => _editEntity(snapshot.data!),
-            icon: const Icon(Icons.add),
-            label: const Text('Add Entity'),
-          );
-        },
-      ),
-      body: FutureBuilder<_CollectionState>(
-        future: _futureState,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(
-                  'Failed to load collection.\n${snapshot.error}',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          }
-
-          final state = snapshot.data!;
-          final canEdit = state.ruleset.mode != RulesetMode.bundled;
-
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'Search this collection',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(),
-                  ),
-                  onSubmitted: (_) => _reload(),
-                ),
-              ),
-              if (state.page.availableSources.isNotEmpty)
+      floatingActionButton: !canEdit
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: () => _editEntity(),
+              icon: const Icon(Icons.add),
+              label: const Text('Add Entity'),
+            ),
+      body: _isInitialLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: DropdownButton<String?>(
-                      value: _selectedSource,
-                      hint: const Text('Filter by source'),
-                      items: [
-                        const DropdownMenuItem<String?>(
-                          value: null,
-                          child: Text('All Sources'),
-                        ),
-                        ...state.page.availableSources.map(
-                          (source) => DropdownMenuItem<String?>(
-                            value: source,
-                            child: Text(source),
-                          ),
-                        ),
-                      ],
-                      onChanged: (value) async {
-                        setState(() {
-                          _selectedSource = value;
-                        });
-                        await _reload();
-                      },
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      hintText: 'Search this collection',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
                     ),
                   ),
                 ),
-              const SizedBox(height: 6),
-              Expanded(
-                child: state.page.items.isEmpty
-                    ? const Center(
-                        child: Text('No entities matched this collection.'),
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: state.page.items.length,
-                        separatorBuilder: (_, separatorIndex) =>
-                            const SizedBox(height: 12),
-                        itemBuilder: (context, index) {
-                          final entity = state.page.items[index];
-                          return Card(
-                            child: ListTile(
-                              title: Text(entity.displayName),
-                              subtitle: Text(
-                                entity.source.isEmpty
-                                    ? entity.id
-                                    : '${entity.source}\n${entity.id}',
-                              ),
-                              isThreeLine: entity.source.isNotEmpty,
-                              trailing: PopupMenuButton<String>(
-                                onSelected: (value) async {
-                                  switch (value) {
-                                    case 'open':
-                                      await _openEntity(entity);
-                                      break;
-                                    case 'edit':
-                                      await _editEntity(state, entity);
-                                      break;
-                                    case 'delete':
-                                      await _deleteEntity(state, entity);
-                                      break;
-                                  }
-                                },
-                                itemBuilder: (context) => [
-                                  const PopupMenuItem(
-                                    value: 'open',
-                                    child: Text('Open'),
-                                  ),
-                                  if (canEdit)
-                                    const PopupMenuItem(
-                                      value: 'edit',
-                                      child: Text('Edit'),
-                                    ),
-                                  if (canEdit)
-                                    const PopupMenuItem(
-                                      value: 'delete',
-                                      child: Text('Delete'),
-                                    ),
-                                ],
-                              ),
-                              onTap: () => _openEntity(entity),
+                if (_availableSources.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: DropdownButton<String?>(
+                        value: _selectedSource,
+                        hint: const Text('Filter by source'),
+                        items: [
+                          const DropdownMenuItem<String?>(
+                            value: null,
+                            child: Text('All Sources'),
+                          ),
+                          ..._availableSources.map(
+                            (source) => DropdownMenuItem<String?>(
+                              value: source,
+                              child: Text(source),
                             ),
-                          );
+                          ),
+                        ],
+                        onChanged: (value) async {
+                          setState(() {
+                            _selectedSource = value;
+                          });
+                          await _reload();
                         },
                       ),
-              ),
-            ],
-          );
-        },
-      ),
+                    ),
+                  ),
+                const SizedBox(height: 6),
+                Expanded(
+                  child: _items.isEmpty
+                      ? const Center(
+                          child: Text('No entities matched this collection.'),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: _items.length + (_hasMore ? 1 : 0),
+                          separatorBuilder: (_, separatorIndex) =>
+                              const SizedBox(height: 12),
+                          itemBuilder: (context, index) {
+                            if (index == _items.length) {
+                              return Center(
+                                child: FilledButton.tonal(
+                                  onPressed: _isLoadingMore ? null : _loadMore,
+                                  child: Text(
+                                    _isLoadingMore ? 'Loading...' : 'Load more',
+                                  ),
+                                ),
+                              );
+                            }
+
+                            final entity = _items[index];
+                            return Card(
+                              child: ListTile(
+                                title: Text(entity.displayName),
+                                subtitle: Text(
+                                  entity.source.isEmpty
+                                      ? entity.entityId
+                                      : '${entity.source}\n${entity.entityId}',
+                                ),
+                                isThreeLine: entity.source.isNotEmpty,
+                                trailing: PopupMenuButton<String>(
+                                  onSelected: (value) async {
+                                    switch (value) {
+                                      case 'open':
+                                        await _openEntity(entity);
+                                        break;
+                                      case 'edit':
+                                        final detail = await _browseRepository
+                                            .loadEntityDetail(
+                                              rulesetId: widget.rulesetId,
+                                              entityType: entity.entityType,
+                                              entityId: entity.entityId,
+                                            );
+                                        await _editEntity(detail.entity);
+                                        break;
+                                      case 'delete':
+                                        await _deleteEntity(entity);
+                                        break;
+                                    }
+                                  },
+                                  itemBuilder: (context) => [
+                                    const PopupMenuItem(
+                                      value: 'open',
+                                      child: Text('Open'),
+                                    ),
+                                    if (canEdit)
+                                      const PopupMenuItem(
+                                        value: 'edit',
+                                        child: Text('Edit'),
+                                      ),
+                                    if (canEdit)
+                                      const PopupMenuItem(
+                                        value: 'delete',
+                                        child: Text('Delete'),
+                                      ),
+                                  ],
+                                ),
+                                onTap: () => _openEntity(entity),
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
     );
   }
 
-  Future<void> _openEntity(CompendiumEntity entity) async {
+  Future<void> _openEntity(CompendiumEntityPreview entity) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => CompendiumEntityDetailScreen(
           rulesetId: widget.rulesetId,
           entityType: entity.entityType,
-          entityId: entity.id,
+          entityId: entity.entityId,
         ),
       ),
     );
     await _reload();
   }
-}
-
-class _CollectionState {
-  final Ruleset ruleset;
-  final CompendiumCollectionPage page;
-
-  const _CollectionState({required this.ruleset, required this.page});
 }

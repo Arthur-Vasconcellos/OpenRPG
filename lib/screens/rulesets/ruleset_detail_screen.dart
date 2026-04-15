@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:openrpg/compendium/data/compendium_repository.dart';
+import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/generated/compendium_generated.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
-import 'package:openrpg/compendium/models/ruleset.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_detail_screen.dart';
 import 'package:openrpg/screens/rulesets/ruleset_collection_screen.dart';
 
@@ -16,38 +17,89 @@ class RulesetDetailScreen extends StatefulWidget {
 }
 
 class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
-  final CompendiumRepository _repository = CompendiumRepository();
+  final CompendiumBrowseRepository _browseRepository =
+      CompendiumBrowseRepository();
   final TextEditingController _searchController = TextEditingController();
-  late Future<Ruleset> _futureRuleset;
+
+  late Future<_RulesetDetailState> _futureState;
+  Future<List<CompendiumSearchResult>>? _futureSearchResults;
+  Timer? _searchDebounce;
 
   @override
   void initState() {
     super.initState();
-    _futureRuleset = _repository.loadRuleset(widget.rulesetId);
-    _searchController.addListener(() {
-      setState(() {});
-    });
+    _futureState = _loadState();
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    _searchDebounce?.cancel();
+    _searchController
+      ..removeListener(_onSearchChanged)
+      ..dispose();
     super.dispose();
+  }
+
+  Future<_RulesetDetailState> _loadState() async {
+    final summary = await _browseRepository.loadRulesetSummary(
+      widget.rulesetId,
+    );
+    final collections = await _browseRepository.loadCollectionSummaries(
+      widget.rulesetId,
+    );
+    return _RulesetDetailState(summary: summary, collections: collections);
+  }
+
+  void _onSearchChanged() {
+    _searchDebounce?.cancel();
+    final query = _searchController.text.trim();
+    if (query.isEmpty) {
+      setState(() {
+        _futureSearchResults = null;
+      });
+      return;
+    }
+
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _futureSearchResults = _browseRepository.searchEntityPreviews(
+          CompendiumSearchQuery(
+            text: query,
+            rulesetIds: [widget.rulesetId],
+            limit: 150,
+          ),
+        );
+      });
+    });
   }
 
   Future<void> _reload() async {
     setState(() {
-      _futureRuleset = _repository.loadRuleset(widget.rulesetId);
+      _futureState = _loadState();
+      if (_searchController.text.trim().isNotEmpty) {
+        _futureSearchResults = _browseRepository.searchEntityPreviews(
+          CompendiumSearchQuery(
+            text: _searchController.text.trim(),
+            rulesetIds: [widget.rulesetId],
+            limit: 150,
+          ),
+        );
+      }
     });
-    await _futureRuleset;
+    await _futureState;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ruleset Browser')),
-      body: FutureBuilder<Ruleset>(
-        future: _futureRuleset,
+      body: FutureBuilder<_RulesetDetailState>(
+        future: _futureState,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
@@ -65,7 +117,7 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
             );
           }
 
-          final ruleset = snapshot.data!;
+          final state = snapshot.data!;
           final query = _searchController.text.trim();
 
           return ListView(
@@ -78,24 +130,28 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        ruleset.name,
+                        state.summary.name,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       const SizedBox(height: 8),
-                      if (ruleset.description.trim().isNotEmpty)
-                        Text(ruleset.description),
+                      if (state.summary.description.trim().isNotEmpty)
+                        Text(state.summary.description),
                       const SizedBox(height: 16),
                       Wrap(
                         spacing: 10,
                         runSpacing: 10,
                         children: [
-                          Chip(label: Text('Mode: ${ruleset.mode.name}')),
+                          Chip(label: Text('Mode: ${state.summary.mode}')),
                           Chip(
                             label: Text(
-                              'Entities: ${ruleset.totalEntityCount}',
+                              'Entities: ${state.summary.entityCount}',
                             ),
                           ),
-                          Chip(label: Text('Schema: ${ruleset.schemaVersion}')),
+                          Chip(
+                            label: Text(
+                              'Schema: ${state.summary.schemaVersion}',
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -113,20 +169,20 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
               ),
               const SizedBox(height: 18),
               if (query.isEmpty)
-                ...ruleset.collectionViews
-                    .where((view) => view.entities.isNotEmpty)
+                ...state.collections
+                    .where((view) => view.entityCount > 0)
                     .map(
                       (view) => Card(
                         child: ListTile(
-                          title: Text(view.definition.label),
-                          subtitle: Text('${view.entities.length} records'),
+                          title: Text(view.label),
+                          subtitle: Text('${view.entityCount} records'),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () async {
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) => RulesetCollectionScreen(
-                                  rulesetId: ruleset.id,
-                                  entityType: view.definition.entityType,
+                                  rulesetId: state.summary.id,
+                                  entityType: view.entityType,
                                 ),
                               ),
                             );
@@ -137,22 +193,28 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
                     )
               else
                 FutureBuilder<List<CompendiumSearchResult>>(
-                  future: _repository.searchEntities(
-                    CompendiumSearchQuery(
-                      text: query,
-                      rulesetIds: [ruleset.id],
-                      limit: 150,
-                    ),
-                  ),
+                  future: _futureSearchResults,
                   builder: (context, searchSnapshot) {
-                    if (!searchSnapshot.hasData) {
+                    if (_futureSearchResults == null ||
+                        searchSnapshot.connectionState !=
+                            ConnectionState.done) {
                       return const Padding(
                         padding: EdgeInsets.all(24),
                         child: Center(child: CircularProgressIndicator()),
                       );
                     }
 
-                    final results = searchSnapshot.data!;
+                    if (searchSnapshot.hasError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Text(
+                          'Search failed.\n${searchSnapshot.error}',
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    }
+
+                    final results = searchSnapshot.data ?? const [];
                     if (results.isEmpty) {
                       return const Padding(
                         padding: EdgeInsets.all(24),
@@ -163,33 +225,37 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
                     }
 
                     return Column(
-                      children: results.map((result) {
-                        final descriptor = descriptorForType(
-                          result.entity.entityType,
-                        );
-                        return Card(
-                          child: ListTile(
-                            title: Text(result.entity.displayName),
-                            subtitle: Text(
-                              '${descriptor?.collection.label ?? result.entity.entityType}'
-                              '${result.entity.source.isNotEmpty ? ' • ${result.entity.source}' : ''}',
-                            ),
-                            trailing: const Icon(Icons.chevron_right),
-                            onTap: () async {
-                              await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => CompendiumEntityDetailScreen(
-                                    rulesetId: result.rulesetId,
-                                    entityType: result.entity.entityType,
-                                    entityId: result.entity.id,
-                                  ),
+                      children: results
+                          .map((result) {
+                            final preview = result.preview;
+                            final descriptor = descriptorForType(
+                              preview.entityType,
+                            );
+                            return Card(
+                              child: ListTile(
+                                title: Text(preview.displayName),
+                                subtitle: Text(
+                                  '${descriptor?.collection.label ?? preview.entityType}'
+                                  '${preview.source.isNotEmpty ? ' - ${preview.source}' : ''}',
                                 ),
-                              );
-                              await _reload();
-                            },
-                          ),
-                        );
-                      }).toList(),
+                                trailing: const Icon(Icons.chevron_right),
+                                onTap: () async {
+                                  await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          CompendiumEntityDetailScreen(
+                                            rulesetId: preview.rulesetId,
+                                            entityType: preview.entityType,
+                                            entityId: preview.entityId,
+                                          ),
+                                    ),
+                                  );
+                                  await _reload();
+                                },
+                              ),
+                            );
+                          })
+                          .toList(growable: false),
                     );
                   },
                 ),
@@ -199,4 +265,11 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
       ),
     );
   }
+}
+
+class _RulesetDetailState {
+  final RulesetSummary summary;
+  final List<RulesetCollectionSummary> collections;
+
+  const _RulesetDetailState({required this.summary, required this.collections});
 }

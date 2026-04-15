@@ -53,19 +53,54 @@ class EntityLinks extends Table {
   TextColumn get targetEntityType => text().nullable()();
 }
 
-@DriftDatabase(tables: [RulesetRecords, EntityRecords, EntityLinks])
+class RulesetCollectionStats extends Table {
+  TextColumn get rulesetId => text()();
+  TextColumn get entityType => text()();
+  TextColumn get collectionKey => text()();
+  TextColumn get label => text()();
+  IntColumn get entityCount => integer().withDefault(const Constant(0))();
+
+  @override
+  Set<Column<Object>> get primaryKey => {rulesetId, entityType};
+}
+
+class CompendiumBootstrapStates extends Table {
+  TextColumn get rulesetId => text()();
+  TextColumn get assetVersion => text().withDefault(const Constant(''))();
+  TextColumn get state => text().withDefault(const Constant('idle'))();
+  RealColumn get progress => real().withDefault(const Constant(0))();
+  TextColumn get lastError => text().nullable()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {rulesetId};
+}
+
+@DriftDatabase(
+  tables: [
+    RulesetRecords,
+    EntityRecords,
+    EntityLinks,
+    RulesetCollectionStats,
+    CompendiumBootstrapStates,
+  ],
+)
 class CompendiumDatabase extends _$CompendiumDatabase {
   CompendiumDatabase({QueryExecutor? executor})
     : super(executor ?? openCompendiumDatabaseConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onUpgrade: (migrator, from, to) async {
       if (from < 2) {
         await migrator.addColumn(rulesetRecords, rulesetRecords.payloadJson);
+      }
+      if (from < 3) {
+        await migrator.createTable(rulesetCollectionStats);
+        await migrator.createTable(compendiumBootstrapStates);
       }
     },
   );
