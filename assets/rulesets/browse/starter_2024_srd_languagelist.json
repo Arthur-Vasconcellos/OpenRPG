@@ -1,0 +1,198 @@
+{
+  "rulesetId": "starter_2024_srd",
+  "entityType": "language",
+  "collectionKey": "languageList",
+  "entityRows": [
+    {
+      "entityId": "language:xphb:abyssal:37",
+      "name": "Abyssal",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "abyssal",
+      "searchText": "language:xphb:abyssal:37 abyssal xphb languages.json abyssal xphb 37 true true rare demons of the abyss",
+      "payloadJson": "{\"id\":\"language:xphb:abyssal:37\",\"name\":\"Abyssal\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Abyssal\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Demons of the Abyss\"}}"
+    },
+    {
+      "entityId": "language:xphb:celestial:37",
+      "name": "Celestial",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "celestial",
+      "searchText": "language:xphb:celestial:37 celestial xphb languages.json celestial xphb 37 true true rare celestials",
+      "payloadJson": "{\"id\":\"language:xphb:celestial:37\",\"name\":\"Celestial\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Celestial\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Celestials\"}}"
+    },
+    {
+      "entityId": "language:xphb:common:37",
+      "name": "Common",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "common",
+      "searchText": "language:xphb:common:37 common xphb languages.json common xphb 37 true true standard sigil",
+      "payloadJson": "{\"id\":\"language:xphb:common:37\",\"name\":\"Common\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Common\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Sigil\"}}"
+    },
+    {
+      "entityId": "language:xphb:common_sign_language:37",
+      "name": "Common Sign Language",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "common sign language",
+      "searchText": "language:xphb:common_sign_language:37 common sign language xphb languages.json common sign language xphb 37 true true standard sigil",
+      "payloadJson": "{\"id\":\"language:xphb:common_sign_language:37\",\"name\":\"Common Sign Language\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Common Sign Language\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Sigil\"}}"
+    },
+    {
+      "entityId": "language:xphb:deep_speech:37",
+      "name": "Deep Speech",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "deep speech",
+      "searchText": "language:xphb:deep_speech:37 deep speech xphb languages.json deep speech xphb 37 true true rare aberrations",
+      "payloadJson": "{\"id\":\"language:xphb:deep_speech:37\",\"name\":\"Deep Speech\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Deep Speech\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Aberrations\"}}"
+    },
+    {
+      "entityId": "language:xphb:draconic:37",
+      "name": "Draconic",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "draconic",
+      "searchText": "language:xphb:draconic:37 draconic xphb languages.json draconic xphb 37 true true standard dragons draconic",
+      "payloadJson": "{\"id\":\"language:xphb:draconic:37\",\"name\":\"Draconic\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Draconic\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Dragons\",\"script\":\"Draconic\"}}"
+    },
+    {
+      "entityId": "language:xphb:druidic:37",
+      "name": "Druidic",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "druidic",
+      "searchText": "language:xphb:druidic:37 druidic xphb languages.json druidic xphb 37 true true rare druidic circles",
+      "payloadJson": "{\"id\":\"language:xphb:druidic:37\",\"name\":\"Druidic\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Druidic\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Druidic circles\"}}"
+    },
+    {
+      "entityId": "language:xphb:dwarvish:37",
+      "name": "Dwarvish",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "dwarvish",
+      "searchText": "language:xphb:dwarvish:37 dwarvish xphb languages.json dwarvish xphb 37 true true standard dwarves",
+      "payloadJson": "{\"id\":\"language:xphb:dwarvish:37\",\"name\":\"Dwarvish\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Dwarvish\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Dwarves\"}}"
+    },
+    {
+      "entityId": "language:xphb:elvish:37",
+      "name": "Elvish",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "elvish",
+      "searchText": "language:xphb:elvish:37 elvish xphb languages.json elvish xphb 37 true true standard elves",
+      "payloadJson": "{\"id\":\"language:xphb:elvish:37\",\"name\":\"Elvish\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Elvish\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Elves\"}}"
+    },
+    {
+      "entityId": "language:xphb:giant:37",
+      "name": "Giant",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "giant",
+      "searchText": "language:xphb:giant:37 giant xphb languages.json giant xphb 37 true true standard giants",
+      "payloadJson": "{\"id\":\"language:xphb:giant:37\",\"name\":\"Giant\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Giant\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Giants\"}}"
+    },
+    {
+      "entityId": "language:xphb:gnomish:37",
+      "name": "Gnomish",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "gnomish",
+      "searchText": "language:xphb:gnomish:37 gnomish xphb languages.json gnomish xphb 37 true true standard gnomes",
+      "payloadJson": "{\"id\":\"language:xphb:gnomish:37\",\"name\":\"Gnomish\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Gnomish\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Gnomes\"}}"
+    },
+    {
+      "entityId": "language:xphb:goblin:37",
+      "name": "Goblin",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "goblin",
+      "searchText": "language:xphb:goblin:37 goblin xphb languages.json goblin xphb 37 true true standard goblinoids",
+      "payloadJson": "{\"id\":\"language:xphb:goblin:37\",\"name\":\"Goblin\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Goblin\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Goblinoids\"}}"
+    },
+    {
+      "entityId": "language:xphb:halfling:37",
+      "name": "Halfling",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "halfling",
+      "searchText": "language:xphb:halfling:37 halfling xphb languages.json halfling xphb 37 true true standard halflings",
+      "payloadJson": "{\"id\":\"language:xphb:halfling:37\",\"name\":\"Halfling\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Halfling\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Halflings\"}}"
+    },
+    {
+      "entityId": "language:xphb:infernal:37",
+      "name": "Infernal",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "infernal",
+      "searchText": "language:xphb:infernal:37 infernal xphb languages.json infernal xphb 37 true true rare devils of the nine hells",
+      "payloadJson": "{\"id\":\"language:xphb:infernal:37\",\"name\":\"Infernal\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Infernal\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Devils of the Nine Hells\"}}"
+    },
+    {
+      "entityId": "language:xphb:orc:37",
+      "name": "Orc",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "orc",
+      "searchText": "language:xphb:orc:37 orc xphb languages.json orc xphb 37 true true standard orcs",
+      "payloadJson": "{\"id\":\"language:xphb:orc:37\",\"name\":\"Orc\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Orc\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"standard\",\"origin\":\"Orcs\"}}"
+    },
+    {
+      "entityId": "language:xphb:primordial:37",
+      "name": "Primordial",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "primordial",
+      "searchText": "language:xphb:primordial:37 primordial xphb languages.json primordial auran aquan ignan terran xphb 37 true true rare elementals",
+      "payloadJson": "{\"id\":\"language:xphb:primordial:37\",\"name\":\"Primordial\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Primordial\",\"dialects\":[\"Auran\",\"Aquan\",\"Ignan\",\"Terran\"],\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Elementals\"}}"
+    },
+    {
+      "entityId": "language:xphb:sylvan:37",
+      "name": "Sylvan",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "sylvan",
+      "searchText": "language:xphb:sylvan:37 sylvan xphb languages.json sylvan xphb 37 true true rare the feywild",
+      "payloadJson": "{\"id\":\"language:xphb:sylvan:37\",\"name\":\"Sylvan\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Sylvan\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"The Feywild\"}}"
+    },
+    {
+      "entityId": "language:xphb:thieves_cant:37",
+      "name": "Thieves' Cant",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "thieves' cant",
+      "searchText": "language:xphb:thieves_cant:37 thieves' cant xphb languages.json thieves' cant xphb 37 true true rare various criminal guilds",
+      "payloadJson": "{\"id\":\"language:xphb:thieves_cant:37\",\"name\":\"Thieves' Cant\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Thieves' Cant\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"Various criminal guilds\"}}"
+    },
+    {
+      "entityId": "language:xphb:undercommon:37",
+      "name": "Undercommon",
+      "source": "XPHB",
+      "sourceFile": "languages.json",
+      "edition": null,
+      "sortName": "undercommon",
+      "searchText": "language:xphb:undercommon:37 undercommon xphb languages.json undercommon xphb 37 true true rare the underdark",
+      "payloadJson": "{\"id\":\"language:xphb:undercommon:37\",\"name\":\"Undercommon\",\"source\":\"XPHB\",\"sourceFile\":\"languages.json\",\"data\":{\"name\":\"Undercommon\",\"source\":\"XPHB\",\"page\":37,\"srd52\":true,\"basicRules2024\":true,\"type\":\"rare\",\"origin\":\"The Underdark\"}}"
+    }
+  ],
+  "linkRows": []
+}

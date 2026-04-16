@@ -1,0 +1,219 @@
+{
+  "rulesetId": "starter_2024_srd",
+  "entityType": "disease",
+  "collectionKey": "diseaseList",
+  "entityRows": [
+    {
+      "entityId": "disease:xdmg:cackle_fever:61",
+      "name": "Cackle Fever",
+      "source": "XDMG",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "cackle fever",
+      "searchText": "disease:xdmg:cackle_fever:61 cackle fever xdmg conditionsdiseases.json cackle fever xdmg 61 true magical contagion cheaply made potions and elixirs are sometimes tainted by cackle fever, which affects humanoids only (gnomes are strangely immune). a creature suffers the following effects {@dice 1d4} days after infection: list list-hang-notitle item fever the creature gains 1 {@condition exhaustion|xphb} level, which lasts until the contagion ends on the creature. item uncontrollable laughter while the creature has the {@condition exhaustion|xphb} condition, the creature makes a {@dc 13} constitution saving throw each time it takes damage other than psychic damage. on a failed save, the creature takes 5 ({@damage 1d10}) psychic damage and has the {@condition incapacitated|xphb} condition as it laughs uncontrollably. at the end of each of its turns, the creature repeats the save, ending the effect on itself on a success. after 1 minute, it succeeds automatically. entries entries fighting the contagion at the end of each long rest, an infected creature makes a {@dc 13} constitution saving throw. after the creature succeeds on three of these saves, the contagion ends on it, and the creature is immune to cackle fever for 1 year. entries spreading the contagion any humanoid (other than a gnome) that starts its turn within a 10-foot {@variantrule emanation [area of effect]|xphb|emanation} originating from a creature infected with cackle fever must succeed on a {@dc 10} constitution saving throw or also become infected with the contagion. on a successful save, the humanoid can't catch the contagion from that particular infected creature for the next 24 hours.",
+      "payloadJson": "{\"id\":\"disease:xdmg:cackle_fever:61\",\"name\":\"Cackle Fever\",\"source\":\"XDMG\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Cackle Fever\",\"source\":\"XDMG\",\"page\":61,\"srd52\":true,\"type\":\"Magical Contagion\",\"entries\":[\"Cheaply made potions and elixirs are sometimes tainted by Cackle Fever, which affects Humanoids only (gnomes are strangely immune). A creature suffers the following effects {@dice 1d4} days after infection:\",{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Fever\",\"entry\":\"The creature gains 1 {@condition Exhaustion|XPHB} level, which lasts until the contagion ends on the creature.\"},{\"type\":\"item\",\"name\":\"Uncontrollable Laughter\",\"entry\":\"While the creature has the {@condition Exhaustion|XPHB} condition, the creature makes a {@dc 13} Constitution saving throw each time it takes damage other than Psychic damage. On a failed save, the creature takes 5 ({@damage 1d10}) Psychic damage and has the {@condition Incapacitated|XPHB} condition as it laughs uncontrollably. At the end of each of its turns, the creature repeats the save, ending the effect on itself on a success. After 1 minute, it succeeds automatically.\"}]},{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Fighting the Contagion\",\"entries\":[\"At the end of each Long Rest, an infected creature makes a {@dc 13} Constitution saving throw. After the creature succeeds on three of these saves, the contagion ends on it, and the creature is immune to Cackle Fever for 1 year.\"]},{\"type\":\"entries\",\"name\":\"Spreading the Contagion\",\"entries\":[\"Any Humanoid (other than a gnome) that starts its turn within a 10-foot {@variantrule Emanation [Area of Effect]|XPHB|Emanation} originating from a creature infected with Cackle Fever must succeed on a {@dc 10} Constitution saving throw or also become infected with the contagion. On a successful save, the Humanoid can't catch the contagion from that particular infected creature for the next 24 hours.\"]}]}]}}"
+    },
+    {
+      "entityId": "disease:xdmg:sewer_plague:61",
+      "name": "Sewer Plague",
+      "source": "XDMG",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "sewer plague",
+      "searchText": "disease:xdmg:sewer_plague:61 sewer plague xdmg conditionsdiseases.json sewer plague xdmg 61 true magical contagion fouled potions and alchemical waste can give rise to sewer plague, which incubates in sewers and refuse heaps and is sometimes transmitted by creatures that dwell in such areas, including otyughs and rats. any humanoid that is wounded by a creature that carries the contagion or that comes into contact with contaminated filth or offal must succeed on a {@dc 11} constitution saving throw or become infected with sewer plague. a creature suffers the following effects {@dice 1d4} days after infection: list list-hang-notitle item fatigue the creature gains 1 {@condition exhaustion|xphb} level. item weakness while the creature has any exhaustion levels, it regains only half the normal number of hit points from spending hit point dice. item restlessness while the creature has any exhaustion levels, finishing a long rest neither restores lost hit points nor reduces the creature's exhaustion level. entries entries fighting the contagion daily at dawn, an infected creature makes a {@dc 11} constitution saving throw. on a failed save, the creature gains 1 {@condition exhaustion|xphb} level as its fatigue worsens. on a successful save, the creature's exhaustion level decreases by 1. if the creature's exhaustion level is reduced to 0, the contagion ends on the creature.",
+      "payloadJson": "{\"id\":\"disease:xdmg:sewer_plague:61\",\"name\":\"Sewer Plague\",\"source\":\"XDMG\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Sewer Plague\",\"source\":\"XDMG\",\"page\":61,\"srd52\":true,\"type\":\"Magical Contagion\",\"entries\":[\"Fouled potions and alchemical waste can give rise to Sewer Plague, which incubates in sewers and refuse heaps and is sometimes transmitted by creatures that dwell in such areas, including otyughs and rats. Any Humanoid that is wounded by a creature that carries the contagion or that comes into contact with contaminated filth or offal must succeed on a {@dc 11} Constitution saving throw or become infected with Sewer Plague. A creature suffers the following effects {@dice 1d4} days after infection:\",{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Fatigue\",\"entry\":\"The creature gains 1 {@condition Exhaustion|XPHB} level.\"},{\"type\":\"item\",\"name\":\"Weakness\",\"entry\":\"While the creature has any Exhaustion levels, it regains only half the normal number of Hit Points from spending Hit Point Dice.\"},{\"type\":\"item\",\"name\":\"Restlessness\",\"entry\":\"While the creature has any Exhaustion levels, finishing a Long Rest neither restores lost Hit Points nor reduces the creature's Exhaustion level.\"}]},{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Fighting the Contagion\",\"entries\":[\"Daily at dawn, an infected creature makes a {@dc 11} Constitution saving throw. On a failed save, the creature gains 1 {@condition Exhaustion|XPHB} level as its fatigue worsens. On a successful save, the creature's Exhaustion level decreases by 1. If the creature's Exhaustion level is reduced to 0, the contagion ends on the creature.\"]}]}]}}"
+    },
+    {
+      "entityId": "disease:xdmg:sight_rot:61",
+      "name": "Sight Rot",
+      "source": "XDMG",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "sight rot",
+      "searchText": "disease:xdmg:sight_rot:61 sight rot xdmg conditionsdiseases.json sight rot xdmg 61 true magical contagion any beast or humanoid that drinks water tainted by sight rot must succeed on a {@dc 15} constitution saving throw or have the {@condition blinded|xphb} condition until the contagion ends. entries entries fighting the contagion magic such as a {@spell heal|xphb} or {@spell lesser restoration|xphb} spell ends the contagion immediately. a character who is proficient with an {@item herbalism kit|xphb} can use it to create one dose of nonmagical ointment, which takes 1 hour. when applied to the eyes of a creature suffering from sight rot, the ointment suppresses the contagion on that creature for 24 hours. if the contagion is suppressed in this way for a total of 72 hours (requiring three doses and applications of the ointment), the contagion ends on the creature. entries spreading the contagion any humanoid that makes skin contact with a creature infected with sight rot must succeed on a {@dc 15} constitution saving throw or also become infected with the contagion. on a successful save, the humanoid can't catch the contagion from that particular infected creature for the next 24 hours.",
+      "payloadJson": "{\"id\":\"disease:xdmg:sight_rot:61\",\"name\":\"Sight Rot\",\"source\":\"XDMG\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Sight Rot\",\"source\":\"XDMG\",\"page\":61,\"srd52\":true,\"type\":\"Magical Contagion\",\"entries\":[\"Any Beast or Humanoid that drinks water tainted by Sight Rot must succeed on a {@dc 15} Constitution saving throw or have the {@condition Blinded|XPHB} condition until the contagion ends.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Fighting the Contagion\",\"entries\":[\"Magic such as a {@spell Heal|XPHB} or {@spell Lesser Restoration|XPHB} spell ends the contagion immediately. A character who is proficient with an {@item Herbalism Kit|XPHB} can use it to create one dose of nonmagical ointment, which takes 1 hour. When applied to the eyes of a creature suffering from Sight Rot, the ointment suppresses the contagion on that creature for 24 hours. If the contagion is suppressed in this way for a total of 72 hours (requiring three doses and applications of the ointment), the contagion ends on the creature.\"]},{\"type\":\"entries\",\"name\":\"Spreading the Contagion\",\"entries\":[\"Any Humanoid that makes skin contact with a creature infected with Sight Rot must succeed on a {@dc 15} Constitution saving throw or also become infected with the contagion. On a successful save, the Humanoid can't catch the contagion from that particular infected creature for the next 24 hours.\"]}]}]}}"
+    }
+  ],
+  "linkRows": [
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "dice",
+      "rawReference": "1d4",
+      "displayText": "1d4",
+      "sourceHint": null,
+      "targetEntityType": "dice"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "condition",
+      "rawReference": "Exhaustion|XPHB",
+      "displayText": "Exhaustion",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "condition",
+      "rawReference": "Exhaustion|XPHB",
+      "displayText": "Exhaustion",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "dc",
+      "rawReference": "13",
+      "displayText": "13",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "damage",
+      "rawReference": "1d10",
+      "displayText": "1d10",
+      "sourceHint": null,
+      "targetEntityType": "damage"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "condition",
+      "rawReference": "Incapacitated|XPHB",
+      "displayText": "Incapacitated",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "dc",
+      "rawReference": "13",
+      "displayText": "13",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "variantrule",
+      "rawReference": "Emanation [Area of Effect]|XPHB|Emanation",
+      "displayText": "Emanation [Area of Effect]",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:cackle_fever:61",
+      "targetTag": "dc",
+      "rawReference": "10",
+      "displayText": "10",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sewer_plague:61",
+      "targetTag": "dc",
+      "rawReference": "11",
+      "displayText": "11",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sewer_plague:61",
+      "targetTag": "dice",
+      "rawReference": "1d4",
+      "displayText": "1d4",
+      "sourceHint": null,
+      "targetEntityType": "dice"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sewer_plague:61",
+      "targetTag": "condition",
+      "rawReference": "Exhaustion|XPHB",
+      "displayText": "Exhaustion",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sewer_plague:61",
+      "targetTag": "dc",
+      "rawReference": "11",
+      "displayText": "11",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sewer_plague:61",
+      "targetTag": "condition",
+      "rawReference": "Exhaustion|XPHB",
+      "displayText": "Exhaustion",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sight_rot:61",
+      "targetTag": "dc",
+      "rawReference": "15",
+      "displayText": "15",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sight_rot:61",
+      "targetTag": "condition",
+      "rawReference": "Blinded|XPHB",
+      "displayText": "Blinded",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sight_rot:61",
+      "targetTag": "spell",
+      "rawReference": "Heal|XPHB",
+      "displayText": "Heal",
+      "sourceHint": "XPHB",
+      "targetEntityType": "spell"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sight_rot:61",
+      "targetTag": "spell",
+      "rawReference": "Lesser Restoration|XPHB",
+      "displayText": "Lesser Restoration",
+      "sourceHint": "XPHB",
+      "targetEntityType": "spell"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sight_rot:61",
+      "targetTag": "item",
+      "rawReference": "Herbalism Kit|XPHB",
+      "displayText": "Herbalism Kit",
+      "sourceHint": "XPHB",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "disease",
+      "sourceEntityId": "disease:xdmg:sight_rot:61",
+      "targetTag": "dc",
+      "rawReference": "15",
+      "displayText": "15",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    }
+  ]
+}

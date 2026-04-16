@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:openrpg/compendium/data/compendium_bootstrap_service.dart';
 import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
@@ -164,29 +165,23 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
       final picked = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: const ['json'],
-        withData: true,
+        withData: kIsWeb,
       );
       if (picked == null) {
         return;
       }
 
       final file = picked.files.single;
-      final bytes = file.bytes;
-      if (bytes == null) {
-        if (!mounted) {
-          return;
-        }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Unable to read the selected file on this platform.'),
-          ),
-        );
-        return;
-      }
-
-      final jsonString = utf8.decode(bytes);
-      final imported = await widget.repository.importRulesetJson(jsonString);
+      final imported = switch ((kIsWeb, file.path, file.bytes)) {
+        (false, final String path?, _) when path.trim().isNotEmpty =>
+          await widget.repository.importRulesetFile(path),
+        (_, _, final bytes?) => await widget.repository.importRulesetJson(
+          utf8.decode(bytes),
+        ),
+        _ => throw StateError(
+          'Unable to read the selected file on this platform.',
+        ),
+      };
       if (!mounted) {
         return;
       }

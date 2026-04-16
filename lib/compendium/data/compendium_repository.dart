@@ -1,17 +1,29 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:drift/drift.dart' as drift;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_database.dart';
 import 'package:openrpg/compendium/data/compendium_database_provider.dart';
 import 'package:openrpg/compendium/data/ruleset_portability.dart';
+import 'package:openrpg/compendium/generated/compendium_generated.dart';
+import 'package:openrpg/compendium/models/compendium_browse_asset.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_link.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/compendium/models/ruleset.dart';
 
 typedef AssetStringLoader = Future<String> Function(String path);
+typedef RulesetDocumentLoader = Future<Uint8List?> Function(
+  String sourceReference,
+);
+typedef ImportedRulesetDocumentPersister =
+    Future<String> Function({
+      required String sourceReference,
+      required String fileName,
+    });
 
 class CompendiumRepository {
   static const List<String> bundledRulesetAssets = <String>[
@@ -21,12 +33,19 @@ class CompendiumRepository {
   final CompendiumDatabase _database;
   final AssetStringLoader _assetLoader;
   final CompendiumBrowseRepository _browseRepository;
+  final RulesetDocumentLoader _documentLoader;
+  final ImportedRulesetDocumentPersister _documentPersister;
 
   CompendiumRepository({
     CompendiumDatabase? database,
     AssetStringLoader? assetLoader,
+    RulesetDocumentLoader? documentLoader,
+    ImportedRulesetDocumentPersister? documentPersister,
   }) : _database = database ?? sharedCompendiumDatabase,
        _assetLoader = assetLoader ?? rootBundle.loadString,
+       _documentLoader = documentLoader ?? loadRulesetImportBytes,
+       _documentPersister =
+           documentPersister ?? persistImportedRulesetJsonDocument,
        _browseRepository = CompendiumBrowseRepository(
          database: database ?? sharedCompendiumDatabase,
        );
@@ -139,13 +158,38 @@ class CompendiumRepository {
   }
 
   Future<Ruleset> importRulesetJson(String jsonString) async {
-    final jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
-    final ruleset = _normalizeRuleset(
-      jsonMap,
-      forcedMode: RulesetMode.imported,
+    final prepared = await _prepareImportedRuleset(
+      Uint8List.fromList(utf8.encode(jsonString)),
+      includePayloadJson: true,
     );
-    await saveRuleset(ruleset);
-    return ruleset;
+    await _persistPreparedImport(
+      prepared: prepared,
+      filePath: '${prepared.rulesetId}.ruleset.json',
+      payloadJson: prepared.payloadJson ?? jsonString,
+    );
+    return prepared.toLightweightRuleset();
+  }
+
+  Future<Ruleset> importRulesetFile(String sourceReference) async {
+    final bytes = await _documentLoader(sourceReference);
+    if (bytes == null || bytes.isEmpty) {
+      throw StateError('Unable to read the selected file on this platform.');
+    }
+
+    final prepared = await _prepareImportedRuleset(
+      bytes,
+      includePayloadJson: false,
+    );
+    final persistedPath = await _documentPersister(
+      sourceReference: sourceReference,
+      fileName: '${prepared.rulesetId}.ruleset.json',
+    );
+    await _persistPreparedImport(
+      prepared: prepared,
+      filePath: persistedPath,
+      payloadJson: '{}',
+    );
+    return prepared.toLightweightRuleset();
   }
 
   Future<String> exportRulesetJson(String rulesetId) async {
@@ -233,27 +277,9 @@ class CompendiumRepository {
     Map<String, dynamic> json, {
     RulesetMode? forcedMode,
   }) {
-    final normalized = Map<String, dynamic>.from(json);
-    normalized['schemaVersion'] =
-        normalized['schemaVersion']?.toString().trim().isNotEmpty == true
-        ? normalized['schemaVersion']
-        : kCurrentRulesetSchemaVersion;
-    normalized['mode'] =
-        forcedMode?.name ??
-        normalized['mode']?.toString() ??
-        RulesetMode.imported.name;
-    normalized['id'] = normalized['id']?.toString().trim().isNotEmpty == true
-        ? normalized['id']
-        : CompendiumJsonUtils.slugify(
-            normalized['name']?.toString() ?? 'ruleset',
-          );
-    normalized['name'] =
-        normalized['name']?.toString() ?? normalized['id'].toString();
-    normalized['description'] = normalized['description']?.toString() ?? '';
-    normalized['author'] = normalized['author']?.toString() ?? '';
-    normalized['version'] = normalized['version']?.toString() ?? '1.0.0';
-    normalized['license'] = normalized['license']?.toString() ?? '';
-    return Ruleset.fromJson(normalized);
+    return Ruleset.fromJson(
+      _normalizeRulesetJsonMap(json, forcedMode: forcedMode),
+    );
   }
 
   Future<void> _indexRuleset(Ruleset ruleset, String filePath) async {
@@ -350,34 +376,17 @@ class CompendiumRepository {
   }
 
   List<CompendiumLinkCandidate> _extractLinks(CompendiumEntity entity) {
-    final links = <CompendiumLinkCandidate>[];
-    void visit(dynamic value) {
-      if (value is String) {
-        links.addAll(CompendiumLinkParser.extractAll(value));
-        return;
-      }
-
-      if (value is List) {
-        for (final item in value) {
-          visit(item);
-        }
-        return;
-      }
-
-      if (value is Map) {
-        for (final item in value.values) {
-          visit(item);
-        }
-      }
-    }
-
-    visit(entity.data);
-    return links;
+    return _extractLinksFromValue(entity.data);
   }
 
   Future<Ruleset> _decodeStoredRuleset(RulesetRecord record) async {
     if (_hasStoredPayload(record.payloadJson)) {
       return _decodeRulesetJson(record.payloadJson);
+    }
+
+    final indexedRuleset = await _decodeIndexedRuleset(record);
+    if (indexedRuleset != null) {
+      return indexedRuleset;
     }
 
     if (record.mode == RulesetMode.bundled.name &&
@@ -406,6 +415,79 @@ class CompendiumRepository {
 
   Ruleset _decodeRulesetJson(String jsonString) {
     return _normalizeRuleset(jsonDecode(jsonString) as Map<String, dynamic>);
+  }
+
+  Future<Ruleset?> _decodeIndexedRuleset(RulesetRecord record) async {
+    final rows =
+        await (_database.select(_database.entityRecords)
+              ..where((tbl) => tbl.rulesetId.equals(record.rulesetId))
+              ..orderBy([
+                (tbl) => drift.OrderingTerm.asc(tbl.entityType),
+                (tbl) => drift.OrderingTerm.asc(tbl.sortName),
+              ]))
+            .get();
+
+    if (rows.isEmpty) {
+      final statRows =
+          await (_database.select(_database.rulesetCollectionStats)
+                ..where((tbl) => tbl.rulesetId.equals(record.rulesetId)))
+              .get();
+      if (statRows.isEmpty) {
+        return null;
+      }
+    }
+
+    final collections = <String, List<CompendiumEntity>>{
+      for (final descriptor in compendiumEntityDescriptors)
+        descriptor.collection.collectionKey: <CompendiumEntity>[],
+    };
+
+    for (final row in rows) {
+      final payload = jsonDecode(row.payloadJson);
+      if (payload is! Map) {
+        continue;
+      }
+
+      final entity = parseEntityJson(
+        row.entityType,
+        payload.cast<String, dynamic>(),
+      );
+      if (entity == null) {
+        continue;
+      }
+
+      collections.putIfAbsent(row.collectionKey, () => <CompendiumEntity>[]);
+      collections[row.collectionKey]!.add(entity);
+    }
+
+    return Ruleset(
+      schemaVersion: record.schemaVersion,
+      id: record.rulesetId,
+      name: record.name,
+      description: record.description,
+      author: record.author,
+      version: record.version,
+      license: record.license,
+      mode: _parseRulesetMode(record.mode) ?? RulesetMode.imported,
+      createdAt: record.createdAt,
+      updatedAt: record.updatedAt,
+      collections: collections,
+      extra: _decodeExtraJson(record.extraJson),
+    );
+  }
+
+  Map<String, dynamic> _decodeExtraJson(String extraJson) {
+    final trimmed = extraJson.trim();
+    if (trimmed.isEmpty || trimmed == '{}') {
+      return const <String, dynamic>{};
+    }
+
+    final decoded = jsonDecode(trimmed);
+    if (decoded is! Map) {
+      return const <String, dynamic>{};
+    }
+
+    return decoded.cast<String, dynamic>();
   }
 
   bool _hasStoredPayload(String payloadJson) {
@@ -442,4 +524,504 @@ class CompendiumRepository {
     final base = CompendiumJsonUtils.slugify(name.isEmpty ? 'ruleset' : name);
     return base.isEmpty ? 'ruleset' : base;
   }
+
+  Future<_PreparedRulesetImportData> _prepareImportedRuleset(
+    Uint8List bytes, {
+    required bool includePayloadJson,
+  }) async {
+    final raw = await _prepareImportedRulesetMap(
+      bytes,
+      includePayloadJson: includePayloadJson,
+    );
+    return _PreparedRulesetImportData.fromJson(raw);
+  }
+
+  Future<Map<String, dynamic>> _prepareImportedRulesetMap(
+    Uint8List bytes, {
+    required bool includePayloadJson,
+  }) async {
+    if (kIsWeb) {
+      return _prepareRulesetImportMapFromBytes(
+        bytes,
+        includePayloadJson: includePayloadJson,
+      );
+    }
+
+    final transferable = TransferableTypedData.fromList([bytes]);
+    return Isolate.run<Map<String, dynamic>>(
+      () => _prepareRulesetImportMapFromTransferable(
+        transferable,
+        includePayloadJson: includePayloadJson,
+      ),
+    );
+  }
+
+  Future<void> _persistPreparedImport({
+    required _PreparedRulesetImportData prepared,
+    required String filePath,
+    required String payloadJson,
+  }) async {
+    await _clearRulesetIndex(prepared.rulesetId);
+    try {
+      await _insertPreparedShards(prepared);
+      await _database.transaction(() async {
+        await _database
+            .into(_database.rulesetRecords)
+            .insertOnConflictUpdate(
+              RulesetRecordsCompanion.insert(
+                rulesetId: prepared.rulesetId,
+                name: prepared.name,
+                description: drift.Value(prepared.description),
+                mode: prepared.mode.name,
+                schemaVersion: prepared.schemaVersion,
+                author: drift.Value(prepared.author),
+                version: drift.Value(prepared.version),
+                license: drift.Value(prepared.license),
+                entityCount: drift.Value(prepared.entityCount),
+                createdAt: drift.Value(prepared.createdAt),
+                updatedAt: drift.Value(prepared.updatedAt),
+                filePath: filePath,
+                payloadJson: drift.Value(payloadJson),
+                extraJson: drift.Value(prepared.extraJson),
+              ),
+            );
+
+        for (final stat in prepared.collectionStats) {
+          await _database
+              .into(_database.rulesetCollectionStats)
+              .insertOnConflictUpdate(
+                RulesetCollectionStatsCompanion.insert(
+                  rulesetId: prepared.rulesetId,
+                  entityType: stat.entityType,
+                  collectionKey: stat.collectionKey,
+                  label: stat.label,
+                  entityCount: drift.Value(stat.entityCount),
+                ),
+              );
+        }
+      });
+    } catch (_) {
+      await _clearRulesetIndex(prepared.rulesetId);
+      rethrow;
+    }
+  }
+
+  Future<void> _insertPreparedShards(_PreparedRulesetImportData prepared) async {
+    const chunkSize = 250;
+
+    for (final shard in prepared.shards) {
+      final entityRows = shard.entityRows;
+      for (var start = 0; start < entityRows.length; start += chunkSize) {
+        final end = start + chunkSize > entityRows.length
+            ? entityRows.length
+            : start + chunkSize;
+        final chunk = entityRows.sublist(start, end);
+        await _database.batch((batch) {
+          batch.insertAll(
+            _database.entityRecords,
+            chunk
+                .map(
+                  (row) => EntityRecordsCompanion.insert(
+                    rulesetId: prepared.rulesetId,
+                    entityType: shard.entityType,
+                    entityId: row.entityId,
+                    collectionKey: shard.collectionKey,
+                    name: row.name,
+                    source: drift.Value(row.source),
+                    sourceFile: drift.Value(row.sourceFile),
+                    edition: drift.Value(row.edition),
+                    sortName: drift.Value(row.sortName),
+                    searchText: drift.Value(row.searchText),
+                    payloadJson: row.payloadJson,
+                  ),
+                )
+                .toList(growable: false),
+          );
+        });
+        if (kIsWeb) {
+          await Future<void>.delayed(Duration.zero);
+        }
+      }
+
+      final linkRows = shard.linkRows;
+      for (var start = 0; start < linkRows.length; start += chunkSize) {
+        final end = start + chunkSize > linkRows.length
+            ? linkRows.length
+            : start + chunkSize;
+        final chunk = linkRows.sublist(start, end);
+        await _database.batch((batch) {
+          batch.insertAll(
+            _database.entityLinks,
+            chunk
+                .map(
+                  (row) => EntityLinksCompanion.insert(
+                    rulesetId: prepared.rulesetId,
+                    sourceEntityType: row.sourceEntityType,
+                    sourceEntityId: row.sourceEntityId,
+                    targetTag: row.targetTag,
+                    rawReference: row.rawReference,
+                    displayText: row.displayText,
+                    sourceHint: drift.Value(row.sourceHint),
+                    targetEntityType: drift.Value(row.targetEntityType),
+                  ),
+                )
+                .toList(growable: false),
+          );
+        });
+        if (kIsWeb) {
+          await Future<void>.delayed(Duration.zero);
+        }
+      }
+    }
+  }
+
+  Future<void> _clearRulesetIndex(String rulesetId) async {
+    await _database.transaction(() async {
+      await (_database.delete(
+        _database.entityLinks,
+      )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
+      await (_database.delete(
+        _database.entityRecords,
+      )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
+      await (_database.delete(
+        _database.rulesetCollectionStats,
+      )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
+      await (_database.delete(
+        _database.rulesetRecords,
+      )..where((tbl) => tbl.rulesetId.equals(rulesetId))).go();
+    });
+  }
+}
+
+class _PreparedRulesetImportData {
+  final String rulesetId;
+  final String schemaVersion;
+  final String name;
+  final String description;
+  final String author;
+  final String version;
+  final String license;
+  final RulesetMode mode;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int entityCount;
+  final String extraJson;
+  final String? payloadJson;
+  final List<CompendiumBrowseCollectionStatAsset> collectionStats;
+  final List<CompendiumBrowseShardPayload> shards;
+
+  const _PreparedRulesetImportData({
+    required this.rulesetId,
+    required this.schemaVersion,
+    required this.name,
+    required this.description,
+    required this.author,
+    required this.version,
+    required this.license,
+    required this.mode,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.entityCount,
+    required this.extraJson,
+    required this.payloadJson,
+    required this.collectionStats,
+    required this.shards,
+  });
+
+  factory _PreparedRulesetImportData.fromJson(Map<String, dynamic> json) {
+    return _PreparedRulesetImportData(
+      rulesetId: json['rulesetId']?.toString() ?? '',
+      schemaVersion: json['schemaVersion']?.toString() ?? kCurrentRulesetSchemaVersion,
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      author: json['author']?.toString() ?? '',
+      version: json['version']?.toString() ?? '1.0.0',
+      license: json['license']?.toString() ?? '',
+      mode: RulesetMode.fromValue(json['mode']?.toString() ?? RulesetMode.imported.name),
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'].toString())
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'].toString())
+          : null,
+      entityCount: (json['entityCount'] as num?)?.toInt() ?? 0,
+      extraJson: json['extraJson']?.toString() ?? '{}',
+      payloadJson: json['payloadJson']?.toString(),
+      collectionStats: (json['collectionStats'] as List<dynamic>? ?? const [])
+          .whereType<Map>()
+          .map(
+            (entry) => CompendiumBrowseCollectionStatAsset.fromJson(
+              entry.cast<String, dynamic>(),
+            ),
+          )
+          .toList(growable: false),
+      shards: (json['shards'] as List<dynamic>? ?? const [])
+          .whereType<Map>()
+          .map(
+            (entry) => CompendiumBrowseShardPayload.fromJson(
+              entry.cast<String, dynamic>(),
+            ),
+          )
+          .toList(growable: false),
+    );
+  }
+
+  Ruleset toLightweightRuleset() {
+    return Ruleset(
+      schemaVersion: schemaVersion,
+      id: rulesetId,
+      name: name,
+      description: description,
+      author: author,
+      version: version,
+      license: license,
+      mode: mode,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      collections: {
+        for (final descriptor in compendiumEntityDescriptors)
+          descriptor.collection.collectionKey: const <CompendiumEntity>[],
+      },
+    );
+  }
+}
+
+Map<String, dynamic> _normalizeRulesetJsonMap(
+  Map<String, dynamic> json, {
+  RulesetMode? forcedMode,
+}) {
+  final normalized = Map<String, dynamic>.from(json);
+  normalized['schemaVersion'] =
+      normalized['schemaVersion']?.toString().trim().isNotEmpty == true
+      ? normalized['schemaVersion']
+      : kCurrentRulesetSchemaVersion;
+  normalized['mode'] =
+      forcedMode?.name ??
+      normalized['mode']?.toString() ??
+      RulesetMode.imported.name;
+  normalized['id'] = normalized['id']?.toString().trim().isNotEmpty == true
+      ? normalized['id']
+      : CompendiumJsonUtils.slugify(normalized['name']?.toString() ?? 'ruleset');
+  normalized['name'] =
+      normalized['name']?.toString() ?? normalized['id'].toString();
+  normalized['description'] = normalized['description']?.toString() ?? '';
+  normalized['author'] = normalized['author']?.toString() ?? '';
+  normalized['version'] = normalized['version']?.toString() ?? '1.0.0';
+  normalized['license'] = normalized['license']?.toString() ?? '';
+  return normalized;
+}
+
+Map<String, dynamic> _prepareRulesetImportMapFromTransferable(
+  TransferableTypedData transferable, {
+  required bool includePayloadJson,
+}) {
+  final bytes = transferable.materialize().asUint8List();
+  return _prepareRulesetImportMapFromBytes(
+    bytes,
+    includePayloadJson: includePayloadJson,
+  );
+}
+
+Map<String, dynamic> _prepareRulesetImportMapFromBytes(
+  Uint8List bytes, {
+  required bool includePayloadJson,
+}) {
+  final jsonString = utf8.decode(bytes);
+  final decoded = jsonDecode(jsonString);
+  if (decoded is! Map) {
+    throw const FormatException(
+      'The selected ruleset file must contain a JSON object at the root.',
+    );
+  }
+
+  final normalized = _normalizeRulesetJsonMap(
+    decoded.cast<String, dynamic>(),
+    forcedMode: RulesetMode.imported,
+  );
+  final rulesetId = normalized['id']?.toString() ?? 'ruleset';
+  final knownTopLevelKeys = <String>{
+    'schemaVersion',
+    'id',
+    'name',
+    'description',
+    'author',
+    'version',
+    'license',
+    'mode',
+    'createdAt',
+    'updatedAt',
+    ...compendiumEntityDescriptors.map(
+      (descriptor) => descriptor.collection.collectionKey,
+    ),
+  };
+
+  final extra = <String, dynamic>{};
+  for (final entry in normalized.entries) {
+    if (knownTopLevelKeys.contains(entry.key) || entry.value is List) {
+      continue;
+    }
+    extra[entry.key] = CompendiumJsonUtils.deepCopy(entry.value);
+  }
+
+  final collectionStats = <Map<String, dynamic>>[];
+  final shards = <Map<String, dynamic>>[];
+  var entityCount = 0;
+  final usedEntityIdsByType = <String, Set<String>>{};
+
+  for (final descriptor in compendiumEntityDescriptors) {
+    final entityRows = <Map<String, dynamic>>[];
+    final linkRows = <Map<String, dynamic>>[];
+    final rawList = normalized[descriptor.collection.collectionKey];
+    if (rawList is List) {
+      for (final item in rawList) {
+        final entity = descriptor.fromJson(CompendiumJsonUtils.jsonMap(item));
+        final payload = entity.toJson();
+        final entityId = _resolveUniqueImportedEntityId(
+          entityType: descriptor.collection.entityType,
+          preferredId: entity.id,
+          payload: payload,
+          usedIds: usedEntityIdsByType.putIfAbsent(
+            descriptor.collection.entityType,
+            () => <String>{},
+          ),
+        );
+        payload['id'] = entityId;
+        entityRows.add({
+          'entityId': entityId,
+          'name': entity.displayName,
+          'source': entity.source,
+          'sourceFile': entity.sourceFile,
+          'edition': entity.edition,
+          'sortName': CompendiumJsonUtils.sortName(entity.displayName),
+          'searchText':
+              CompendiumJsonUtils.flattenedSearchText(payload).toLowerCase(),
+          'payloadJson': jsonEncode(payload),
+        });
+        entityCount += 1;
+
+        for (final link in _extractLinksFromValue(entity.data)) {
+          linkRows.add({
+            'sourceEntityType': entity.entityType,
+            'sourceEntityId': entityId,
+            'targetTag': link.tag,
+            'rawReference': link.rawReference,
+            'displayText': link.displayText,
+            'sourceHint': link.source,
+            'targetEntityType': link.targetEntityType,
+          });
+        }
+      }
+    }
+
+    collectionStats.add({
+      'entityType': descriptor.collection.entityType,
+      'collectionKey': descriptor.collection.collectionKey,
+      'label': descriptor.collection.label,
+      'entityCount': entityRows.length,
+    });
+    if (entityRows.isNotEmpty || linkRows.isNotEmpty) {
+      shards.add({
+        'rulesetId': rulesetId,
+        'entityType': descriptor.collection.entityType,
+        'collectionKey': descriptor.collection.collectionKey,
+        'entityRows': entityRows,
+        'linkRows': linkRows,
+      });
+    }
+  }
+
+  final createdAt = normalized['createdAt'] != null
+      ? DateTime.tryParse(normalized['createdAt'].toString())?.toIso8601String()
+      : null;
+
+  return {
+    'rulesetId': rulesetId,
+    'schemaVersion': normalized['schemaVersion']?.toString() ??
+        kCurrentRulesetSchemaVersion,
+    'name': normalized['name']?.toString() ?? rulesetId,
+    'description': normalized['description']?.toString() ?? '',
+    'author': normalized['author']?.toString() ?? '',
+    'version': normalized['version']?.toString() ?? '1.0.0',
+    'license': normalized['license']?.toString() ?? '',
+    'mode': RulesetMode.imported.name,
+    'createdAt': createdAt,
+    'updatedAt': DateTime.now().toIso8601String(),
+    'entityCount': entityCount,
+    'extraJson': jsonEncode(extra),
+    if (includePayloadJson) 'payloadJson': jsonString,
+    'collectionStats': collectionStats,
+    'shards': shards,
+  };
+}
+
+List<CompendiumLinkCandidate> _extractLinksFromValue(dynamic value) {
+  final links = <CompendiumLinkCandidate>[];
+
+  void visit(dynamic candidate) {
+    if (candidate is String) {
+      links.addAll(CompendiumLinkParser.extractAll(candidate));
+      return;
+    }
+
+    if (candidate is List) {
+      for (final item in candidate) {
+        visit(item);
+      }
+      return;
+    }
+
+    if (candidate is Map) {
+      for (final item in candidate.values) {
+        visit(item);
+      }
+    }
+  }
+
+  visit(value);
+  return links;
+}
+
+String _resolveUniqueImportedEntityId({
+  required String entityType,
+  required String preferredId,
+  required Map<String, dynamic> payload,
+  required Set<String> usedIds,
+}) {
+  final trimmedPreferred = preferredId.trim();
+  final baseId = trimmedPreferred.isNotEmpty
+      ? trimmedPreferred
+      : CompendiumJsonUtils.stableEntityId(
+          entityType: entityType,
+          source: CompendiumJsonUtils.extractSource(payload),
+          name: CompendiumJsonUtils.extractName(payload),
+          page: (payload['data'] as Map?)?['page']?.toString(),
+        );
+  if (usedIds.add(baseId)) {
+    return baseId;
+  }
+
+  final fingerprinted = '$baseId:${_stableEntityFingerprint(payload)}';
+  if (usedIds.add(fingerprinted)) {
+    return fingerprinted;
+  }
+
+  var suffix = 2;
+  while (true) {
+    final candidate = '$fingerprinted:$suffix';
+    if (usedIds.add(candidate)) {
+      return candidate;
+    }
+    suffix += 1;
+  }
+}
+
+String _stableEntityFingerprint(Map<String, dynamic> payload) {
+  final normalized = Map<String, dynamic>.from(payload)..remove('id');
+  final encoded = jsonEncode(normalized);
+  var hash = 0x811C9DC5;
+  for (final codeUnit in encoded.codeUnits) {
+    hash ^= codeUnit;
+    hash = (hash * 0x01000193) & 0xFFFFFFFF;
+  }
+  return hash.toRadixString(16).padLeft(8, '0');
 }

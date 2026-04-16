@@ -1,0 +1,84 @@
+{
+  "rulesetId": "starter_2024_srd",
+  "entityType": "status",
+  "collectionKey": "statusList",
+  "entityRows": [
+    {
+      "entityId": "status:xphb:bloodied:362",
+      "name": "Bloodied",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "bloodied",
+      "searchText": "status:xphb:bloodied:362 bloodied xphb conditionsdiseases.json bloodied xphb 362 true true a creature is bloodied while it has half its {@variantrule hit points|xphb} or fewer remaining.",
+      "payloadJson": "{\"id\":\"status:xphb:bloodied:362\",\"name\":\"Bloodied\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Bloodied\",\"source\":\"XPHB\",\"page\":362,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"A creature is Bloodied while it has half its {@variantrule Hit Points|XPHB} or fewer remaining.\"]}}"
+    },
+    {
+      "entityId": "status:xphb:concentration:363",
+      "name": "Concentration",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "concentration",
+      "searchText": "status:xphb:concentration:363 concentration xphb conditionsdiseases.json concentration xphb 363 true true some spells and other effects require concentration to remain active, as specified in their descriptions. if the effect's creator loses concentration, the effect ends. if the effect has a maximum duration, the effect's description specifies how long the creator can concentrate on it: up to 1 minute, 1 hour, or some other duration. the creator can end concentration at any time (no action required). the following factors break concentration. entries entries another concentration effect you lose concentration on an effect the moment you start casting a spell that requires concentration or activate another effect that requires concentration. entries damage if you take damage, you must succeed on a constitution {@variantrule saving throw|xphb|saving throw} to maintain concentration. the dc equals 10 or half the damage taken (round down), whichever number is higher, up to a maximum dc of 30. entries incapacitated or dead your concentration ends if you have the {@condition incapacitated|xphb} condition or you die.",
+      "payloadJson": "{\"id\":\"status:xphb:concentration:363\",\"name\":\"Concentration\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Concentration\",\"source\":\"XPHB\",\"page\":363,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"Some spells and other effects require Concentration to remain active, as specified in their descriptions. If the effect's creator loses Concentration, the effect ends. If the effect has a maximum duration, the effect's description specifies how long the creator can concentrate on it: up to 1 minute, 1 hour, or some other duration. The creator can end Concentration at any time (no action required). The following factors break Concentration.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Another Concentration Effect\",\"entries\":[\"You lose Concentration on an effect the moment you start casting a spell that requires Concentration or activate another effect that requires Concentration.\"]},{\"type\":\"entries\",\"name\":\"Damage\",\"entries\":[\"If you take damage, you must succeed on a Constitution {@variantrule Saving Throw|XPHB|saving throw} to maintain Concentration. The DC equals 10 or half the damage taken (round down), whichever number is higher, up to a maximum DC of 30.\"]},{\"type\":\"entries\",\"name\":\"Incapacitated or Dead\",\"entries\":[\"Your Concentration ends if you have the {@condition Incapacitated|XPHB} condition or you die.\"]}]}]}}"
+    },
+    {
+      "entityId": "status:xphb:surprised:376",
+      "name": "Surprised",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "surprised",
+      "searchText": "status:xphb:surprised:376 surprised xphb conditionsdiseases.json surprised xphb 376 true true if a creature is caught unawares by the start of combat, that creature is surprised, which causes it to have {@variantrule disadvantage|xphb} on its {@variantrule initiative|xphb} roll.",
+      "payloadJson": "{\"id\":\"status:xphb:surprised:376\",\"name\":\"Surprised\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Surprised\",\"source\":\"XPHB\",\"page\":376,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If a creature is caught unawares by the start of combat, that creature is surprised, which causes it to have {@variantrule Disadvantage|XPHB} on its {@variantrule Initiative|XPHB} roll.\"]}}"
+    }
+  ],
+  "linkRows": [
+    {
+      "sourceEntityType": "status",
+      "sourceEntityId": "status:xphb:bloodied:362",
+      "targetTag": "variantrule",
+      "rawReference": "Hit Points|XPHB",
+      "displayText": "Hit Points",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "status",
+      "sourceEntityId": "status:xphb:concentration:363",
+      "targetTag": "variantrule",
+      "rawReference": "Saving Throw|XPHB|saving throw",
+      "displayText": "Saving Throw",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "status",
+      "sourceEntityId": "status:xphb:concentration:363",
+      "targetTag": "condition",
+      "rawReference": "Incapacitated|XPHB",
+      "displayText": "Incapacitated",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "status",
+      "sourceEntityId": "status:xphb:surprised:376",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "status",
+      "sourceEntityId": "status:xphb:surprised:376",
+      "targetTag": "variantrule",
+      "rawReference": "Initiative|XPHB",
+      "displayText": "Initiative",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    }
+  ]
+}

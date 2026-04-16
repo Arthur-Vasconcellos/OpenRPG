@@ -1,0 +1,859 @@
+{
+  "rulesetId": "starter_2024_srd",
+  "entityType": "itemGroup",
+  "collectionKey": "itemGroupList",
+  "entityRows": [
+    {
+      "entityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "name": "Armor of Resistance",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "armor of resistance",
+      "searchText": "itemgroup:xdmg:armor_of_resistance:231 armor of resistance xdmg items.json armor of resistance xdmg 231 true true gv|xdmg rare true you have {@variantrule resistance|xphb} to one type of damage while you wear this armor. the dm chooses the type or determines it randomly by rolling on the following table. table col-2 text-center col-10 d10 damage type 1 {@item armor of acid resistance|xdmg|acid} 2 {@item armor of cold resistance|xdmg|cold} 3 {@item armor of fire resistance|xdmg|fire} 4 {@item armor of force resistance|xdmg|force} 5 {@item armor of lightning resistance|xdmg|lightning} 6 {@item armor of necrotic resistance|xdmg|necrotic} 7 {@item armor of poison resistance|xdmg|poison} 8 {@item armor of psychic resistance|xdmg|psychic} 9 {@item armor of radiant resistance|xdmg|radiant} 10 {@item armor of thunder resistance|xdmg|thunder} armor of acid resistance|xdmg armor of cold resistance|xdmg armor of fire resistance|xdmg armor of force resistance|xdmg armor of lightning resistance|xdmg armor of necrotic resistance|xdmg armor of poison resistance|xdmg armor of psychic resistance|xdmg armor of radiant resistance|xdmg armor of thunder resistance|xdmg true replicate magic item|artificer|efa|2|efa armaments - rare|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:armor_of_resistance:231\",\"name\":\"Armor of Resistance\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Armor of Resistance\",\"source\":\"XDMG\",\"page\":231,\"srd52\":true,\"basicRules2024\":true,\"type\":\"GV|XDMG\",\"rarity\":\"rare\",\"reqAttune\":true,\"entries\":[\"You have {@variantrule Resistance|XPHB} to one type of damage while you wear this armor. The DM chooses the type or determines it randomly by rolling on the following table.\",{\"type\":\"table\",\"colStyles\":[\"col-2 text-center\",\"col-10\"],\"colLabels\":[\"d10\",\"Damage Type\"],\"rows\":[[\"1\",\"{@item Armor of Acid Resistance|XDMG|Acid}\"],[\"2\",\"{@item Armor of Cold Resistance|XDMG|Cold}\"],[\"3\",\"{@item Armor of Fire Resistance|XDMG|Fire}\"],[\"4\",\"{@item Armor of Force Resistance|XDMG|Force}\"],[\"5\",\"{@item Armor of Lightning Resistance|XDMG|Lightning}\"],[\"6\",\"{@item Armor of Necrotic Resistance|XDMG|Necrotic}\"],[\"7\",\"{@item Armor of Poison Resistance|XDMG|Poison}\"],[\"8\",\"{@item Armor of Psychic Resistance|XDMG|Psychic}\"],[\"9\",\"{@item Armor of Radiant Resistance|XDMG|Radiant}\"],[\"10\",\"{@item Armor of Thunder Resistance|XDMG|Thunder}\"]]}],\"items\":[\"Armor of Acid Resistance|XDMG\",\"Armor of Cold Resistance|XDMG\",\"Armor of Fire Resistance|XDMG\",\"Armor of Force Resistance|XDMG\",\"Armor of Lightning Resistance|XDMG\",\"Armor of Necrotic Resistance|XDMG\",\"Armor of Poison Resistance|XDMG\",\"Armor of Psychic Resistance|XDMG\",\"Armor of Radiant Resistance|XDMG\",\"Armor of Thunder Resistance|XDMG\"],\"itemsHidden\":true,\"classFeatures\":[\"replicate magic item|artificer|efa|2|efa\"],\"lootTables\":[\"Armaments - Rare|XDMG\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:armor_of_vulnerability:231",
+      "name": "Armor of Vulnerability",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "armor of vulnerability",
+      "searchText": "itemgroup:xdmg:armor_of_vulnerability:231 armor of vulnerability xdmg items.json armor of vulnerability xdmg 231 true true gv|xdmg rare true true armor of vulnerability (bludgeoning)|xdmg armor of vulnerability (piercing)|xdmg armor of vulnerability (slashing)|xdmg armaments - rare|xdmg",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:armor_of_vulnerability:231\",\"name\":\"Armor of Vulnerability\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Armor of Vulnerability\",\"source\":\"XDMG\",\"page\":231,\"srd52\":true,\"basicRules2024\":true,\"type\":\"GV|XDMG\",\"rarity\":\"rare\",\"reqAttune\":true,\"curse\":true,\"items\":[\"Armor of Vulnerability (Bludgeoning)|XDMG\",\"Armor of Vulnerability (Piercing)|XDMG\",\"Armor of Vulnerability (Slashing)|XDMG\"],\"lootTables\":[\"Armaments - Rare|XDMG\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xphb:artisan_s_tools:220",
+      "name": "Artisan's Tools",
+      "source": "XPHB",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "artisan's tools",
+      "searchText": "itemgroup:xphb:artisan_s_tools:220 artisan's tools xphb items.json artisan's tools xphb 220 true at|xphb none alchemist's supplies|xphb brewer's supplies|xphb calligrapher's supplies|xphb carpenter's tools|xphb cartographer's tools|xphb cobbler's tools|xphb cook's utensils|xphb glassblower's tools|xphb jeweler's tools|xphb leatherworker's tools|xphb mason's tools|xphb painter's supplies|xphb potter's tools|xphb smith's tools|xphb tinker's tools|xphb weaver's tools|xphb woodcarver's tools|xphb",
+      "payloadJson": "{\"id\":\"itemgroup:xphb:artisan_s_tools:220\",\"name\":\"Artisan's Tools\",\"source\":\"XPHB\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Artisan's Tools\",\"source\":\"XPHB\",\"page\":220,\"srd52\":true,\"type\":\"AT|XPHB\",\"rarity\":\"none\",\"items\":[\"Alchemist's Supplies|XPHB\",\"Brewer's Supplies|XPHB\",\"Calligrapher's Supplies|XPHB\",\"Carpenter's Tools|XPHB\",\"Cartographer's Tools|XPHB\",\"Cobbler's Tools|XPHB\",\"Cook's Utensils|XPHB\",\"Glassblower's Tools|XPHB\",\"Jeweler's Tools|XPHB\",\"Leatherworker's Tools|XPHB\",\"Mason's Tools|XPHB\",\"Painter's Supplies|XPHB\",\"Potter's Tools|XPHB\",\"Smith's Tools|XPHB\",\"Tinker's Tools|XPHB\",\"Weaver's Tools|XPHB\",\"Woodcarver's Tools|XPHB\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:bag_of_tricks:234",
+      "name": "Bag of Tricks",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "bag of tricks",
+      "searchText": "itemgroup:xdmg:bag_of_tricks:234 bag of tricks xdmg items.json bag of tricks xdmg 234 true true drde-bd uncommon true dawn bag of tricks, gray|xdmg bag of tricks, rust|xdmg bag of tricks, tan|xdmg arcana - uncommon|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:bag_of_tricks:234\",\"name\":\"Bag of Tricks\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Bag of Tricks\",\"source\":\"XDMG\",\"page\":234,\"srd52\":true,\"basicRules2024\":true,\"referenceSources\":[\"DrDe-BD\"],\"rarity\":\"uncommon\",\"wondrous\":true,\"recharge\":\"dawn\",\"items\":[\"Bag of Tricks, Gray|XDMG\",\"Bag of Tricks, Rust|XDMG\",\"Bag of Tricks, Tan|XDMG\"],\"lootTables\":[\"Arcana - Uncommon|XDMG\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "name": "Belt of Giant Strength",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "belt of giant strength",
+      "searchText": "itemgroup:xdmg:belt_of_giant_strength:236 belt of giant strength xdmg items.json belt of giant strength xdmg 236 true true varies true true table belt str. rarity col-8 col-2 text-center col-2 {@item belt of hill giant strength|xdmg} 21 rare {@item belt of frost giant strength|xdmg} or {@item belt of stone giant strength|xdmg} 23 very rare {@item belt of fire giant strength|xdmg} 25 very rare {@item belt of cloud giant strength|xdmg} 27 legendary {@item belt of storm giant strength|xdmg} 29 legendary belt of cloud giant strength|xdmg belt of fire giant strength|xdmg belt of frost giant strength|xdmg belt of hill giant strength|xdmg belt of stone giant strength|xdmg belt of storm giant strength|xdmg true true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:belt_of_giant_strength:236\",\"name\":\"Belt of Giant Strength\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Belt of Giant Strength\",\"source\":\"XDMG\",\"page\":236,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"varies\",\"reqAttune\":true,\"wondrous\":true,\"entries\":[{\"type\":\"table\",\"colLabels\":[\"Belt\",\"Str.\",\"Rarity\"],\"colStyles\":[\"col-8\",\"col-2 text-center\",\"col-2\"],\"rows\":[[\"{@item Belt of Hill Giant Strength|XDMG}\",\"21\",\"Rare\"],[\"{@item Belt of Frost Giant Strength|XDMG} or {@item Belt of Stone Giant Strength|XDMG}\",\"23\",\"Very Rare\"],[\"{@item Belt of Fire Giant Strength|XDMG}\",\"25\",\"Very Rare\"],[\"{@item Belt of Cloud Giant Strength|XDMG}\",\"27\",\"Legendary\"],[\"{@item Belt of Storm Giant Strength|XDMG}\",\"29\",\"Legendary\"]]}],\"items\":[\"Belt of Cloud Giant Strength|XDMG\",\"Belt of Fire Giant Strength|XDMG\",\"Belt of Frost Giant Strength|XDMG\",\"Belt of Hill Giant Strength|XDMG\",\"Belt of Stone Giant Strength|XDMG\",\"Belt of Storm Giant Strength|XDMG\"],\"itemsHidden\":true,\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "name": "Carpet of Flying",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "carpet of flying",
+      "searchText": "itemgroup:xdmg:carpet_of_flying:242 carpet of flying xdmg items.json carpet of flying xdmg 242 true true very rare true you can make this carpet hover and fly by taking a {@action magic|xphb} action and using the carpet's command word. it moves according to your directions if you are within 30 feet of it. four sizes of carpet of flying exist. the dm chooses the size of a given carpet or determines it randomly by rolling on the following table. a carpet can carry up to twice the weight shown on the table, but its {@variantrule fly speed|xphb} is halved if it carries more than its normal capacity. table applicable carpet sizes col-2 text-center col-4 col-3 text-center col-3 text-center 1d100 size capacity fly speed 01-20 {@item carpet of flying, 3 ft. × 5 ft.|xdmg} 200 lb. 80 feet 21-55 {@item carpet of flying, 4 ft. × 6 ft.|xdmg} 400 lb. 60 feet 56-80 {@item carpet of flying, 5 ft. × 7 ft.|xdmg} 600 lb. 40 feet 81-00 {@item carpet of flying, 6 ft. × 9 ft.|xdmg} 800 lb. 30 feet carpet of flying, 3 ft. × 5 ft.|xdmg carpet of flying, 4 ft. × 6 ft.|xdmg carpet of flying, 5 ft. × 7 ft.|xdmg carpet of flying, 6 ft. × 9 ft.|xdmg true arcana - very rare|xdmg implements - very rare|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:carpet_of_flying:242\",\"name\":\"Carpet of Flying\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Carpet of Flying\",\"source\":\"XDMG\",\"page\":242,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"very rare\",\"wondrous\":true,\"entries\":[\"You can make this carpet hover and fly by taking a {@action Magic|XPHB} action and using the carpet's command word. It moves according to your directions if you are within 30 feet of it.\",\"Four sizes of Carpet of Flying exist. The DM chooses the size of a given carpet or determines it randomly by rolling on the following table. A carpet can carry up to twice the weight shown on the table, but its {@variantrule Fly Speed|XPHB} is halved if it carries more than its normal capacity.\",{\"type\":\"table\",\"caption\":\"Applicable Carpet Sizes\",\"colStyles\":[\"col-2 text-center\",\"col-4\",\"col-3 text-center\",\"col-3 text-center\"],\"colLabels\":[\"1d100\",\"Size\",\"Capacity\",\"Fly Speed\"],\"rows\":[[\"01-20\",\"{@item Carpet of Flying, 3 ft. × 5 ft.|XDMG}\",\"200 lb.\",\"80 feet\"],[\"21-55\",\"{@item Carpet of Flying, 4 ft. × 6 ft.|XDMG}\",\"400 lb.\",\"60 feet\"],[\"56-80\",\"{@item Carpet of Flying, 5 ft. × 7 ft.|XDMG}\",\"600 lb.\",\"40 feet\"],[\"81-00\",\"{@item Carpet of Flying, 6 ft. × 9 ft.|XDMG}\",\"800 lb.\",\"30 feet\"]]}],\"items\":[\"Carpet of Flying, 3 ft. × 5 ft.|XDMG\",\"Carpet of Flying, 4 ft. × 6 ft.|XDMG\",\"Carpet of Flying, 5 ft. × 7 ft.|XDMG\",\"Carpet of Flying, 6 ft. × 9 ft.|XDMG\"],\"itemsHidden\":true,\"lootTables\":[\"Arcana - Very Rare|XDMG\",\"Implements - Very Rare|XDMG\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:dragon_scale_mail:254",
+      "name": "Dragon Scale Mail",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "dragon scale mail",
+      "searchText": "itemgroup:xdmg:dragon_scale_mail:254 dragon scale mail xdmg items.json dragon scale mail xdmg 254 true true scale mail|xphb ma|xphb very rare true 45 14 +1 true black dragon scale mail|xdmg blue dragon scale mail|xdmg brass dragon scale mail|xdmg bronze dragon scale mail|xdmg copper dragon scale mail|xdmg gold dragon scale mail|xdmg green dragon scale mail|xdmg red dragon scale mail|xdmg silver dragon scale mail|xdmg white dragon scale mail|xdmg armaments - very rare|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:dragon_scale_mail:254\",\"name\":\"Dragon Scale Mail\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Dragon Scale Mail\",\"source\":\"XDMG\",\"page\":254,\"srd52\":true,\"basicRules2024\":true,\"baseItem\":\"scale mail|xphb\",\"type\":\"MA|XPHB\",\"rarity\":\"very rare\",\"reqAttune\":true,\"weight\":45,\"ac\":14,\"bonusAc\":\"+1\",\"stealth\":true,\"items\":[\"Black Dragon Scale Mail|XDMG\",\"Blue Dragon Scale Mail|XDMG\",\"Brass Dragon Scale Mail|XDMG\",\"Bronze Dragon Scale Mail|XDMG\",\"Copper Dragon Scale Mail|XDMG\",\"Gold Dragon Scale Mail|XDMG\",\"Green Dragon Scale Mail|XDMG\",\"Red Dragon Scale Mail|XDMG\",\"Silver Dragon Scale Mail|XDMG\",\"White Dragon Scale Mail|XDMG\"],\"lootTables\":[\"Armaments - Very Rare|XDMG\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:elemental_gem:257",
+      "name": "Elemental Gem",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "elemental gem",
+      "searchText": "itemgroup:xdmg:elemental_gem:257 elemental gem xdmg items.json elemental gem xdmg 257 true true drde-bts uncommon true elemental gem, blue sapphire|xdmg elemental gem, emerald|xdmg elemental gem, red corundum|xdmg elemental gem, yellow diamond|xdmg arcana - uncommon|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:elemental_gem:257\",\"name\":\"Elemental Gem\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Elemental Gem\",\"source\":\"XDMG\",\"page\":257,\"srd52\":true,\"basicRules2024\":true,\"referenceSources\":[\"DrDe-BtS\"],\"rarity\":\"uncommon\",\"wondrous\":true,\"items\":[\"Elemental Gem, Blue Sapphire|XDMG\",\"Elemental Gem, Emerald|XDMG\",\"Elemental Gem, Red Corundum|XDMG\",\"Elemental Gem, Yellow Diamond|XDMG\"],\"lootTables\":[\"Arcana - Uncommon|XDMG\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:figurine_of_wondrous_power:261",
+      "name": "Figurine of Wondrous Power",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "figurine of wondrous power",
+      "searchText": "itemgroup:xdmg:figurine_of_wondrous_power:261 figurine of wondrous power xdmg items.json figurine of wondrous power xdmg 261 true true varies true figurine of wondrous power, bronze griffon|xdmg figurine of wondrous power, ebony fly|xdmg figurine of wondrous power, golden lions|xdmg figurine of wondrous power, ivory goats|xdmg figurine of wondrous power, marble elephant|xdmg figurine of wondrous power, obsidian steed|xdmg figurine of wondrous power, onyx dog|xdmg figurine of wondrous power, serpentine owl|xdmg figurine of wondrous power, silver raven|xdmg",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:figurine_of_wondrous_power:261\",\"name\":\"Figurine of Wondrous Power\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Figurine of Wondrous Power\",\"source\":\"XDMG\",\"page\":261,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"varies\",\"wondrous\":true,\"items\":[\"Figurine of Wondrous Power, Bronze Griffon|XDMG\",\"Figurine of Wondrous Power, Ebony Fly|XDMG\",\"Figurine of Wondrous Power, Golden Lions|XDMG\",\"Figurine of Wondrous Power, Ivory Goats|XDMG\",\"Figurine of Wondrous Power, Marble Elephant|XDMG\",\"Figurine of Wondrous Power, Obsidian Steed|XDMG\",\"Figurine of Wondrous Power, Onyx Dog|XDMG\",\"Figurine of Wondrous Power, Serpentine Owl|XDMG\",\"Figurine of Wondrous Power, Silver Raven|XDMG\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xphb:gaming_set:221",
+      "name": "Gaming Set",
+      "source": "XPHB",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "gaming set",
+      "searchText": "itemgroup:xphb:gaming_set:221 gaming set xphb items.json gaming set xphb 221 true true gs|xphb none dice set|xphb dragonchess set|xphb playing cards|xphb three-dragon ante set|xphb",
+      "payloadJson": "{\"id\":\"itemgroup:xphb:gaming_set:221\",\"name\":\"Gaming Set\",\"source\":\"XPHB\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Gaming Set\",\"source\":\"XPHB\",\"page\":221,\"srd52\":true,\"basicRules2024\":true,\"type\":\"GS|XPHB\",\"rarity\":\"none\",\"items\":[\"Dice Set|XPHB\",\"Dragonchess Set|XPHB\",\"Playing Cards|XPHB\",\"Three-Dragon Ante Set|XPHB\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "name": "Horn of Valhalla",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "horn of valhalla",
+      "searchText": "itemgroup:xdmg:horn_of_valhalla:270 horn of valhalla xdmg items.json horn of valhalla xdmg 270 true true varies true you can take a {@action magic|xphb} action to blow this horn. in response, warrior spirits from the plane of ysgard appear in unoccupied spaces within 60 feet of you. each spirit uses the {@creature berserker|xmm} stat block and returns to ysgard after 1 hour or when it drops to 0 {@variantrule hit points|xphb}. the spirits look like living, breathing warriors, and they have {@variantrule immunity|xphb} to the {@condition charmed|xphb} and {@condition frightened|xphb} conditions. once you use the horn, it can't be used again until 7 days have passed. four types of horn of valhalla are known to exist, each made of a different metal. the horn's type determines how many spirits it summons, as well as the requirement for its use. the dm chooses the horn's type or determines it randomly by rolling on the following table. if you blow the horn without meeting its requirement, the summoned spirits attack you. if you meet the requirement, they are {@variantrule friendly [attitude]|xphb|friendly} to you and your allies and follow your commands. table col-2 text-center col-2 text-center col-2 text-center col-6 1d100 horn type spirits requirement 01-40 {@item horn of valhalla, silver|xdmg|silver} 2 none 41-75 {@item horn of valhalla, brass|xdmg|brass} 3 {@variantrule proficiency|xphb} with all simple weapons 76-90 {@item horn of valhalla, bronze|xdmg|bronze} 4 training with all medium armor 91-00 {@item horn of valhalla, iron|xdmg|iron} 5 {@variantrule proficiency|xphb} with all martial weapons horn of valhalla, brass|xdmg horn of valhalla, bronze|xdmg horn of valhalla, iron|xdmg horn of valhalla, silver|xdmg true true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:horn_of_valhalla:270\",\"name\":\"Horn of Valhalla\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Horn of Valhalla\",\"source\":\"XDMG\",\"page\":270,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"varies\",\"wondrous\":true,\"entries\":[\"You can take a {@action Magic|XPHB} action to blow this horn. In response, warrior spirits from the plane of Ysgard appear in unoccupied spaces within 60 feet of you. Each spirit uses the {@creature Berserker|XMM} stat block and returns to Ysgard after 1 hour or when it drops to 0 {@variantrule Hit Points|XPHB}. The spirits look like living, breathing warriors, and they have {@variantrule Immunity|XPHB} to the {@condition Charmed|XPHB} and {@condition Frightened|XPHB} conditions. Once you use the horn, it can't be used again until 7 days have passed.\",\"Four types of Horn of Valhalla are known to exist, each made of a different metal. The horn's type determines how many spirits it summons, as well as the requirement for its use. The DM chooses the horn's type or determines it randomly by rolling on the following table. If you blow the horn without meeting its requirement, the summoned spirits attack you.\",\"If you meet the requirement, they are {@variantrule Friendly [Attitude]|XPHB|Friendly} to you and your allies and follow your commands.\",{\"type\":\"table\",\"colStyles\":[\"col-2 text-center\",\"col-2 text-center\",\"col-2 text-center\",\"col-6\"],\"colLabels\":[\"1d100\",\"Horn Type\",\"Spirits\",\"Requirement\"],\"rows\":[[\"01-40\",\"{@item Horn of Valhalla, Silver|XDMG|Silver}\",\"2\",\"None\"],[\"41-75\",\"{@item Horn of Valhalla, Brass|XDMG|Brass}\",\"3\",\"{@variantrule Proficiency|XPHB} with all Simple weapons\"],[\"76-90\",\"{@item Horn of Valhalla, Bronze|XDMG|Bronze}\",\"4\",\"Training with all Medium armor\"],[\"91-00\",\"{@item Horn of Valhalla, Iron|XDMG|Iron}\",\"5\",\"{@variantrule Proficiency|XPHB} with all Martial weapons\"]]}],\"items\":[\"Horn of Valhalla, Brass|XDMG\",\"Horn of Valhalla, Bronze|XDMG\",\"Horn of Valhalla, Iron|XDMG\",\"Horn of Valhalla, Silver|XDMG\"],\"itemsHidden\":true,\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:ioun_stone:273",
+      "name": "Ioun Stone",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "ioun stone",
+      "searchText": "itemgroup:xdmg:ioun_stone:273 ioun stone xdmg items.json ioun stone xdmg 273 true true varies true true true {#itementry ioun stone|xdmg} the type of stone determines its rarity and effects. ioun stone, absorption|xdmg ioun stone, agility|xdmg ioun stone, awareness|xdmg ioun stone, fortitude|xdmg ioun stone, greater absorption|xdmg ioun stone, insight|xdmg ioun stone, intellect|xdmg ioun stone, leadership|xdmg ioun stone, mastery|xdmg ioun stone, protection|xdmg ioun stone, regeneration|xdmg ioun stone, reserve|xdmg ioun stone, strength|xdmg ioun stone, sustenance|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:ioun_stone:273\",\"name\":\"Ioun Stone\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Ioun Stone\",\"source\":\"XDMG\",\"page\":273,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"varies\",\"reqAttune\":true,\"wondrous\":true,\"hasRefs\":true,\"entries\":[\"{#itemEntry Ioun Stone|XDMG}\",\"The type of stone determines its rarity and effects.\"],\"items\":[\"Ioun Stone, Absorption|XDMG\",\"Ioun Stone, Agility|XDMG\",\"Ioun Stone, Awareness|XDMG\",\"Ioun Stone, Fortitude|XDMG\",\"Ioun Stone, Greater Absorption|XDMG\",\"Ioun Stone, Insight|XDMG\",\"Ioun Stone, Intellect|XDMG\",\"Ioun Stone, Leadership|XDMG\",\"Ioun Stone, Mastery|XDMG\",\"Ioun Stone, Protection|XDMG\",\"Ioun Stone, Regeneration|XDMG\",\"Ioun Stone, Reserve|XDMG\",\"Ioun Stone, Strength|XDMG\",\"Ioun Stone, Sustenance|XDMG\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:manual_of_golems:277",
+      "name": "Manual of Golems",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "manual of golems",
+      "searchText": "itemgroup:xdmg:manual_of_golems:277 manual of golems xdmg items.json manual of golems xdmg 277 true true very rare true 5 this tome contains information and incantations necessary to make a particular type of golem. to decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. a creature that can't use a manual of golems and attempts to read it takes {@damage 6d6} psychic damage. table col-2 text-center col-4 col-3 text-center col-3 text-right d20 golem time cost 1-5 {@item manual of clay golems|xdmg} 30 days 65,000 gp 6-17 {@item manual of flesh golems|xdmg} 60 days 50,000 gp 18 {@item manual of iron golems|xdmg} 120 days 100,000 gp 19-20 {@item manual of stone golems|xdmg} 90 days 80,000 gp to create a golem, you must spend the time shown on the table, working without interruption with the manual at hand and resting no more than 8 hours per day. you must also pay the specified cost to purchase supplies. once you finish creating the golem, the book is consumed in eldritch flames. the golem becomes animate when the ashes of the manual are sprinkled on it. it is under your control, and it understands and obeys your spoken commands. manual of clay golems|xdmg manual of flesh golems|xdmg manual of iron golems|xdmg manual of stone golems|xdmg true true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:manual_of_golems:277\",\"name\":\"Manual of Golems\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Manual of Golems\",\"source\":\"XDMG\",\"page\":277,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"very rare\",\"wondrous\":true,\"weight\":5,\"entries\":[\"This tome contains information and incantations necessary to make a particular type of golem. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes {@damage 6d6} psychic damage.\",{\"type\":\"table\",\"colStyles\":[\"col-2 text-center\",\"col-4\",\"col-3 text-center\",\"col-3 text-right\"],\"colLabels\":[\"d20\",\"Golem\",\"Time\",\"Cost\"],\"rows\":[[\"1-5\",\"{@item Manual of Clay Golems|XDMG}\",\"30 days\",\"65,000 GP\"],[\"6-17\",\"{@item Manual of Flesh Golems|XDMG}\",\"60 days\",\"50,000 GP\"],[\"18\",\"{@item Manual of Iron Golems|XDMG}\",\"120 days\",\"100,000 GP\"],[\"19-20\",\"{@item Manual of Stone Golems|XDMG}\",\"90 days\",\"80,000 GP\"]]},\"To create a golem, you must spend the time shown on the table, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay the specified cost to purchase supplies.\",\"Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands.\"],\"items\":[\"Manual of Clay Golems|XDMG\",\"Manual of Flesh Golems|XDMG\",\"Manual of Iron Golems|XDMG\",\"Manual of Stone Golems|XDMG\"],\"itemsHidden\":true,\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xphb:musical_instrument:221",
+      "name": "Musical Instrument",
+      "source": "XPHB",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "musical instrument",
+      "searchText": "itemgroup:xphb:musical_instrument:221 musical instrument xphb items.json musical instrument xphb 221 true true ins|xphb none bagpipes|xphb drum|xphb dulcimer|xphb flute|xphb horn|xphb lute|xphb lyre|xphb pan flute|xphb shawm|xphb viol|xphb",
+      "payloadJson": "{\"id\":\"itemgroup:xphb:musical_instrument:221\",\"name\":\"Musical Instrument\",\"source\":\"XPHB\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Musical Instrument\",\"source\":\"XPHB\",\"page\":221,\"srd52\":true,\"basicRules2024\":true,\"type\":\"INS|XPHB\",\"rarity\":\"none\",\"items\":[\"Bagpipes|XPHB\",\"Drum|XPHB\",\"Dulcimer|XPHB\",\"Flute|XPHB\",\"Horn|XPHB\",\"Lute|XPHB\",\"Lyre|XPHB\",\"Pan Flute|XPHB\",\"Shawm|XPHB\",\"Viol|XPHB\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:potion_of_giant_strength:288",
+      "name": "Potion of Giant Strength",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "potion of giant strength",
+      "searchText": "itemgroup:xdmg:potion_of_giant_strength:288 potion of giant strength xdmg items.json potion of giant strength xdmg 288 true true drde-das p|xphb varies 0.5 potion of hill giant strength|xdmg potion of frost giant strength|xdmg potion of stone giant strength|xdmg potion of fire giant strength|xdmg potion of cloud giant strength|xdmg potion of storm giant strength|xdmg cns",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:potion_of_giant_strength:288\",\"name\":\"Potion of Giant Strength\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Potion of Giant Strength\",\"source\":\"XDMG\",\"page\":288,\"srd52\":true,\"basicRules2024\":true,\"referenceSources\":[\"DrDe-DaS\"],\"type\":\"P|XPHB\",\"rarity\":\"varies\",\"weight\":0.5,\"items\":[\"Potion of Hill Giant Strength|XDMG\",\"Potion of Frost Giant Strength|XDMG\",\"Potion of Stone Giant Strength|XDMG\",\"Potion of Fire Giant Strength|XDMG\",\"Potion of Cloud Giant Strength|XDMG\",\"Potion of Storm Giant Strength|XDMG\"],\"miscTags\":[\"CNS\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "name": "Potion of Resistance",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "potion of resistance",
+      "searchText": "itemgroup:xdmg:potion_of_resistance:289 potion of resistance xdmg items.json potion of resistance xdmg 289 true true p|xphb uncommon 0.5 when you drink this potion, you have {@variantrule resistance|xphb} to one type of damage for 1 hour. the dm chooses the type or determines it randomly by rolling on the following table. table col-2 text-center col-10 d10 damage type 1 {@item potion of acid resistance|xdmg|acid} 2 {@item potion of cold resistance|xdmg|cold} 3 {@item potion of fire resistance|xdmg|fire} 4 {@item potion of force resistance|xdmg|force} 5 {@item potion of lightning resistance|xdmg|lightning} 6 {@item potion of necrotic resistance|xdmg|necrotic} 7 {@item potion of poison resistance|xdmg|poison} 8 {@item potion of psychic resistance|xdmg|psychic} 9 {@item potion of radiant resistance|xdmg|radiant} 10 {@item potion of thunder resistance|xdmg|thunder} potion of acid resistance|xdmg potion of cold resistance|xdmg potion of fire resistance|xdmg potion of force resistance|xdmg potion of lightning resistance|xdmg potion of necrotic resistance|xdmg potion of poison resistance|xdmg potion of psychic resistance|xdmg potion of radiant resistance|xdmg potion of thunder resistance|xdmg true arcana - uncommon|xdmg relics - uncommon|xdmg cns",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:potion_of_resistance:289\",\"name\":\"Potion of Resistance\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Potion of Resistance\",\"source\":\"XDMG\",\"page\":289,\"srd52\":true,\"basicRules2024\":true,\"type\":\"P|XPHB\",\"rarity\":\"uncommon\",\"weight\":0.5,\"entries\":[\"When you drink this potion, you have {@variantrule Resistance|XPHB} to one type of damage for 1 hour. The DM chooses the type or determines it randomly by rolling on the following table.\",{\"type\":\"table\",\"colStyles\":[\"col-2 text-center\",\"col-10\"],\"colLabels\":[\"d10\",\"Damage Type\"],\"rows\":[[\"1\",\"{@item Potion of Acid Resistance|XDMG|Acid}\"],[\"2\",\"{@item Potion of Cold Resistance|XDMG|Cold}\"],[\"3\",\"{@item Potion of Fire Resistance|XDMG|Fire}\"],[\"4\",\"{@item Potion of Force Resistance|XDMG|Force}\"],[\"5\",\"{@item Potion of Lightning Resistance|XDMG|Lightning}\"],[\"6\",\"{@item Potion of Necrotic Resistance|XDMG|Necrotic}\"],[\"7\",\"{@item Potion of Poison Resistance|XDMG|Poison}\"],[\"8\",\"{@item Potion of Psychic Resistance|XDMG|Psychic}\"],[\"9\",\"{@item Potion of Radiant Resistance|XDMG|Radiant}\"],[\"10\",\"{@item Potion of Thunder Resistance|XDMG|Thunder}\"]]}],\"items\":[\"Potion of Acid Resistance|XDMG\",\"Potion of Cold Resistance|XDMG\",\"Potion of Fire Resistance|XDMG\",\"Potion of Force Resistance|XDMG\",\"Potion of Lightning Resistance|XDMG\",\"Potion of Necrotic Resistance|XDMG\",\"Potion of Poison Resistance|XDMG\",\"Potion of Psychic Resistance|XDMG\",\"Potion of Radiant Resistance|XDMG\",\"Potion of Thunder Resistance|XDMG\"],\"itemsHidden\":true,\"lootTables\":[\"Arcana - Uncommon|XDMG\",\"Relics - Uncommon|XDMG\"],\"miscTags\":[\"CNS\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:potions_of_healing:288",
+      "name": "Potions of Healing",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "potions of healing",
+      "searchText": "itemgroup:xdmg:potions_of_healing:288 potions of healing xdmg items.json potions of healing xdmg 288 true true p|xphb varies 0.5 potion of healing|xdmg potion of greater healing|xdmg potion of superior healing|xdmg potion of supreme healing|xdmg cns",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:potions_of_healing:288\",\"name\":\"Potions of Healing\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Potions of Healing\",\"source\":\"XDMG\",\"page\":288,\"srd52\":true,\"basicRules2024\":true,\"type\":\"P|XPHB\",\"rarity\":\"varies\",\"weight\":0.5,\"items\":[\"Potion of Healing|XDMG\",\"Potion of Greater Healing|XDMG\",\"Potion of Superior Healing|XDMG\",\"Potion of Supreme Healing|XDMG\"],\"miscTags\":[\"CNS\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "name": "Quaal's Feather Token",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "quaal's feather token",
+      "searchText": "itemgroup:xdmg:quaal_s_feather_token:290 quaal's feather token xdmg items.json quaal's feather token xdmg 290 true true varies true this object looks like a feather. different types of feather tokens exist, each with a different single-use effect. the dm chooses the kind of token or determines it randomly by rolling on the quaal's feather tokens table. the type of token determines its rarity. table quaal's feather tokens col-2 text-center col-5 text-center col-5 text-center 1d100 token rarity 01-20 {@item quaal's feather token, anchor|xdmg|anchor} uncommon 21-35 {@item quaal's feather token, bird|xdmg|bird} rare 36-50 {@item quaal's feather token, fan|xdmg|fan} uncommon 51-65 {@item quaal's feather token, swan boat|xdmg|swan boat} rare 66-90 {@item quaal's feather token, tree|xdmg|tree} uncommon 91-00 {@item quaal's feather token, whip|xdmg|whip} rare quaal's feather token, anchor|xdmg quaal's feather token, bird|xdmg quaal's feather token, fan|xdmg quaal's feather token, swan boat|xdmg quaal's feather token, tree|xdmg quaal's feather token, whip|xdmg true true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:quaal_s_feather_token:290\",\"name\":\"Quaal's Feather Token\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Quaal's Feather Token\",\"source\":\"XDMG\",\"page\":290,\"srd52\":true,\"basicRules2024\":true,\"rarity\":\"varies\",\"wondrous\":true,\"entries\":[\"This object looks like a feather. Different types of feather tokens exist, each with a different single-use effect. The DM chooses the kind of token or determines it randomly by rolling on the Quaal's Feather Tokens table. The type of token determines its rarity.\",{\"type\":\"table\",\"caption\":\"Quaal's Feather Tokens\",\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"colLabels\":[\"1d100\",\"Token\",\"Rarity\"],\"rows\":[[\"01-20\",\"{@item Quaal's Feather Token, Anchor|XDMG|Anchor}\",\"Uncommon\"],[\"21-35\",\"{@item Quaal's Feather Token, Bird|XDMG|Bird}\",\"Rare\"],[\"36-50\",\"{@item Quaal's Feather Token, Fan|XDMG|Fan}\",\"Uncommon\"],[\"51-65\",\"{@item Quaal's Feather Token, Swan boat|XDMG|Swan Boat}\",\"Rare\"],[\"66-90\",\"{@item Quaal's Feather Token, Tree|XDMG|Tree}\",\"Uncommon\"],[\"91-00\",\"{@item Quaal's Feather Token, Whip|XDMG|Whip}\",\"Rare\"]]}],\"items\":[\"Quaal's Feather Token, Anchor|XDMG\",\"Quaal's Feather Token, Bird|XDMG\",\"Quaal's Feather Token, Fan|XDMG\",\"Quaal's Feather Token, Swan Boat|XDMG\",\"Quaal's Feather Token, Tree|XDMG\",\"Quaal's Feather Token, Whip|XDMG\"],\"itemsHidden\":true,\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:ring_of_elemental_command:292",
+      "name": "Ring of Elemental Command",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "ring of elemental command",
+      "searchText": "itemgroup:xdmg:ring_of_elemental_command:292 ring of elemental command xdmg items.json ring of elemental command xdmg 292 true true rg|xdmg legendary true dawn {@dice 1d4 + 1} 5 ring of elemental command (air)|xdmg ring of elemental command (earth)|xdmg ring of elemental command (fire)|xdmg ring of elemental command (water)|xdmg",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:ring_of_elemental_command:292\",\"name\":\"Ring of Elemental Command\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Ring of Elemental Command\",\"source\":\"XDMG\",\"page\":292,\"srd52\":true,\"basicRules2024\":true,\"type\":\"RG|XDMG\",\"rarity\":\"legendary\",\"reqAttune\":true,\"recharge\":\"dawn\",\"rechargeAmount\":\"{@dice 1d4 + 1}\",\"charges\":5,\"items\":[\"Ring of Elemental Command (Air)|XDMG\",\"Ring of Elemental Command (Earth)|XDMG\",\"Ring of Elemental Command (Fire)|XDMG\",\"Ring of Elemental Command (Water)|XDMG\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "name": "Ring of Resistance",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "ring of resistance",
+      "searchText": "itemgroup:xdmg:ring_of_resistance:294 ring of resistance xdmg items.json ring of resistance xdmg 294 true true rg|xdmg rare you have {@variantrule resistance|xphb} to one damage type while wearing this ring. the gemstone in the ring indicates the type, which the dm chooses or determines randomly by rolling on the following table. table col-2 text-center col-5 col-5 d10 damage type gem 1 {@item ring of acid resistance|xdmg|acid} pearl 2 {@item ring of cold resistance|xdmg|cold} tourmaline 3 {@item ring of fire resistance|xdmg|fire} garnet 4 {@item ring of force resistance|xdmg|force} sapphire 5 {@item ring of lightning resistance|xdmg|lightning} citrine 6 {@item ring of necrotic resistance|xdmg|necrotic} jet 7 {@item ring of poison resistance|xdmg|poison} amethyst 8 {@item ring of psychic resistance|xdmg|psychic} jade 9 {@item ring of radiant resistance|xdmg|radiant} topaz 10 {@item ring of thunder resistance|xdmg|thunder} spinel ring of acid resistance|xdmg ring of cold resistance|xdmg ring of fire resistance|xdmg ring of force resistance|xdmg ring of lightning resistance|xdmg ring of necrotic resistance|xdmg ring of poison resistance|xdmg ring of psychic resistance|xdmg ring of radiant resistance|xdmg ring of thunder resistance|xdmg true relics - rare|xdmg",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:ring_of_resistance:294\",\"name\":\"Ring of Resistance\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Ring of Resistance\",\"source\":\"XDMG\",\"page\":294,\"srd52\":true,\"basicRules2024\":true,\"type\":\"RG|XDMG\",\"rarity\":\"rare\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to one damage type while wearing this ring. The gemstone in the ring indicates the type, which the DM chooses or determines randomly by rolling on the following table.\",{\"type\":\"table\",\"colStyles\":[\"col-2 text-center\",\"col-5\",\"col-5\"],\"colLabels\":[\"d10\",\"Damage Type\",\"Gem\"],\"rows\":[[\"1\",\"{@item Ring of Acid Resistance|XDMG|Acid}\",\"Pearl\"],[\"2\",\"{@item Ring of Cold Resistance|XDMG|Cold}\",\"Tourmaline\"],[\"3\",\"{@item Ring of Fire Resistance|XDMG|Fire}\",\"Garnet\"],[\"4\",\"{@item Ring of Force Resistance|XDMG|Force}\",\"Sapphire\"],[\"5\",\"{@item Ring of Lightning Resistance|XDMG|Lightning}\",\"Citrine\"],[\"6\",\"{@item Ring of Necrotic Resistance|XDMG|Necrotic}\",\"Jet\"],[\"7\",\"{@item Ring of Poison Resistance|XDMG|Poison}\",\"Amethyst\"],[\"8\",\"{@item Ring of Psychic Resistance|XDMG|Psychic}\",\"Jade\"],[\"9\",\"{@item Ring of Radiant Resistance|XDMG|Radiant}\",\"Topaz\"],[\"10\",\"{@item Ring of Thunder Resistance|XDMG|Thunder}\",\"Spinel\"]]}],\"items\":[\"Ring of Acid Resistance|XDMG\",\"Ring of Cold Resistance|XDMG\",\"Ring of Fire Resistance|XDMG\",\"Ring of Force Resistance|XDMG\",\"Ring of Lightning Resistance|XDMG\",\"Ring of Necrotic Resistance|XDMG\",\"Ring of Poison Resistance|XDMG\",\"Ring of Psychic Resistance|XDMG\",\"Ring of Radiant Resistance|XDMG\",\"Ring of Thunder Resistance|XDMG\"],\"itemsHidden\":true,\"lootTables\":[\"Relics - Rare|XDMG\"]}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:spell_scroll:305",
+      "name": "Spell Scroll",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "spell scroll",
+      "searchText": "itemgroup:xdmg:spell_scroll:305 spell scroll xdmg items.json spell scroll xdmg 305 true true drde-das drde-twoo drde-tdon drde-acfas drde-dotsc fraif sc|xphb varies spell scroll (cantrip)|xdmg spell scroll (level 1)|xdmg spell scroll (level 2)|xdmg spell scroll (level 3)|xdmg spell scroll (level 4)|xdmg spell scroll (level 5)|xdmg spell scroll (level 6)|xdmg spell scroll (level 7)|xdmg spell scroll (level 8)|xdmg spell scroll (level 9)|xdmg cns true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:spell_scroll:305\",\"name\":\"Spell Scroll\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Spell Scroll\",\"source\":\"XDMG\",\"page\":305,\"srd52\":true,\"basicRules2024\":true,\"referenceSources\":[\"DrDe-DaS\",\"DrDe-TWoO\",\"DrDe-TDoN\",\"DrDe-ACfaS\",\"DrDe-DotSC\",\"FRAiF\"],\"type\":\"SC|XPHB\",\"rarity\":\"varies\",\"items\":[\"Spell Scroll (Cantrip)|XDMG\",\"Spell Scroll (Level 1)|XDMG\",\"Spell Scroll (Level 2)|XDMG\",\"Spell Scroll (Level 3)|XDMG\",\"Spell Scroll (Level 4)|XDMG\",\"Spell Scroll (Level 5)|XDMG\",\"Spell Scroll (Level 6)|XDMG\",\"Spell Scroll (Level 7)|XDMG\",\"Spell Scroll (Level 8)|XDMG\",\"Spell Scroll (Level 9)|XDMG\"],\"miscTags\":[\"CNS\"],\"hasFluffImages\":true}}"
+    },
+    {
+      "entityId": "itemgroup:xdmg:wand_of_the_war_mage:322",
+      "name": "Wand of the War Mage",
+      "source": "XDMG",
+      "sourceFile": "items.json",
+      "edition": null,
+      "sortName": "wand of the war mage",
+      "searchText": "itemgroup:xdmg:wand_of_the_war_mage:322 wand of the war mage xdmg items.json wand of the war mage xdmg 322 true wd|xdmg varies by a spellcaster true 1 +1 wand of the war mage|xdmg +2 wand of the war mage|xdmg +3 wand of the war mage|xdmg true",
+      "payloadJson": "{\"id\":\"itemgroup:xdmg:wand_of_the_war_mage:322\",\"name\":\"Wand of the War Mage\",\"source\":\"XDMG\",\"sourceFile\":\"items.json\",\"data\":{\"name\":\"Wand of the War Mage\",\"source\":\"XDMG\",\"page\":322,\"srd52\":true,\"type\":\"WD|XDMG\",\"rarity\":\"varies\",\"reqAttune\":\"by a spellcaster\",\"reqAttuneTags\":[{\"spellcasting\":true}],\"weight\":1,\"items\":[\"+1 Wand of the War Mage|XDMG\",\"+2 Wand of the War Mage|XDMG\",\"+3 Wand of the War Mage|XDMG\"],\"hasFluffImages\":true}}"
+    }
+  ],
+  "linkRows": [
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "variantrule",
+      "rawReference": "Resistance|XPHB",
+      "displayText": "Resistance",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Acid Resistance|XDMG|Acid",
+      "displayText": "Armor of Acid Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Cold Resistance|XDMG|Cold",
+      "displayText": "Armor of Cold Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Fire Resistance|XDMG|Fire",
+      "displayText": "Armor of Fire Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Force Resistance|XDMG|Force",
+      "displayText": "Armor of Force Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Lightning Resistance|XDMG|Lightning",
+      "displayText": "Armor of Lightning Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Necrotic Resistance|XDMG|Necrotic",
+      "displayText": "Armor of Necrotic Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Poison Resistance|XDMG|Poison",
+      "displayText": "Armor of Poison Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Psychic Resistance|XDMG|Psychic",
+      "displayText": "Armor of Psychic Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Radiant Resistance|XDMG|Radiant",
+      "displayText": "Armor of Radiant Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:armor_of_resistance:231",
+      "targetTag": "item",
+      "rawReference": "Armor of Thunder Resistance|XDMG|Thunder",
+      "displayText": "Armor of Thunder Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "targetTag": "item",
+      "rawReference": "Belt of Hill Giant Strength|XDMG",
+      "displayText": "Belt of Hill Giant Strength",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "targetTag": "item",
+      "rawReference": "Belt of Frost Giant Strength|XDMG",
+      "displayText": "Belt of Frost Giant Strength",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "targetTag": "item",
+      "rawReference": "Belt of Stone Giant Strength|XDMG",
+      "displayText": "Belt of Stone Giant Strength",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "targetTag": "item",
+      "rawReference": "Belt of Fire Giant Strength|XDMG",
+      "displayText": "Belt of Fire Giant Strength",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "targetTag": "item",
+      "rawReference": "Belt of Cloud Giant Strength|XDMG",
+      "displayText": "Belt of Cloud Giant Strength",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:belt_of_giant_strength:236",
+      "targetTag": "item",
+      "rawReference": "Belt of Storm Giant Strength|XDMG",
+      "displayText": "Belt of Storm Giant Strength",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "targetTag": "action",
+      "rawReference": "Magic|XPHB",
+      "displayText": "Magic",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "targetTag": "variantrule",
+      "rawReference": "Fly Speed|XPHB",
+      "displayText": "Fly Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "targetTag": "item",
+      "rawReference": "Carpet of Flying, 3 ft. × 5 ft.|XDMG",
+      "displayText": "Carpet of Flying, 3 ft. × 5 ft.",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "targetTag": "item",
+      "rawReference": "Carpet of Flying, 4 ft. × 6 ft.|XDMG",
+      "displayText": "Carpet of Flying, 4 ft. × 6 ft.",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "targetTag": "item",
+      "rawReference": "Carpet of Flying, 5 ft. × 7 ft.|XDMG",
+      "displayText": "Carpet of Flying, 5 ft. × 7 ft.",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:carpet_of_flying:242",
+      "targetTag": "item",
+      "rawReference": "Carpet of Flying, 6 ft. × 9 ft.|XDMG",
+      "displayText": "Carpet of Flying, 6 ft. × 9 ft.",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "action",
+      "rawReference": "Magic|XPHB",
+      "displayText": "Magic",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "creature",
+      "rawReference": "Berserker|XMM",
+      "displayText": "Berserker",
+      "sourceHint": "XMM",
+      "targetEntityType": "monster"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "variantrule",
+      "rawReference": "Hit Points|XPHB",
+      "displayText": "Hit Points",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "variantrule",
+      "rawReference": "Immunity|XPHB",
+      "displayText": "Immunity",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "condition",
+      "rawReference": "Charmed|XPHB",
+      "displayText": "Charmed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "condition",
+      "rawReference": "Frightened|XPHB",
+      "displayText": "Frightened",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "variantrule",
+      "rawReference": "Friendly [Attitude]|XPHB|Friendly",
+      "displayText": "Friendly [Attitude]",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "item",
+      "rawReference": "Horn of Valhalla, Silver|XDMG|Silver",
+      "displayText": "Horn of Valhalla, Silver",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "item",
+      "rawReference": "Horn of Valhalla, Brass|XDMG|Brass",
+      "displayText": "Horn of Valhalla, Brass",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "variantrule",
+      "rawReference": "Proficiency|XPHB",
+      "displayText": "Proficiency",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "item",
+      "rawReference": "Horn of Valhalla, Bronze|XDMG|Bronze",
+      "displayText": "Horn of Valhalla, Bronze",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "item",
+      "rawReference": "Horn of Valhalla, Iron|XDMG|Iron",
+      "displayText": "Horn of Valhalla, Iron",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:horn_of_valhalla:270",
+      "targetTag": "variantrule",
+      "rawReference": "Proficiency|XPHB",
+      "displayText": "Proficiency",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:manual_of_golems:277",
+      "targetTag": "damage",
+      "rawReference": "6d6",
+      "displayText": "6d6",
+      "sourceHint": null,
+      "targetEntityType": "damage"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:manual_of_golems:277",
+      "targetTag": "item",
+      "rawReference": "Manual of Clay Golems|XDMG",
+      "displayText": "Manual of Clay Golems",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:manual_of_golems:277",
+      "targetTag": "item",
+      "rawReference": "Manual of Flesh Golems|XDMG",
+      "displayText": "Manual of Flesh Golems",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:manual_of_golems:277",
+      "targetTag": "item",
+      "rawReference": "Manual of Iron Golems|XDMG",
+      "displayText": "Manual of Iron Golems",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:manual_of_golems:277",
+      "targetTag": "item",
+      "rawReference": "Manual of Stone Golems|XDMG",
+      "displayText": "Manual of Stone Golems",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "variantrule",
+      "rawReference": "Resistance|XPHB",
+      "displayText": "Resistance",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Acid Resistance|XDMG|Acid",
+      "displayText": "Potion of Acid Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Cold Resistance|XDMG|Cold",
+      "displayText": "Potion of Cold Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Fire Resistance|XDMG|Fire",
+      "displayText": "Potion of Fire Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Force Resistance|XDMG|Force",
+      "displayText": "Potion of Force Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Lightning Resistance|XDMG|Lightning",
+      "displayText": "Potion of Lightning Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Necrotic Resistance|XDMG|Necrotic",
+      "displayText": "Potion of Necrotic Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Poison Resistance|XDMG|Poison",
+      "displayText": "Potion of Poison Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Psychic Resistance|XDMG|Psychic",
+      "displayText": "Potion of Psychic Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Radiant Resistance|XDMG|Radiant",
+      "displayText": "Potion of Radiant Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:potion_of_resistance:289",
+      "targetTag": "item",
+      "rawReference": "Potion of Thunder Resistance|XDMG|Thunder",
+      "displayText": "Potion of Thunder Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "targetTag": "item",
+      "rawReference": "Quaal's Feather Token, Anchor|XDMG|Anchor",
+      "displayText": "Quaal's Feather Token, Anchor",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "targetTag": "item",
+      "rawReference": "Quaal's Feather Token, Bird|XDMG|Bird",
+      "displayText": "Quaal's Feather Token, Bird",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "targetTag": "item",
+      "rawReference": "Quaal's Feather Token, Fan|XDMG|Fan",
+      "displayText": "Quaal's Feather Token, Fan",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "targetTag": "item",
+      "rawReference": "Quaal's Feather Token, Swan boat|XDMG|Swan Boat",
+      "displayText": "Quaal's Feather Token, Swan boat",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "targetTag": "item",
+      "rawReference": "Quaal's Feather Token, Tree|XDMG|Tree",
+      "displayText": "Quaal's Feather Token, Tree",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:quaal_s_feather_token:290",
+      "targetTag": "item",
+      "rawReference": "Quaal's Feather Token, Whip|XDMG|Whip",
+      "displayText": "Quaal's Feather Token, Whip",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_elemental_command:292",
+      "targetTag": "dice",
+      "rawReference": "1d4 + 1",
+      "displayText": "1d4 + 1",
+      "sourceHint": null,
+      "targetEntityType": "dice"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "variantrule",
+      "rawReference": "Resistance|XPHB",
+      "displayText": "Resistance",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Acid Resistance|XDMG|Acid",
+      "displayText": "Ring of Acid Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Cold Resistance|XDMG|Cold",
+      "displayText": "Ring of Cold Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Fire Resistance|XDMG|Fire",
+      "displayText": "Ring of Fire Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Force Resistance|XDMG|Force",
+      "displayText": "Ring of Force Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Lightning Resistance|XDMG|Lightning",
+      "displayText": "Ring of Lightning Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Necrotic Resistance|XDMG|Necrotic",
+      "displayText": "Ring of Necrotic Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Poison Resistance|XDMG|Poison",
+      "displayText": "Ring of Poison Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Psychic Resistance|XDMG|Psychic",
+      "displayText": "Ring of Psychic Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Radiant Resistance|XDMG|Radiant",
+      "displayText": "Ring of Radiant Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    },
+    {
+      "sourceEntityType": "itemGroup",
+      "sourceEntityId": "itemgroup:xdmg:ring_of_resistance:294",
+      "targetTag": "item",
+      "rawReference": "Ring of Thunder Resistance|XDMG|Thunder",
+      "displayText": "Ring of Thunder Resistance",
+      "sourceHint": "XDMG",
+      "targetEntityType": "item"
+    }
+  ]
+}

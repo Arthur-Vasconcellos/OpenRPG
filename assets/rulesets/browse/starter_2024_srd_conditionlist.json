@@ -1,0 +1,699 @@
+{
+  "rulesetId": "starter_2024_srd",
+  "entityType": "condition",
+  "collectionKey": "conditionList",
+  "entityRows": [
+    {
+      "entityId": "condition:xphb:blinded:361",
+      "name": "Blinded",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "blinded",
+      "searchText": "condition:xphb:blinded:361 blinded xphb conditionsdiseases.json blinded xphb 361 true true while you have the blinded condition, you experience the following effects. entries entries can't see you can't see and automatically fail any ability check that requires sight. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule advantage|xphb}, and your attack rolls have {@variantrule disadvantage|xphb}.",
+      "payloadJson": "{\"id\":\"condition:xphb:blinded:361\",\"name\":\"Blinded\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Blinded\",\"source\":\"XPHB\",\"page\":361,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Blinded condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Can't See\",\"entries\":[\"You can't see and automatically fail any ability check that requires sight.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}, and your attack rolls have {@variantrule Disadvantage|XPHB}.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:charmed:361",
+      "name": "Charmed",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "charmed",
+      "searchText": "condition:xphb:charmed:361 charmed xphb conditionsdiseases.json charmed xphb 361 true true while you have the charmed condition, you experience the following effects. entries entries can't harm the charmer you can't attack the charmer or target the charmer with damaging abilities or {@variantrule magical effect|xphb|magical effects}. entries social advantage the charmer has {@variantrule advantage|xphb} on any ability check to interact with you socially.",
+      "payloadJson": "{\"id\":\"condition:xphb:charmed:361\",\"name\":\"Charmed\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Charmed\",\"source\":\"XPHB\",\"page\":361,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Charmed condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Can't Harm the Charmer\",\"entries\":[\"You can't attack the charmer or target the charmer with damaging abilities or {@variantrule Magical Effect|XPHB|magical effects}.\"]},{\"type\":\"entries\",\"name\":\"Social Advantage\",\"entries\":[\"The charmer has {@variantrule Advantage|XPHB} on any ability check to interact with you socially.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:deafened:365",
+      "name": "Deafened",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "deafened",
+      "searchText": "condition:xphb:deafened:365 deafened xphb conditionsdiseases.json deafened xphb 365 true true while you have the deafened condition, you experience the following effect. entries entries can't hear you can't hear and automatically fail any ability check that requires hearing.",
+      "payloadJson": "{\"id\":\"condition:xphb:deafened:365\",\"name\":\"Deafened\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Deafened\",\"source\":\"XPHB\",\"page\":365,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Deafened condition, you experience the following effect.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Can't Hear\",\"entries\":[\"You can't hear and automatically fail any ability check that requires hearing.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:exhaustion:365",
+      "name": "Exhaustion",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "exhaustion",
+      "searchText": "condition:xphb:exhaustion:365 exhaustion xphb conditionsdiseases.json exhaustion xphb 365 true true while you have the exhaustion condition, you experience the following effects. entries entries exhaustion levels this condition is cumulative. each time you receive it, you gain 1 exhaustion level. you die if your exhaustion level is 6. entries d20 tests affected when you make a d20 test the roll is reduced by 2 times your exhaustion level. entries speed reduced your {@variantrule speed|xphb} is reduced by a number of feet equal to 5 times your exhaustion level. entries removing exhaustion levels finishing a {@variantrule long rest|xphb} removes 1 of your exhaustion levels. when your exhaustion level reaches 0, the condition ends.",
+      "payloadJson": "{\"id\":\"condition:xphb:exhaustion:365\",\"name\":\"Exhaustion\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Exhaustion\",\"source\":\"XPHB\",\"page\":365,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Exhaustion condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Exhaustion Levels\",\"entries\":[\"This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6.\"]},{\"type\":\"entries\",\"name\":\"D20 Tests Affected\",\"entries\":[\"When you make a D20 Test the roll is reduced by 2 times your Exhaustion level.\"]},{\"type\":\"entries\",\"name\":\"Speed Reduced\",\"entries\":[\"Your {@variantrule Speed|XPHB} is reduced by a number of feet equal to 5 times your Exhaustion level.\"]},{\"type\":\"entries\",\"name\":\"Removing Exhaustion Levels\",\"entries\":[\"Finishing a {@variantrule Long Rest|XPHB} removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:frightened:367",
+      "name": "Frightened",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "frightened",
+      "searchText": "condition:xphb:frightened:367 frightened xphb conditionsdiseases.json frightened xphb 367 true true while you have the frightened condition, you experience the following effects. entries entries ability checks and attacks affected you have {@variantrule disadvantage|xphb} on ability checks and attack rolls while the source of fear is within line of sight. entries can't approach you can't willingly move closer to the source of fear.",
+      "payloadJson": "{\"id\":\"condition:xphb:frightened:367\",\"name\":\"Frightened\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Frightened\",\"source\":\"XPHB\",\"page\":367,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Frightened condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Ability Checks and Attacks Affected\",\"entries\":[\"You have {@variantrule Disadvantage|XPHB} on ability checks and attack rolls while the source of fear is within line of sight.\"]},{\"type\":\"entries\",\"name\":\"Can't Approach\",\"entries\":[\"You can't willingly move closer to the source of fear.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:grappled:367",
+      "name": "Grappled",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "grappled",
+      "searchText": "condition:xphb:grappled:367 grappled xphb conditionsdiseases.json grappled xphb 367 true true while you have the grappled condition, you experience the following effects. entries entries speed 0 your {@variantrule speed|xphb} is 0 and can't increase. entries attacks affected you have {@variantrule disadvantage|xphb} on attack rolls against any target other than the grappler. entries movable the grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are tiny or two or more sizes smaller than it.",
+      "payloadJson": "{\"id\":\"condition:xphb:grappled:367\",\"name\":\"Grappled\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Grappled\",\"source\":\"XPHB\",\"page\":367,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Grappled condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Speed 0\",\"entries\":[\"Your {@variantrule Speed|XPHB} is 0 and can't increase.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"You have {@variantrule Disadvantage|XPHB} on attack rolls against any target other than the grappler.\"]},{\"type\":\"entries\",\"name\":\"Movable\",\"entries\":[\"The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller than it.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:incapacitated:369",
+      "name": "Incapacitated",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "incapacitated",
+      "searchText": "condition:xphb:incapacitated:369 incapacitated xphb conditionsdiseases.json incapacitated xphb 369 true true while you have the incapacitated condition, you experience the following effects. entries entries inactive you can't take any {@variantrule action|xphb|action}, {@variantrule bonus action|xphb}, or {@variantrule reaction|xphb}. entries no concentration your {@status concentration|xphb} is broken. entries speechless you can't speak. entries surprised if you're incapacitated when you roll {@variantrule initiative|xphb}, you have {@variantrule disadvantage|xphb} on the roll.",
+      "payloadJson": "{\"id\":\"condition:xphb:incapacitated:369\",\"name\":\"Incapacitated\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Incapacitated\",\"source\":\"XPHB\",\"page\":369,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Incapacitated condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Inactive\",\"entries\":[\"You can't take any {@variantrule Action|XPHB|action}, {@variantrule Bonus Action|XPHB}, or {@variantrule Reaction|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"No Concentration\",\"entries\":[\"Your {@status Concentration|XPHB} is broken.\"]},{\"type\":\"entries\",\"name\":\"Speechless\",\"entries\":[\"You can't speak.\"]},{\"type\":\"entries\",\"name\":\"Surprised\",\"entries\":[\"If you're Incapacitated when you roll {@variantrule Initiative|XPHB}, you have {@variantrule Disadvantage|XPHB} on the roll.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:invisible:370",
+      "name": "Invisible",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "invisible",
+      "searchText": "condition:xphb:invisible:370 invisible xphb conditionsdiseases.json invisible xphb 370 true true while you have the invisible condition, you experience the following effects. entries entries surprise if you're invisible when you roll {@variantrule initiative|xphb}, you have {@variantrule advantage|xphb} on the roll. entries concealed you aren't affected by any effect that requires its target to be seen unless the effect's creator can somehow see you. any equipment you are wearing or carrying is also concealed. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule disadvantage|xphb}, and your attack rolls have {@variantrule advantage|xphb}. if a creature can somehow see you, you don't gain this benefit against that creature.",
+      "payloadJson": "{\"id\":\"condition:xphb:invisible:370\",\"name\":\"Invisible\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Invisible\",\"source\":\"XPHB\",\"page\":370,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Invisible condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Surprise\",\"entries\":[\"If you're Invisible when you roll {@variantrule Initiative|XPHB}, you have {@variantrule Advantage|XPHB} on the roll.\"]},{\"type\":\"entries\",\"name\":\"Concealed\",\"entries\":[\"You aren't affected by any effect that requires its target to be seen unless the effect's creator can somehow see you. Any equipment you are wearing or carrying is also concealed.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Disadvantage|XPHB}, and your attack rolls have {@variantrule Advantage|XPHB}. If a creature can somehow see you, you don't gain this benefit against that creature.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:paralyzed:371",
+      "name": "Paralyzed",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "paralyzed",
+      "searchText": "condition:xphb:paralyzed:371 paralyzed xphb conditionsdiseases.json paralyzed xphb 371 true true while you have the paralyzed condition, you experience the following effects. entries entries incapacitated you have the {@condition incapacitated|xphb} condition. entries speed 0 your {@variantrule speed|xphb} is 0 and can't increase. entries saving throws affected you automatically fail strength and dexterity {@variantrule saving throw|xphb|saving throws}. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule advantage|xphb}. entries automatic critical hits any attack roll that hits you is a {@variantrule critical hit|xphb} if the attacker is within 5 feet of you.",
+      "payloadJson": "{\"id\":\"condition:xphb:paralyzed:371\",\"name\":\"Paralyzed\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Paralyzed\",\"source\":\"XPHB\",\"page\":371,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Paralyzed condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Incapacitated\",\"entries\":[\"You have the {@condition Incapacitated|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Speed 0\",\"entries\":[\"Your {@variantrule Speed|XPHB} is 0 and can't increase.\"]},{\"type\":\"entries\",\"name\":\"Saving Throws Affected\",\"entries\":[\"You automatically fail Strength and Dexterity {@variantrule Saving Throw|XPHB|saving throws}.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Automatic Critical Hits\",\"entries\":[\"Any attack roll that hits you is a {@variantrule Critical Hit|XPHB} if the attacker is within 5 feet of you.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:petrified:372",
+      "name": "Petrified",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "petrified",
+      "searchText": "condition:xphb:petrified:372 petrified xphb conditionsdiseases.json petrified xphb 372 true true while you have the petrified condition, you experience the following effects. entries entries turned to inanimate substance you are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). your weight increases by a factor of ten, and you cease aging. entries incapacitated you have the {@condition incapacitated|xphb} condition. entries speed 0 your {@variantrule speed|xphb} is 0 and can't increase. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule advantage|xphb}. entries saving throws affected you automatically fail strength and dexterity {@variantrule saving throw|xphb|saving throws}. entries resist damage you have {@variantrule resistance|xphb} to all damage. entries poison immunity you have {@variantrule immunity|xphb} to the {@condition poisoned|xphb} condition.",
+      "payloadJson": "{\"id\":\"condition:xphb:petrified:372\",\"name\":\"Petrified\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Petrified\",\"source\":\"XPHB\",\"page\":372,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Petrified condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Turned to Inanimate Substance\",\"entries\":[\"You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging.\"]},{\"type\":\"entries\",\"name\":\"Incapacitated\",\"entries\":[\"You have the {@condition Incapacitated|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Speed 0\",\"entries\":[\"Your {@variantrule Speed|XPHB} is 0 and can't increase.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Saving Throws Affected\",\"entries\":[\"You automatically fail Strength and Dexterity {@variantrule Saving Throw|XPHB|saving throws}.\"]},{\"type\":\"entries\",\"name\":\"Resist Damage\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to all damage.\"]},{\"type\":\"entries\",\"name\":\"Poison Immunity\",\"entries\":[\"You have {@variantrule Immunity|XPHB} to the {@condition Poisoned|XPHB} condition.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:poisoned:372",
+      "name": "Poisoned",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "poisoned",
+      "searchText": "condition:xphb:poisoned:372 poisoned xphb conditionsdiseases.json poisoned xphb 372 true true while you have the poisoned condition, you experience the following effect. entries entries ability checks and attacks affected you have {@variantrule disadvantage|xphb} on attack rolls and ability checks.",
+      "payloadJson": "{\"id\":\"condition:xphb:poisoned:372\",\"name\":\"Poisoned\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Poisoned\",\"source\":\"XPHB\",\"page\":372,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Poisoned condition, you experience the following effect.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Ability Checks and Attacks Affected\",\"entries\":[\"You have {@variantrule Disadvantage|XPHB} on attack rolls and ability checks.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:prone:372",
+      "name": "Prone",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "prone",
+      "searchText": "condition:xphb:prone:372 prone xphb conditionsdiseases.json prone xphb 372 true true while you have the prone condition, you experience the following effects. entries entries restricted movement your only movement options are to {@variantrule crawling|xphb|crawl} or to spend an amount of movement equal to half your {@variantrule speed|xphb} (round down) to right yourself and thereby end the condition. if your {@variantrule speed|xphb} is 0, you can't right yourself. entries attacks affected you have {@variantrule disadvantage|xphb} on attack rolls. an attack roll against you has {@variantrule advantage|xphb} if the attacker is within 5 feet of you. otherwise, that attack roll has {@variantrule disadvantage|xphb}.",
+      "payloadJson": "{\"id\":\"condition:xphb:prone:372\",\"name\":\"Prone\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Prone\",\"source\":\"XPHB\",\"page\":372,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Prone condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Restricted Movement\",\"entries\":[\"Your only movement options are to {@variantrule Crawling|XPHB|crawl} or to spend an amount of movement equal to half your {@variantrule Speed|XPHB} (round down) to right yourself and thereby end the condition. If your {@variantrule Speed|XPHB} is 0, you can't right yourself.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"You have {@variantrule Disadvantage|XPHB} on attack rolls. An attack roll against you has {@variantrule Advantage|XPHB} if the attacker is within 5 feet of you. Otherwise, that attack roll has {@variantrule Disadvantage|XPHB}.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:restrained:373",
+      "name": "Restrained",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "restrained",
+      "searchText": "condition:xphb:restrained:373 restrained xphb conditionsdiseases.json restrained xphb 373 true true while you have the restrained condition, you experience the following effects. entries entries speed 0 your {@variantrule speed|xphb} is 0 and can't increase. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule advantage|xphb}, and your attack rolls have {@variantrule disadvantage|xphb}. entries saving throws affected you have {@variantrule disadvantage|xphb} on dexterity {@variantrule saving throw|xphb|saving throws}.",
+      "payloadJson": "{\"id\":\"condition:xphb:restrained:373\",\"name\":\"Restrained\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Restrained\",\"source\":\"XPHB\",\"page\":373,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Restrained condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Speed 0\",\"entries\":[\"Your {@variantrule Speed|XPHB} is 0 and can't increase.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}, and your attack rolls have {@variantrule Disadvantage|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Saving Throws Affected\",\"entries\":[\"You have {@variantrule Disadvantage|XPHB} on Dexterity {@variantrule Saving Throw|XPHB|saving throws}.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:stunned:376",
+      "name": "Stunned",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "stunned",
+      "searchText": "condition:xphb:stunned:376 stunned xphb conditionsdiseases.json stunned xphb 376 true true while you have the stunned condition, you experience the following effects. entries entries incapacitated you have the {@condition incapacitated|xphb} condition. entries saving throws affected you automatically fail strength and dexterity {@variantrule saving throw|xphb|saving throws}. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule advantage|xphb}.",
+      "payloadJson": "{\"id\":\"condition:xphb:stunned:376\",\"name\":\"Stunned\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Stunned\",\"source\":\"XPHB\",\"page\":376,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Stunned condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Incapacitated\",\"entries\":[\"You have the {@condition Incapacitated|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Saving Throws Affected\",\"entries\":[\"You automatically fail Strength and Dexterity {@variantrule Saving Throw|XPHB|saving throws}.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}.\"]}]}]}}"
+    },
+    {
+      "entityId": "condition:xphb:unconscious:376",
+      "name": "Unconscious",
+      "source": "XPHB",
+      "sourceFile": "conditionsdiseases.json",
+      "edition": null,
+      "sortName": "unconscious",
+      "searchText": "condition:xphb:unconscious:376 unconscious xphb conditionsdiseases.json unconscious xphb 376 true true while you have the unconscious condition, you experience the following effects. entries entries inert you have the {@condition incapacitated|xphb} and {@condition prone|xphb} conditions, and you drop whatever you're holding. when this condition ends, you remain {@condition prone|xphb}. entries speed 0 your {@variantrule speed|xphb} is 0 and can't increase. entries attacks affected {@action attack|xphb} rolls against you have {@variantrule advantage|xphb}. entries saving throws affected you automatically fail strength and dexterity {@variantrule saving throw|xphb|saving throws}. entries automatic critical hits any attack roll that hits you is a {@variantrule critical hit|xphb} if the attacker is within 5 feet of you. entries unaware you're unaware of your surroundings.",
+      "payloadJson": "{\"id\":\"condition:xphb:unconscious:376\",\"name\":\"Unconscious\",\"source\":\"XPHB\",\"sourceFile\":\"conditionsdiseases.json\",\"data\":{\"name\":\"Unconscious\",\"source\":\"XPHB\",\"page\":376,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"While you have the Unconscious condition, you experience the following effects.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Inert\",\"entries\":[\"You have the {@condition Incapacitated|XPHB} and {@condition Prone|XPHB} conditions, and you drop whatever you're holding. When this condition ends, you remain {@condition Prone|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Speed 0\",\"entries\":[\"Your {@variantrule Speed|XPHB} is 0 and can't increase.\"]},{\"type\":\"entries\",\"name\":\"Attacks Affected\",\"entries\":[\"{@action Attack|XPHB} rolls against you have {@variantrule Advantage|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Saving Throws Affected\",\"entries\":[\"You automatically fail Strength and Dexterity {@variantrule Saving Throw|XPHB|saving throws}.\"]},{\"type\":\"entries\",\"name\":\"Automatic Critical Hits\",\"entries\":[\"Any attack roll that hits you is a {@variantrule Critical Hit|XPHB} if the attacker is within 5 feet of you.\"]},{\"type\":\"entries\",\"name\":\"Unaware\",\"entries\":[\"You're unaware of your surroundings.\"]}]}]}}"
+    }
+  ],
+  "linkRows": [
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:blinded:361",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:blinded:361",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:blinded:361",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:charmed:361",
+      "targetTag": "variantrule",
+      "rawReference": "Magical Effect|XPHB|magical effects",
+      "displayText": "Magical Effect",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:charmed:361",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:exhaustion:365",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:exhaustion:365",
+      "targetTag": "variantrule",
+      "rawReference": "Long Rest|XPHB",
+      "displayText": "Long Rest",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:frightened:367",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:grappled:367",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:grappled:367",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:incapacitated:369",
+      "targetTag": "variantrule",
+      "rawReference": "Action|XPHB|action",
+      "displayText": "Action",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:incapacitated:369",
+      "targetTag": "variantrule",
+      "rawReference": "Bonus Action|XPHB",
+      "displayText": "Bonus Action",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:incapacitated:369",
+      "targetTag": "variantrule",
+      "rawReference": "Reaction|XPHB",
+      "displayText": "Reaction",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:incapacitated:369",
+      "targetTag": "status",
+      "rawReference": "Concentration|XPHB",
+      "displayText": "Concentration",
+      "sourceHint": "XPHB",
+      "targetEntityType": "status"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:incapacitated:369",
+      "targetTag": "variantrule",
+      "rawReference": "Initiative|XPHB",
+      "displayText": "Initiative",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:incapacitated:369",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:invisible:370",
+      "targetTag": "variantrule",
+      "rawReference": "Initiative|XPHB",
+      "displayText": "Initiative",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:invisible:370",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:invisible:370",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:invisible:370",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:invisible:370",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:paralyzed:371",
+      "targetTag": "condition",
+      "rawReference": "Incapacitated|XPHB",
+      "displayText": "Incapacitated",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:paralyzed:371",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:paralyzed:371",
+      "targetTag": "variantrule",
+      "rawReference": "Saving Throw|XPHB|saving throws",
+      "displayText": "Saving Throw",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:paralyzed:371",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:paralyzed:371",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:paralyzed:371",
+      "targetTag": "variantrule",
+      "rawReference": "Critical Hit|XPHB",
+      "displayText": "Critical Hit",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "condition",
+      "rawReference": "Incapacitated|XPHB",
+      "displayText": "Incapacitated",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "variantrule",
+      "rawReference": "Saving Throw|XPHB|saving throws",
+      "displayText": "Saving Throw",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "variantrule",
+      "rawReference": "Resistance|XPHB",
+      "displayText": "Resistance",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "variantrule",
+      "rawReference": "Immunity|XPHB",
+      "displayText": "Immunity",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:petrified:372",
+      "targetTag": "condition",
+      "rawReference": "Poisoned|XPHB",
+      "displayText": "Poisoned",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:poisoned:372",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:prone:372",
+      "targetTag": "variantrule",
+      "rawReference": "Crawling|XPHB|crawl",
+      "displayText": "Crawling",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:prone:372",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:prone:372",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:prone:372",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:prone:372",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:prone:372",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:restrained:373",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:restrained:373",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:restrained:373",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:restrained:373",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:restrained:373",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:restrained:373",
+      "targetTag": "variantrule",
+      "rawReference": "Saving Throw|XPHB|saving throws",
+      "displayText": "Saving Throw",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:stunned:376",
+      "targetTag": "condition",
+      "rawReference": "Incapacitated|XPHB",
+      "displayText": "Incapacitated",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:stunned:376",
+      "targetTag": "variantrule",
+      "rawReference": "Saving Throw|XPHB|saving throws",
+      "displayText": "Saving Throw",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:stunned:376",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:stunned:376",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "condition",
+      "rawReference": "Incapacitated|XPHB",
+      "displayText": "Incapacitated",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "condition",
+      "rawReference": "Prone|XPHB",
+      "displayText": "Prone",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "condition",
+      "rawReference": "Prone|XPHB",
+      "displayText": "Prone",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "variantrule",
+      "rawReference": "Saving Throw|XPHB|saving throws",
+      "displayText": "Saving Throw",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "condition",
+      "sourceEntityId": "condition:xphb:unconscious:376",
+      "targetTag": "variantrule",
+      "rawReference": "Critical Hit|XPHB",
+      "displayText": "Critical Hit",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "rulesetId": "starter_2024_srd",
+  "entityType": "itemMastery",
+  "collectionKey": "itemMasteryList",
+  "entityRows": [
+    {
+      "entityId": "itemmastery:xphb:cleave:214",
+      "name": "Cleave",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "cleave",
+      "searchText": "itemmastery:xphb:cleave:214 cleave xphb items-base.json cleave xphb 214 true true if you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. on a hit, the second creature takes the weapon's damage, but don't add your ability modifier to that damage unless that modifier is negative. you can make this extra attack only once per turn.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:cleave:214\",\"name\":\"Cleave\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Cleave\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If you hit a creature with a melee attack roll using this weapon, you can make a melee attack roll with the weapon against a second creature within 5 feet of the first that is also within your reach. On a hit, the second creature takes the weapon's damage, but don't add your ability modifier to that damage unless that modifier is negative. You can make this extra attack only once per turn.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:graze:214",
+      "name": "Graze",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "graze",
+      "searchText": "itemmastery:xphb:graze:214 graze xphb items-base.json graze xphb 214 true true if your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. this damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:graze:214\",\"name\":\"Graze\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Graze\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If your attack roll with this weapon misses a creature, you can deal damage to that creature equal to the ability modifier you used to make the attack roll. This damage is the same type dealt by the weapon, and the damage can be increased only by increasing the ability modifier.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:nick:214",
+      "name": "Nick",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "nick",
+      "searchText": "itemmastery:xphb:nick:214 nick xphb items-base.json nick xphb 214 true true when you make the extra attack of the light property, you can make it as part of the {@action attack|xphb} action instead of as a {@variantrule bonus action|xphb}. you can make this extra attack only once per turn.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:nick:214\",\"name\":\"Nick\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Nick\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"When you make the extra attack of the Light property, you can make it as part of the {@action Attack|XPHB} action instead of as a {@variantrule Bonus Action|XPHB}. You can make this extra attack only once per turn.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:push:214",
+      "name": "Push",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "push",
+      "searchText": "itemmastery:xphb:push:214 push xphb items-base.json push xphb 214 true true if you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is large or smaller.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:push:214\",\"name\":\"Push\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Push\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If you hit a creature with this weapon, you can push the creature up to 10 feet straight away from yourself if it is Large or smaller.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:sap:214",
+      "name": "Sap",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "sap",
+      "searchText": "itemmastery:xphb:sap:214 sap xphb items-base.json sap xphb 214 true true if you hit a creature with this weapon, that creature has {@variantrule disadvantage|xphb} on its next attack roll before the start of your next turn.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:sap:214\",\"name\":\"Sap\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Sap\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If you hit a creature with this weapon, that creature has {@variantrule Disadvantage|XPHB} on its next attack roll before the start of your next turn.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:slow:214",
+      "name": "Slow",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "slow",
+      "searchText": "itemmastery:xphb:slow:214 slow xphb items-base.json slow xphb 214 true true if you hit a creature with this weapon and deal damage to it, you can reduce its {@variantrule speed|xphb} by 10 feet until the start of your next turn. if the creature is hit more than once by weapons that have this property, the {@variantrule speed|xphb} reduction doesn't exceed 10 feet.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:slow:214\",\"name\":\"Slow\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Slow\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If you hit a creature with this weapon and deal damage to it, you can reduce its {@variantrule Speed|XPHB} by 10 feet until the start of your next turn. If the creature is hit more than once by weapons that have this property, the {@variantrule Speed|XPHB} reduction doesn't exceed 10 feet.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:topple:214",
+      "name": "Topple",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "topple",
+      "searchText": "itemmastery:xphb:topple:214 topple xphb items-base.json topple xphb 214 true true if you hit a creature with this weapon, you can force the creature to make a constitution saving throw ({@dc 8} plus the ability modifier used to make the attack roll and your {@variantrule proficiency|xphb|proficiency bonus}). on a failed save, the creature has the {@condition prone|xphb} condition.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:topple:214\",\"name\":\"Topple\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Topple\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If you hit a creature with this weapon, you can force the creature to make a Constitution saving throw ({@dc 8} plus the ability modifier used to make the attack roll and your {@variantrule Proficiency|XPHB|Proficiency Bonus}). On a failed save, the creature has the {@condition Prone|XPHB} condition.\"]}}"
+    },
+    {
+      "entityId": "itemmastery:xphb:vex:214",
+      "name": "Vex",
+      "source": "XPHB",
+      "sourceFile": "items-base.json",
+      "edition": null,
+      "sortName": "vex",
+      "searchText": "itemmastery:xphb:vex:214 vex xphb items-base.json vex xphb 214 true true if you hit a creature with this weapon and deal damage to the creature, you have {@variantrule advantage|xphb} on your next attack roll against that creature before the end of your next turn.",
+      "payloadJson": "{\"id\":\"itemmastery:xphb:vex:214\",\"name\":\"Vex\",\"source\":\"XPHB\",\"sourceFile\":\"items-base.json\",\"data\":{\"name\":\"Vex\",\"source\":\"XPHB\",\"page\":214,\"srd52\":true,\"basicRules2024\":true,\"entries\":[\"If you hit a creature with this weapon and deal damage to the creature, you have {@variantrule Advantage|XPHB} on your next attack roll against that creature before the end of your next turn.\"]}}"
+    }
+  ],
+  "linkRows": [
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:nick:214",
+      "targetTag": "action",
+      "rawReference": "Attack|XPHB",
+      "displayText": "Attack",
+      "sourceHint": "XPHB",
+      "targetEntityType": "action"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:nick:214",
+      "targetTag": "variantrule",
+      "rawReference": "Bonus Action|XPHB",
+      "displayText": "Bonus Action",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:sap:214",
+      "targetTag": "variantrule",
+      "rawReference": "Disadvantage|XPHB",
+      "displayText": "Disadvantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:slow:214",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:slow:214",
+      "targetTag": "variantrule",
+      "rawReference": "Speed|XPHB",
+      "displayText": "Speed",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:topple:214",
+      "targetTag": "dc",
+      "rawReference": "8",
+      "displayText": "8",
+      "sourceHint": null,
+      "targetEntityType": "dc"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:topple:214",
+      "targetTag": "variantrule",
+      "rawReference": "Proficiency|XPHB|Proficiency Bonus",
+      "displayText": "Proficiency",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:topple:214",
+      "targetTag": "condition",
+      "rawReference": "Prone|XPHB",
+      "displayText": "Prone",
+      "sourceHint": "XPHB",
+      "targetEntityType": "condition"
+    },
+    {
+      "sourceEntityType": "itemMastery",
+      "sourceEntityId": "itemmastery:xphb:vex:214",
+      "targetTag": "variantrule",
+      "rawReference": "Advantage|XPHB",
+      "displayText": "Advantage",
+      "sourceHint": "XPHB",
+      "targetEntityType": "variantrule"
+    }
+  ]
+}

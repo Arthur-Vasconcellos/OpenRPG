@@ -22,6 +22,53 @@ Future<String?> loadLegacyRulesetJson(String sourceReference) async {
   return file.readAsString();
 }
 
+Future<Uint8List?> loadRulesetImportBytes(String sourceReference) async {
+  if (sourceReference.trim().isEmpty) {
+    return null;
+  }
+
+  final file = File(sourceReference);
+  if (!await file.exists()) {
+    return null;
+  }
+
+  return file.readAsBytes();
+}
+
+Future<String> persistImportedRulesetJsonDocument({
+  required String sourceReference,
+  required String fileName,
+}) async {
+  final trimmedSource = sourceReference.trim();
+  if (trimmedSource.isEmpty) {
+    throw StateError('The selected ruleset file does not have a readable path.');
+  }
+
+  final sourceFile = File(trimmedSource);
+  if (!await sourceFile.exists()) {
+    throw StateError('The selected ruleset file could not be found.');
+  }
+
+  final documentsDirectory = await getApplicationDocumentsDirectory();
+  final importDirectory = Directory(
+    p.join(documentsDirectory.path, 'rulesets', 'imports'),
+  );
+  await importDirectory.create(recursive: true);
+
+  final destinationPath = p.join(importDirectory.path, fileName);
+  final destinationFile = File(destinationPath);
+  if (p.equals(sourceFile.path, destinationFile.path)) {
+    return destinationFile.path;
+  }
+
+  if (await destinationFile.exists()) {
+    await destinationFile.delete();
+  }
+
+  await sourceFile.copy(destinationPath);
+  return destinationPath;
+}
+
 Future<RulesetExportResult> exportRulesetJsonDocument({
   required String fileName,
   required String jsonString,
