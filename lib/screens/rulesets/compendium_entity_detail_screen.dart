@@ -5,6 +5,7 @@ import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
 import 'package:openrpg/screens/rulesets/compendium_rich_content_renderer.dart';
+import 'package:openrpg/screens/rulesets/compendium_structured_attributes.dart';
 import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
 import 'package:openrpg/screens/rulesets/ruleset_object_editor_screen.dart';
 
@@ -12,12 +13,16 @@ class CompendiumEntityDetailScreen extends StatefulWidget {
   final String rulesetId;
   final String entityType;
   final String entityId;
+  final CompendiumBrowseRepository? browseRepository;
+  final CompendiumRepository? repository;
 
   const CompendiumEntityDetailScreen({
     super.key,
     required this.rulesetId,
     required this.entityType,
     required this.entityId,
+    this.browseRepository,
+    this.repository,
   });
 
   @override
@@ -27,10 +32,16 @@ class CompendiumEntityDetailScreen extends StatefulWidget {
 
 class _CompendiumEntityDetailScreenState
     extends State<CompendiumEntityDetailScreen> {
-  final CompendiumBrowseRepository _browseRepository =
+  late final CompendiumBrowseRepository _fallbackBrowseRepository =
       CompendiumBrowseRepository();
-  final CompendiumRepository _repository = CompendiumRepository();
+  late final CompendiumRepository _fallbackRepository = CompendiumRepository();
   late Future<_EntityDetailState> _futureState;
+
+  CompendiumBrowseRepository get _browseRepository =>
+      widget.browseRepository ?? _fallbackBrowseRepository;
+
+  CompendiumRepository get _repository =>
+      widget.repository ?? _fallbackRepository;
 
   @override
   void initState() {
@@ -55,19 +66,6 @@ class _CompendiumEntityDetailScreenState
       _futureState = _loadState();
     });
     await _futureState;
-  }
-
-  Future<void> _openResolvedLinkPreview(CompendiumSearchResult? result) async {
-    if (result == null) {
-      return;
-    }
-
-    await showCompendiumEntityPreviewSheet(
-      context,
-      rulesetId: result.preview.rulesetId,
-      entityType: result.preview.entityType,
-      entityId: result.preview.entityId,
-    );
   }
 
   Future<void> _editEntity(_EntityDetailState state) async {
@@ -173,19 +171,46 @@ class _CompendiumEntityDetailScreenState
                     if (narrativeContent != null)
                       CompendiumRichContentRenderer(
                         content: narrativeContent,
-                        onLinkTap: (candidate) async {
-                          final resolved = await _browseRepository.resolveLink(
-                            candidate,
-                            preferredRulesetId: widget.rulesetId,
-                          );
-                          await _openResolvedLinkPreview(resolved);
-                        },
+                        onLinkTap: (candidate) => openCompendiumLinkPreview(
+                          context,
+                          browseRepository: _browseRepository,
+                          candidate: candidate,
+                          preferredRulesetId: widget.rulesetId,
+                          currentRulesetId: widget.rulesetId,
+                          currentEntityType: widget.entityType,
+                          currentEntityId: widget.entityId,
+                        ),
                       ),
                     ExpansionTile(
-                      title: const Text('Structured Fields'),
+                      title: const Text('Attributes'),
                       initiallyExpanded: narrativeContent == null,
                       childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      children: _buildStructuredFields(context, data),
+                      children: [
+                        CompendiumStructuredAttributesView(
+                          entityType: entity.entityType,
+                          data: data,
+                          onLinkTap: (candidate) => openCompendiumLinkPreview(
+                            context,
+                            browseRepository: _browseRepository,
+                            candidate: candidate,
+                            preferredRulesetId: widget.rulesetId,
+                            currentRulesetId: widget.rulesetId,
+                            currentEntityType: widget.entityType,
+                            currentEntityId: widget.entityId,
+                          ),
+                          hiddenKeys: const {
+                            'name',
+                            'source',
+                            'edition',
+                            'page',
+                            'entries',
+                            'entry',
+                            'items',
+                            'description',
+                          },
+                          emptyText: 'No additional attributes.',
+                        ),
+                      ],
                     ),
                   ]),
                 ),
@@ -195,48 +220,6 @@ class _CompendiumEntityDetailScreenState
         },
       ),
     );
-  }
-
-  List<Widget> _buildStructuredFields(
-    BuildContext context,
-    Map<String, dynamic> data,
-  ) {
-    const hiddenKeys = {'name', 'source', 'entries', 'entry', 'items'};
-    final widgets = <Widget>[];
-    for (final entry in data.entries) {
-      if (hiddenKeys.contains(entry.key)) {
-        continue;
-      }
-
-      widgets.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(entry.key, style: Theme.of(context).textTheme.titleSmall),
-              const SizedBox(height: 6),
-              CompendiumRichContentRenderer(
-                content: entry.value,
-                onLinkTap: (candidate) async {
-                  final resolved = await _browseRepository.resolveLink(
-                    candidate,
-                    preferredRulesetId: widget.rulesetId,
-                  );
-                  await _openResolvedLinkPreview(resolved);
-                },
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    if (widgets.isEmpty) {
-      widgets.add(const Text('No additional structured fields.'));
-    }
-
-    return widgets;
   }
 }
 

@@ -10,6 +10,20 @@ class CompendiumEditorDescriptor {
     required this.label,
     this.fields = const [],
   });
+
+  CompendiumEditorDescriptor copyWith({
+    String? entityType,
+    String? collectionKey,
+    String? label,
+    List<CompendiumFieldDescriptor>? fields,
+  }) {
+    return CompendiumEditorDescriptor(
+      entityType: entityType ?? this.entityType,
+      collectionKey: collectionKey ?? this.collectionKey,
+      label: label ?? this.label,
+      fields: fields ?? this.fields,
+    );
+  }
 }
 
 enum CompendiumFieldKind {
@@ -46,6 +60,35 @@ class CompendiumFieldDescriptor {
     this.itemDescriptor,
     this.sampleCount = 0,
   });
+
+  CompendiumFieldDescriptor copyWith({
+    String? key,
+    String? label,
+    CompendiumFieldKind? kind,
+    bool? required,
+    bool? nullable,
+    bool? isArray,
+    List<String>? choices,
+    List<CompendiumFieldDescriptor>? fields,
+    CompendiumFieldDescriptor? itemDescriptor,
+    bool itemDescriptorAbsent = false,
+    int? sampleCount,
+  }) {
+    return CompendiumFieldDescriptor(
+      key: key ?? this.key,
+      label: label ?? this.label,
+      kind: kind ?? this.kind,
+      required: required ?? this.required,
+      nullable: nullable ?? this.nullable,
+      isArray: isArray ?? this.isArray,
+      choices: choices ?? this.choices,
+      fields: fields ?? this.fields,
+      itemDescriptor: itemDescriptorAbsent
+          ? null
+          : itemDescriptor ?? this.itemDescriptor,
+      sampleCount: sampleCount ?? this.sampleCount,
+    );
+  }
 }
 
 class CompendiumDraftEntity {
