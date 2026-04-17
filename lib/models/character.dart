@@ -1,12 +1,71 @@
+import 'package:openrpg/compendium/models/compendium_entity.dart';
+
 import 'enums.dart';
 
+class CharacterEntityRef {
+  final String entityType;
+  final String entityId;
+  final String rulesetId;
+  final String name;
+
+  const CharacterEntityRef({
+    required this.entityType,
+    required this.entityId,
+    required this.rulesetId,
+    required this.name,
+  });
+
+  String get displayName => name.trim().isEmpty ? entityId : name.trim();
+  bool get isResolved =>
+      entityType.trim().isNotEmpty &&
+      entityId.trim().isNotEmpty &&
+      rulesetId.trim().isNotEmpty;
+
+  factory CharacterEntityRef.fromJson(Map<String, dynamic> json) {
+    return CharacterEntityRef(
+      entityType: json['entityType']?.toString() ?? '',
+      entityId: json['entityId']?.toString() ?? '',
+      rulesetId: json['rulesetId']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'entityType': entityType,
+      'entityId': entityId,
+      'rulesetId': rulesetId,
+      'name': name,
+    };
+  }
+
+  CharacterEntityRef copyWith({
+    String? entityType,
+    String? entityId,
+    String? rulesetId,
+    String? name,
+  }) {
+    return CharacterEntityRef(
+      entityType: entityType ?? this.entityType,
+      entityId: entityId ?? this.entityId,
+      rulesetId: rulesetId ?? this.rulesetId,
+      name: name ?? this.name,
+    );
+  }
+}
+
 class Character {
+  static const String jsonSchemaVersion = '2.0.0';
+
   final String id;
   final String name;
   final String playerName;
+  final String primaryRulesetId;
   final List<CharacterClassLevel> classes;
-  final Race race;
-  final Background background;
+  final CharacterEntityRef? raceRef;
+  final CharacterEntityRef? backgroundRef;
+  final Race _legacyRace;
+  final Background _legacyBackground;
   final MoralAlignment moralAlignment;
   final int experiencePoints;
   final int inspiration;
@@ -38,21 +97,33 @@ class Character {
   final EquippedCombatStats equippedCombatStats;
 
   int get totalLevel => classes.fold(0, (sum, cls) => sum + cls.level);
+  Race get race => _legacyRace;
+  Background get background => _legacyBackground;
 
-  CharacterClass get primaryClass => classes.isNotEmpty
-      ? classes.first.characterClass
-      : CharacterClass.fighter;
+  CharacterClass get primaryClass =>
+      classes.isNotEmpty ? classes.first.characterClass : CharacterClass.custom;
 
   Subclass get primarySubclass =>
       classes.isNotEmpty ? classes.first.subclass : Subclass.none;
+
+  bool get hasBuildSelections =>
+      raceRef != null ||
+      backgroundRef != null ||
+      classes.any(
+        (entry) => entry.classRef != null || entry.subclassRef != null,
+      ) ||
+      (spellcasting?.allSpells.isNotEmpty ?? false);
 
   Character({
     required this.id,
     required this.name,
     this.playerName = '',
+    this.primaryRulesetId = '',
     required this.classes,
-    required this.race,
-    required this.background,
+    CharacterEntityRef? raceRef,
+    Race race = Race.custom,
+    CharacterEntityRef? backgroundRef,
+    Background background = Background.custom,
     required this.moralAlignment,
     this.experiencePoints = 0,
     this.inspiration = 0,
@@ -73,89 +144,269 @@ class Character {
     DateTime? createdAt,
     DateTime? updatedAt,
     required this.equippedCombatStats,
-  }) : createdAt = createdAt ?? DateTime.now(),
-       updatedAt = updatedAt ?? DateTime.now();
+  }) : raceRef = raceRef ?? _legacyRaceRef(race, primaryRulesetId),
+       backgroundRef =
+           backgroundRef ?? _legacyBackgroundRef(background, primaryRulesetId),
+       _legacyRace = _resolveLegacyRace(raceRef, race),
+       _legacyBackground = _resolveLegacyBackground(backgroundRef, background),
+       createdAt = createdAt ?? DateTime.now().toUtc(),
+       updatedAt = updatedAt ?? DateTime.now().toUtc();
+
+  factory Character.createBlank({
+    required String id,
+    required String name,
+    required String primaryRulesetId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    final abilityScores = const AbilityScores(
+      strength: 10,
+      dexterity: 10,
+      constitution: 10,
+      intelligence: 10,
+      wisdom: 10,
+      charisma: 10,
+    );
+    final now = (updatedAt ?? DateTime.now().toUtc()).toUtc();
+    return Character(
+      id: id,
+      name: name,
+      primaryRulesetId: primaryRulesetId,
+      classes: const [],
+      moralAlignment: MoralAlignment.neutral,
+      abilityScores: abilityScores,
+      modifiers: const CalculatedModifiers(
+        strength: 0,
+        dexterity: 0,
+        constitution: 0,
+        intelligence: 0,
+        wisdom: 0,
+        charisma: 0,
+      ),
+      proficiencies: const ProficiencySet(
+        proficiencyBonus: 2,
+        skills: SkillProficiencies(proficiencies: {}),
+        savingThrows: SavingThrowProficiencies(),
+      ),
+      combatStats: const CombatStats(
+        armorClass: 10,
+        initiative: 0,
+        speed: 30,
+        proficiencyBonus: 2,
+        passivePerception: 10,
+        passiveInsight: 10,
+        passiveInvestigation: 10,
+      ),
+      health: Health(
+        maxHitPoints: 1,
+        currentHitPoints: 1,
+        hitDice: const [],
+        deathSaves: const DeathSaves(),
+      ),
+      equipment: const Equipment(),
+      wealth: const Wealth(),
+      traits: const Traits(),
+      physicalDescription: const PhysicalDescription(),
+      notes: const Notes(),
+      createdAt: createdAt ?? now,
+      updatedAt: now,
+      equippedCombatStats: const EquippedCombatStats(
+        equippedArmor: EquippedArmor(
+          armorType: 'cloth',
+          baseAC: 10,
+          manualBonus: 0,
+          usesDexterity: true,
+          maxDexBonus: 999,
+        ),
+      ),
+    ).copyWithCalculatedValues();
+  }
+
+  static String importedName({String? decodedName, String? fileName}) {
+    final trimmedName = decodedName?.trim() ?? '';
+    if (trimmedName.isNotEmpty) {
+      return trimmedName;
+    }
+
+    final rawFileName = fileName?.trim() ?? '';
+    if (rawFileName.isEmpty) {
+      return 'Imported Character';
+    }
+
+    return rawFileName
+        .replaceAll(RegExp(r'\.character\.json$', caseSensitive: false), '')
+        .replaceAll(RegExp(r'\.json$', caseSensitive: false), '')
+        .replaceAll('_', ' ')
+        .trim();
+  }
 
   factory Character.fromJson(Map<String, dynamic> json) {
-    final List<CharacterClassLevel> classes;
+    final primaryRulesetId =
+        json['primaryRulesetId']?.toString() ??
+        _detectPrimaryRulesetIdFromLegacyPayload(json);
+    final parsedRaceRef =
+        _refFromDynamic(json['raceRef']) ??
+        _legacyRaceRef(
+          json['race'] == null
+              ? Race.custom
+              : EnumParser.race(json['race'] as String),
+          primaryRulesetId,
+        );
+    final parsedBackgroundRef =
+        _refFromDynamic(json['backgroundRef']) ??
+        _legacyBackgroundRef(
+          json['background'] == null
+              ? Background.custom
+              : EnumParser.background(json['background'] as String),
+          primaryRulesetId,
+        );
 
-    if (json['classes'] != null) {
+    final List<CharacterClassLevel> classes;
+    if (json['classes'] is List) {
       classes = (json['classes'] as List)
-          .map((e) => CharacterClassLevel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    } else {
+          .whereType<Map>()
+          .map(
+            (entry) => CharacterClassLevel.fromJson(
+              entry.cast<String, dynamic>(),
+              fallbackRulesetId: primaryRulesetId,
+            ),
+          )
+          .toList(growable: false);
+    } else if (json['characterClass'] != null) {
       classes = [
-        CharacterClassLevel(
-          characterClass: EnumParser.characterClass(
-            json['characterClass'] as String,
-          ),
-          subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
-          level: json['level'] as int? ?? 1,
-        ),
+        CharacterClassLevel.fromJson(<String, dynamic>{
+          'characterClass': json['characterClass'],
+          'subclass': json['subclass'],
+          'level': json['level'],
+        }, fallbackRulesetId: primaryRulesetId),
       ];
+    } else {
+      classes = const [];
     }
 
     return Character(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id:
+          json['id']?.toString() ??
+          'character:${DateTime.now().microsecondsSinceEpoch}',
+      name: json['name']?.toString() ?? 'Unnamed Character',
+      playerName: json['playerName']?.toString() ?? '',
+      primaryRulesetId: primaryRulesetId,
       classes: classes,
-      race: EnumParser.race(json['race'] as String),
-      background: EnumParser.background(json['background'] as String),
+      raceRef: parsedRaceRef,
+      race: json['race'] == null
+          ? _resolveLegacyRace(parsedRaceRef, Race.custom)
+          : EnumParser.race(json['race'] as String),
+      backgroundRef: parsedBackgroundRef,
+      background: json['background'] == null
+          ? _resolveLegacyBackground(parsedBackgroundRef, Background.custom)
+          : EnumParser.background(json['background'] as String),
       moralAlignment: EnumParser.moralAlignment(
-        json['moralAlignment'] as String,
+        json['moralAlignment']?.toString() ?? MoralAlignment.neutral.value,
       ),
       experiencePoints: json['experiencePoints'] as int? ?? 0,
       inspiration: json['inspiration'] as int? ?? 0,
       abilityScores: AbilityScores.fromJson(
-        json['abilityScores'] as Map<String, dynamic>,
+        (json['abilityScores'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{
+              'strength': 10,
+              'dexterity': 10,
+              'constitution': 10,
+              'intelligence': 10,
+              'wisdom': 10,
+              'charisma': 10,
+            },
       ),
       modifiers: CalculatedModifiers.fromJson(
-        json['modifiers'] as Map<String, dynamic>,
+        (json['modifiers'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{
+              'strength': 0,
+              'dexterity': 0,
+              'constitution': 0,
+              'intelligence': 0,
+              'wisdom': 0,
+              'charisma': 0,
+            },
       ),
       proficiencies: ProficiencySet.fromJson(
-        json['proficiencies'] as Map<String, dynamic>,
+        (json['proficiencies'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{
+              'proficiencyBonus': 2,
+              'skills': <String, dynamic>{},
+              'savingThrows': <String, dynamic>{},
+            },
       ),
       combatStats: CombatStats.fromJson(
-        json['combatStats'] as Map<String, dynamic>,
+        (json['combatStats'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{
+              'armorClass': 10,
+              'initiative': 0,
+              'speed': 30,
+              'proficiencyBonus': 2,
+              'passivePerception': 10,
+              'passiveInsight': 10,
+              'passiveInvestigation': 10,
+            },
       ),
-      health: Health.fromJson(json['health'] as Map<String, dynamic>),
-      equipment: Equipment.fromJson(json['equipment'] as Map<String, dynamic>),
-      wealth: Wealth.fromJson(json['wealth'] as Map<String, dynamic>),
-      spellcasting: json['spellcasting'] != null
+      health: Health.fromJson(
+        (json['health'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{
+              'maxHitPoints': 1,
+              'currentHitPoints': 1,
+              'hitDice': <dynamic>[],
+              'deathSaves': <String, dynamic>{'successes': 0, 'failures': 0},
+            },
+      ),
+      equipment: Equipment.fromJson(
+        (json['equipment'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{},
+      ),
+      wealth: Wealth.fromJson(
+        (json['wealth'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{},
+      ),
+      spellcasting: json['spellcasting'] is Map<String, dynamic>
           ? SpellcastingInfo.fromJson(
               json['spellcasting'] as Map<String, dynamic>,
             )
+          : json['spellcasting'] is Map
+          ? SpellcastingInfo.fromJson(
+              (json['spellcasting'] as Map).cast<String, dynamic>(),
+            )
           : null,
-      traits: Traits.fromJson(json['traits'] as Map<String, dynamic>),
-      features: json['features'] != null
-          ? (json['features'] as List)
-                .map((e) => Feature.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      racialTraits: json['racialTraits'] != null
-          ? (json['racialTraits'] as List)
-                .map((e) => Feature.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      backgroundTraits: json['backgroundTraits'] != null
-          ? (json['backgroundTraits'] as List)
-                .map((e) => Feature.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
+      traits: Traits.fromJson(
+        (json['traits'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{},
+      ),
+      features: _featureListFromDynamic(json['features']),
+      racialTraits: _featureListFromDynamic(json['racialTraits']),
+      backgroundTraits: _featureListFromDynamic(json['backgroundTraits']),
       physicalDescription: PhysicalDescription.fromJson(
-        json['physicalDescription'] as Map<String, dynamic>,
+        (json['physicalDescription'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{},
       ),
-      notes: Notes.fromJson(json['notes'] as Map<String, dynamic>),
-      createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
-          : DateTime.now(),
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
-          : DateTime.now(),
+      notes: Notes.fromJson(
+        (json['notes'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{},
+      ),
+      createdAt: json['createdAt'] == null
+          ? DateTime.now().toUtc()
+          : DateTime.parse(json['createdAt'] as String).toUtc(),
+      updatedAt: json['updatedAt'] == null
+          ? DateTime.now().toUtc()
+          : DateTime.parse(json['updatedAt'] as String).toUtc(),
       equippedCombatStats: EquippedCombatStats.fromJson(
-        json['equippedCombatStats'] as Map<String, dynamic>,
+        (json['equippedCombatStats'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{
+              'equippedArmor': <String, dynamic>{
+                'armorType': 'cloth',
+                'baseAC': 10,
+                'manualBonus': 0,
+                'usesDexterity': true,
+                'maxDexBonus': 999,
+              },
+            },
       ),
-    );
+    ).copyWithCalculatedValues();
   }
 
   Character copyWithPartial({
@@ -163,14 +414,17 @@ class Character {
     Health? health,
     Equipment? equipment,
     ProficiencySet? proficiencies,
-    EquippedCombatStats? equippedCombatStats, // Added this parameter
+    EquippedCombatStats? equippedCombatStats,
   }) {
     return Character(
       id: id,
       name: name,
       playerName: playerName,
+      primaryRulesetId: primaryRulesetId,
       classes: classes,
+      raceRef: raceRef,
       race: race,
+      backgroundRef: backgroundRef,
       background: background,
       moralAlignment: moralAlignment,
       experiencePoints: experiencePoints,
@@ -190,19 +444,21 @@ class Character {
       physicalDescription: physicalDescription,
       notes: notes,
       createdAt: createdAt,
-      updatedAt: DateTime.now(),
-      equippedCombatStats:
-          equippedCombatStats ?? this.equippedCombatStats, // Added this
+      updatedAt: DateTime.now().toUtc(),
+      equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'schemaVersion': jsonSchemaVersion,
       'id': id,
       'name': name,
-      'classes': classes.map((e) => e.toJson()).toList(),
-      'race': race.value,
-      'background': background.value,
+      'playerName': playerName,
+      'primaryRulesetId': primaryRulesetId,
+      'classes': classes.map((e) => e.toJson()).toList(growable: false),
+      if (raceRef != null) 'raceRef': raceRef!.toJson(),
+      if (backgroundRef != null) 'backgroundRef': backgroundRef!.toJson(),
       'moralAlignment': moralAlignment.value,
       'experiencePoints': experiencePoints,
       'inspiration': inspiration,
@@ -215,9 +471,13 @@ class Character {
       'wealth': wealth.toJson(),
       if (spellcasting != null) 'spellcasting': spellcasting!.toJson(),
       'traits': traits.toJson(),
-      'features': features.map((e) => e.toJson()).toList(),
-      'racialTraits': racialTraits.map((e) => e.toJson()).toList(),
-      'backgroundTraits': backgroundTraits.map((e) => e.toJson()).toList(),
+      'features': features.map((e) => e.toJson()).toList(growable: false),
+      'racialTraits': racialTraits
+          .map((e) => e.toJson())
+          .toList(growable: false),
+      'backgroundTraits': backgroundTraits
+          .map((e) => e.toJson())
+          .toList(growable: false),
       'physicalDescription': physicalDescription.toJson(),
       'notes': notes.toJson(),
       'createdAt': createdAt.toIso8601String(),
@@ -230,8 +490,13 @@ class Character {
     String? id,
     String? name,
     String? playerName,
+    String? primaryRulesetId,
     List<CharacterClassLevel>? classes,
+    CharacterEntityRef? raceRef,
+    bool clearRaceRef = false,
     Race? race,
+    CharacterEntityRef? backgroundRef,
+    bool clearBackgroundRef = false,
     Background? background,
     MoralAlignment? moralAlignment,
     int? experiencePoints,
@@ -244,6 +509,7 @@ class Character {
     Equipment? equipment,
     Wealth? wealth,
     SpellcastingInfo? spellcasting,
+    bool clearSpellcasting = false,
     Traits? traits,
     List<Feature>? features,
     List<Feature>? racialTraits,
@@ -251,13 +517,20 @@ class Character {
     PhysicalDescription? physicalDescription,
     Notes? notes,
     EquippedCombatStats? equippedCombatStats,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return Character(
       id: id ?? this.id,
       name: name ?? this.name,
       playerName: playerName ?? this.playerName,
+      primaryRulesetId: primaryRulesetId ?? this.primaryRulesetId,
       classes: classes ?? List.from(this.classes),
+      raceRef: clearRaceRef ? null : raceRef ?? this.raceRef,
       race: race ?? this.race,
+      backgroundRef: clearBackgroundRef
+          ? null
+          : backgroundRef ?? this.backgroundRef,
       background: background ?? this.background,
       moralAlignment: moralAlignment ?? this.moralAlignment,
       experiencePoints: experiencePoints ?? this.experiencePoints,
@@ -269,15 +542,17 @@ class Character {
       health: health ?? this.health,
       equipment: equipment ?? this.equipment,
       wealth: wealth ?? this.wealth,
-      spellcasting: spellcasting ?? this.spellcasting,
+      spellcasting: clearSpellcasting
+          ? null
+          : spellcasting ?? this.spellcasting,
       traits: traits ?? this.traits,
       features: features ?? List.from(this.features),
       racialTraits: racialTraits ?? List.from(this.racialTraits),
       backgroundTraits: backgroundTraits ?? List.from(this.backgroundTraits),
       physicalDescription: physicalDescription ?? this.physicalDescription,
       notes: notes ?? this.notes,
-      createdAt: this.createdAt,
-      updatedAt: DateTime.now(),
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? DateTime.now().toUtc(),
       equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats,
     ).copyWithCalculatedValues();
   }
@@ -286,11 +561,6 @@ class Character {
     final totalLevel = this.totalLevel;
     final calculatedModifiers = _calculateModifiers(abilityScores);
     final proficiencyBonus = _calculateProficiencyBonus(totalLevel);
-
-    final updatedHealth = health.copyWith(
-      maxHitPoints: _calculateMulticlassHP(classes, abilityScores.constitution),
-    );
-
     final updatedCombatStats = combatStats.copyWith(
       proficiencyBonus: proficiencyBonus,
       initiative: calculatedModifiers.dexterity,
@@ -321,8 +591,11 @@ class Character {
       id: id,
       name: name,
       playerName: playerName,
+      primaryRulesetId: primaryRulesetId,
       classes: classes,
+      raceRef: raceRef,
       race: race,
+      backgroundRef: backgroundRef,
       background: background,
       moralAlignment: moralAlignment,
       experiencePoints: experiencePoints,
@@ -331,7 +604,7 @@ class Character {
       modifiers: calculatedModifiers,
       proficiencies: proficiencies.copyWith(proficiencyBonus: proficiencyBonus),
       combatStats: updatedCombatStats,
-      health: updatedHealth,
+      health: health,
       equipment: equipment,
       wealth: wealth,
       spellcasting: spellcasting?.copyWith(
@@ -356,9 +629,8 @@ class Character {
       physicalDescription: physicalDescription,
       notes: notes,
       createdAt: createdAt,
-      updatedAt: DateTime.now(),
-      equippedCombatStats:
-          equippedCombatStats, // Use the existing equippedCombatStats
+      updatedAt: updatedAt,
+      equippedCombatStats: equippedCombatStats,
     );
   }
 
@@ -374,97 +646,284 @@ class Character {
   }
 
   int _calculateProficiencyBonus(int level) {
-    return 2 + ((level - 1) / 4).ceil();
-  }
-
-  int _calculateMulticlassHP(
-    List<CharacterClassLevel> classes,
-    int constitution,
-  ) {
-    final conModifier = ((constitution - 10) / 2).floor();
-    int totalHP = 0;
-    bool isFirstClass = true;
-
-    for (final classLevel in classes) {
-      final characterClass = classLevel.characterClass;
-      final level = classLevel.level;
-
-      int hitDie;
-      switch (characterClass.hitDie) {
-        case '1d12':
-          hitDie = 12;
-          break;
-        case '1d10':
-          hitDie = 10;
-          break;
-        case '1d8':
-          hitDie = 8;
-          break;
-        case '1d6':
-          hitDie = 6;
-          break;
-        default:
-          hitDie = 8;
-      }
-
-      if (isFirstClass) {
-        totalHP += hitDie + conModifier;
-        isFirstClass = false;
-
-        for (int i = 2; i <= level; i++) {
-          totalHP += (hitDie / 2).ceil() + conModifier;
-        }
-      } else {
-        for (int i = 1; i <= level; i++) {
-          totalHP += (hitDie / 2).ceil() + conModifier;
-        }
-      }
+    if (level <= 0) {
+      return 2;
     }
-
-    return totalHP;
+    return 2 + ((level - 1) / 4).ceil();
   }
 }
 
 class CharacterClassLevel {
-  final CharacterClass characterClass;
-  final Subclass subclass;
+  final CharacterEntityRef? classRef;
+  final CharacterEntityRef? subclassRef;
+  final CharacterClass _legacyCharacterClass;
+  final Subclass _legacySubclass;
   final int level;
 
-  const CharacterClassLevel({
-    required this.characterClass,
-    this.subclass = Subclass.none,
-    required this.level,
-  });
+  CharacterClass get characterClass => _legacyCharacterClass;
+  Subclass get subclass => _legacySubclass;
+  String get className => classRef?.displayName ?? characterClass.displayName;
+  String? get subclassName =>
+      subclassRef?.displayName ??
+      (subclass == Subclass.none ? null : subclass.displayName);
 
-  factory CharacterClassLevel.fromJson(Map<String, dynamic> json) {
+  CharacterClassLevel({
+    this.classRef,
+    this.subclassRef,
+    CharacterClass? characterClass,
+    Subclass? subclass,
+    required this.level,
+    String rulesetId = '',
+  }) : _legacyCharacterClass = _resolveLegacyCharacterClass(
+         classRef,
+         characterClass ?? CharacterClass.custom,
+       ),
+       _legacySubclass = _resolveLegacySubclass(
+         subclassRef,
+         subclass ?? Subclass.none,
+       );
+
+  factory CharacterClassLevel.fromJson(
+    Map<String, dynamic> json, {
+    String fallbackRulesetId = '',
+  }) {
+    final parsedClassRef =
+        _refFromDynamic(json['classRef']) ??
+        _legacyClassRef(
+          json['characterClass'] == null
+              ? CharacterClass.custom
+              : EnumParser.characterClass(json['characterClass'] as String),
+          fallbackRulesetId,
+        );
+    final parsedSubclassRef = _refFromDynamic(json['subclassRef']);
     return CharacterClassLevel(
-      characterClass: EnumParser.characterClass(
-        json['characterClass'] as String,
-      ),
-      subclass: EnumParser.subclass(json['subclass'] as String? ?? 'none'),
-      level: json['level'] as int,
+      classRef: parsedClassRef,
+      subclassRef: parsedSubclassRef,
+      characterClass: json['characterClass'] == null
+          ? _resolveLegacyCharacterClass(parsedClassRef, CharacterClass.custom)
+          : EnumParser.characterClass(json['characterClass'] as String),
+      subclass: json['subclass'] == null
+          ? _resolveLegacySubclass(parsedSubclassRef, Subclass.none)
+          : EnumParser.subclass(json['subclass'] as String),
+      level: json['level'] as int? ?? 1,
+      rulesetId: fallbackRulesetId,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'characterClass': characterClass.value,
-      'subclass': subclass.value,
+      if (classRef != null) 'classRef': classRef!.toJson(),
+      if (subclassRef != null) 'subclassRef': subclassRef!.toJson(),
       'level': level,
     };
   }
 
   CharacterClassLevel copyWith({
+    CharacterEntityRef? classRef,
+    bool clearClassRef = false,
+    CharacterEntityRef? subclassRef,
+    bool clearSubclassRef = false,
     CharacterClass? characterClass,
     Subclass? subclass,
     int? level,
+    String rulesetId = '',
   }) {
     return CharacterClassLevel(
+      classRef: clearClassRef ? null : classRef ?? this.classRef,
+      subclassRef: clearSubclassRef ? null : subclassRef ?? this.subclassRef,
       characterClass: characterClass ?? this.characterClass,
       subclass: subclass ?? this.subclass,
       level: level ?? this.level,
+      rulesetId: rulesetId,
     );
   }
+}
+
+typedef CharacterClassEntry = CharacterClassLevel;
+
+CharacterEntityRef? _refFromDynamic(dynamic value) {
+  if (value is Map<String, dynamic>) {
+    return CharacterEntityRef.fromJson(value);
+  }
+  if (value is Map) {
+    return CharacterEntityRef.fromJson(value.cast<String, dynamic>());
+  }
+  return null;
+}
+
+List<Feature> _featureListFromDynamic(dynamic value) {
+  if (value is! List) {
+    return const <Feature>[];
+  }
+
+  return value
+      .whereType<Map>()
+      .map((entry) => Feature.fromJson(entry.cast<String, dynamic>()))
+      .toList(growable: false);
+}
+
+String _detectPrimaryRulesetIdFromLegacyPayload(Map<String, dynamic> json) {
+  final classes = json['classes'];
+  if (classes is List) {
+    for (final entry in classes.whereType<Map>()) {
+      final classRef = _refFromDynamic(entry['classRef']);
+      if (classRef != null && classRef.rulesetId.trim().isNotEmpty) {
+        return classRef.rulesetId;
+      }
+    }
+  }
+
+  for (final key in ['raceRef', 'backgroundRef']) {
+    final ref = _refFromDynamic(json[key]);
+    if (ref != null && ref.rulesetId.trim().isNotEmpty) {
+      return ref.rulesetId;
+    }
+  }
+
+  return '';
+}
+
+CharacterEntityRef? _legacyRaceRef(Race race, String rulesetId) {
+  if (race == Race.custom) {
+    return null;
+  }
+
+  final name = race.displayName;
+  return CharacterEntityRef(
+    entityType: 'race',
+    entityId: CompendiumJsonUtils.stableEntityId(
+      entityType: 'race',
+      payload: <String, dynamic>{
+        'name': name,
+        'data': <String, dynamic>{'name': name},
+      },
+    ),
+    rulesetId: rulesetId,
+    name: name,
+  );
+}
+
+CharacterEntityRef? _legacyBackgroundRef(
+  Background background,
+  String rulesetId,
+) {
+  if (background == Background.custom) {
+    return null;
+  }
+
+  final name = background.displayName;
+  return CharacterEntityRef(
+    entityType: 'background',
+    entityId: CompendiumJsonUtils.stableEntityId(
+      entityType: 'background',
+      payload: <String, dynamic>{
+        'name': name,
+        'data': <String, dynamic>{'name': name},
+      },
+    ),
+    rulesetId: rulesetId,
+    name: name,
+  );
+}
+
+CharacterEntityRef? _legacyClassRef(
+  CharacterClass characterClass,
+  String rulesetId,
+) {
+  if (characterClass == CharacterClass.custom) {
+    return null;
+  }
+
+  final name = characterClass.displayName;
+  return CharacterEntityRef(
+    entityType: 'class',
+    entityId: CompendiumJsonUtils.stableEntityId(
+      entityType: 'class',
+      payload: <String, dynamic>{
+        'name': name,
+        'data': <String, dynamic>{'name': name},
+      },
+    ),
+    rulesetId: rulesetId,
+    name: name,
+  );
+}
+
+Race _resolveLegacyRace(CharacterEntityRef? ref, Race fallback) {
+  final matched = _matchEnumByName<Race>(
+    Race.values,
+    ref?.displayName ?? '',
+    (value) => value.displayName,
+    (value) => value.value,
+  );
+  return matched ?? fallback;
+}
+
+Background _resolveLegacyBackground(
+  CharacterEntityRef? ref,
+  Background fallback,
+) {
+  final matched = _matchEnumByName<Background>(
+    Background.values,
+    ref?.displayName ?? '',
+    (value) => value.displayName,
+    (value) => value.value,
+  );
+  return matched ?? fallback;
+}
+
+CharacterClass _resolveLegacyCharacterClass(
+  CharacterEntityRef? ref,
+  CharacterClass fallback,
+) {
+  final matched = _matchEnumByName<CharacterClass>(
+    CharacterClass.values,
+    ref?.displayName ?? '',
+    (value) => value.displayName,
+    (value) => value.value,
+  );
+  return matched ?? fallback;
+}
+
+Subclass _resolveLegacySubclass(CharacterEntityRef? ref, Subclass fallback) {
+  final matched = _matchEnumByName<Subclass>(
+    Subclass.values,
+    ref?.displayName ?? '',
+    (value) => value.displayName,
+    (value) => value.value,
+  );
+  return matched ?? fallback;
+}
+
+T? _matchEnumByName<T>(
+  List<T> values,
+  String raw,
+  String Function(T value) displayName,
+  String Function(T value) rawValue,
+) {
+  final normalized = _normalizeLookupValue(raw);
+  if (normalized.isEmpty) {
+    return null;
+  }
+
+  for (final value in values) {
+    final display = _normalizeLookupValue(displayName(value));
+    final canonical = _normalizeLookupValue(rawValue(value));
+    if (display == normalized || canonical == normalized) {
+      return value;
+    }
+  }
+  return null;
+}
+
+String _normalizeLookupValue(String value) {
+  return CompendiumJsonUtils.slugify(
+    value
+        .replaceAll('&', 'and')
+        .replaceAll("'", '')
+        .replaceAll('-', ' ')
+        .replaceAll('/', ' '),
+  );
 }
 
 class AbilityScores {
@@ -1371,6 +1830,13 @@ class SpellcastingInfo {
     this.knownSpells = const [],
   });
 
+  Iterable<Spell> get allSpells sync* {
+    yield* preparedSpells;
+    yield* knownSpells.where(
+      (spell) => !preparedSpells.any((prepared) => prepared.id == spell.id),
+    );
+  }
+
   SpellcastingInfo copyWith({
     String? spellcastingAbility,
     int? spellSaveDC,
@@ -1455,6 +1921,7 @@ class Spell {
   final bool isPrepared;
   final bool isRitual;
   final bool isConcentration;
+  final CharacterEntityRef? reference;
 
   const Spell({
     required this.id,
@@ -1464,6 +1931,7 @@ class Spell {
     this.isPrepared = false,
     this.isRitual = false,
     this.isConcentration = false,
+    this.reference,
   });
 
   factory Spell.fromJson(Map<String, dynamic> json) {
@@ -1475,6 +1943,7 @@ class Spell {
       isPrepared: json['isPrepared'] as bool? ?? false,
       isRitual: json['isRitual'] as bool? ?? false,
       isConcentration: json['isConcentration'] as bool? ?? false,
+      reference: _refFromDynamic(json['reference']),
     );
   }
 
@@ -1487,7 +1956,31 @@ class Spell {
       'isPrepared': isPrepared,
       'isRitual': isRitual,
       'isConcentration': isConcentration,
+      if (reference != null) 'reference': reference!.toJson(),
     };
+  }
+
+  Spell copyWith({
+    String? id,
+    String? name,
+    int? level,
+    String? school,
+    bool? isPrepared,
+    bool? isRitual,
+    bool? isConcentration,
+    CharacterEntityRef? reference,
+    bool clearReference = false,
+  }) {
+    return Spell(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      level: level ?? this.level,
+      school: school ?? this.school,
+      isPrepared: isPrepared ?? this.isPrepared,
+      isRitual: isRitual ?? this.isRitual,
+      isConcentration: isConcentration ?? this.isConcentration,
+      reference: clearReference ? null : reference ?? this.reference,
+    );
   }
 }
 
@@ -1535,6 +2028,8 @@ class Feature {
   final String description;
   final int levelObtained;
   final String source;
+  final CharacterEntityRef? reference;
+  final dynamic content;
 
   const Feature({
     required this.id,
@@ -1542,15 +2037,21 @@ class Feature {
     required this.description,
     this.levelObtained = 1,
     this.source = 'class',
+    this.reference,
+    this.content,
   });
 
   factory Feature.fromJson(Map<String, dynamic> json) {
     return Feature(
       id: json['id'] as String,
       name: json['name'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String? ?? '',
       levelObtained: json['levelObtained'] as int? ?? 1,
       source: json['source'] as String? ?? 'class',
+      reference: _refFromDynamic(json['reference']),
+      content: json.containsKey('content')
+          ? CompendiumJsonUtils.deepCopy(json['content'])
+          : null,
     );
   }
 
@@ -1561,7 +2062,31 @@ class Feature {
       'description': description,
       'levelObtained': levelObtained,
       'source': source,
+      if (reference != null) 'reference': reference!.toJson(),
+      if (content != null) 'content': CompendiumJsonUtils.deepCopy(content),
     };
+  }
+
+  Feature copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? levelObtained,
+    String? source,
+    CharacterEntityRef? reference,
+    bool clearReference = false,
+    dynamic content,
+    bool clearContent = false,
+  }) {
+    return Feature(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      levelObtained: levelObtained ?? this.levelObtained,
+      source: source ?? this.source,
+      reference: clearReference ? null : reference ?? this.reference,
+      content: clearContent ? null : content ?? this.content,
+    );
   }
 }
 

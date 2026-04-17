@@ -76,6 +76,19 @@ class CompendiumBootstrapStates extends Table {
   Set<Column<Object>> get primaryKey => {rulesetId};
 }
 
+class CharacterRecords extends Table {
+  TextColumn get characterId => text()();
+  TextColumn get name => text()();
+  TextColumn get primaryRulesetId => text().withDefault(const Constant(''))();
+  TextColumn get payloadJson => text()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+  DateTimeColumn get lastOpenedAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {characterId};
+}
+
 @DriftDatabase(
   tables: [
     RulesetRecords,
@@ -83,6 +96,7 @@ class CompendiumBootstrapStates extends Table {
     EntityLinks,
     RulesetCollectionStats,
     CompendiumBootstrapStates,
+    CharacterRecords,
   ],
 )
 class CompendiumDatabase extends _$CompendiumDatabase {
@@ -90,7 +104,7 @@ class CompendiumDatabase extends _$CompendiumDatabase {
     : super(executor ?? openCompendiumDatabaseConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -101,6 +115,9 @@ class CompendiumDatabase extends _$CompendiumDatabase {
       if (from < 3) {
         await migrator.createTable(rulesetCollectionStats);
         await migrator.createTable(compendiumBootstrapStates);
+      }
+      if (from < 4) {
+        await migrator.createTable(characterRecords);
       }
     },
   );

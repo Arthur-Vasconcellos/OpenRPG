@@ -24,6 +24,14 @@ class _NotesTabState extends State<NotesTab> {
     _character = widget.character;
   }
 
+  @override
+  void didUpdateWidget(covariant NotesTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.character != widget.character) {
+      _character = widget.character;
+    }
+  }
+
   void _updateTraits(String field, String value) {
     setState(() {
       final newTraits = Traits(
@@ -35,36 +43,7 @@ class _NotesTabState extends State<NotesTab> {
         flaws: field == 'flaws' ? value : _character.traits.flaws,
         alliesAndOrganizations: _character.traits.alliesAndOrganizations,
       );
-
-      // Create new character with updated traits
-      _character = Character(
-        id: _character.id,
-        name: _character.name,
-        playerName: _character.playerName,
-        classes: _character.classes,
-        race: _character.race,
-        background: _character.background,
-        moralAlignment: _character.moralAlignment,
-        experiencePoints: _character.experiencePoints,
-        inspiration: _character.inspiration,
-        abilityScores: _character.abilityScores,
-        modifiers: _character.modifiers,
-        proficiencies: _character.proficiencies,
-        combatStats: _character.combatStats,
-        health: _character.health,
-        equipment: _character.equipment,
-        wealth: _character.wealth,
-        spellcasting: _character.spellcasting,
-        traits: newTraits,
-        features: _character.features,
-        racialTraits: _character.racialTraits,
-        backgroundTraits: _character.backgroundTraits,
-        physicalDescription: _character.physicalDescription,
-        notes: _character.notes,
-        createdAt: _character.createdAt,
-        updatedAt: DateTime.now(),
-        equippedCombatStats: _character.equippedCombatStats,
-      ).copyWithCalculatedValues();
+      _character = _character.copyWith(traits: newTraits);
     });
     widget.onCharacterUpdated(_character);
   }
@@ -78,36 +57,7 @@ class _NotesTabState extends State<NotesTab> {
         languagesNotes: _character.notes.languagesNotes,
         otherNotes: _character.notes.otherNotes,
       );
-
-      // Create new character with updated notes
-      _character = Character(
-        id: _character.id,
-        name: _character.name,
-        playerName: _character.playerName,
-        classes: _character.classes,
-        race: _character.race,
-        background: _character.background,
-        moralAlignment: _character.moralAlignment,
-        experiencePoints: _character.experiencePoints,
-        inspiration: _character.inspiration,
-        abilityScores: _character.abilityScores,
-        modifiers: _character.modifiers,
-        proficiencies: _character.proficiencies,
-        combatStats: _character.combatStats,
-        health: _character.health,
-        equipment: _character.equipment,
-        wealth: _character.wealth,
-        spellcasting: _character.spellcasting,
-        traits: _character.traits,
-        features: _character.features,
-        racialTraits: _character.racialTraits,
-        backgroundTraits: _character.backgroundTraits,
-        physicalDescription: _character.physicalDescription,
-        notes: newNotes,
-        createdAt: _character.createdAt,
-        updatedAt: DateTime.now(),
-        equippedCombatStats: _character.equippedCombatStats,
-      ).copyWithCalculatedValues();
+      _character = _character.copyWith(notes: newNotes);
     });
     widget.onCharacterUpdated(_character);
   }
@@ -129,36 +79,9 @@ class _NotesTabState extends State<NotesTab> {
         hair: field == 'hair' ? value : _character.physicalDescription.hair,
         deity: field == 'deity' ? value : _character.physicalDescription.deity,
       );
-
-      // Create new character with updated physical description
-      _character = Character(
-        id: _character.id,
-        name: _character.name,
-        playerName: _character.playerName,
-        classes: _character.classes,
-        race: _character.race,
-        background: _character.background,
-        moralAlignment: _character.moralAlignment,
-        experiencePoints: _character.experiencePoints,
-        inspiration: _character.inspiration,
-        abilityScores: _character.abilityScores,
-        modifiers: _character.modifiers,
-        proficiencies: _character.proficiencies,
-        combatStats: _character.combatStats,
-        health: _character.health,
-        equipment: _character.equipment,
-        wealth: _character.wealth,
-        spellcasting: _character.spellcasting,
-        traits: _character.traits,
-        features: _character.features,
-        racialTraits: _character.racialTraits,
-        backgroundTraits: _character.backgroundTraits,
+      _character = _character.copyWith(
         physicalDescription: newPhysicalDescription,
-        notes: _character.notes,
-        createdAt: _character.createdAt,
-        updatedAt: DateTime.now(),
-        equippedCombatStats: _character.equippedCombatStats,
-      ).copyWithCalculatedValues();
+      );
     });
     widget.onCharacterUpdated(_character);
   }

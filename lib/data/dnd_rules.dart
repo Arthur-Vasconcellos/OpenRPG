@@ -59,6 +59,38 @@ class DndRules {
     return totalHP;
   }
 
+  static int calculateExpectedMaxHPFromHitDice({
+    required List<HitDie> hitDice,
+    required int constitutionScore,
+  }) {
+    final conModifier = ((constitutionScore - 10) / 2).floor();
+    var totalHP = 0;
+    var isFirstHitDie = true;
+
+    for (final die in hitDice) {
+      final faces = die.sides <= 0 ? 8 : die.sides;
+      final count = die.count <= 0 ? 0 : die.count;
+      if (count == 0) {
+        continue;
+      }
+
+      if (isFirstHitDie) {
+        totalHP += faces + conModifier;
+        isFirstHitDie = false;
+        for (var level = 2; level <= count; level++) {
+          totalHP += (faces / 2).ceil() + conModifier;
+        }
+        continue;
+      }
+
+      for (var level = 1; level <= count; level++) {
+        totalHP += (faces / 2).ceil() + conModifier;
+      }
+    }
+
+    return totalHP <= 0 ? 1 : totalHP;
+  }
+
   // Helper for single-class characters (backward compatibility)
   static int calculateSingleClassHP({
     required CharacterClass characterClass,

@@ -11,7 +11,7 @@ import 'package:openrpg/main.dart';
 
 void main() {
   testWidgets('workspace home renders', (WidgetTester tester) async {
-    await tester.pumpWidget(const DndSrdApp());
+    await tester.pumpWidget(const OpenRpgApp());
 
     expect(find.text('OpenRPG'), findsOneWidget);
     expect(find.text('Compendium'), findsOneWidget);

@@ -94,6 +94,8 @@ class CombatCalculations {
   static int calculateExpectedAC({
     required Character character,
     required EquippedArmor armor,
+    bool barbarianUnarmoredDefense = false,
+    bool monkUnarmoredDefense = false,
   }) {
     int ac = armor.baseAC;
 
@@ -109,16 +111,16 @@ class CombatCalculations {
       ac += dexMod;
     }
 
-    // Add CON modifier for Barbarian/Monk unarmored defense
-    for (final classLevel in character.classes) {
-      if (classLevel.characterClass == CharacterClass.barbarian &&
-          armor.armorType == 'cloth') {
-        ac += character.modifiers.constitution;
+    if (armor.armorType == 'cloth') {
+      final candidates = <int>[ac];
+      if (barbarianUnarmoredDefense) {
+        candidates.add(ac + character.modifiers.constitution);
       }
-      if (classLevel.characterClass == CharacterClass.monk &&
-          armor.armorType == 'cloth') {
-        ac += character.modifiers.wisdom;
+      if (monkUnarmoredDefense) {
+        candidates.add(ac + character.modifiers.wisdom);
       }
+      candidates.sort();
+      ac = candidates.last;
     }
 
     // Add manual bonus
@@ -131,8 +133,15 @@ class CombatCalculations {
   static int calculateTotalAC({
     required Character character,
     required EquippedArmor armor,
+    bool barbarianUnarmoredDefense = false,
+    bool monkUnarmoredDefense = false,
   }) {
-    final expectedAC = calculateExpectedAC(character: character, armor: armor);
+    final expectedAC = calculateExpectedAC(
+      character: character,
+      armor: armor,
+      barbarianUnarmoredDefense: barbarianUnarmoredDefense,
+      monkUnarmoredDefense: monkUnarmoredDefense,
+    );
 
     // If combatStats.armorClass is different from expected, use that (manual override)
     return character.combatStats.armorClass != 10

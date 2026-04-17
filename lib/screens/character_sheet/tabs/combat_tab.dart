@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/characters/data/character_build_resolver.dart';
 import 'package:openrpg/models/character.dart';
-import 'package:openrpg/models/enums.dart';
 import 'package:openrpg/data/combat_calculations.dart';
 import 'package:openrpg/data/dnd_rules.dart';
 import 'package:openrpg/screens/character_sheet/widget/death_saves_widget.dart';
-import 'package:openrpg/screens/character_sheet/widget/hit_points_widget.dart';
 
 class CombatTab extends StatefulWidget {
   final Character character;
+  final ResolvedCharacterBuild resolvedBuild;
   final Function(Character) onCharacterUpdated;
 
   const CombatTab({
     super.key,
     required this.character,
+    required this.resolvedBuild,
     required this.onCharacterUpdated,
   });
 
@@ -21,19 +22,8 @@ class CombatTab extends StatefulWidget {
 }
 
 class _CombatTabState extends State<CombatTab> {
-  // Default equipped armor if none exists
-  EquippedArmor get _defaultArmor => const EquippedArmor(
-    armorType: 'cloth',
-    baseAC: 10,
-    usesDexterity: true,
-    maxDexBonus: 999,
-  );
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -77,9 +67,7 @@ class _CombatTabState extends State<CombatTab> {
     final expectedInitiative = CombatCalculations.calculateExpectedInitiative(
       widget.character,
     );
-    final expectedSpeed = CombatCalculations.calculateExpectedSpeed(
-      widget.character,
-    );
+    final expectedSpeed = widget.resolvedBuild.expectedSpeed;
     final expectedProficiency = DndRules.calculateProficiencyBonus(
       widget.character.totalLevel,
     );
@@ -89,10 +77,14 @@ class _CombatTabState extends State<CombatTab> {
     final expectedAC = CombatCalculations.calculateExpectedAC(
       character: widget.character,
       armor: equippedArmor,
+      barbarianUnarmoredDefense: widget.resolvedBuild.barbarianUnarmoredDefense,
+      monkUnarmoredDefense: widget.resolvedBuild.monkUnarmoredDefense,
     );
     final totalAC = CombatCalculations.calculateTotalAC(
       character: widget.character,
       armor: equippedArmor,
+      barbarianUnarmoredDefense: widget.resolvedBuild.barbarianUnarmoredDefense,
+      monkUnarmoredDefense: widget.resolvedBuild.monkUnarmoredDefense,
     );
 
     return Container(
@@ -235,10 +227,14 @@ class _CombatTabState extends State<CombatTab> {
     final expectedAC = CombatCalculations.calculateExpectedAC(
       character: widget.character,
       armor: equippedArmor,
+      barbarianUnarmoredDefense: widget.resolvedBuild.barbarianUnarmoredDefense,
+      monkUnarmoredDefense: widget.resolvedBuild.monkUnarmoredDefense,
     );
     final totalAC = CombatCalculations.calculateTotalAC(
       character: widget.character,
       armor: equippedArmor,
+      barbarianUnarmoredDefense: widget.resolvedBuild.barbarianUnarmoredDefense,
+      monkUnarmoredDefense: widget.resolvedBuild.monkUnarmoredDefense,
     );
 
     return Card(
@@ -1032,8 +1028,17 @@ class _CombatTabState extends State<CombatTab> {
                 IconButton(
                   icon: Icon(Icons.refresh, size: 18),
                   onPressed: () {
-                    // Reset to class/race proficiencies
-                    // This would need to be implemented based on character class
+                    final defaults = widget.character.equippedCombatStats
+                        .copyWith(
+                          weaponProficiencies:
+                              widget.resolvedBuild.weaponProficiencies,
+                          armorProficiencies:
+                              widget.resolvedBuild.armorProficiencies,
+                        );
+                    final newCharacter = widget.character.copyWith(
+                      equippedCombatStats: defaults,
+                    );
+                    widget.onCharacterUpdated(newCharacter);
                   },
                   tooltip: 'Reset to class defaults',
                 ),
@@ -1133,9 +1138,10 @@ class _CombatTabState extends State<CombatTab> {
     final colorScheme = theme.colorScheme;
     final health = widget.character.health;
 
-    // Calculate expected hit dice
-    final expectedHitDice = CombatCalculations.calculateExpectedHitDice(
-      widget.character.classes,
+    final expectedHitDice = widget.resolvedBuild.hitDice;
+    final expectedMaxHitPoints = DndRules.calculateExpectedMaxHPFromHitDice(
+      hitDice: expectedHitDice,
+      constitutionScore: widget.character.abilityScores.constitution,
     );
 
     return Card(
@@ -1318,6 +1324,34 @@ class _CombatTabState extends State<CombatTab> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 20),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  Chip(label: Text('Expected Max HP: $expectedMaxHitPoints')),
+                  if (health.maxHitPoints != expectedMaxHitPoints)
+                    ActionChip(
+                      label: const Text('Reset Max HP'),
+                      onPressed: () {
+                        final newCharacter = widget.character.copyWith(
+                          health: health.copyWith(
+                            maxHitPoints: expectedMaxHitPoints,
+                            currentHitPoints:
+                                health.currentHitPoints > expectedMaxHitPoints
+                                ? expectedMaxHitPoints
+                                : health.currentHitPoints,
+                          ),
+                        );
+                        widget.onCharacterUpdated(newCharacter);
+                      },
+                    ),
+                ],
+              ),
             ),
             const SizedBox(height: 20),
 

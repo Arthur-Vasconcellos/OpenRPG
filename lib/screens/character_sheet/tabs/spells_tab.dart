@@ -1,307 +1,293 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/characters/data/character_editor_controller.dart';
 import 'package:openrpg/models/character.dart';
+import 'package:openrpg/screens/character_sheet/widget/character_compendium_picker.dart';
 import 'package:openrpg/screens/character_sheet/widget/spell_slots_widget.dart';
+import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
 
 class SpellsTab extends StatelessWidget {
-  final Character character;
-  final Function(Character) onCharacterUpdated;
+  final CharacterEditorController controller;
 
-  const SpellsTab({
-    super.key,
-    required this.character,
-    required this.onCharacterUpdated,
-  });
+  const SpellsTab({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final character = controller.character!;
+    final spellcasting = character.spellcasting;
+    final hasSpellcasting =
+        spellcasting != null &&
+        (controller.resolvedBuild.hasSpellcasting ||
+            spellcasting.preparedSpells.isNotEmpty ||
+            spellcasting.knownSpells.isNotEmpty);
 
-    if (character.spellcasting == null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.auto_awesome_outlined,
-              size: 80,
-              color: colorScheme.onSurface.withOpacity(0.3),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'No Spellcasting',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: colorScheme.onSurface.withOpacity(0.7),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${character.classes[0].characterClass} does not have spellcasting',
-              style: TextStyle(color: colorScheme.onSurface.withOpacity(0.5)),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            // Spellcasting Stats
-            Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.auto_awesome_outlined,
-                          color: colorScheme.tertiary,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'SPELLCASTING',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: colorScheme.onSurface.withOpacity(0.7),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildSpellStat(
-                          'SPELL DC',
-                          '${character.spellcasting!.spellSaveDC}',
-                          colorScheme,
-                        ),
-                        _buildSpellStat(
-                          'ATTACK BONUS',
-                          '+${character.spellcasting!.spellAttackBonus}',
-                          colorScheme,
-                        ),
-                        _buildSpellStat(
-                          'ABILITY',
-                          character.spellcasting!.spellcastingAbility
-                                  ?.toUpperCase() ??
-                              '',
-                          colorScheme,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Spell Slots
-            Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.layers_outlined,
-                          color: colorScheme.onSurface,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'SPELL SLOTS',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: colorScheme.onSurface.withOpacity(0.7),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SpellSlotsWidget(spellcasting: character.spellcasting),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Prepared Spells
-            Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.book_outlined,
-                          color: colorScheme.onSurface,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'PREPARED SPELLS',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: colorScheme.onSurface.withOpacity(0.7),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    if (character.spellcasting!.preparedSpells.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          'No spells prepared',
-                          style: TextStyle(
-                            color: colorScheme.onSurface.withOpacity(0.5),
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      ),
-                    ...character.spellcasting!.preparedSpells
-                        .take(5)
-                        .map((spell) => _buildSpellRow(spell, colorScheme)),
-                    if (character.spellcasting!.preparedSpells.length > 5)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: TextButton(
-                          onPressed: () {
-                            // TODO: Show all spells
-                          },
-                          child: const Text('Show all spells...'),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSpellStat(String label, String value, ColorScheme colorScheme) {
-    return Column(
+    return ListView(
+      padding: const EdgeInsets.all(16),
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: colorScheme.onSurface.withOpacity(0.7),
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: colorScheme.tertiary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: colorScheme.tertiary,
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Spells',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  hasSpellcasting
+                      ? 'Add known or prepared spells from installed rulesets, then preview them or drill into linked references.'
+                      : 'This build does not currently resolve to a spellcasting profile, but you can still add spell references manually if you need them.',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton.tonalIcon(
+                        onPressed: () => _pickSpell(context, prepared: true),
+                        icon: const Icon(Icons.add),
+                        label: const Text('Add Prepared Spell'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: FilledButton.tonalIcon(
+                        onPressed: () => _pickSpell(context, prepared: false),
+                        icon: const Icon(Icons.add),
+                        label: const Text('Add Known Spell'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
+        ),
+        const SizedBox(height: 16),
+        if (spellcasting != null) ...[
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Spellcasting Summary',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      if (spellcasting.spellcastingAbility != null)
+                        Chip(
+                          label: Text(
+                            'Ability: ${spellcasting.spellcastingAbility!.toUpperCase()}',
+                          ),
+                        ),
+                      Chip(
+                        label: Text(
+                          'Spell Save DC: ${spellcasting.spellSaveDC}',
+                        ),
+                      ),
+                      Chip(
+                        label: Text(
+                          'Attack Bonus: +${spellcasting.spellAttackBonus}',
+                        ),
+                      ),
+                      if (controller.resolvedBuild.preparedSpellCapacity !=
+                          null)
+                        Chip(
+                          label: Text(
+                            'Prepared Capacity: ${controller.resolvedBuild.preparedSpellCapacity}',
+                          ),
+                        ),
+                      if (controller.resolvedBuild.knownSpellCapacity != null)
+                        Chip(
+                          label: Text(
+                            'Known Capacity: ${controller.resolvedBuild.knownSpellCapacity}',
+                          ),
+                        ),
+                      if (controller.resolvedBuild.cantripCapacity != null)
+                        Chip(
+                          label: Text(
+                            'Cantrips: ${controller.resolvedBuild.cantripCapacity}',
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  SpellSlotsWidget(spellcasting: spellcasting),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+        _SpellSection(
+          title: 'Prepared Spells',
+          emptyLabel: 'No prepared spells yet.',
+          spells: spellcasting?.preparedSpells ?? const <Spell>[],
+          onRemove: (spell) => controller.removeSpell(spell.id, prepared: true),
+          onTogglePrepared: (spell, prepared) =>
+              controller.togglePreparedSpell(spell, prepared),
+        ),
+        const SizedBox(height: 16),
+        _SpellSection(
+          title: 'Known Spells',
+          emptyLabel: 'No known spells yet.',
+          spells: spellcasting?.knownSpells ?? const <Spell>[],
+          onRemove: (spell) =>
+              controller.removeSpell(spell.id, prepared: false),
+          onTogglePrepared: (spell, prepared) =>
+              controller.togglePreparedSpell(spell, prepared),
         ),
       ],
     );
   }
 
-  Widget _buildSpellRow(Spell spell, ColorScheme colorScheme) {
+  Future<void> _pickSpell(
+    BuildContext context, {
+    required bool prepared,
+  }) async {
+    final result = await showCharacterCompendiumPicker(
+      context,
+      service: controller.compendium,
+      installedRulesets: controller.installedRulesets,
+      primaryRulesetId: controller.character!.primaryRulesetId,
+      entityTypes: const ['spell'],
+      title: prepared ? 'Choose Prepared Spell' : 'Choose Known Spell',
+    );
+    if (result != null) {
+      await controller.addSpellSelection(result.ref, prepared: prepared);
+    }
+  }
+}
+
+class _SpellSection extends StatelessWidget {
+  final String title;
+  final String emptyLabel;
+  final List<Spell> spells;
+  final ValueChanged<Spell> onRemove;
+  final Future<void> Function(Spell spell, bool prepared) onTogglePrepared;
+
+  const _SpellSection({
+    required this.title,
+    required this.emptyLabel,
+    required this.spells,
+    required this.onRemove,
+    required this.onTogglePrepared,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 12),
+            if (spells.isEmpty)
+              Text(emptyLabel, style: Theme.of(context).textTheme.bodyMedium)
+            else
+              ...spells.map(
+                (spell) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _SpellRow(
+                    spell: spell,
+                    onRemove: () => onRemove(spell),
+                    onTogglePrepared: (prepared) =>
+                        onTogglePrepared(spell, prepared),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SpellRow extends StatelessWidget {
+  final Spell spell;
+  final VoidCallback onRemove;
+  final Future<void> Function(bool prepared) onTogglePrepared;
+
+  const _SpellRow({
+    required this.spell,
+    required this.onRemove,
+    required this.onTogglePrepared,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final ref = spell.reference;
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceVariant.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(14),
       ),
       child: ListTile(
-        leading: Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: colorScheme.tertiary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Center(
-            child: Text(
-              spell.level == 0 ? 'C' : '${spell.level}',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: colorScheme.tertiary,
-              ),
-            ),
-          ),
+        leading: CircleAvatar(
+          child: Text(spell.level == 0 ? 'C' : '${spell.level}'),
         ),
-        title: Text(
-          spell.name,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface,
-          ),
-        ),
+        title: Text(spell.name),
         subtitle: Text(
-          spell.school,
-          style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7)),
+          [
+            if (spell.school.trim().isNotEmpty) spell.school,
+            if (spell.isRitual) 'Ritual',
+            if (spell.isConcentration) 'Concentration',
+          ].join(' • '),
         ),
         trailing: Wrap(
           spacing: 4,
           children: [
-            if (spell.isRitual)
-              Chip(
-                label: Text(
-                  'Ritual',
-                  style: TextStyle(fontSize: 10, color: colorScheme.primary),
-                ),
-                backgroundColor: colorScheme.primary.withOpacity(0.1),
+            if (ref != null)
+              IconButton(
+                tooltip: 'Preview',
+                icon: const Icon(Icons.visibility_outlined),
+                onPressed: () {
+                  showCompendiumEntityPreviewSurface(
+                    context,
+                    rulesetId: ref.rulesetId,
+                    entityType: ref.entityType,
+                    entityId: ref.entityId,
+                  );
+                },
               ),
-            if (spell.isConcentration)
-              Chip(
-                label: Text(
-                  'Conc.',
-                  style: TextStyle(fontSize: 10, color: colorScheme.secondary),
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                switch (value) {
+                  case 'prepare':
+                    onTogglePrepared(true);
+                    break;
+                  case 'unprepare':
+                    onTogglePrepared(false);
+                    break;
+                  case 'remove':
+                    onRemove();
+                    break;
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'prepare',
+                  child: Text('Add to prepared spells'),
                 ),
-                backgroundColor: colorScheme.secondary.withOpacity(0.1),
-              ),
+                const PopupMenuItem(
+                  value: 'unprepare',
+                  child: Text('Remove from prepared spells'),
+                ),
+                const PopupMenuItem(
+                  value: 'remove',
+                  child: Text('Remove from this list'),
+                ),
+              ],
+            ),
           ],
         ),
       ),

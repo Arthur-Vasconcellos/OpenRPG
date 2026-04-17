@@ -2864,6 +2864,492 @@ class CompendiumBootstrapStatesCompanion
   }
 }
 
+class $CharacterRecordsTable extends CharacterRecords
+    with TableInfo<$CharacterRecordsTable, CharacterRecord> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CharacterRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _characterIdMeta = const VerificationMeta(
+    'characterId',
+  );
+  @override
+  late final GeneratedColumn<String> characterId = GeneratedColumn<String>(
+    'character_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _primaryRulesetIdMeta = const VerificationMeta(
+    'primaryRulesetId',
+  );
+  @override
+  late final GeneratedColumn<String> primaryRulesetId = GeneratedColumn<String>(
+    'primary_ruleset_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastOpenedAtMeta = const VerificationMeta(
+    'lastOpenedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastOpenedAt = GeneratedColumn<DateTime>(
+    'last_opened_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    characterId,
+    name,
+    primaryRulesetId,
+    payloadJson,
+    createdAt,
+    updatedAt,
+    lastOpenedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'character_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CharacterRecord> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('character_id')) {
+      context.handle(
+        _characterIdMeta,
+        characterId.isAcceptableOrUnknown(
+          data['character_id']!,
+          _characterIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_characterIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('primary_ruleset_id')) {
+      context.handle(
+        _primaryRulesetIdMeta,
+        primaryRulesetId.isAcceptableOrUnknown(
+          data['primary_ruleset_id']!,
+          _primaryRulesetIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('last_opened_at')) {
+      context.handle(
+        _lastOpenedAtMeta,
+        lastOpenedAt.isAcceptableOrUnknown(
+          data['last_opened_at']!,
+          _lastOpenedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {characterId};
+  @override
+  CharacterRecord map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CharacterRecord(
+      characterId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}character_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      primaryRulesetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}primary_ruleset_id'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      lastOpenedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_opened_at'],
+      ),
+    );
+  }
+
+  @override
+  $CharacterRecordsTable createAlias(String alias) {
+    return $CharacterRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class CharacterRecord extends DataClass implements Insertable<CharacterRecord> {
+  final String characterId;
+  final String name;
+  final String primaryRulesetId;
+  final String payloadJson;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? lastOpenedAt;
+  const CharacterRecord({
+    required this.characterId,
+    required this.name,
+    required this.primaryRulesetId,
+    required this.payloadJson,
+    required this.createdAt,
+    required this.updatedAt,
+    this.lastOpenedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['character_id'] = Variable<String>(characterId);
+    map['name'] = Variable<String>(name);
+    map['primary_ruleset_id'] = Variable<String>(primaryRulesetId);
+    map['payload_json'] = Variable<String>(payloadJson);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || lastOpenedAt != null) {
+      map['last_opened_at'] = Variable<DateTime>(lastOpenedAt);
+    }
+    return map;
+  }
+
+  CharacterRecordsCompanion toCompanion(bool nullToAbsent) {
+    return CharacterRecordsCompanion(
+      characterId: Value(characterId),
+      name: Value(name),
+      primaryRulesetId: Value(primaryRulesetId),
+      payloadJson: Value(payloadJson),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      lastOpenedAt: lastOpenedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastOpenedAt),
+    );
+  }
+
+  factory CharacterRecord.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CharacterRecord(
+      characterId: serializer.fromJson<String>(json['characterId']),
+      name: serializer.fromJson<String>(json['name']),
+      primaryRulesetId: serializer.fromJson<String>(json['primaryRulesetId']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      lastOpenedAt: serializer.fromJson<DateTime?>(json['lastOpenedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'characterId': serializer.toJson<String>(characterId),
+      'name': serializer.toJson<String>(name),
+      'primaryRulesetId': serializer.toJson<String>(primaryRulesetId),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'lastOpenedAt': serializer.toJson<DateTime?>(lastOpenedAt),
+    };
+  }
+
+  CharacterRecord copyWith({
+    String? characterId,
+    String? name,
+    String? primaryRulesetId,
+    String? payloadJson,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<DateTime?> lastOpenedAt = const Value.absent(),
+  }) => CharacterRecord(
+    characterId: characterId ?? this.characterId,
+    name: name ?? this.name,
+    primaryRulesetId: primaryRulesetId ?? this.primaryRulesetId,
+    payloadJson: payloadJson ?? this.payloadJson,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    lastOpenedAt: lastOpenedAt.present ? lastOpenedAt.value : this.lastOpenedAt,
+  );
+  CharacterRecord copyWithCompanion(CharacterRecordsCompanion data) {
+    return CharacterRecord(
+      characterId: data.characterId.present
+          ? data.characterId.value
+          : this.characterId,
+      name: data.name.present ? data.name.value : this.name,
+      primaryRulesetId: data.primaryRulesetId.present
+          ? data.primaryRulesetId.value
+          : this.primaryRulesetId,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      lastOpenedAt: data.lastOpenedAt.present
+          ? data.lastOpenedAt.value
+          : this.lastOpenedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CharacterRecord(')
+          ..write('characterId: $characterId, ')
+          ..write('name: $name, ')
+          ..write('primaryRulesetId: $primaryRulesetId, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('lastOpenedAt: $lastOpenedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    characterId,
+    name,
+    primaryRulesetId,
+    payloadJson,
+    createdAt,
+    updatedAt,
+    lastOpenedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CharacterRecord &&
+          other.characterId == this.characterId &&
+          other.name == this.name &&
+          other.primaryRulesetId == this.primaryRulesetId &&
+          other.payloadJson == this.payloadJson &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.lastOpenedAt == this.lastOpenedAt);
+}
+
+class CharacterRecordsCompanion extends UpdateCompanion<CharacterRecord> {
+  final Value<String> characterId;
+  final Value<String> name;
+  final Value<String> primaryRulesetId;
+  final Value<String> payloadJson;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> lastOpenedAt;
+  final Value<int> rowid;
+  const CharacterRecordsCompanion({
+    this.characterId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.primaryRulesetId = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.lastOpenedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CharacterRecordsCompanion.insert({
+    required String characterId,
+    required String name,
+    this.primaryRulesetId = const Value.absent(),
+    required String payloadJson,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.lastOpenedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : characterId = Value(characterId),
+       name = Value(name),
+       payloadJson = Value(payloadJson),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<CharacterRecord> custom({
+    Expression<String>? characterId,
+    Expression<String>? name,
+    Expression<String>? primaryRulesetId,
+    Expression<String>? payloadJson,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? lastOpenedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (characterId != null) 'character_id': characterId,
+      if (name != null) 'name': name,
+      if (primaryRulesetId != null) 'primary_ruleset_id': primaryRulesetId,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (lastOpenedAt != null) 'last_opened_at': lastOpenedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CharacterRecordsCompanion copyWith({
+    Value<String>? characterId,
+    Value<String>? name,
+    Value<String>? primaryRulesetId,
+    Value<String>? payloadJson,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? lastOpenedAt,
+    Value<int>? rowid,
+  }) {
+    return CharacterRecordsCompanion(
+      characterId: characterId ?? this.characterId,
+      name: name ?? this.name,
+      primaryRulesetId: primaryRulesetId ?? this.primaryRulesetId,
+      payloadJson: payloadJson ?? this.payloadJson,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      lastOpenedAt: lastOpenedAt ?? this.lastOpenedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (characterId.present) {
+      map['character_id'] = Variable<String>(characterId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (primaryRulesetId.present) {
+      map['primary_ruleset_id'] = Variable<String>(primaryRulesetId.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (lastOpenedAt.present) {
+      map['last_opened_at'] = Variable<DateTime>(lastOpenedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CharacterRecordsCompanion(')
+          ..write('characterId: $characterId, ')
+          ..write('name: $name, ')
+          ..write('primaryRulesetId: $primaryRulesetId, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('lastOpenedAt: $lastOpenedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$CompendiumDatabase extends GeneratedDatabase {
   _$CompendiumDatabase(QueryExecutor e) : super(e);
   $CompendiumDatabaseManager get managers => $CompendiumDatabaseManager(this);
@@ -2874,6 +3360,9 @@ abstract class _$CompendiumDatabase extends GeneratedDatabase {
       $RulesetCollectionStatsTable(this);
   late final $CompendiumBootstrapStatesTable compendiumBootstrapStates =
       $CompendiumBootstrapStatesTable(this);
+  late final $CharacterRecordsTable characterRecords = $CharacterRecordsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2884,6 +3373,7 @@ abstract class _$CompendiumDatabase extends GeneratedDatabase {
     entityLinks,
     rulesetCollectionStats,
     compendiumBootstrapStates,
+    characterRecords,
   ];
 }
 
@@ -4355,6 +4845,262 @@ typedef $$CompendiumBootstrapStatesTableProcessedTableManager =
       CompendiumBootstrapState,
       PrefetchHooks Function()
     >;
+typedef $$CharacterRecordsTableCreateCompanionBuilder =
+    CharacterRecordsCompanion Function({
+      required String characterId,
+      required String name,
+      Value<String> primaryRulesetId,
+      required String payloadJson,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<DateTime?> lastOpenedAt,
+      Value<int> rowid,
+    });
+typedef $$CharacterRecordsTableUpdateCompanionBuilder =
+    CharacterRecordsCompanion Function({
+      Value<String> characterId,
+      Value<String> name,
+      Value<String> primaryRulesetId,
+      Value<String> payloadJson,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> lastOpenedAt,
+      Value<int> rowid,
+    });
+
+class $$CharacterRecordsTableFilterComposer
+    extends Composer<_$CompendiumDatabase, $CharacterRecordsTable> {
+  $$CharacterRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get characterId => $composableBuilder(
+    column: $table.characterId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get primaryRulesetId => $composableBuilder(
+    column: $table.primaryRulesetId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastOpenedAt => $composableBuilder(
+    column: $table.lastOpenedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CharacterRecordsTableOrderingComposer
+    extends Composer<_$CompendiumDatabase, $CharacterRecordsTable> {
+  $$CharacterRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get characterId => $composableBuilder(
+    column: $table.characterId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get primaryRulesetId => $composableBuilder(
+    column: $table.primaryRulesetId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastOpenedAt => $composableBuilder(
+    column: $table.lastOpenedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CharacterRecordsTableAnnotationComposer
+    extends Composer<_$CompendiumDatabase, $CharacterRecordsTable> {
+  $$CharacterRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get characterId => $composableBuilder(
+    column: $table.characterId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get primaryRulesetId => $composableBuilder(
+    column: $table.primaryRulesetId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastOpenedAt => $composableBuilder(
+    column: $table.lastOpenedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$CharacterRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$CompendiumDatabase,
+          $CharacterRecordsTable,
+          CharacterRecord,
+          $$CharacterRecordsTableFilterComposer,
+          $$CharacterRecordsTableOrderingComposer,
+          $$CharacterRecordsTableAnnotationComposer,
+          $$CharacterRecordsTableCreateCompanionBuilder,
+          $$CharacterRecordsTableUpdateCompanionBuilder,
+          (
+            CharacterRecord,
+            BaseReferences<
+              _$CompendiumDatabase,
+              $CharacterRecordsTable,
+              CharacterRecord
+            >,
+          ),
+          CharacterRecord,
+          PrefetchHooks Function()
+        > {
+  $$CharacterRecordsTableTableManager(
+    _$CompendiumDatabase db,
+    $CharacterRecordsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CharacterRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CharacterRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CharacterRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> characterId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> primaryRulesetId = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> lastOpenedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CharacterRecordsCompanion(
+                characterId: characterId,
+                name: name,
+                primaryRulesetId: primaryRulesetId,
+                payloadJson: payloadJson,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                lastOpenedAt: lastOpenedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String characterId,
+                required String name,
+                Value<String> primaryRulesetId = const Value.absent(),
+                required String payloadJson,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<DateTime?> lastOpenedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CharacterRecordsCompanion.insert(
+                characterId: characterId,
+                name: name,
+                primaryRulesetId: primaryRulesetId,
+                payloadJson: payloadJson,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                lastOpenedAt: lastOpenedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CharacterRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CompendiumDatabase,
+      $CharacterRecordsTable,
+      CharacterRecord,
+      $$CharacterRecordsTableFilterComposer,
+      $$CharacterRecordsTableOrderingComposer,
+      $$CharacterRecordsTableAnnotationComposer,
+      $$CharacterRecordsTableCreateCompanionBuilder,
+      $$CharacterRecordsTableUpdateCompanionBuilder,
+      (
+        CharacterRecord,
+        BaseReferences<
+          _$CompendiumDatabase,
+          $CharacterRecordsTable,
+          CharacterRecord
+        >,
+      ),
+      CharacterRecord,
+      PrefetchHooks Function()
+    >;
 
 class $CompendiumDatabaseManager {
   final _$CompendiumDatabase _db;
@@ -4375,4 +5121,6 @@ class $CompendiumDatabaseManager {
         _db,
         _db.compendiumBootstrapStates,
       );
+  $$CharacterRecordsTableTableManager get characterRecords =>
+      $$CharacterRecordsTableTableManager(_db, _db.characterRecords);
 }

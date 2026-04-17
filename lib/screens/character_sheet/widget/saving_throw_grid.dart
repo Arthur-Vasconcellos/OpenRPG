@@ -176,33 +176,7 @@ class SavingThrowGrid extends StatelessWidget {
       other: character.proficiencies.other,
     );
 
-    final newCharacter = Character(
-      id: character.id,
-      name: character.name,
-      classes: character.classes,
-      race: character.race,
-      background: character.background,
-      moralAlignment: character.moralAlignment,
-      experiencePoints: character.experiencePoints,
-      inspiration: character.inspiration,
-      abilityScores: character.abilityScores,
-      modifiers: character.modifiers,
-      proficiencies: newProficiencies,
-      combatStats: character.combatStats,
-      health: character.health,
-      equipment: character.equipment,
-      wealth: character.wealth,
-      spellcasting: character.spellcasting,
-      traits: character.traits,
-      features: character.features,
-      racialTraits: character.racialTraits,
-      backgroundTraits: character.backgroundTraits,
-      physicalDescription: character.physicalDescription,
-      notes: character.notes,
-      createdAt: character.createdAt,
-      updatedAt: DateTime.now(),
-      equippedCombatStats: character.equippedCombatStats,
-    ).copyWithCalculatedValues();
+    final newCharacter = character.copyWith(proficiencies: newProficiencies);
 
     onCharacterUpdated(newCharacter);
   }

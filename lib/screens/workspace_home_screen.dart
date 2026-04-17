@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openrpg/screens/character_sheet/character_sheet_screen.dart';
+import 'package:openrpg/screens/characters/character_library_screen.dart';
 import 'package:openrpg/screens/rulesets/ruleset_library_screen.dart';
 
 class WorkspaceHomeScreen extends StatelessWidget {
@@ -69,15 +69,15 @@ class WorkspaceHomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _WorkspaceCard(
-                title: 'Character Sheet',
+                title: 'Characters',
                 subtitle:
-                    'Keep the existing character workspace available while the new ruleset platform comes online.',
+                    'Create saved characters, bind them to installed rulesets, and keep editing with portable JSON import and export.',
                 accent: colorScheme.tertiary,
                 icon: Icons.shield_outlined,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const CharacterSheetScreen(),
+                      builder: (_) => const CharacterLibraryScreen(),
                     ),
                   );
                 },

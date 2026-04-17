@@ -1,976 +1,685 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/characters/data/character_editor_controller.dart';
 import 'package:openrpg/models/character.dart';
 import 'package:openrpg/models/enums.dart';
-import 'package:openrpg/data/dnd_rules.dart';
 import 'package:openrpg/screens/character_sheet/widget/attribute_card.dart';
+import 'package:openrpg/screens/character_sheet/widget/character_compendium_picker.dart';
+import 'package:openrpg/screens/character_sheet/widget/character_entity_summary_card.dart';
 import 'package:openrpg/screens/character_sheet/widget/saving_throw_grid.dart';
 
-class CoreTab extends StatefulWidget {
-  final Character character;
-  final Function(Character) onCharacterUpdated;
+class CoreTab extends StatelessWidget {
+  final CharacterEditorController controller;
 
-  const CoreTab({
-    super.key,
-    required this.character,
-    required this.onCharacterUpdated,
-  });
-
-  @override
-  State<CoreTab> createState() => _CoreTabState();
-}
-
-class _CoreTabState extends State<CoreTab> {
-  late Character _character;
-  SkillSortOrder _skillSortOrder = SkillSortOrder.byProficiency;
-
-  @override
-  void initState() {
-    super.initState();
-    _character = widget.character;
-  }
-
-  void _updateCharacter(Character newCharacter) {
-    setState(() {
-      _character = newCharacter;
-    });
-    widget.onCharacterUpdated(_character);
-  }
-
-  void _updateAttribute(String attribute, int value) {
-    value = value.clamp(1, 30);
-
-    final newAbilityScores = _character.abilityScores.copyWith(
-      strength: attribute == 'strength' ? value : null,
-      dexterity: attribute == 'dexterity' ? value : null,
-      constitution: attribute == 'constitution' ? value : null,
-      intelligence: attribute == 'intelligence' ? value : null,
-      wisdom: attribute == 'wisdom' ? value : null,
-      charisma: attribute == 'charisma' ? value : null,
-    );
-
-    final newCharacter = _character.copyWith(abilityScores: newAbilityScores);
-
-    _updateCharacter(newCharacter);
-  }
-
-  void _updateProficiencyBonus(int newBonus) {
-    final newProficiencies = _character.proficiencies.copyWith(
-      proficiencyBonus: newBonus.clamp(0, 6),
-    );
-
-    final newCharacter = _character.copyWith(proficiencies: newProficiencies);
-
-    _updateCharacter(newCharacter);
-  }
-
-  void _updateField(String field, dynamic value) {
-    Character newCharacter;
-
-    switch (field) {
-      case 'name':
-        newCharacter = _character.copyWith(name: value as String);
-        break;
-      case 'race':
-        newCharacter = _character.copyWith(
-          race: value as Race,
-          racialTraits: [], // Reset racial traits
-        );
-        break;
-      case 'background':
-        newCharacter = _character.copyWith(
-          background: value as Background,
-          backgroundTraits: [], // Reset background traits
-        );
-        break;
-      case 'moralAlignment':
-        newCharacter = _character.copyWith(
-          moralAlignment: value as MoralAlignment,
-        );
-        break;
-      case 'experiencePoints':
-        newCharacter = _character.copyWith(experiencePoints: value as int);
-        break;
-      default:
-        return;
-    }
-
-    _updateCharacter(newCharacter);
-  }
-
-  void _addClass() {
-    final newClasses = List<CharacterClassLevel>.from(_character.classes)
-      ..add(
-        CharacterClassLevel(characterClass: CharacterClass.fighter, level: 1),
-      );
-
-    final newCharacter = _character.copyWith(classes: newClasses);
-    _updateCharacter(newCharacter);
-  }
-
-  void _removeClass(int index) {
-    if (_character.classes.length <= 1) return;
-
-    final newClasses = List<CharacterClassLevel>.from(_character.classes);
-    newClasses.removeAt(index);
-
-    final newCharacter = _character.copyWith(classes: newClasses);
-    _updateCharacter(newCharacter);
-  }
-
-  void _updateClass(int index, CharacterClassLevel updatedClass) {
-    final newClasses = List<CharacterClassLevel>.from(_character.classes);
-    newClasses[index] = updatedClass;
-
-    final newCharacter = _character.copyWith(classes: newClasses);
-    _updateCharacter(newCharacter);
-  }
-
-  void _toggleSkillProficiency(Skill skill, ProficiencyLevel current) {
-    final newProficiencies = Map<Skill, ProficiencyLevel>.from(
-      _character.proficiencies.skills.proficiencies,
-    );
-
-    newProficiencies[skill] = current == ProficiencyLevel.none
-        ? ProficiencyLevel.proficient
-        : current == ProficiencyLevel.proficient
-        ? ProficiencyLevel.expert
-        : ProficiencyLevel.none;
-
-    final newSkills = _character.proficiencies.skills.copyWith(
-      proficiencies: newProficiencies,
-    );
-    final newProficiencySet = _character.proficiencies.copyWith(
-      skills: newSkills,
-    );
-
-    final newCharacter = _character.copyWith(proficiencies: newProficiencySet);
-
-    _updateCharacter(newCharacter);
-  }
+  const CoreTab({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final character = controller.character!;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _CharacterIdentityCard(controller: controller),
+          const SizedBox(height: 16),
+          _BuildSelectionsCard(controller: controller),
+          const SizedBox(height: 16),
+          Card(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Character Basics Card
-                  _buildCharacterBasicsCard(colorScheme),
+                  _SectionTitle(
+                    title: 'Attributes',
+                    icon: Icons.fitness_center_outlined,
+                  ),
                   const SizedBox(height: 16),
-
-                  // Proficiency Bonus Card
-                  _buildProficiencyBonusCard(colorScheme),
-                  const SizedBox(height: 16),
-
-                  // Attributes Grid
-                  _buildAttributesCard(colorScheme),
-                  const SizedBox(height: 16),
-
-                  // Skills Card
-                  _buildSkillsCard(colorScheme),
-                  const SizedBox(height: 16),
-
-                  // Saving Throws
-                  _buildSavingThrowsCard(colorScheme),
-                  const SizedBox(height: 24),
+                  GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 3,
+                    childAspectRatio: 0.86,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    children: [
+                      AttributeCard(
+                        abbreviation: 'STR',
+                        name: 'Strength',
+                        value: character.abilityScores.strength,
+                        modifier: character.modifiers.strength,
+                        onDecrement: () => _adjustAbility('strength', -1),
+                        onIncrement: () => _adjustAbility('strength', 1),
+                      ),
+                      AttributeCard(
+                        abbreviation: 'DEX',
+                        name: 'Dexterity',
+                        value: character.abilityScores.dexterity,
+                        modifier: character.modifiers.dexterity,
+                        onDecrement: () => _adjustAbility('dexterity', -1),
+                        onIncrement: () => _adjustAbility('dexterity', 1),
+                      ),
+                      AttributeCard(
+                        abbreviation: 'CON',
+                        name: 'Constitution',
+                        value: character.abilityScores.constitution,
+                        modifier: character.modifiers.constitution,
+                        onDecrement: () => _adjustAbility('constitution', -1),
+                        onIncrement: () => _adjustAbility('constitution', 1),
+                      ),
+                      AttributeCard(
+                        abbreviation: 'INT',
+                        name: 'Intelligence',
+                        value: character.abilityScores.intelligence,
+                        modifier: character.modifiers.intelligence,
+                        onDecrement: () => _adjustAbility('intelligence', -1),
+                        onIncrement: () => _adjustAbility('intelligence', 1),
+                      ),
+                      AttributeCard(
+                        abbreviation: 'WIS',
+                        name: 'Wisdom',
+                        value: character.abilityScores.wisdom,
+                        modifier: character.modifiers.wisdom,
+                        onDecrement: () => _adjustAbility('wisdom', -1),
+                        onIncrement: () => _adjustAbility('wisdom', 1),
+                      ),
+                      AttributeCard(
+                        abbreviation: 'CHA',
+                        name: 'Charisma',
+                        value: character.abilityScores.charisma,
+                        modifier: character.modifiers.charisma,
+                        onDecrement: () => _adjustAbility('charisma', -1),
+                        onIncrement: () => _adjustAbility('charisma', 1),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
-        );
-      },
+          const SizedBox(height: 16),
+          _SkillsCard(controller: controller),
+          const SizedBox(height: 16),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _SectionTitle(
+                    title: 'Saving Throws',
+                    icon: Icons.shield_outlined,
+                  ),
+                  const SizedBox(height: 12),
+                  SavingThrowGrid(
+                    character: character,
+                    onCharacterUpdated: (updated) {
+                      controller.updateManual((_) => updated);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (controller.isResolving) ...[
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Refreshing compendium-backed build selections and derived features...',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 
-  Widget _buildCharacterBasicsCard(ColorScheme colorScheme) {
+  void _adjustAbility(String ability, int delta) {
+    final character = controller.character!;
+    final scores = character.abilityScores;
+    final next = switch (ability) {
+      'strength' => scores.copyWith(
+        strength: (scores.strength + delta).clamp(1, 30),
+      ),
+      'dexterity' => scores.copyWith(
+        dexterity: (scores.dexterity + delta).clamp(1, 30),
+      ),
+      'constitution' => scores.copyWith(
+        constitution: (scores.constitution + delta).clamp(1, 30),
+      ),
+      'intelligence' => scores.copyWith(
+        intelligence: (scores.intelligence + delta).clamp(1, 30),
+      ),
+      'wisdom' => scores.copyWith(wisdom: (scores.wisdom + delta).clamp(1, 30)),
+      _ => scores.copyWith(charisma: (scores.charisma + delta).clamp(1, 30)),
+    };
+    controller.updateManual((current) => current.copyWith(abilityScores: next));
+  }
+}
+
+class _CharacterIdentityCard extends StatelessWidget {
+  final CharacterEditorController controller;
+
+  const _CharacterIdentityCard({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final character = controller.character!;
+    final rulesets = controller.installedRulesets;
+    final selectedRulesetId = character.primaryRulesetId.trim().isEmpty
+        ? (rulesets.isEmpty ? null : rulesets.first.id)
+        : character.primaryRulesetId;
+
     return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle(
-              'CHARACTER BASICS',
-              Icons.person_outline,
-              colorScheme,
+            const _SectionTitle(
+              title: 'Character Basics',
+              icon: Icons.person_outline,
             ),
             const SizedBox(height: 16),
-            TextField(
-              controller: TextEditingController(text: _character.name),
-              decoration: InputDecoration(
-                labelText: 'Character Name',
-                labelStyle: TextStyle(color: colorScheme.onSurface),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: colorScheme.primary),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 14,
-                ),
+            TextFormField(
+              initialValue: character.name,
+              decoration: const InputDecoration(
+                labelText: 'Character name',
+                border: OutlineInputBorder(),
               ),
-              style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
-              onChanged: (value) => _updateField('name', value),
+              onChanged: controller.setName,
             ),
             const SizedBox(height: 12),
-
-            // Multiclass fields
-            _buildClassFields(colorScheme),
+            DropdownButtonFormField<String>(
+              initialValue: selectedRulesetId,
+              decoration: const InputDecoration(
+                labelText: 'Primary ruleset',
+                border: OutlineInputBorder(),
+              ),
+              items: rulesets
+                  .map(
+                    (ruleset) => DropdownMenuItem<String>(
+                      value: ruleset.id,
+                      child: Text(ruleset.name),
+                    ),
+                  )
+                  .toList(growable: false),
+              onChanged: rulesets.isEmpty
+                  ? null
+                  : (value) async {
+                      if (value == null ||
+                          value == character.primaryRulesetId) {
+                        return;
+                      }
+                      final confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: const Text('Change Primary Ruleset'),
+                          content: const Text(
+                            'Changing the primary ruleset keeps manual notes and stats, but any class, race, background, or spell selections that no longer resolve will be cleared.',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text('Cancel'),
+                            ),
+                            FilledButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text('Change'),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (confirmed == true) {
+                        await controller.changePrimaryRuleset(value);
+                      }
+                    },
+            ),
             const SizedBox(height: 12),
-
-            // Race, Background, Alignment, XP
-            _buildBasicInfoFields(colorScheme),
+            DropdownButtonFormField<MoralAlignment>(
+              initialValue: character.moralAlignment,
+              decoration: const InputDecoration(
+                labelText: 'Alignment',
+                border: OutlineInputBorder(),
+              ),
+              items: MoralAlignment.values
+                  .map(
+                    (alignment) => DropdownMenuItem<MoralAlignment>(
+                      value: alignment,
+                      child: Text(alignment.displayName),
+                    ),
+                  )
+                  .toList(growable: false),
+              onChanged: (value) {
+                if (value == null) {
+                  return;
+                }
+                controller.updateManual(
+                  (current) => current.copyWith(moralAlignment: value),
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildClassFields(ColorScheme colorScheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(Icons.class_outlined, color: colorScheme.primary, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              'CLASSES (Total Level: ${_character.totalLevel})',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-                color: colorScheme.onSurface.withOpacity(0.7),
-                letterSpacing: 0.5,
-              ),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: Icon(Icons.add, color: colorScheme.primary),
-              onPressed: _addClass,
-              tooltip: 'Add another class',
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        ..._character.classes.asMap().entries.map((entry) {
-          final index = entry.key;
-          final classLevel = entry.value;
+class _BuildSelectionsCard extends StatelessWidget {
+  final CharacterEditorController controller;
 
-          return _buildClassRow(index, classLevel, colorScheme);
-        }).toList(),
-      ],
-    );
-  }
+  const _BuildSelectionsCard({required this.controller});
 
-  Widget _buildClassRow(
-    int index,
-    CharacterClassLevel classLevel,
-    ColorScheme colorScheme,
-  ) {
+  @override
+  Widget build(BuildContext context) {
+    final character = controller.character!;
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: colorScheme.outline.withOpacity(0.2)),
-      ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const _SectionTitle(
+              title: 'Build Selections',
+              icon: Icons.auto_stories_outlined,
+            ),
+            const SizedBox(height: 16),
+            _SelectionTile(
+              title: 'Race',
+              value: character.raceRef?.displayName ?? 'Choose a race',
+              icon: Icons.people_outline,
+              onTap: () => _pickRace(context),
+              onClear: character.raceRef == null
+                  ? null
+                  : () => controller.setRace(null),
+            ),
+            if (character.raceRef != null) ...[
+              const SizedBox(height: 12),
+              CharacterEntitySummaryCard(
+                title: 'Selected Race',
+                reference: character.raceRef,
+                service: controller.compendium,
+              ),
+            ],
+            const SizedBox(height: 12),
+            _SelectionTile(
+              title: 'Background',
+              value:
+                  character.backgroundRef?.displayName ?? 'Choose a background',
+              icon: Icons.work_outline,
+              onTap: () => _pickBackground(context),
+              onClear: character.backgroundRef == null
+                  ? null
+                  : () => controller.setBackground(null),
+            ),
+            if (character.backgroundRef != null) ...[
+              const SizedBox(height: 12),
+              CharacterEntitySummaryCard(
+                title: 'Selected Background',
+                reference: character.backgroundRef,
+                service: controller.compendium,
+              ),
+            ],
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Text('Classes', style: Theme.of(context).textTheme.titleMedium),
+                const Spacer(),
+                FilledButton.tonalIcon(
+                  onPressed: controller.addClassEntry,
+                  icon: const Icon(Icons.add),
+                  label: const Text('Add Class'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            if (character.classes.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Text('No classes selected yet.'),
+              ),
+            ...character.classes.asMap().entries.map((entry) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _ClassEntryCard(
+                  controller: controller,
+                  index: entry.key,
+                  entry: entry.value,
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickRace(BuildContext context) async {
+    final result = await showCharacterCompendiumPicker(
+      context,
+      service: controller.compendium,
+      installedRulesets: controller.installedRulesets,
+      primaryRulesetId: controller.character!.primaryRulesetId,
+      entityTypes: const ['race'],
+      title: 'Choose Race',
+    );
+    if (result != null) {
+      await controller.setRace(result.ref);
+    }
+  }
+
+  Future<void> _pickBackground(BuildContext context) async {
+    final result = await showCharacterCompendiumPicker(
+      context,
+      service: controller.compendium,
+      installedRulesets: controller.installedRulesets,
+      primaryRulesetId: controller.character!.primaryRulesetId,
+      entityTypes: const ['background'],
+      title: 'Choose Background',
+    );
+    if (result != null) {
+      await controller.setBackground(result.ref);
+    }
+  }
+}
+
+class _ClassEntryCard extends StatelessWidget {
+  final CharacterEditorController controller;
+  final int index;
+  final CharacterClassLevel entry;
+
+  const _ClassEntryCard({
+    required this.controller,
+    required this.index,
+    required this.entry,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final canRemove = controller.character!.classes.length > 1;
+    return Card(
+      color: Theme.of(context).colorScheme.surfaceContainerLow,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField<CharacterClass>(
-                    value: classLevel.characterClass,
-                    decoration: InputDecoration(
-                      labelText: 'Class ${index + 1}',
-                      labelStyle: TextStyle(color: colorScheme.onSurface),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: colorScheme.primary),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
-                      ),
-                    ),
-                    items: CharacterClass.values.map((cls) {
-                      return DropdownMenuItem(
-                        value: cls,
-                        child: Text(
-                          cls.displayName,
-                          style: TextStyle(
-                            color: colorScheme.onSurface,
-                            fontSize: 14,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      if (value != null) {
-                        _updateClass(
-                          index,
-                          classLevel.copyWith(characterClass: value),
-                        );
-                      }
-                    },
+                  child: Text(
+                    'Class ${index + 1}',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  flex: 1,
-                  child: TextField(
-                    controller: TextEditingController(
-                      text: classLevel.level.toString(),
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Level',
-                      labelStyle: TextStyle(color: colorScheme.onSurface),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: colorScheme.primary),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
-                      ),
-                    ),
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: colorScheme.onSurface,
-                    ),
-                    onChanged: (value) {
-                      final level = int.tryParse(value) ?? classLevel.level;
-                      _updateClass(
-                        index,
-                        classLevel.copyWith(level: level.clamp(1, 20)),
-                      );
-                    },
-                  ),
-                ),
-                if (_character.classes.length > 1)
+                if (canRemove)
                   IconButton(
-                    icon: Icon(Icons.delete_outline, color: colorScheme.error),
-                    onPressed: () => _removeClass(index),
-                    tooltip: 'Remove this class',
+                    tooltip: 'Remove class',
+                    onPressed: () => controller.removeClassEntry(index),
+                    icon: const Icon(Icons.delete_outline),
                   ),
               ],
             ),
+            const SizedBox(height: 8),
+            _SelectionTile(
+              title: 'Class',
+              value: entry.classRef?.displayName ?? 'Choose a class',
+              icon: Icons.class_outlined,
+              onTap: () => _pickClass(context),
+            ),
+            const SizedBox(height: 8),
+            _SelectionTile(
+              title: 'Subclass',
+              value: entry.subclassRef?.displayName ?? 'Choose a subclass',
+              icon: Icons.account_tree_outlined,
+              onTap: entry.classRef == null
+                  ? null
+                  : () => _pickSubclass(context),
+              onClear: entry.subclassRef == null
+                  ? null
+                  : () => controller.setClassEntry(
+                      index,
+                      classRef: entry.classRef,
+                      clearSubclass: true,
+                    ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Text('Level', style: Theme.of(context).textTheme.labelLarge),
+                const Spacer(),
+                IconButton(
+                  onPressed: entry.level <= 1
+                      ? null
+                      : () => controller.setClassEntry(
+                          index,
+                          classRef: entry.classRef,
+                          subclassRef: entry.subclassRef,
+                          level: entry.level - 1,
+                        ),
+                  icon: const Icon(Icons.remove),
+                ),
+                Text(
+                  '${entry.level}',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                IconButton(
+                  onPressed: entry.level >= 20
+                      ? null
+                      : () => controller.setClassEntry(
+                          index,
+                          classRef: entry.classRef,
+                          subclassRef: entry.subclassRef,
+                          level: entry.level + 1,
+                        ),
+                  icon: const Icon(Icons.add),
+                ),
+              ],
+            ),
+            if (entry.classRef != null) ...[
+              const SizedBox(height: 8),
+              CharacterEntitySummaryCard(
+                title: 'Selected Class',
+                reference: entry.classRef,
+                service: controller.compendium,
+              ),
+            ],
+            if (entry.subclassRef != null) ...[
+              const SizedBox(height: 8),
+              CharacterEntitySummaryCard(
+                title: 'Selected Subclass',
+                reference: entry.subclassRef,
+                service: controller.compendium,
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBasicInfoFields(ColorScheme colorScheme) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 400) {
-          return _buildVerticalBasicFields(colorScheme);
-        } else {
-          return _buildHorizontalBasicFields(colorScheme);
-        }
-      },
+  Future<void> _pickClass(BuildContext context) async {
+    final result = await showCharacterCompendiumPicker(
+      context,
+      service: controller.compendium,
+      installedRulesets: controller.installedRulesets,
+      primaryRulesetId: controller.character!.primaryRulesetId,
+      entityTypes: const ['class'],
+      title: 'Choose Class',
     );
+    if (result != null) {
+      await controller.setClassEntry(
+        index,
+        classRef: result.ref,
+        clearSubclass: true,
+        level: entry.level,
+      );
+    }
   }
 
-  Widget _buildVerticalBasicFields(ColorScheme colorScheme) {
-    return Column(
-      children: [
-        DropdownButtonFormField<Race>(
-          value: _character.race,
-          decoration: InputDecoration(
-            labelText: 'Race',
-            labelStyle: TextStyle(color: colorScheme.onSurface),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.primary),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 14,
-            ),
-          ),
-          items: Race.values.map((race) {
-            return DropdownMenuItem(
-              value: race,
-              child: Text(
-                race.displayName,
-                style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
-              ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            if (value != null) {
-              _updateField('race', value);
-            }
-          },
-        ),
-        const SizedBox(height: 12),
-        DropdownButtonFormField<Background>(
-          value: _character.background,
-          decoration: InputDecoration(
-            labelText: 'Background',
-            labelStyle: TextStyle(color: colorScheme.onSurface),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: colorScheme.primary),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 14,
-            ),
-          ),
-          items: Background.values.map((bg) {
-            return DropdownMenuItem(
-              value: bg,
-              child: Text(
-                bg.displayName,
-                style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
-              ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            if (value != null) {
-              _updateField('background', value);
-            }
-          },
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<MoralAlignment>(
-                value: _character.moralAlignment,
-                decoration: InputDecoration(
-                  labelText: 'Alignment',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                ),
-                items: MoralAlignment.values.map((align) {
-                  return DropdownMenuItem<MoralAlignment>(
-                    value: align,
-                    child: Text(
-                      align.displayName,
-                      style: TextStyle(
-                        color: colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (MoralAlignment? value) {
-                  if (value != null) {
-                    _updateField('moralAlignment', value);
-                  }
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TextField(
-                controller: TextEditingController(
-                  text: _character.experiencePoints.toString(),
-                ),
-                decoration: InputDecoration(
-                  labelText: 'XP',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
-                onChanged: (value) {
-                  final xp = int.tryParse(value) ?? _character.experiencePoints;
-                  _updateField('experiencePoints', xp);
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
+  Future<void> _pickSubclass(BuildContext context) async {
+    final classRef = entry.classRef;
+    if (classRef == null) {
+      return;
+    }
+
+    final result = await showCharacterCompendiumPicker(
+      context,
+      service: controller.compendium,
+      installedRulesets: controller.installedRulesets,
+      primaryRulesetId: controller.character!.primaryRulesetId,
+      entityTypes: const ['subclass'],
+      classNameForSubclasses: classRef.displayName,
+      title: 'Choose Subclass',
     );
+    if (result != null) {
+      await controller.setClassEntry(
+        index,
+        classRef: classRef,
+        subclassRef: result.ref,
+        level: entry.level,
+      );
+    }
   }
+}
 
-  Widget _buildHorizontalBasicFields(ColorScheme colorScheme) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<Race>(
-                value: _character.race,
-                decoration: InputDecoration(
-                  labelText: 'Race',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                ),
-                items: Race.values.map((race) {
-                  return DropdownMenuItem(
-                    value: race,
-                    child: Text(
-                      race.displayName,
-                      style: TextStyle(
-                        color: colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  if (value != null) {
-                    _updateField('race', value);
-                  }
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: DropdownButtonFormField<Background>(
-                value: _character.background,
-                decoration: InputDecoration(
-                  labelText: 'Background',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                ),
-                items: Background.values.map((bg) {
-                  return DropdownMenuItem(
-                    value: bg,
-                    child: Text(
-                      bg.displayName,
-                      style: TextStyle(
-                        color: colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  if (value != null) {
-                    _updateField('background', value);
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<MoralAlignment>(
-                value: _character.moralAlignment,
-                decoration: InputDecoration(
-                  labelText: 'Alignment',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                ),
-                items: MoralAlignment.values.map((align) {
-                  return DropdownMenuItem<MoralAlignment>(
-                    value: align,
-                    child: Text(
-                      align.displayName,
-                      style: TextStyle(
-                        color: colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (MoralAlignment? value) {
-                  if (value != null) {
-                    _updateField('moralAlignment', value);
-                  }
-                },
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TextField(
-                controller: TextEditingController(
-                  text: _character.experiencePoints.toString(),
-                ),
-                decoration: InputDecoration(
-                  labelText: 'XP',
-                  labelStyle: TextStyle(color: colorScheme.onSurface),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
-                onChanged: (value) {
-                  final xp = int.tryParse(value) ?? _character.experiencePoints;
-                  _updateField('experiencePoints', xp);
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+class _SkillsCard extends StatelessWidget {
+  final CharacterEditorController controller;
 
-  Widget _buildProficiencyBonusCard(ColorScheme colorScheme) {
-    final expectedBonus = DndRules.calculateProficiencyBonus(
-      _character.totalLevel,
-    );
-    final isExpected =
-        _character.proficiencies.proficiencyBonus == expectedBonus;
+  const _SkillsCard({required this.controller});
 
+  static const List<(Skill, String, String)> _skillRows = [
+    (Skill.acrobatics, 'Acrobatics', 'DEX'),
+    (Skill.animalHandling, 'Animal Handling', 'WIS'),
+    (Skill.arcana, 'Arcana', 'INT'),
+    (Skill.athletics, 'Athletics', 'STR'),
+    (Skill.deception, 'Deception', 'CHA'),
+    (Skill.history, 'History', 'INT'),
+    (Skill.insight, 'Insight', 'WIS'),
+    (Skill.intimidation, 'Intimidation', 'CHA'),
+    (Skill.investigation, 'Investigation', 'INT'),
+    (Skill.medicine, 'Medicine', 'WIS'),
+    (Skill.nature, 'Nature', 'INT'),
+    (Skill.perception, 'Perception', 'WIS'),
+    (Skill.performance, 'Performance', 'CHA'),
+    (Skill.persuasion, 'Persuasion', 'CHA'),
+    (Skill.religion, 'Religion', 'INT'),
+    (Skill.sleightOfHand, 'Sleight of Hand', 'DEX'),
+    (Skill.stealth, 'Stealth', 'DEX'),
+    (Skill.survival, 'Survival', 'WIS'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final character = controller.character!;
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(Icons.star_outline, color: colorScheme.primary, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  'PROFICIENCY BONUS (Level ${_character.totalLevel})',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: colorScheme.onSurface.withOpacity(0.7),
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                const Spacer(),
-                if (!isExpected)
-                  Container(
+            const _SectionTitle(
+              title: 'Skills',
+              icon: Icons.psychology_outlined,
+            ),
+            const SizedBox(height: 12),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3.2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: _skillRows.length,
+              itemBuilder: (context, index) {
+                final row = _skillRows[index];
+                final skill = row.$1;
+                final proficiency =
+                    character.proficiencies.skills.proficiencies[skill] ??
+                    ProficiencyLevel.none;
+                final modifier = character.proficiencies.skills.getModifier(
+                  skill,
+                  character.modifiers,
+                  character.proficiencies.proficiencyBonus,
+                );
+
+                return InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => _cycleSkill(skill, proficiency),
+                  child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                      horizontal: 12,
+                      vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: colorScheme.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4),
+                      color: colorScheme.surfaceContainerLow,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: proficiency == ProficiencyLevel.none
+                            ? colorScheme.outlineVariant
+                            : colorScheme.primary,
+                      ),
                     ),
                     child: Row(
                       children: [
-                        Text(
-                          'Expected: +$expectedBonus',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: colorScheme.primary,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                row.$2,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              Text(
+                                row.$3,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 4),
-                        IconButton(
-                          icon: Icon(
-                            Icons.refresh,
-                            size: 16,
-                            color: colorScheme.primary,
-                          ),
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          onPressed: () {
-                            _updateProficiencyBonus(expectedBonus);
-                          },
+                        const SizedBox(width: 8),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              modifier >= 0 ? '+$modifier' : '$modifier',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text(switch (proficiency) {
+                              ProficiencyLevel.none => 'None',
+                              ProficiencyLevel.proficient => 'Prof.',
+                              ProficiencyLevel.expert => 'Expert',
+                              ProficiencyLevel.jackOfAllTrades => 'Half',
+                            }, style: Theme.of(context).textTheme.labelSmall),
+                          ],
                         ),
                       ],
                     ),
                   ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Current Bonus',
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withOpacity(0.7),
-                          fontSize: 12,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '+${_character.proficiencies.proficiencyBonus}',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          color: isExpected
-                              ? colorScheme.primary
-                              : colorScheme.error,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Expected by Level ${_character.totalLevel}',
-                      style: TextStyle(
-                        color: colorScheme.onSurface.withOpacity(0.7),
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '+$expectedBonus',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.onSurface.withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.remove, size: 20),
-                    label: const Text('Decrease'),
-                    onPressed: () {
-                      if (_character.proficiencies.proficiencyBonus > 0) {
-                        _updateProficiencyBonus(
-                          _character.proficiencies.proficiencyBonus - 1,
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.error.withOpacity(0.1),
-                      foregroundColor: colorScheme.error,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.add, size: 20),
-                    label: const Text('Increase'),
-                    onPressed: () {
-                      if (_character.proficiencies.proficiencyBonus < 6) {
-                        _updateProficiencyBonus(
-                          _character.proficiencies.proficiencyBonus + 1,
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.primary.withOpacity(0.1),
-                      foregroundColor: colorScheme.primary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAttributesCard(ColorScheme colorScheme) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle(
-              'ATTRIBUTES',
-              Icons.fitness_center_outlined,
-              colorScheme,
-            ),
-            const SizedBox(height: 16),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final crossAxisCount = constraints.maxWidth < 400 ? 2 : 3;
-                final childAspectRatio = constraints.maxWidth < 400
-                    ? 0.9
-                    : 0.85;
-
-                return GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: crossAxisCount,
-                  childAspectRatio: childAspectRatio,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  children: [
-                    AttributeCard(
-                      abbreviation: 'STR',
-                      name: 'Strength',
-                      value: _character.abilityScores.strength,
-                      modifier: _character.modifiers.strength,
-                      onDecrement: () => _updateAttribute(
-                        'strength',
-                        _character.abilityScores.strength - 1,
-                      ),
-                      onIncrement: () => _updateAttribute(
-                        'strength',
-                        _character.abilityScores.strength + 1,
-                      ),
-                    ),
-                    AttributeCard(
-                      abbreviation: 'DEX',
-                      name: 'Dexterity',
-                      value: _character.abilityScores.dexterity,
-                      modifier: _character.modifiers.dexterity,
-                      onDecrement: () => _updateAttribute(
-                        'dexterity',
-                        _character.abilityScores.dexterity - 1,
-                      ),
-                      onIncrement: () => _updateAttribute(
-                        'dexterity',
-                        _character.abilityScores.dexterity + 1,
-                      ),
-                    ),
-                    AttributeCard(
-                      abbreviation: 'CON',
-                      name: 'Constitution',
-                      value: _character.abilityScores.constitution,
-                      modifier: _character.modifiers.constitution,
-                      onDecrement: () => _updateAttribute(
-                        'constitution',
-                        _character.abilityScores.constitution - 1,
-                      ),
-                      onIncrement: () => _updateAttribute(
-                        'constitution',
-                        _character.abilityScores.constitution + 1,
-                      ),
-                    ),
-                    AttributeCard(
-                      abbreviation: 'INT',
-                      name: 'Intelligence',
-                      value: _character.abilityScores.intelligence,
-                      modifier: _character.modifiers.intelligence,
-                      onDecrement: () => _updateAttribute(
-                        'intelligence',
-                        _character.abilityScores.intelligence - 1,
-                      ),
-                      onIncrement: () => _updateAttribute(
-                        'intelligence',
-                        _character.abilityScores.intelligence + 1,
-                      ),
-                    ),
-                    AttributeCard(
-                      abbreviation: 'WIS',
-                      name: 'Wisdom',
-                      value: _character.abilityScores.wisdom,
-                      modifier: _character.modifiers.wisdom,
-                      onDecrement: () => _updateAttribute(
-                        'wisdom',
-                        _character.abilityScores.wisdom - 1,
-                      ),
-                      onIncrement: () => _updateAttribute(
-                        'wisdom',
-                        _character.abilityScores.wisdom + 1,
-                      ),
-                    ),
-                    AttributeCard(
-                      abbreviation: 'CHA',
-                      name: 'Charisma',
-                      value: _character.abilityScores.charisma,
-                      modifier: _character.modifiers.charisma,
-                      onDecrement: () => _updateAttribute(
-                        'charisma',
-                        _character.abilityScores.charisma - 1,
-                      ),
-                      onIncrement: () => _updateAttribute(
-                        'charisma',
-                        _character.abilityScores.charisma + 1,
-                      ),
-                    ),
-                  ],
                 );
               },
             ),
@@ -980,309 +689,88 @@ class _CoreTabState extends State<CoreTab> {
     );
   }
 
-  Widget _buildSkillsCard(ColorScheme colorScheme) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  void _cycleSkill(Skill skill, ProficiencyLevel current) {
+    final next = switch (current) {
+      ProficiencyLevel.none => ProficiencyLevel.proficient,
+      ProficiencyLevel.proficient => ProficiencyLevel.expert,
+      ProficiencyLevel.expert => ProficiencyLevel.none,
+      ProficiencyLevel.jackOfAllTrades => ProficiencyLevel.none,
+    };
+
+    controller.updateManual((character) {
+      final proficiencies = Map<Skill, ProficiencyLevel>.from(
+        character.proficiencies.skills.proficiencies,
+      );
+      proficiencies[skill] = next;
+      return character.copyWith(
+        proficiencies: character.proficiencies.copyWith(
+          skills: character.proficiencies.skills.copyWith(
+            proficiencies: proficiencies,
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class _SelectionTile extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final VoidCallback? onClear;
+
+  const _SelectionTile({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.onTap,
+    this.onClear,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+      ),
+      child: ListTile(
+        leading: Icon(icon),
+        title: Text(title),
+        subtitle: Text(value),
+        trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.psychology_outlined,
-                  color: colorScheme.primary,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'SKILLS',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: colorScheme.onSurface.withOpacity(0.7),
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: Icon(
-                    _skillSortOrder == SkillSortOrder.byProficiency
-                        ? Icons.sort_by_alpha
-                        : Icons.star_outline,
-                    size: 20,
-                    color: colorScheme.primary,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _skillSortOrder =
-                          _skillSortOrder == SkillSortOrder.byProficiency
-                          ? SkillSortOrder.alphabetical
-                          : SkillSortOrder.byProficiency;
-                    });
-                  },
-                  tooltip: _skillSortOrder == SkillSortOrder.byProficiency
-                      ? 'Sort alphabetically'
-                      : 'Sort by proficiency',
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _buildSkillsGrid(colorScheme),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSkillsGrid(ColorScheme colorScheme) {
-    final skills = [
-      {'skill': Skill.acrobatics, 'name': 'Acrobatics', 'ability': 'DEX'},
-      {
-        'skill': Skill.animalHandling,
-        'name': 'Animal Handling',
-        'ability': 'WIS',
-      },
-      {'skill': Skill.arcana, 'name': 'Arcana', 'ability': 'INT'},
-      {'skill': Skill.athletics, 'name': 'Athletics', 'ability': 'STR'},
-      {'skill': Skill.deception, 'name': 'Deception', 'ability': 'CHA'},
-      {'skill': Skill.history, 'name': 'History', 'ability': 'INT'},
-      {'skill': Skill.insight, 'name': 'Insight', 'ability': 'WIS'},
-      {'skill': Skill.intimidation, 'name': 'Intimidation', 'ability': 'CHA'},
-      {'skill': Skill.investigation, 'name': 'Investigation', 'ability': 'INT'},
-      {'skill': Skill.medicine, 'name': 'Medicine', 'ability': 'WIS'},
-      {'skill': Skill.nature, 'name': 'Nature', 'ability': 'INT'},
-      {'skill': Skill.perception, 'name': 'Perception', 'ability': 'WIS'},
-      {'skill': Skill.performance, 'name': 'Performance', 'ability': 'CHA'},
-      {'skill': Skill.persuasion, 'name': 'Persuasion', 'ability': 'CHA'},
-      {'skill': Skill.religion, 'name': 'Religion', 'ability': 'INT'},
-      {
-        'skill': Skill.sleightOfHand,
-        'name': 'Sleight of Hand',
-        'ability': 'DEX',
-      },
-      {'skill': Skill.stealth, 'name': 'Stealth', 'ability': 'DEX'},
-      {'skill': Skill.survival, 'name': 'Survival', 'ability': 'WIS'},
-    ];
-
-    List<Map<String, dynamic>> sortedSkills = List.from(skills);
-
-    if (_skillSortOrder == SkillSortOrder.byProficiency) {
-      sortedSkills.sort((a, b) {
-        final skillA = a['skill'] as Skill;
-        final skillB = b['skill'] as Skill;
-
-        final proficiencyA =
-            _character.proficiencies.skills.proficiencies[skillA] ??
-            ProficiencyLevel.none;
-        final proficiencyB =
-            _character.proficiencies.skills.proficiencies[skillB] ??
-            ProficiencyLevel.none;
-
-        if (proficiencyA != proficiencyB) {
-          return proficiencyB.index.compareTo(proficiencyA.index);
-        }
-
-        return (a['name'] as String).compareTo(b['name'] as String);
-      });
-    } else {
-      sortedSkills.sort(
-        (a, b) => (a['name'] as String).compareTo(b['name'] as String),
-      );
-    }
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final crossAxisCount = constraints.maxWidth < 400 ? 1 : 2;
-        final childAspectRatio = constraints.maxWidth < 400 ? 5.0 : 4.0;
-
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            childAspectRatio: childAspectRatio,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-          ),
-          itemCount: sortedSkills.length,
-          itemBuilder: (context, index) {
-            final skillData = sortedSkills[index];
-            final skill = skillData['skill'] as Skill;
-            final name = skillData['name'] as String;
-            final ability = skillData['ability'] as String;
-            final mod = _character.proficiencies.skills.getModifier(
-              skill,
-              _character.modifiers,
-              _character.proficiencies.proficiencyBonus,
-            );
-            final proficiency =
-                _character.proficiencies.skills.proficiencies[skill] ??
-                ProficiencyLevel.none;
-
-            return GestureDetector(
-              onTap: () {
-                _toggleSkillProficiency(skill, proficiency);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: colorScheme.surface,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: _getSkillBorderColor(proficiency, colorScheme),
-                    width: 2,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 10,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              name,
-                              style: TextStyle(
-                                fontWeight: proficiency != ProficiencyLevel.none
-                                    ? FontWeight.w600
-                                    : FontWeight.w400,
-                                color: colorScheme.onSurface,
-                                fontSize: 14,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              ability,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: colorScheme.onSurface.withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          if (proficiency == ProficiencyLevel.expert)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.star,
-                                size: 14,
-                                color: Colors.blue,
-                              ),
-                            ),
-                          if (proficiency == ProficiencyLevel.proficient)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: Icon(
-                                Icons.check_circle,
-                                size: 14,
-                                color: Colors.green,
-                              ),
-                            ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: colorScheme.surfaceVariant.withOpacity(
-                                0.5,
-                              ),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              mod >= 0 ? '+$mod' : '$mod',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: colorScheme.onSurface,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+            if (onClear != null)
+              IconButton(
+                tooltip: 'Clear selection',
+                onPressed: onClear,
+                icon: const Icon(Icons.clear),
               ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Color _getSkillBorderColor(
-    ProficiencyLevel proficiency,
-    ColorScheme colorScheme,
-  ) {
-    switch (proficiency) {
-      case ProficiencyLevel.expert:
-        return Colors.blue;
-      case ProficiencyLevel.proficient:
-        return Colors.green;
-      case ProficiencyLevel.none:
-        return colorScheme.outline.withOpacity(0.3);
-      case ProficiencyLevel.jackOfAllTrades:
-        return colorScheme.secondary;
-    }
-  }
-
-  Widget _buildSavingThrowsCard(ColorScheme colorScheme) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle(
-              'SAVING THROWS',
-              Icons.shield_outlined,
-              colorScheme,
-            ),
-            const SizedBox(height: 12),
-            SavingThrowGrid(
-              character: _character,
-              onCharacterUpdated: (newCharacter) {
-                _updateCharacter(newCharacter);
-              },
-            ),
+            const Icon(Icons.chevron_right),
           ],
         ),
+        onTap: onTap,
       ),
     );
   }
+}
 
-  Widget _buildSectionTitle(
-    String title,
-    IconData icon,
-    ColorScheme colorScheme,
-  ) {
+class _SectionTitle extends StatelessWidget {
+  final String title;
+  final IconData icon;
+
+  const _SectionTitle({required this.title, required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: colorScheme.primary, size: 20),
+        Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
         const SizedBox(width: 8),
-        Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-            color: colorScheme.onSurface.withOpacity(0.7),
-            letterSpacing: 0.5,
-          ),
-        ),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
       ],
     );
   }
