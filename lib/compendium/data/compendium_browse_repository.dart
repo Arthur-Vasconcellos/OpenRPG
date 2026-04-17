@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' as drift;
 import 'package:openrpg/compendium/data/compendium_database.dart';
 import 'package:openrpg/compendium/data/compendium_database_provider.dart';
 import 'package:openrpg/compendium/generated/compendium_generated.dart';
+import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_link.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 
@@ -64,22 +65,12 @@ class CompendiumBrowseRepository {
     required String rulesetId,
     required String entityType,
     String query = '',
-    String? source,
-    String? edition,
     int page = 0,
     int pageSize = 100,
   }) async {
     final selection = _database.select(_database.entityRecords)
       ..where((tbl) => tbl.rulesetId.equals(rulesetId))
       ..where((tbl) => tbl.entityType.equals(entityType));
-
-    if (source != null && source.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.source.equals(source.trim()));
-    }
-
-    if (edition != null && edition.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.edition.equals(edition.trim()));
-    }
 
     final trimmedQuery = query.trim().toLowerCase();
     if (trimmedQuery.isNotEmpty) {
@@ -93,55 +84,15 @@ class CompendiumBrowseRepository {
 
     final rows = await selection.get();
     final items = rows.map(_mapEntityPreview).toList(growable: false);
-    final facets = await loadSearchFacets(
-      rulesetId: rulesetId,
-      entityType: entityType,
-    );
 
     return CompendiumCollectionPage(
       rulesetId: rulesetId,
       entityType: entityType,
       items: items,
-      availableSources: facets.sources,
-      availableEditions: facets.editions,
       page: page,
       pageSize: pageSize,
       totalCount: totalCount,
       hasMore: (page + 1) * pageSize < totalCount,
-    );
-  }
-
-  Future<CompendiumSearchFacets> loadSearchFacets({
-    required String rulesetId,
-    String? entityType,
-  }) async {
-    final selection = _database.select(_database.entityRecords)
-      ..where((tbl) => tbl.rulesetId.equals(rulesetId));
-
-    if (entityType != null && entityType.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.entityType.equals(entityType.trim()));
-    }
-
-    selection.orderBy([(tbl) => drift.OrderingTerm.asc(tbl.sortName)]);
-    final rows = await selection.get();
-
-    final sources = <String>{};
-    final editions = <String>{};
-    for (final row in rows) {
-      final source = row.source.trim();
-      if (source.isNotEmpty) {
-        sources.add(source);
-      }
-
-      final edition = row.edition?.trim();
-      if (edition != null && edition.isNotEmpty) {
-        editions.add(edition);
-      }
-    }
-
-    return CompendiumSearchFacets(
-      sources: sources.toList(growable: false)..sort(),
-      editions: editions.toList(growable: false)..sort(),
     );
   }
 
@@ -156,14 +107,6 @@ class CompendiumBrowseRepository {
 
     if (query.entityTypes.isNotEmpty) {
       selection.where((tbl) => tbl.entityType.isIn(query.entityTypes));
-    }
-
-    if (query.source != null && query.source!.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.source.equals(query.source!.trim()));
-    }
-
-    if (query.edition != null && query.edition!.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.edition.equals(query.edition!.trim()));
     }
 
     final trimmed = query.text.trim().toLowerCase();
@@ -198,7 +141,9 @@ class CompendiumBrowseRepository {
 
     final entity = parseEntityJson(
       entityType,
-      jsonDecode(row.payloadJson) as Map<String, dynamic>,
+      CompendiumJsonUtils.sanitizeEntityJson(
+        jsonDecode(row.payloadJson) as Map<String, dynamic>,
+      ),
     );
     if (entity == null) {
       throw StateError('Entity $entityId could not be decoded.');
@@ -220,7 +165,7 @@ class CompendiumBrowseRepository {
               tag: link.targetTag,
               rawReference: link.rawReference,
               displayText: link.displayText,
-              source: link.sourceHint,
+              lookupName: link.displayText,
               targetEntityType: link.targetEntityType,
             ),
           )
@@ -238,14 +183,21 @@ class CompendiumBrowseRepository {
 
     final selection = _database.select(_database.entityRecords)
       ..where((tbl) => tbl.entityType.equals(candidate.targetEntityType!))
-      ..where((tbl) => tbl.name.equals(candidate.displayText));
-
-    if (candidate.source != null && candidate.source!.trim().isNotEmpty) {
-      selection.where((tbl) => tbl.source.equals(candidate.source!.trim()));
-    }
+      ..where((tbl) => tbl.name.equals(candidate.lookupName));
 
     selection.limit(20);
-    final rows = await selection.get();
+    final initialRows = await selection.get();
+    final rows = initialRows.where((row) {
+      final payload = jsonDecode(row.payloadJson);
+      if (payload is! Map<String, dynamic>) {
+        return false;
+      }
+      return _matchesSemanticReference(
+        entityType: candidate.targetEntityType!,
+        payload: CompendiumJsonUtils.sanitizeEntityJson(payload),
+        candidate: candidate,
+      );
+    }).toList(growable: false);
     if (rows.isEmpty) {
       return null;
     }
@@ -271,9 +223,6 @@ class CompendiumBrowseRepository {
       entityType: row.entityType,
       entityId: row.entityId,
       name: row.name,
-      source: row.source,
-      sourceFile: row.sourceFile,
-      edition: row.edition,
     );
   }
 
@@ -292,5 +241,64 @@ class CompendiumBrowseRepository {
       updatedAt: record.updatedAt,
       filePath: record.filePath,
     );
+  }
+
+  bool _matchesSemanticReference({
+    required String entityType,
+    required Map<String, dynamic> payload,
+    required CompendiumLinkCandidate candidate,
+  }) {
+    final parts = candidate.parts;
+    final data = CompendiumJsonUtils.jsonMap(payload['data']);
+    switch (entityType) {
+      case 'classFeature':
+        if (parts.length >= 2 &&
+            (data['className']?.toString() ?? '') != parts[1]) {
+          return false;
+        }
+        if (parts.length >= 3) {
+          final expectedLevel = int.tryParse(
+            parts[_looksLikeLegacyClassFeature(parts) ? 3 : 2],
+          );
+          if (expectedLevel != null && data['level'] != expectedLevel) {
+            return false;
+          }
+        }
+        return true;
+      case 'subclass':
+        return parts.length < 2 ||
+            (data['className']?.toString() ?? '') == parts[1];
+      case 'subclassFeature':
+        if (parts.length < 2) {
+          return true;
+        }
+        final expectedClassName = parts[1];
+        final expectedSubclassShortName = parts[
+            _looksLikeLegacySubclassFeature(parts) ? 3 : 2];
+        final expectedLevel = int.tryParse(
+          parts[_looksLikeLegacySubclassFeature(parts) ? 5 : 3],
+        );
+        if ((data['className']?.toString() ?? '') != expectedClassName) {
+          return false;
+        }
+        if ((data['subclassShortName']?.toString() ?? '') !=
+            expectedSubclassShortName) {
+          return false;
+        }
+        return expectedLevel == null || data['level'] == expectedLevel;
+      case 'subrace':
+        return parts.length < 2 ||
+            (data['raceName']?.toString() ?? '') == parts[1];
+      default:
+        return true;
+    }
+  }
+
+  bool _looksLikeLegacyClassFeature(List<String> parts) {
+    return parts.length >= 4 && int.tryParse(parts[2]) == null;
+  }
+
+  bool _looksLikeLegacySubclassFeature(List<String> parts) {
+    return parts.length >= 6 && int.tryParse(parts[2]) == null;
   }
 }

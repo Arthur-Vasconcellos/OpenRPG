@@ -3,6 +3,7 @@ import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/models/compendium_link.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_detail_screen.dart';
+import 'package:openrpg/screens/rulesets/compendium_entity_summary_sections.dart';
 import 'package:openrpg/screens/rulesets/compendium_rich_content_renderer.dart';
 import 'package:openrpg/screens/rulesets/compendium_structured_attributes.dart';
 import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
@@ -227,6 +228,9 @@ class _CompendiumEntityPreviewPanelState
             data['entry'] ??
             data['items'] ??
             data['description'];
+        final summaryHiddenKeys = compendiumSummaryHiddenKeysFor(
+          entity.entityType,
+        );
         final accent = CompendiumTypeStyle.colorFor(entity.entityType);
         final bodyPadding = widget.compact ? 20.0 : 24.0;
 
@@ -260,10 +264,6 @@ class _CompendiumEntityPreviewPanelState
                     runSpacing: 10,
                     children: [
                       CompendiumTypeBadge(entityType: entity.entityType),
-                      if (entity.source.trim().isNotEmpty)
-                        Chip(label: Text('Source: ${entity.source}')),
-                      if (entity.edition?.trim().isNotEmpty == true)
-                        Chip(label: Text('Edition: ${entity.edition}')),
                       if (state.ruleset.name.trim().isNotEmpty)
                         Chip(label: Text(state.ruleset.name)),
                     ],
@@ -277,6 +277,12 @@ class _CompendiumEntityPreviewPanelState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    CompendiumEntitySummarySections(
+                      entityType: entity.entityType,
+                      data: data,
+                      compact: widget.compact,
+                      onLinkTap: _handleLinkTap,
+                    ),
                     if (narrativeContent != null)
                       CompendiumRichContentRenderer(
                         content: narrativeContent,
@@ -295,13 +301,11 @@ class _CompendiumEntityPreviewPanelState
                         compact: widget.compact,
                         hiddenKeys: const {
                           'name',
-                          'source',
-                          'edition',
                           'entries',
                           'entry',
                           'items',
                           'description',
-                        },
+                        }.union(summaryHiddenKeys),
                         emptyText: 'No structured attributes are available.',
                       ),
                     ],

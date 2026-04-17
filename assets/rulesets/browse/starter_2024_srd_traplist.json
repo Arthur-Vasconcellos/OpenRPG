@@ -4,90 +4,90 @@
   "collectionKey": "trapList",
   "entityRows": [
     {
-      "entityId": "trap:xdmg:collapsing_roof:100",
+      "entityId": "trap:collapsing_roof",
       "name": "Collapsing Roof",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "collapsing roof",
-      "searchText": "trap:xdmg:collapsing_roof:100 collapsing roof xdmg trapshazards.json collapsing roof xdmg 100 true trp 1 deadly a creature crosses a trip wire instant this trap uses a trip wire to collapse an unstable section of ceiling. the trip wire is 3 inches off the ground and stretches between two weak supports that topple when the trip wire is pulled. the first creature that crosses the trip wire causes the supports to topple and the unstable section of ceiling to collapse. each creature beneath the unstable section of ceiling must succeed on a {@dc 13} dexterity saving throw, taking 11 ({@damage 2d10}) bludgeoning damage on a failed save or half as much damage on a successful one. rubble from the collapse turns the trapped area into {@variantrule difficult terrain|xphb}. entries detect and disarm as a {@action search|xphb} action, a creature can examine the trapped area and make a {@dc 11} wisdom ({@skill perception|xphb}) check, detecting the trip wire and the unstable section of ceiling on a successful check. once detected, the trip wire can be easily cut or avoided (no ability check required). entries at higher levels you can scale the trap for higher levels by increasing the damage and the save dc, as shown in the following table. table levels bludgeoning damage save dc col-2 text-center col-5 text-center col-5 text-center 5–10 22 ({@damage 4d10}) 15 11–16 55 ({@damage 10d10}) 17 17–20 99 ({@damage 18d10}) 19",
-      "payloadJson": "{\"id\":\"trap:xdmg:collapsing_roof:100\",\"name\":\"Collapsing Roof\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Collapsing Roof\",\"source\":\"XDMG\",\"page\":100,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature crosses a trip wire\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"This trap uses a trip wire to collapse an unstable section of ceiling. The trip wire is 3 inches off the ground and stretches between two weak supports that topple when the trip wire is pulled.\",\"The first creature that crosses the trip wire causes the supports to topple and the unstable section of ceiling to collapse. Each creature beneath the unstable section of ceiling must succeed on a {@dc 13} Dexterity saving throw, taking 11 ({@damage 2d10}) Bludgeoning damage on a failed save or half as much damage on a successful one. Rubble from the collapse turns the trapped area into {@variantrule Difficult Terrain|XPHB}.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the trapped area and make a {@dc 11} Wisdom ({@skill Perception|XPHB}) check, detecting the trip wire and the unstable section of ceiling on a successful check. Once detected, the trip wire can be easily cut or avoided (no ability check required).\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the damage and the save DC, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Bludgeoning Damage\",\"Save DC\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"22 ({@damage 4d10})\",\"15\"],[\"11–16\",\"55 ({@damage 10d10})\",\"17\"],[\"17–20\",\"99 ({@damage 18d10})\",\"19\"]]}]}]}}"
+      "searchText": "trap:collapsing_roof collapsing roof collapsing roof trp 1 deadly a creature crosses a trip wire instant this trap uses a trip wire to collapse an unstable section of ceiling. the trip wire is 3 inches off the ground and stretches between two weak supports that topple when the trip wire is pulled. the first creature that crosses the trip wire causes the supports to topple and the unstable section of ceiling to collapse. each creature beneath the unstable section of ceiling must succeed on a {@dc 13} dexterity saving throw, taking 11 ({@damage 2d10}) bludgeoning damage on a failed save or half as much damage on a successful one. rubble from the collapse turns the trapped area into {@variantrule difficult terrain|xphb}. entries detect and disarm as a {@action search|xphb} action, a creature can examine the trapped area and make a {@dc 11} wisdom ({@skill perception|xphb}) check, detecting the trip wire and the unstable section of ceiling on a successful check. once detected, the trip wire can be easily cut or avoided (no ability check required). entries at higher levels you can scale the trap for higher levels by increasing the damage and the save dc, as shown in the following table. table levels bludgeoning damage save dc col-2 text-center col-5 text-center col-5 text-center 5–10 22 ({@damage 4d10}) 15 11–16 55 ({@damage 10d10}) 17 17–20 99 ({@damage 18d10}) 19",
+      "payloadJson": "{\"id\":\"trap:collapsing_roof\",\"name\":\"Collapsing Roof\",\"data\":{\"name\":\"Collapsing Roof\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature crosses a trip wire\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"This trap uses a trip wire to collapse an unstable section of ceiling. The trip wire is 3 inches off the ground and stretches between two weak supports that topple when the trip wire is pulled.\",\"The first creature that crosses the trip wire causes the supports to topple and the unstable section of ceiling to collapse. Each creature beneath the unstable section of ceiling must succeed on a {@dc 13} Dexterity saving throw, taking 11 ({@damage 2d10}) Bludgeoning damage on a failed save or half as much damage on a successful one. Rubble from the collapse turns the trapped area into {@variantrule Difficult Terrain|XPHB}.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the trapped area and make a {@dc 11} Wisdom ({@skill Perception|XPHB}) check, detecting the trip wire and the unstable section of ceiling on a successful check. Once detected, the trip wire can be easily cut or avoided (no ability check required).\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the damage and the save DC, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Bludgeoning Damage\",\"Save DC\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"22 ({@damage 4d10})\",\"15\"],[\"11–16\",\"55 ({@damage 10d10})\",\"17\"],[\"17–20\",\"99 ({@damage 18d10})\",\"19\"]]}]}]}}"
     },
     {
-      "entityId": "trap:xdmg:falling_net:100",
+      "entityId": "trap:falling_net",
       "name": "Falling Net",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "falling net",
-      "searchText": "trap:xdmg:falling_net:100 falling net xdmg trapshazards.json falling net xdmg 100 true trp 1 nuisance a creature crosses a trip wire instant a falling net trap uses a trip wire to release a weighted, 10-foot-square {@item net|xphb} suspended from the ceiling. the trip wire is 3 inches off the ground and stretches between two columns or trees. the first creature that crosses the trip wire causes the net to fall on it. the target must succeed on a {@dc 10} dexterity saving throw or have the {@condition restrained|xphb} condition until it escapes. the target succeeds automatically if it's huge or larger. a creature can take an action to make a {@dc 10} strength ({@skill athletics|xphb}) check, freeing itself or another creature within its reach from the net on a successful check. entries detect and disarm as a {@action search|xphb} action, a creature can examine the trapped area and make a {@dc 11} wisdom ({@skill perception|xphb}) check, detecting the trip wire and the suspended net on a successful check. once detected, the trip wire can be easily cut or avoided (no ability check required). entries destroy the net reducing the net to 0 hit points frees any creature trapped in it (see the {@book player's handbook|xphb} for the {@item net|xphb|net's} statistics). entries set the trap a creature that has {@item thieves' tools|xphb} and all the trap's components (including a net) can try to set a falling net trap, doing so with a successful {@dc 13} dexterity ({@skill sleight of hand|xphb}) check. each attempt to set this trap takes 10 minutes. entries at higher levels you can scale the trap for higher levels by increasing the weight of the net, which increases the save dc and the dc of the strength ({@skill athletics|xphb}) check as follows: {@dc 12} at levels 5–10, {@dc 14} at levels 11–16, or {@dc 16} at levels 17–20.",
-      "payloadJson": "{\"id\":\"trap:xdmg:falling_net:100\",\"name\":\"Falling Net\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Falling Net\",\"source\":\"XDMG\",\"page\":100,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature crosses a trip wire\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"A falling net trap uses a trip wire to release a weighted, 10-foot-square {@item Net|XPHB} suspended from the ceiling. The trip wire is 3 inches off the ground and stretches between two columns or trees.\",\"The first creature that crosses the trip wire causes the Net to fall on it. The target must succeed on a {@dc 10} Dexterity saving throw or have the {@condition Restrained|XPHB} condition until it escapes. The target succeeds automatically if it's Huge or larger. A creature can take an action to make a {@dc 10} Strength ({@skill Athletics|XPHB}) check, freeing itself or another creature within its reach from the Net on a successful check.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the trapped area and make a {@dc 11} Wisdom ({@skill Perception|XPHB}) check, detecting the trip wire and the suspended Net on a successful check. Once detected, the trip wire can be easily cut or avoided (no ability check required).\"]},{\"type\":\"entries\",\"name\":\"Destroy the Net\",\"entries\":[\"Reducing the Net to 0 Hit Points frees any creature trapped in it (see the {@book Player's Handbook|XPHB} for the {@item Net|XPHB|Net's} statistics).\"]},{\"type\":\"entries\",\"name\":\"Set the Trap\",\"entries\":[\"A creature that has {@item Thieves' Tools|XPHB} and all the trap's components (including a Net) can try to set a falling net trap, doing so with a successful {@dc 13} Dexterity ({@skill Sleight of Hand|XPHB}) check. Each attempt to set this trap takes 10 minutes.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the weight of the Net, which increases the save DC and the DC of the Strength ({@skill Athletics|XPHB}) check as follows: {@dc 12} at levels 5–10, {@dc 14} at levels 11–16, or {@dc 16} at levels 17–20.\"]}]}}"
+      "searchText": "trap:falling_net falling net falling net trp 1 nuisance a creature crosses a trip wire instant a falling net trap uses a trip wire to release a weighted, 10-foot-square {@item net|xphb} suspended from the ceiling. the trip wire is 3 inches off the ground and stretches between two columns or trees. the first creature that crosses the trip wire causes the net to fall on it. the target must succeed on a {@dc 10} dexterity saving throw or have the {@condition restrained|xphb} condition until it escapes. the target succeeds automatically if it's huge or larger. a creature can take an action to make a {@dc 10} strength ({@skill athletics|xphb}) check, freeing itself or another creature within its reach from the net on a successful check. entries detect and disarm as a {@action search|xphb} action, a creature can examine the trapped area and make a {@dc 11} wisdom ({@skill perception|xphb}) check, detecting the trip wire and the suspended net on a successful check. once detected, the trip wire can be easily cut or avoided (no ability check required). entries destroy the net reducing the net to 0 hit points frees any creature trapped in it (see the player's handbook for the {@item net|xphb|net's} statistics). entries set the trap a creature that has {@item thieves' tools|xphb} and all the trap's components (including a net) can try to set a falling net trap, doing so with a successful {@dc 13} dexterity ({@skill sleight of hand|xphb}) check. each attempt to set this trap takes 10 minutes. entries at higher levels you can scale the trap for higher levels by increasing the weight of the net, which increases the save dc and the dc of the strength ({@skill athletics|xphb}) check as follows: {@dc 12} at levels 5–10, {@dc 14} at levels 11–16, or {@dc 16} at levels 17–20.",
+      "payloadJson": "{\"id\":\"trap:falling_net\",\"name\":\"Falling Net\",\"data\":{\"name\":\"Falling Net\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature crosses a trip wire\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"A falling net trap uses a trip wire to release a weighted, 10-foot-square {@item Net|XPHB} suspended from the ceiling. The trip wire is 3 inches off the ground and stretches between two columns or trees.\",\"The first creature that crosses the trip wire causes the Net to fall on it. The target must succeed on a {@dc 10} Dexterity saving throw or have the {@condition Restrained|XPHB} condition until it escapes. The target succeeds automatically if it's Huge or larger. A creature can take an action to make a {@dc 10} Strength ({@skill Athletics|XPHB}) check, freeing itself or another creature within its reach from the Net on a successful check.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the trapped area and make a {@dc 11} Wisdom ({@skill Perception|XPHB}) check, detecting the trip wire and the suspended Net on a successful check. Once detected, the trip wire can be easily cut or avoided (no ability check required).\"]},{\"type\":\"entries\",\"name\":\"Destroy the Net\",\"entries\":[\"Reducing the Net to 0 Hit Points frees any creature trapped in it (see the Player's Handbook for the {@item Net|XPHB|Net's} statistics).\"]},{\"type\":\"entries\",\"name\":\"Set the Trap\",\"entries\":[\"A creature that has {@item Thieves' Tools|XPHB} and all the trap's components (including a Net) can try to set a falling net trap, doing so with a successful {@dc 13} Dexterity ({@skill Sleight of Hand|XPHB}) check. Each attempt to set this trap takes 10 minutes.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the weight of the Net, which increases the save DC and the DC of the Strength ({@skill Athletics|XPHB}) check as follows: {@dc 12} at levels 5–10, {@dc 14} at levels 11–16, or {@dc 16} at levels 17–20.\"]}]}}"
     },
     {
-      "entityId": "trap:xdmg:fire_casting_statue:102",
+      "entityId": "trap:fire_casting_statue",
       "name": "Fire-Casting Statue",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "fire-casting statue",
-      "searchText": "trap:xdmg:fire_casting_statue:102 fire-casting statue xdmg trapshazards.json fire-casting statue xdmg 102 true trp 1 deadly a creature moves onto a pressure plate instant when a creature moves onto this trap's pressure plate for the first time on a turn or starts its turn there, a nearby statue exhales a 15-foot {@variantrule cone [area of effect]|xphb|cone} of magical flame. the statue can look like anything, such as a dragon or a wizard. each creature in the cone must succeed on a {@dc 15} dexterity saving throw, taking 11 ({@damage 2d10}) fire damage on a failed save or half as much damage on a successful one. entries detect and disarm a {@spell detect magic|xphb} spell reveals an aura of evocation magic around the statue. as a {@action search|xphb} action, a creature within 5 feet of the statue can examine it and make a {@dc 10} wisdom ({@skill perception|xphb}) check, detecting a tiny glyph on the statue on a successful check. once the glyph is found, a character can take a {@action study|xphb} action to examine it and make a {@dc 15} intelligence ({@skill arcana|xphb}) check, ascertaining that the glyph means \"fire\" on a successful check. as an action, a character can use a sharp tool to deface the glyph, which disarms the trap. as a {@action search|xphb} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the pressure plate on a successful check. wedging an {@item iron spikes|xphb|iron spike} or similar object under the pressure plate prevents the trap from triggering. entries at higher levels you can scale the trap for higher levels by increasing the damage and the area of effect, as shown in the following table. table levels fire damage area of effect col-2 text-center col-5 text-center col-5 text-center 5–10 22 ({@damage 4d10}) 30-foot cone 11–16 55 ({@damage 10d10}) 60-foot cone 17–20 99 ({@damage 18d10}) 120-foot cone",
-      "payloadJson": "{\"id\":\"trap:xdmg:fire_casting_statue:102\",\"name\":\"Fire-Casting Statue\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Fire-Casting Statue\",\"source\":\"XDMG\",\"page\":102,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature moves onto a pressure plate\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"When a creature moves onto this trap's pressure plate for the first time on a turn or starts its turn there, a nearby statue exhales a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} of magical flame. The statue can look like anything, such as a dragon or a wizard. Each creature in the Cone must succeed on a {@dc 15} Dexterity saving throw, taking 11 ({@damage 2d10}) Fire damage on a failed save or half as much damage on a successful one.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"A {@spell Detect Magic|XPHB} spell reveals an aura of Evocation magic around the statue. As a {@action Search|XPHB} action, a creature within 5 feet of the statue can examine it and make a {@dc 10} Wisdom ({@skill Perception|XPHB}) check, detecting a tiny glyph on the statue on a successful check. Once the glyph is found, a character can take a {@action Study|XPHB} action to examine it and make a {@dc 15} Intelligence ({@skill Arcana|XPHB}) check, ascertaining that the glyph means \\\"fire\\\" on a successful check. As an action, a character can use a sharp tool to deface the glyph, which disarms the trap.\",\"As a {@action Search|XPHB} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the pressure plate on a successful check. Wedging an {@item Iron Spikes|XPHB|Iron Spike} or similar object under the pressure plate prevents the trap from triggering.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the damage and the area of effect, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Fire Damage\",\"Area of Effect\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"22 ({@damage 4d10})\",\"30-foot Cone\"],[\"11–16\",\"55 ({@damage 10d10})\",\"60-foot Cone\"],[\"17–20\",\"99 ({@damage 18d10})\",\"120-foot Cone\"]]}]}]}}"
+      "searchText": "trap:fire_casting_statue fire-casting statue fire-casting statue trp 1 deadly a creature moves onto a pressure plate instant when a creature moves onto this trap's pressure plate for the first time on a turn or starts its turn there, a nearby statue exhales a 15-foot {@variantrule cone [area of effect]|xphb|cone} of magical flame. the statue can look like anything, such as a dragon or a wizard. each creature in the cone must succeed on a {@dc 15} dexterity saving throw, taking 11 ({@damage 2d10}) fire damage on a failed save or half as much damage on a successful one. entries detect and disarm a {@spell detect magic|xphb} spell reveals an aura of evocation magic around the statue. as a {@action search|xphb} action, a creature within 5 feet of the statue can examine it and make a {@dc 10} wisdom ({@skill perception|xphb}) check, detecting a tiny glyph on the statue on a successful check. once the glyph is found, a character can take a {@action study|xphb} action to examine it and make a {@dc 15} intelligence ({@skill arcana|xphb}) check, ascertaining that the glyph means \"fire\" on a successful check. as an action, a character can use a sharp tool to deface the glyph, which disarms the trap. as a {@action search|xphb} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the pressure plate on a successful check. wedging an {@item iron spikes|xphb|iron spike} or similar object under the pressure plate prevents the trap from triggering. entries at higher levels you can scale the trap for higher levels by increasing the damage and the area of effect, as shown in the following table. table levels fire damage area of effect col-2 text-center col-5 text-center col-5 text-center 5–10 22 ({@damage 4d10}) 30-foot cone 11–16 55 ({@damage 10d10}) 60-foot cone 17–20 99 ({@damage 18d10}) 120-foot cone",
+      "payloadJson": "{\"id\":\"trap:fire_casting_statue\",\"name\":\"Fire-Casting Statue\",\"data\":{\"name\":\"Fire-Casting Statue\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature moves onto a pressure plate\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"When a creature moves onto this trap's pressure plate for the first time on a turn or starts its turn there, a nearby statue exhales a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} of magical flame. The statue can look like anything, such as a dragon or a wizard. Each creature in the Cone must succeed on a {@dc 15} Dexterity saving throw, taking 11 ({@damage 2d10}) Fire damage on a failed save or half as much damage on a successful one.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"A {@spell Detect Magic|XPHB} spell reveals an aura of Evocation magic around the statue. As a {@action Search|XPHB} action, a creature within 5 feet of the statue can examine it and make a {@dc 10} Wisdom ({@skill Perception|XPHB}) check, detecting a tiny glyph on the statue on a successful check. Once the glyph is found, a character can take a {@action Study|XPHB} action to examine it and make a {@dc 15} Intelligence ({@skill Arcana|XPHB}) check, ascertaining that the glyph means \\\"fire\\\" on a successful check. As an action, a character can use a sharp tool to deface the glyph, which disarms the trap.\",\"As a {@action Search|XPHB} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the pressure plate on a successful check. Wedging an {@item Iron Spikes|XPHB|Iron Spike} or similar object under the pressure plate prevents the trap from triggering.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the damage and the area of effect, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Fire Damage\",\"Area of Effect\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"22 ({@damage 4d10})\",\"30-foot Cone\"],[\"11–16\",\"55 ({@damage 10d10})\",\"60-foot Cone\"],[\"17–20\",\"99 ({@damage 18d10})\",\"120-foot Cone\"]]}]}]}}"
     },
     {
-      "entityId": "trap:xdmg:hidden_pit:102",
+      "entityId": "trap:hidden_pit",
       "name": "Hidden Pit",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "hidden pit",
-      "searchText": "trap:xdmg:hidden_pit:102 hidden pit xdmg trapshazards.json hidden pit xdmg 102 true trp 1 nuisance a creature moves onto the pit's lid instant this 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. when a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit. the lid remains open thereafter. a creature that falls into the pit takes 3 ({@damage 1d6}) bludgeoning damage from the fall. entries detect and disarm as a {@action study|xphb} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} intelligence ({@skill investigation|xphb}) check, detecting the pit on a successful check. once the pit is detected, an iron spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. the cover can also be held shut using {@spell arcane lock|xphb} or similar magic. entries escape a creature needs a climb speed, climbing gear, or magic such as {@spell spider climb|xphb} to scale the pit's smooth walls. (you can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds.) entries at higher levels you can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table. table levels pit depth bludgeoning damage col-2 text-center col-5 text-center col-5 text-center 5–10 30 feet 10 ({@damage 3d6}) 11–16 60 feet 21 ({@damage 6d6}) 17–20 120 feet 42 ({@damage 12d6})",
-      "payloadJson": "{\"id\":\"trap:xdmg:hidden_pit:102\",\"name\":\"Hidden Pit\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Hidden Pit\",\"source\":\"XDMG\",\"page\":102,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature moves onto the pit's lid\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"This 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. When a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit. The lid remains open thereafter.\",\"A creature that falls into the pit takes 3 ({@damage 1d6}) Bludgeoning damage from the fall.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Study|XPHB} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} Intelligence ({@skill Investigation|XPHB}) check, detecting the pit on a successful check. Once the pit is detected, an Iron Spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. The cover can also be held shut using {@spell Arcane Lock|XPHB} or similar magic.\"]},{\"type\":\"entries\",\"name\":\"Escape\",\"entries\":[\"A creature needs a Climb Speed, climbing gear, or magic such as {@spell Spider Climb|XPHB} to scale the pit's smooth walls. (You can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds.)\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Pit Depth\",\"Bludgeoning Damage\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"30 feet\",\"10 ({@damage 3d6})\"],[\"11–16\",\"60 feet\",\"21 ({@damage 6d6})\"],[\"17–20\",\"120 feet\",\"42 ({@damage 12d6})\"]]}]}]}}"
+      "searchText": "trap:hidden_pit hidden pit hidden pit trp 1 nuisance a creature moves onto the pit's lid instant this 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. when a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit. the lid remains open thereafter. a creature that falls into the pit takes 3 ({@damage 1d6}) bludgeoning damage from the fall. entries detect and disarm as a {@action study|xphb} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} intelligence ({@skill investigation|xphb}) check, detecting the pit on a successful check. once the pit is detected, an iron spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. the cover can also be held shut using {@spell arcane lock|xphb} or similar magic. entries escape a creature needs a climb speed, climbing gear, or magic such as {@spell spider climb|xphb} to scale the pit's smooth walls. (you can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds.) entries at higher levels you can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table. table levels pit depth bludgeoning damage col-2 text-center col-5 text-center col-5 text-center 5–10 30 feet 10 ({@damage 3d6}) 11–16 60 feet 21 ({@damage 6d6}) 17–20 120 feet 42 ({@damage 12d6})",
+      "payloadJson": "{\"id\":\"trap:hidden_pit\",\"name\":\"Hidden Pit\",\"data\":{\"name\":\"Hidden Pit\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature moves onto the pit's lid\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"This 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. When a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit. The lid remains open thereafter.\",\"A creature that falls into the pit takes 3 ({@damage 1d6}) Bludgeoning damage from the fall.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Study|XPHB} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} Intelligence ({@skill Investigation|XPHB}) check, detecting the pit on a successful check. Once the pit is detected, an Iron Spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. The cover can also be held shut using {@spell Arcane Lock|XPHB} or similar magic.\"]},{\"type\":\"entries\",\"name\":\"Escape\",\"entries\":[\"A creature needs a Climb Speed, climbing gear, or magic such as {@spell Spider Climb|XPHB} to scale the pit's smooth walls. (You can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds.)\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Pit Depth\",\"Bludgeoning Damage\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"30 feet\",\"10 ({@damage 3d6})\"],[\"11–16\",\"60 feet\",\"21 ({@damage 6d6})\"],[\"17–20\",\"120 feet\",\"42 ({@damage 12d6})\"]]}]}]}}"
     },
     {
-      "entityId": "trap:xdmg:poisoned_darts:101",
+      "entityId": "trap:poisoned_darts",
       "name": "Poisoned Darts",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "poisoned darts",
-      "searchText": "trap:xdmg:poisoned_darts:101 poisoned darts xdmg trapshazards.json poisoned darts xdmg 101 true trp 1 deadly a creature moves onto a pressure plate instant when a creature moves onto this trap's pressure plate for the first time on a turn, poisoned darts shoot from tubes embedded in the surrounding walls. the holes that house these tubes are obscured by dust and cobwebs, or skillfully hidden amid bas-reliefs, murals, or frescoes. each creature in the darts' path must succeed on a {@dc 13} dexterity saving throw or be struck by {@dice 1d3} darts, taking 3 ({@damage 1d6}) poison damage per dart. entries detect and disarm as a {@action search|xphb} action, a creature can examine the walls and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the holes on a successful check. plugging all the holes with wax, cloth, or detritus prevents the darts from firing. as a {@action search|xphb} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the pressure plate on a successful check. wedging an {@item iron spikes|xphb|iron spike} or a similar object under the pressure plate prevents the trap from triggering. entries at higher levels you can scale the trap for higher levels by increasing each dart's poison damage as follows: 7 ({@dice 2d6}) at levels 5–10, 14 ({@dice 4d6}) at levels 11–16, or 24 ({@dice 7d6}) at levels 17–20. true",
-      "payloadJson": "{\"id\":\"trap:xdmg:poisoned_darts:101\",\"name\":\"Poisoned Darts\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Poisoned Darts\",\"source\":\"XDMG\",\"page\":101,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature moves onto a pressure plate\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"When a creature moves onto this trap's pressure plate for the first time on a turn, poisoned darts shoot from tubes embedded in the surrounding walls. The holes that house these tubes are obscured by dust and cobwebs, or skillfully hidden amid bas-reliefs, murals, or frescoes.\",\"Each creature in the darts' path must succeed on a {@dc 13} Dexterity saving throw or be struck by {@dice 1d3} darts, taking 3 ({@damage 1d6}) Poison damage per dart.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the walls and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the holes on a successful check. Plugging all the holes with wax, cloth, or detritus prevents the darts from firing.\",\"As a {@action Search|XPHB} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the pressure plate on a successful check. Wedging an {@item Iron Spikes|XPHB|Iron Spike} or a similar object under the pressure plate prevents the trap from triggering.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing each dart's Poison damage as follows: 7 ({@dice 2d6}) at levels 5–10, 14 ({@dice 4d6}) at levels 11–16, or 24 ({@dice 7d6}) at levels 17–20.\"]}],\"hasFluffImages\":true}}"
+      "searchText": "trap:poisoned_darts poisoned darts poisoned darts trp 1 deadly a creature moves onto a pressure plate instant when a creature moves onto this trap's pressure plate for the first time on a turn, poisoned darts shoot from tubes embedded in the surrounding walls. the holes that house these tubes are obscured by dust and cobwebs, or skillfully hidden amid bas-reliefs, murals, or frescoes. each creature in the darts' path must succeed on a {@dc 13} dexterity saving throw or be struck by {@dice 1d3} darts, taking 3 ({@damage 1d6}) poison damage per dart. entries detect and disarm as a {@action search|xphb} action, a creature can examine the walls and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the holes on a successful check. plugging all the holes with wax, cloth, or detritus prevents the darts from firing. as a {@action search|xphb} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the pressure plate on a successful check. wedging an {@item iron spikes|xphb|iron spike} or a similar object under the pressure plate prevents the trap from triggering. entries at higher levels you can scale the trap for higher levels by increasing each dart's poison damage as follows: 7 ({@dice 2d6}) at levels 5–10, 14 ({@dice 4d6}) at levels 11–16, or 24 ({@dice 7d6}) at levels 17–20. true",
+      "payloadJson": "{\"id\":\"trap:poisoned_darts\",\"name\":\"Poisoned Darts\",\"data\":{\"name\":\"Poisoned Darts\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature moves onto a pressure plate\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"When a creature moves onto this trap's pressure plate for the first time on a turn, poisoned darts shoot from tubes embedded in the surrounding walls. The holes that house these tubes are obscured by dust and cobwebs, or skillfully hidden amid bas-reliefs, murals, or frescoes.\",\"Each creature in the darts' path must succeed on a {@dc 13} Dexterity saving throw or be struck by {@dice 1d3} darts, taking 3 ({@damage 1d6}) Poison damage per dart.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the walls and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the holes on a successful check. Plugging all the holes with wax, cloth, or detritus prevents the darts from firing.\",\"As a {@action Search|XPHB} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the pressure plate on a successful check. Wedging an {@item Iron Spikes|XPHB|Iron Spike} or a similar object under the pressure plate prevents the trap from triggering.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing each dart's Poison damage as follows: 7 ({@dice 2d6}) at levels 5–10, 14 ({@dice 4d6}) at levels 11–16, or 24 ({@dice 7d6}) at levels 17–20.\"]}],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "trap:xdmg:poisoned_needle:102",
+      "entityId": "trap:poisoned_needle",
       "name": "Poisoned Needle",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "poisoned needle",
-      "searchText": "trap:xdmg:poisoned_needle:102 poisoned needle xdmg trapshazards.json poisoned needle xdmg 102 true trp 1 nuisance a creature opens the trap's lock improperly or fails to disarm the trap instant a poisoned needle is hidden in a lock. when a creature opens the lock with any object other than the proper key, the needle springs out and stabs the creature. the creature makes a {@dc 11} constitution saving throw. on a failed save, the creature takes 5 ({@damage 1d10}) poison damage and has the {@condition poisoned|xphb} condition for 1 hour. on a successful save, the creature takes half as much damage only. entries avoid the trap doesn't trigger if the lock is opened using a {@spell knock|xphb} spell or similar magic. entries detect and disarm as a {@action search|xphb} action, a creature can examine the trapped lock and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the needle on a successful check. once the trap is detected, a character can take an action to try to disarm the trap, doing so with a successful {@dc 15} dexterity ({@skill sleight of hand|xphb}) check. on a failed check, the creature triggers the trap. entries at higher levels you can scale the trap for higher levels by increasing the damage and the save dc, as shown in the following table. table levels poison damage save dc col-2 text-center col-5 text-center col-5 text-center 5–10 11 ({@damage 2d10}) 13 11–16 22 ({@damage 4d10}) 15 17–20 55 ({@damage 10d10}) 17",
-      "payloadJson": "{\"id\":\"trap:xdmg:poisoned_needle:102\",\"name\":\"Poisoned Needle\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Poisoned Needle\",\"source\":\"XDMG\",\"page\":102,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature opens the trap's lock improperly or fails to disarm the trap\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"A poisoned needle is hidden in a lock. When a creature opens the lock with any object other than the proper key, the needle springs out and stabs the creature. The creature makes a {@dc 11} Constitution saving throw. On a failed save, the creature takes 5 ({@damage 1d10}) Poison damage and has the {@condition Poisoned|XPHB} condition for 1 hour. On a successful save, the creature takes half as much damage only.\",{\"type\":\"entries\",\"name\":\"Avoid\",\"entries\":[\"The trap doesn't trigger if the lock is opened using a {@spell Knock|XPHB} spell or similar magic.\"]},{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the trapped lock and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the needle on a successful check. Once the trap is detected, a character can take an action to try to disarm the trap, doing so with a successful {@dc 15} Dexterity ({@skill Sleight of Hand|XPHB}) check. On a failed check, the creature triggers the trap.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the damage and the save DC, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Poison Damage\",\"Save DC\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"11 ({@damage 2d10})\",\"13\"],[\"11–16\",\"22 ({@damage 4d10})\",\"15\"],[\"17–20\",\"55 ({@damage 10d10})\",\"17\"]]}]}]}}"
+      "searchText": "trap:poisoned_needle poisoned needle poisoned needle trp 1 nuisance a creature opens the trap's lock improperly or fails to disarm the trap instant a poisoned needle is hidden in a lock. when a creature opens the lock with any object other than the proper key, the needle springs out and stabs the creature. the creature makes a {@dc 11} constitution saving throw. on a failed save, the creature takes 5 ({@damage 1d10}) poison damage and has the {@condition poisoned|xphb} condition for 1 hour. on a successful save, the creature takes half as much damage only. entries avoid the trap doesn't trigger if the lock is opened using a {@spell knock|xphb} spell or similar magic. entries detect and disarm as a {@action search|xphb} action, a creature can examine the trapped lock and make a {@dc 15} wisdom ({@skill perception|xphb}) check, detecting the needle on a successful check. once the trap is detected, a character can take an action to try to disarm the trap, doing so with a successful {@dc 15} dexterity ({@skill sleight of hand|xphb}) check. on a failed check, the creature triggers the trap. entries at higher levels you can scale the trap for higher levels by increasing the damage and the save dc, as shown in the following table. table levels poison damage save dc col-2 text-center col-5 text-center col-5 text-center 5–10 11 ({@damage 2d10}) 13 11–16 22 ({@damage 4d10}) 15 17–20 55 ({@damage 10d10}) 17",
+      "payloadJson": "{\"id\":\"trap:poisoned_needle\",\"name\":\"Poisoned Needle\",\"data\":{\"name\":\"Poisoned Needle\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature opens the trap's lock improperly or fails to disarm the trap\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"A poisoned needle is hidden in a lock. When a creature opens the lock with any object other than the proper key, the needle springs out and stabs the creature. The creature makes a {@dc 11} Constitution saving throw. On a failed save, the creature takes 5 ({@damage 1d10}) Poison damage and has the {@condition Poisoned|XPHB} condition for 1 hour. On a successful save, the creature takes half as much damage only.\",{\"type\":\"entries\",\"name\":\"Avoid\",\"entries\":[\"The trap doesn't trigger if the lock is opened using a {@spell Knock|XPHB} spell or similar magic.\"]},{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Search|XPHB} action, a creature can examine the trapped lock and make a {@dc 15} Wisdom ({@skill Perception|XPHB}) check, detecting the needle on a successful check. Once the trap is detected, a character can take an action to try to disarm the trap, doing so with a successful {@dc 15} Dexterity ({@skill Sleight of Hand|XPHB}) check. On a failed check, the creature triggers the trap.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the damage and the save DC, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Poison Damage\",\"Save DC\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"11 ({@damage 2d10})\",\"13\"],[\"11–16\",\"22 ({@damage 4d10})\",\"15\"],[\"17–20\",\"55 ({@damage 10d10})\",\"17\"]]}]}]}}"
     },
     {
-      "entityId": "trap:xdmg:rolling_stone:102",
+      "entityId": "trap:rolling_stone",
       "name": "Rolling Stone",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "rolling stone",
-      "searchText": "trap:xdmg:rolling_stone:102 rolling stone xdmg trapshazards.json rolling stone xdmg 102 true trp 3 deadly 4 nuisance a creature moves onto a pressure plate special until the stone stops rolling when a creature moves onto a hidden pressure plate, a 5-foot-radius orb of solid stone is released from a secret compartment and begins to roll. the stone and all creatures nearby roll initiative; the stone gets a +8 bonus on its initiative roll. on its turn, the stone moves 60 feet in one direction, changing course if redirected by an obstacle. the stone can move through creatures' spaces, and creatures can move through the stone's space, treating it as {@variantrule difficult terrain|xphb}. whenever the stone enters a creature's space for the first time on a turn or a creature enters the stone's space while the stone is rolling, that creature must succeed on a {@dc 15} dexterity saving throw or take 55 ({@damage 10d10}) bludgeoning damage and have the {@condition prone|xphb} condition. the stone stops when it hits a wall or similar barrier. it can't go around corners, but creative dungeon builders incorporate curving turns into nearby passages that allow the stone to keep moving. entries detect and disarm as a {@action study|xphb} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} intelligence ({@skill investigation|xphb}) check, deducing the pressure plate's function on a successful check. wedging an iron spike or a similar object under the pressure plate prevents the trap from triggering. entries destroy the stone the stone is a large object that has ac 17, hp 100, a {@variantrule damage threshold|xphb} of 10, and {@variantrule immunity|xphb} to poison and psychic damage. entries slow the stone as an action, a creature can try to slow down the stone with a {@dc 20} strength ({@skill athletics|xphb}) check. if the check is successful, the distance the stone moves on its turn is reduced by 15 feet. if that distance drops to 0, it stops moving and is no longer a threat.",
-      "payloadJson": "{\"id\":\"trap:xdmg:rolling_stone:102\",\"name\":\"Rolling Stone\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Rolling Stone\",\"source\":\"XDMG\",\"page\":102,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":3,\"threat\":\"deadly\"},{\"tier\":4,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature moves onto a pressure plate\"],\"duration\":[{\"type\":\"special\",\"condition\":\"Until the stone stops rolling\"}],\"entries\":[\"When a creature moves onto a hidden pressure plate, a 5-foot-radius orb of solid stone is released from a secret compartment and begins to roll. The stone and all creatures nearby roll Initiative; the stone gets a +8 bonus on its Initiative roll.\",\"On its turn, the stone moves 60 feet in one direction, changing course if redirected by an obstacle. The stone can move through creatures' spaces, and creatures can move through the stone's space, treating it as {@variantrule Difficult Terrain|XPHB}. Whenever the stone enters a creature's space for the first time on a turn or a creature enters the stone's space while the stone is rolling, that creature must succeed on a {@dc 15} Dexterity saving throw or take 55 ({@damage 10d10}) Bludgeoning damage and have the {@condition Prone|XPHB} condition.\",\"The stone stops when it hits a wall or similar barrier. It can't go around corners, but creative dungeon builders incorporate curving turns into nearby passages that allow the stone to keep moving.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Study|XPHB} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} Intelligence ({@skill Investigation|XPHB}) check, deducing the pressure plate's function on a successful check. Wedging an Iron Spike or a similar object under the pressure plate prevents the trap from triggering.\"]},{\"type\":\"entries\",\"name\":\"Destroy the Stone\",\"entries\":[\"The stone is a Large object that has AC 17, HP 100, a {@variantrule Damage Threshold|XPHB} of 10, and {@variantrule Immunity|XPHB} to Poison and Psychic damage.\"]},{\"type\":\"entries\",\"name\":\"Slow the Stone\",\"entries\":[\"As an action, a creature can try to slow down the stone with a {@dc 20} Strength ({@skill Athletics|XPHB}) check. If the check is successful, the distance the stone moves on its turn is reduced by 15 feet. If that distance drops to 0, it stops moving and is no longer a threat.\"]}]}}"
+      "searchText": "trap:rolling_stone rolling stone rolling stone trp 3 deadly 4 nuisance a creature moves onto a pressure plate special until the stone stops rolling when a creature moves onto a hidden pressure plate, a 5-foot-radius orb of solid stone is released from a secret compartment and begins to roll. the stone and all creatures nearby roll initiative; the stone gets a +8 bonus on its initiative roll. on its turn, the stone moves 60 feet in one direction, changing course if redirected by an obstacle. the stone can move through creatures' spaces, and creatures can move through the stone's space, treating it as {@variantrule difficult terrain|xphb}. whenever the stone enters a creature's space for the first time on a turn or a creature enters the stone's space while the stone is rolling, that creature must succeed on a {@dc 15} dexterity saving throw or take 55 ({@damage 10d10}) bludgeoning damage and have the {@condition prone|xphb} condition. the stone stops when it hits a wall or similar barrier. it can't go around corners, but creative dungeon builders incorporate curving turns into nearby passages that allow the stone to keep moving. entries detect and disarm as a {@action study|xphb} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} intelligence ({@skill investigation|xphb}) check, deducing the pressure plate's function on a successful check. wedging an iron spike or a similar object under the pressure plate prevents the trap from triggering. entries destroy the stone the stone is a large object that has ac 17, hp 100, a {@variantrule damage threshold|xphb} of 10, and {@variantrule immunity|xphb} to poison and psychic damage. entries slow the stone as an action, a creature can try to slow down the stone with a {@dc 20} strength ({@skill athletics|xphb}) check. if the check is successful, the distance the stone moves on its turn is reduced by 15 feet. if that distance drops to 0, it stops moving and is no longer a threat.",
+      "payloadJson": "{\"id\":\"trap:rolling_stone\",\"name\":\"Rolling Stone\",\"data\":{\"name\":\"Rolling Stone\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":3,\"threat\":\"deadly\"},{\"tier\":4,\"threat\":\"nuisance\"}],\"trigger\":[\"A creature moves onto a pressure plate\"],\"duration\":[{\"type\":\"special\",\"condition\":\"Until the stone stops rolling\"}],\"entries\":[\"When a creature moves onto a hidden pressure plate, a 5-foot-radius orb of solid stone is released from a secret compartment and begins to roll. The stone and all creatures nearby roll Initiative; the stone gets a +8 bonus on its Initiative roll.\",\"On its turn, the stone moves 60 feet in one direction, changing course if redirected by an obstacle. The stone can move through creatures' spaces, and creatures can move through the stone's space, treating it as {@variantrule Difficult Terrain|XPHB}. Whenever the stone enters a creature's space for the first time on a turn or a creature enters the stone's space while the stone is rolling, that creature must succeed on a {@dc 15} Dexterity saving throw or take 55 ({@damage 10d10}) Bludgeoning damage and have the {@condition Prone|XPHB} condition.\",\"The stone stops when it hits a wall or similar barrier. It can't go around corners, but creative dungeon builders incorporate curving turns into nearby passages that allow the stone to keep moving.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Study|XPHB} action, a creature can examine the section of floor that forms the pressure plate and make a {@dc 15} Intelligence ({@skill Investigation|XPHB}) check, deducing the pressure plate's function on a successful check. Wedging an Iron Spike or a similar object under the pressure plate prevents the trap from triggering.\"]},{\"type\":\"entries\",\"name\":\"Destroy the Stone\",\"entries\":[\"The stone is a Large object that has AC 17, HP 100, a {@variantrule Damage Threshold|XPHB} of 10, and {@variantrule Immunity|XPHB} to Poison and Psychic damage.\"]},{\"type\":\"entries\",\"name\":\"Slow the Stone\",\"entries\":[\"As an action, a creature can try to slow down the stone with a {@dc 20} Strength ({@skill Athletics|XPHB}) check. If the check is successful, the distance the stone moves on its turn is reduced by 15 feet. If that distance drops to 0, it stops moving and is no longer a threat.\"]}]}}"
     },
     {
-      "entityId": "trap:xdmg:spiked_pit:103",
+      "entityId": "trap:spiked_pit",
       "name": "Spiked Pit",
-      "source": "XDMG",
-      "sourceFile": "trapshazards.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "spiked pit",
-      "searchText": "trap:xdmg:spiked_pit:103 spiked pit xdmg trapshazards.json spiked pit xdmg 103 true trp 1 deadly a creature moves onto the pit's lid instant a 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. when a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit, which has sharpened wooden or metal spikes at the bottom. the lid remains open thereafter. a creature that falls into the pit lands at the bottom and takes 3 ({@damage 1d6}) bludgeoning damage from the fall plus 9 ({@damage 2d8}) piercing damage from the spikes. entries detect and disarm as a {@action study|xphb} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} intelligence ({@skill investigation|xphb}) check, detecting the pit on a successful check. once the hidden pit is detected, an iron spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. the cover can also be held shut using an {@spell arcane lock|xphb} spell or similar magic. entries escape a creature needs a climb speed, climbing gear, or magic such as a {@spell spider climb|xphb} spell to scale the pit's smooth walls. you can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds. entries at higher levels you can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table. table levels pit depth damage col-2 text-center col-5 text-center col-5 text-center 5–10 30 feet 10 ({@damage 3d6}) bludgeoning plus 13 ({@damage 3d8}) piercing 11–16 60 feet 21 ({@damage 6d6}) bludgeoning plus 36 ({@damage 8d8}) piercing 17–20 120 feet 42 ({@damage 12d6}) bludgeoning plus 57 ({@damage 13d8}) piercing",
-      "payloadJson": "{\"id\":\"trap:xdmg:spiked_pit:103\",\"name\":\"Spiked Pit\",\"source\":\"XDMG\",\"sourceFile\":\"trapshazards.json\",\"data\":{\"name\":\"Spiked Pit\",\"source\":\"XDMG\",\"page\":103,\"srd52\":true,\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature moves onto the pit's lid\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"A 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. When a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit, which has sharpened wooden or metal spikes at the bottom. The lid remains open thereafter.\",\"A creature that falls into the pit lands at the bottom and takes 3 ({@damage 1d6}) Bludgeoning damage from the fall plus 9 ({@damage 2d8}) Piercing damage from the spikes.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Study|XPHB} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} Intelligence ({@skill Investigation|XPHB}) check, detecting the pit on a successful check. Once the hidden pit is detected, an Iron Spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. The cover can also be held shut using an {@spell Arcane Lock|XPHB} spell or similar magic.\"]},{\"type\":\"entries\",\"name\":\"Escape\",\"entries\":[\"A creature needs a Climb Speed, climbing gear, or magic such as a {@spell Spider Climb|XPHB} spell to scale the pit's smooth walls. You can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Pit Depth\",\"Damage\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"30 feet\",\"10 ({@damage 3d6}) Bludgeoning plus 13 ({@damage 3d8}) Piercing\"],[\"11–16\",\"60 feet\",\"21 ({@damage 6d6}) Bludgeoning plus 36 ({@damage 8d8}) Piercing\"],[\"17–20\",\"120 feet\",\"42 ({@damage 12d6}) Bludgeoning plus 57 ({@damage 13d8}) Piercing\"]]}]}]}}"
+      "searchText": "trap:spiked_pit spiked pit spiked pit trp 1 deadly a creature moves onto the pit's lid instant a 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. when a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit, which has sharpened wooden or metal spikes at the bottom. the lid remains open thereafter. a creature that falls into the pit lands at the bottom and takes 3 ({@damage 1d6}) bludgeoning damage from the fall plus 9 ({@damage 2d8}) piercing damage from the spikes. entries detect and disarm as a {@action study|xphb} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} intelligence ({@skill investigation|xphb}) check, detecting the pit on a successful check. once the hidden pit is detected, an iron spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. the cover can also be held shut using an {@spell arcane lock|xphb} spell or similar magic. entries escape a creature needs a climb speed, climbing gear, or magic such as a {@spell spider climb|xphb} spell to scale the pit's smooth walls. you can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds. entries at higher levels you can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table. table levels pit depth damage col-2 text-center col-5 text-center col-5 text-center 5–10 30 feet 10 ({@damage 3d6}) bludgeoning plus 13 ({@damage 3d8}) piercing 11–16 60 feet 21 ({@damage 6d6}) bludgeoning plus 36 ({@damage 8d8}) piercing 17–20 120 feet 42 ({@damage 12d6}) bludgeoning plus 57 ({@damage 13d8}) piercing",
+      "payloadJson": "{\"id\":\"trap:spiked_pit\",\"name\":\"Spiked Pit\",\"data\":{\"name\":\"Spiked Pit\",\"trapHazType\":\"TRP\",\"rating\":[{\"tier\":1,\"threat\":\"deadly\"}],\"trigger\":[\"A creature moves onto the pit's lid\"],\"duration\":[{\"type\":\"instant\"}],\"entries\":[\"A 10-foot-deep pit has a hinged lid constructed from material identical to the surrounding floor. When a creature moves onto the lid, it swings open like a trapdoor, causing the creature to fall into the pit, which has sharpened wooden or metal spikes at the bottom. The lid remains open thereafter.\",\"A creature that falls into the pit lands at the bottom and takes 3 ({@damage 1d6}) Bludgeoning damage from the fall plus 9 ({@damage 2d8}) Piercing damage from the spikes.\",{\"type\":\"entries\",\"name\":\"Detect and Disarm\",\"entries\":[\"As a {@action Study|XPHB} action, a creature can examine the section of floor that forms the pit's lid and make a {@dc 15} Intelligence ({@skill Investigation|XPHB}) check, detecting the pit on a successful check. Once the hidden pit is detected, an Iron Spike or a similar object can be wedged between the pit's lid and the surrounding floor to prevent the lid from opening, thereby making it safe to cross. The cover can also be held shut using an {@spell Arcane Lock|XPHB} spell or similar magic.\"]},{\"type\":\"entries\",\"name\":\"Escape\",\"entries\":[\"A creature needs a Climb Speed, climbing gear, or magic such as a {@spell Spider Climb|XPHB} spell to scale the pit's smooth walls. You can make the pit easier to escape by adding cracks in the walls big enough to serve as handholds and footholds.\"]},{\"type\":\"entries\",\"name\":\"At Higher Levels\",\"entries\":[\"You can scale the trap for higher levels by increasing the pit's depth and damage, as shown in the following table.\",{\"type\":\"table\",\"colLabels\":[\"Levels\",\"Pit Depth\",\"Damage\"],\"colStyles\":[\"col-2 text-center\",\"col-5 text-center\",\"col-5 text-center\"],\"rows\":[[\"5–10\",\"30 feet\",\"10 ({@damage 3d6}) Bludgeoning plus 13 ({@damage 3d8}) Piercing\"],[\"11–16\",\"60 feet\",\"21 ({@damage 6d6}) Bludgeoning plus 36 ({@damage 8d8}) Piercing\"],[\"17–20\",\"120 feet\",\"42 ({@damage 12d6}) Bludgeoning plus 57 ({@damage 13d8}) Piercing\"]]}]}]}}"
     }
   ],
   "linkRows": [
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "dc",
       "rawReference": "13",
       "displayText": "13",
@@ -96,7 +96,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "damage",
       "rawReference": "2d10",
       "displayText": "2d10",
@@ -105,7 +105,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "variantrule",
       "rawReference": "Difficult Terrain|XPHB",
       "displayText": "Difficult Terrain",
@@ -114,7 +114,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -123,7 +123,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "dc",
       "rawReference": "11",
       "displayText": "11",
@@ -132,7 +132,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -141,7 +141,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "damage",
       "rawReference": "4d10",
       "displayText": "4d10",
@@ -150,7 +150,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "damage",
       "rawReference": "10d10",
       "displayText": "10d10",
@@ -159,7 +159,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:collapsing_roof:100",
+      "sourceEntityId": "trap:collapsing_roof",
       "targetTag": "damage",
       "rawReference": "18d10",
       "displayText": "18d10",
@@ -168,7 +168,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "item",
       "rawReference": "Net|XPHB",
       "displayText": "Net",
@@ -177,7 +177,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "10",
       "displayText": "10",
@@ -186,7 +186,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "condition",
       "rawReference": "Restrained|XPHB",
       "displayText": "Restrained",
@@ -195,7 +195,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "10",
       "displayText": "10",
@@ -204,7 +204,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "skill",
       "rawReference": "Athletics|XPHB",
       "displayText": "Athletics",
@@ -213,7 +213,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -222,7 +222,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "11",
       "displayText": "11",
@@ -231,7 +231,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -240,16 +240,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
-      "targetTag": "book",
-      "rawReference": "Player's Handbook|XPHB",
-      "displayText": "Player's Handbook",
-      "sourceHint": "XPHB",
-      "targetEntityType": "book"
-    },
-    {
-      "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "item",
       "rawReference": "Net|XPHB|Net's",
       "displayText": "Net",
@@ -258,7 +249,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "item",
       "rawReference": "Thieves' Tools|XPHB",
       "displayText": "Thieves' Tools",
@@ -267,7 +258,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "13",
       "displayText": "13",
@@ -276,7 +267,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "skill",
       "rawReference": "Sleight of Hand|XPHB",
       "displayText": "Sleight of Hand",
@@ -285,7 +276,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "skill",
       "rawReference": "Athletics|XPHB",
       "displayText": "Athletics",
@@ -294,7 +285,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "12",
       "displayText": "12",
@@ -303,7 +294,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "14",
       "displayText": "14",
@@ -312,7 +303,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:falling_net:100",
+      "sourceEntityId": "trap:falling_net",
       "targetTag": "dc",
       "rawReference": "16",
       "displayText": "16",
@@ -321,7 +312,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "variantrule",
       "rawReference": "Cone [Area of Effect]|XPHB|Cone",
       "displayText": "Cone [Area of Effect]",
@@ -330,7 +321,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -339,7 +330,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "damage",
       "rawReference": "2d10",
       "displayText": "2d10",
@@ -348,7 +339,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "spell",
       "rawReference": "Detect Magic|XPHB",
       "displayText": "Detect Magic",
@@ -357,7 +348,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -366,7 +357,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "dc",
       "rawReference": "10",
       "displayText": "10",
@@ -375,7 +366,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -384,7 +375,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "action",
       "rawReference": "Study|XPHB",
       "displayText": "Study",
@@ -393,7 +384,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -402,7 +393,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "skill",
       "rawReference": "Arcana|XPHB",
       "displayText": "Arcana",
@@ -411,7 +402,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -420,7 +411,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -429,7 +420,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -438,7 +429,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "item",
       "rawReference": "Iron Spikes|XPHB|Iron Spike",
       "displayText": "Iron Spikes",
@@ -447,7 +438,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "damage",
       "rawReference": "4d10",
       "displayText": "4d10",
@@ -456,7 +447,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "damage",
       "rawReference": "10d10",
       "displayText": "10d10",
@@ -465,7 +456,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:fire_casting_statue:102",
+      "sourceEntityId": "trap:fire_casting_statue",
       "targetTag": "damage",
       "rawReference": "18d10",
       "displayText": "18d10",
@@ -474,7 +465,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "damage",
       "rawReference": "1d6",
       "displayText": "1d6",
@@ -483,7 +474,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "action",
       "rawReference": "Study|XPHB",
       "displayText": "Study",
@@ -492,7 +483,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -501,7 +492,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "skill",
       "rawReference": "Investigation|XPHB",
       "displayText": "Investigation",
@@ -510,7 +501,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "spell",
       "rawReference": "Arcane Lock|XPHB",
       "displayText": "Arcane Lock",
@@ -519,7 +510,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "spell",
       "rawReference": "Spider Climb|XPHB",
       "displayText": "Spider Climb",
@@ -528,7 +519,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "damage",
       "rawReference": "3d6",
       "displayText": "3d6",
@@ -537,7 +528,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "damage",
       "rawReference": "6d6",
       "displayText": "6d6",
@@ -546,7 +537,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:hidden_pit:102",
+      "sourceEntityId": "trap:hidden_pit",
       "targetTag": "damage",
       "rawReference": "12d6",
       "displayText": "12d6",
@@ -555,7 +546,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dc",
       "rawReference": "13",
       "displayText": "13",
@@ -564,7 +555,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dice",
       "rawReference": "1d3",
       "displayText": "1d3",
@@ -573,7 +564,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "damage",
       "rawReference": "1d6",
       "displayText": "1d6",
@@ -582,7 +573,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -591,7 +582,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -600,7 +591,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -609,7 +600,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -618,7 +609,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -627,7 +618,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -636,7 +627,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "item",
       "rawReference": "Iron Spikes|XPHB|Iron Spike",
       "displayText": "Iron Spikes",
@@ -645,7 +636,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dice",
       "rawReference": "2d6",
       "displayText": "2d6",
@@ -654,7 +645,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dice",
       "rawReference": "4d6",
       "displayText": "4d6",
@@ -663,7 +654,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_darts:101",
+      "sourceEntityId": "trap:poisoned_darts",
       "targetTag": "dice",
       "rawReference": "7d6",
       "displayText": "7d6",
@@ -672,7 +663,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "dc",
       "rawReference": "11",
       "displayText": "11",
@@ -681,7 +672,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "damage",
       "rawReference": "1d10",
       "displayText": "1d10",
@@ -690,7 +681,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "condition",
       "rawReference": "Poisoned|XPHB",
       "displayText": "Poisoned",
@@ -699,7 +690,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "spell",
       "rawReference": "Knock|XPHB",
       "displayText": "Knock",
@@ -708,7 +699,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "action",
       "rawReference": "Search|XPHB",
       "displayText": "Search",
@@ -717,7 +708,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -726,7 +717,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -735,7 +726,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -744,7 +735,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "skill",
       "rawReference": "Sleight of Hand|XPHB",
       "displayText": "Sleight of Hand",
@@ -753,7 +744,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "damage",
       "rawReference": "2d10",
       "displayText": "2d10",
@@ -762,7 +753,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "damage",
       "rawReference": "4d10",
       "displayText": "4d10",
@@ -771,7 +762,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:poisoned_needle:102",
+      "sourceEntityId": "trap:poisoned_needle",
       "targetTag": "damage",
       "rawReference": "10d10",
       "displayText": "10d10",
@@ -780,7 +771,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "variantrule",
       "rawReference": "Difficult Terrain|XPHB",
       "displayText": "Difficult Terrain",
@@ -789,7 +780,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -798,7 +789,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "damage",
       "rawReference": "10d10",
       "displayText": "10d10",
@@ -807,7 +798,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "condition",
       "rawReference": "Prone|XPHB",
       "displayText": "Prone",
@@ -816,7 +807,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "action",
       "rawReference": "Study|XPHB",
       "displayText": "Study",
@@ -825,7 +816,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -834,7 +825,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "skill",
       "rawReference": "Investigation|XPHB",
       "displayText": "Investigation",
@@ -843,7 +834,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "variantrule",
       "rawReference": "Damage Threshold|XPHB",
       "displayText": "Damage Threshold",
@@ -852,7 +843,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "variantrule",
       "rawReference": "Immunity|XPHB",
       "displayText": "Immunity",
@@ -861,7 +852,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "dc",
       "rawReference": "20",
       "displayText": "20",
@@ -870,7 +861,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:rolling_stone:102",
+      "sourceEntityId": "trap:rolling_stone",
       "targetTag": "skill",
       "rawReference": "Athletics|XPHB",
       "displayText": "Athletics",
@@ -879,7 +870,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "1d6",
       "displayText": "1d6",
@@ -888,7 +879,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "2d8",
       "displayText": "2d8",
@@ -897,7 +888,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "action",
       "rawReference": "Study|XPHB",
       "displayText": "Study",
@@ -906,7 +897,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -915,7 +906,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "skill",
       "rawReference": "Investigation|XPHB",
       "displayText": "Investigation",
@@ -924,7 +915,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "spell",
       "rawReference": "Arcane Lock|XPHB",
       "displayText": "Arcane Lock",
@@ -933,7 +924,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "spell",
       "rawReference": "Spider Climb|XPHB",
       "displayText": "Spider Climb",
@@ -942,7 +933,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "3d6",
       "displayText": "3d6",
@@ -951,7 +942,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "3d8",
       "displayText": "3d8",
@@ -960,7 +951,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "6d6",
       "displayText": "6d6",
@@ -969,7 +960,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "8d8",
       "displayText": "8d8",
@@ -978,7 +969,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "12d6",
       "displayText": "12d6",
@@ -987,7 +978,7 @@
     },
     {
       "sourceEntityType": "trap",
-      "sourceEntityId": "trap:xdmg:spiked_pit:103",
+      "sourceEntityId": "trap:spiked_pit",
       "targetTag": "damage",
       "rawReference": "13d8",
       "displayText": "13d8",

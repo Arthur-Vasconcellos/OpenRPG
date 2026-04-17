@@ -96,9 +96,6 @@ class CompendiumDraftEntity {
   final String collectionKey;
   final String id;
   final String name;
-  final String source;
-  final String sourceFile;
-  final String? edition;
   final Map<String, dynamic> data;
   final Map<String, dynamic> extra;
 
@@ -107,9 +104,6 @@ class CompendiumDraftEntity {
     required this.collectionKey,
     required this.id,
     required this.name,
-    required this.source,
-    required this.sourceFile,
-    required this.edition,
     required this.data,
     this.extra = const {},
   });

@@ -4,50 +4,50 @@
   "collectionKey": "senseList",
   "entityRows": [
     {
-      "entityId": "sense:xphb:blindsight:361",
+      "entityId": "sense:blindsight",
       "name": "Blindsight",
-      "source": "XPHB",
-      "sourceFile": "senses.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "blindsight",
-      "searchText": "sense:xphb:blindsight:361 blindsight xphb senses.json blindsight xphb 361 true if you have blindsight, you can see within a specific range without relying on physical sight. within that range, you can see anything that isn't behind {@variantrule cover|xphb|total cover} even if you have the {@condition blinded|xphb} condition or are in {@variantrule darkness|xphb}. moreover, in that range, you can see something that has the {@condition invisible|xphb} condition.",
-      "payloadJson": "{\"id\":\"sense:xphb:blindsight:361\",\"name\":\"Blindsight\",\"source\":\"XPHB\",\"sourceFile\":\"senses.json\",\"data\":{\"name\":\"Blindsight\",\"source\":\"XPHB\",\"page\":361,\"srd52\":true,\"entries\":[\"If you have Blindsight, you can see within a specific range without relying on physical sight. Within that range, you can see anything that isn't behind {@variantrule Cover|XPHB|Total Cover} even if you have the {@condition Blinded|XPHB} condition or are in {@variantrule Darkness|XPHB}. Moreover, in that range, you can see something that has the {@condition Invisible|XPHB} condition.\"]}}"
+      "searchText": "sense:blindsight blindsight blindsight if you have blindsight, you can see within a specific range without relying on physical sight. within that range, you can see anything that isn't behind {@variantrule cover|xphb|total cover} even if you have the {@condition blinded|xphb} condition or are in {@variantrule darkness|xphb}. moreover, in that range, you can see something that has the {@condition invisible|xphb} condition.",
+      "payloadJson": "{\"id\":\"sense:blindsight\",\"name\":\"Blindsight\",\"data\":{\"name\":\"Blindsight\",\"entries\":[\"If you have Blindsight, you can see within a specific range without relying on physical sight. Within that range, you can see anything that isn't behind {@variantrule Cover|XPHB|Total Cover} even if you have the {@condition Blinded|XPHB} condition or are in {@variantrule Darkness|XPHB}. Moreover, in that range, you can see something that has the {@condition Invisible|XPHB} condition.\"]}}"
     },
     {
-      "entityId": "sense:xphb:darkvision:365",
+      "entityId": "sense:darkvision",
       "name": "Darkvision",
-      "source": "XPHB",
-      "sourceFile": "senses.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "darkvision",
-      "searchText": "sense:xphb:darkvision:365 darkvision xphb senses.json darkvision xphb 365 true if you have darkvision, you can see in {@variantrule dim light|xphb} within a specified range as if it were {@variantrule bright light|xphb} and in {@variantrule darkness|xphb} within that range as if it were {@variantrule dim light|xphb}. you discern colors in that {@variantrule darkness|xphb} only as shades of gray.",
-      "payloadJson": "{\"id\":\"sense:xphb:darkvision:365\",\"name\":\"Darkvision\",\"source\":\"XPHB\",\"sourceFile\":\"senses.json\",\"data\":{\"name\":\"Darkvision\",\"source\":\"XPHB\",\"page\":365,\"srd52\":true,\"entries\":[\"If you have Darkvision, you can see in {@variantrule Dim Light|XPHB} within a specified range as if it were {@variantrule Bright Light|XPHB} and in {@variantrule Darkness|XPHB} within that range as if it were {@variantrule Dim Light|XPHB}. You discern colors in that {@variantrule Darkness|XPHB} only as shades of gray.\"]}}"
+      "searchText": "sense:darkvision darkvision darkvision if you have darkvision, you can see in {@variantrule dim light|xphb} within a specified range as if it were {@variantrule bright light|xphb} and in {@variantrule darkness|xphb} within that range as if it were {@variantrule dim light|xphb}. you discern colors in that {@variantrule darkness|xphb} only as shades of gray.",
+      "payloadJson": "{\"id\":\"sense:darkvision\",\"name\":\"Darkvision\",\"data\":{\"name\":\"Darkvision\",\"entries\":[\"If you have Darkvision, you can see in {@variantrule Dim Light|XPHB} within a specified range as if it were {@variantrule Bright Light|XPHB} and in {@variantrule Darkness|XPHB} within that range as if it were {@variantrule Dim Light|XPHB}. You discern colors in that {@variantrule Darkness|XPHB} only as shades of gray.\"]}}"
     },
     {
-      "entityId": "sense:xphb:tremorsense:377",
+      "entityId": "sense:tremorsense",
       "name": "Tremorsense",
-      "source": "XPHB",
-      "sourceFile": "senses.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "tremorsense",
-      "searchText": "sense:xphb:tremorsense:377 tremorsense xphb senses.json tremorsense xphb 377 true a creature with tremorsense can pinpoint the location of creatures and moving objects within a specific range, provided that the creature with tremorsense and anything it is detecting are both in contact with the same surface (such as the ground, a wall, or a ceiling) or the same liquid. tremorsense can't detect creatures or objects in the air, and it doesn't count as a form of sight.",
-      "payloadJson": "{\"id\":\"sense:xphb:tremorsense:377\",\"name\":\"Tremorsense\",\"source\":\"XPHB\",\"sourceFile\":\"senses.json\",\"data\":{\"name\":\"Tremorsense\",\"source\":\"XPHB\",\"page\":377,\"srd52\":true,\"entries\":[\"A creature with Tremorsense can pinpoint the location of creatures and moving objects within a specific range, provided that the creature with Tremorsense and anything it is detecting are both in contact with the same surface (such as the ground, a wall, or a ceiling) or the same liquid.\",\"Tremorsense can't detect creatures or objects in the air, and it doesn't count as a form of sight.\"]}}"
+      "searchText": "sense:tremorsense tremorsense tremorsense a creature with tremorsense can pinpoint the location of creatures and moving objects within a specific range, provided that the creature with tremorsense and anything it is detecting are both in contact with the same surface (such as the ground, a wall, or a ceiling) or the same liquid. tremorsense can't detect creatures or objects in the air, and it doesn't count as a form of sight.",
+      "payloadJson": "{\"id\":\"sense:tremorsense\",\"name\":\"Tremorsense\",\"data\":{\"name\":\"Tremorsense\",\"entries\":[\"A creature with Tremorsense can pinpoint the location of creatures and moving objects within a specific range, provided that the creature with Tremorsense and anything it is detecting are both in contact with the same surface (such as the ground, a wall, or a ceiling) or the same liquid.\",\"Tremorsense can't detect creatures or objects in the air, and it doesn't count as a form of sight.\"]}}"
     },
     {
-      "entityId": "sense:xphb:truesight:377",
+      "entityId": "sense:truesight",
       "name": "Truesight",
-      "source": "XPHB",
-      "sourceFile": "senses.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "truesight",
-      "searchText": "sense:xphb:truesight:377 truesight xphb senses.json truesight xphb 377 true if you have truesight, your vision is enhanced within a specified range. within that range, your vision pierces through the following: list list-hang-notitle item darkness you can see in normal and magical {@variantrule darkness|xphb}. item invisibility you see creatures and objects that have the {@condition invisible|xphb} condition. item visual illusions visual illusions appear transparent to you, and you automatically succeed on {@variantrule saving throw|xphb|saving throws} against them. item transformations you discern the true form of any creature or object you see that has been transformed by magic. item ethereal plane you see into the ethereal plane.",
-      "payloadJson": "{\"id\":\"sense:xphb:truesight:377\",\"name\":\"Truesight\",\"source\":\"XPHB\",\"sourceFile\":\"senses.json\",\"data\":{\"name\":\"Truesight\",\"source\":\"XPHB\",\"page\":377,\"srd52\":true,\"entries\":[\"If you have Truesight, your vision is enhanced within a specified range. Within that range, your vision pierces through the following:\",{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Darkness\",\"entries\":[\"You can see in normal and magical {@variantrule Darkness|XPHB}.\"]},{\"type\":\"item\",\"name\":\"Invisibility\",\"entries\":[\"You see creatures and objects that have the {@condition Invisible|XPHB} condition.\"]},{\"type\":\"item\",\"name\":\"Visual Illusions\",\"entries\":[\"Visual illusions appear transparent to you, and you automatically succeed on {@variantrule Saving Throw|XPHB|saving throws} against them.\"]},{\"type\":\"item\",\"name\":\"Transformations\",\"entries\":[\"You discern the true form of any creature or object you see that has been transformed by magic.\"]},{\"type\":\"item\",\"name\":\"Ethereal Plane\",\"entries\":[\"You see into the Ethereal Plane.\"]}]}]}}"
+      "searchText": "sense:truesight truesight truesight if you have truesight, your vision is enhanced within a specified range. within that range, your vision pierces through the following: list list-hang-notitle item darkness you can see in normal and magical {@variantrule darkness|xphb}. item invisibility you see creatures and objects that have the {@condition invisible|xphb} condition. item visual illusions visual illusions appear transparent to you, and you automatically succeed on {@variantrule saving throw|xphb|saving throws} against them. item transformations you discern the true form of any creature or object you see that has been transformed by magic. item ethereal plane you see into the ethereal plane.",
+      "payloadJson": "{\"id\":\"sense:truesight\",\"name\":\"Truesight\",\"data\":{\"name\":\"Truesight\",\"entries\":[\"If you have Truesight, your vision is enhanced within a specified range. Within that range, your vision pierces through the following:\",{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Darkness\",\"entries\":[\"You can see in normal and magical {@variantrule Darkness|XPHB}.\"]},{\"type\":\"item\",\"name\":\"Invisibility\",\"entries\":[\"You see creatures and objects that have the {@condition Invisible|XPHB} condition.\"]},{\"type\":\"item\",\"name\":\"Visual Illusions\",\"entries\":[\"Visual illusions appear transparent to you, and you automatically succeed on {@variantrule Saving Throw|XPHB|saving throws} against them.\"]},{\"type\":\"item\",\"name\":\"Transformations\",\"entries\":[\"You discern the true form of any creature or object you see that has been transformed by magic.\"]},{\"type\":\"item\",\"name\":\"Ethereal Plane\",\"entries\":[\"You see into the Ethereal Plane.\"]}]}]}}"
     }
   ],
   "linkRows": [
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:blindsight:361",
+      "sourceEntityId": "sense:blindsight",
       "targetTag": "variantrule",
       "rawReference": "Cover|XPHB|Total Cover",
       "displayText": "Cover",
@@ -56,7 +56,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:blindsight:361",
+      "sourceEntityId": "sense:blindsight",
       "targetTag": "condition",
       "rawReference": "Blinded|XPHB",
       "displayText": "Blinded",
@@ -65,7 +65,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:blindsight:361",
+      "sourceEntityId": "sense:blindsight",
       "targetTag": "variantrule",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -74,7 +74,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:blindsight:361",
+      "sourceEntityId": "sense:blindsight",
       "targetTag": "condition",
       "rawReference": "Invisible|XPHB",
       "displayText": "Invisible",
@@ -83,7 +83,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:darkvision:365",
+      "sourceEntityId": "sense:darkvision",
       "targetTag": "variantrule",
       "rawReference": "Dim Light|XPHB",
       "displayText": "Dim Light",
@@ -92,7 +92,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:darkvision:365",
+      "sourceEntityId": "sense:darkvision",
       "targetTag": "variantrule",
       "rawReference": "Bright Light|XPHB",
       "displayText": "Bright Light",
@@ -101,7 +101,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:darkvision:365",
+      "sourceEntityId": "sense:darkvision",
       "targetTag": "variantrule",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -110,7 +110,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:darkvision:365",
+      "sourceEntityId": "sense:darkvision",
       "targetTag": "variantrule",
       "rawReference": "Dim Light|XPHB",
       "displayText": "Dim Light",
@@ -119,7 +119,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:darkvision:365",
+      "sourceEntityId": "sense:darkvision",
       "targetTag": "variantrule",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -128,7 +128,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:truesight:377",
+      "sourceEntityId": "sense:truesight",
       "targetTag": "variantrule",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -137,7 +137,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:truesight:377",
+      "sourceEntityId": "sense:truesight",
       "targetTag": "condition",
       "rawReference": "Invisible|XPHB",
       "displayText": "Invisible",
@@ -146,7 +146,7 @@
     },
     {
       "sourceEntityType": "sense",
-      "sourceEntityId": "sense:xphb:truesight:377",
+      "sourceEntityId": "sense:truesight",
       "targetTag": "variantrule",
       "rawReference": "Saving Throw|XPHB|saving throws",
       "displayText": "Saving Throw",

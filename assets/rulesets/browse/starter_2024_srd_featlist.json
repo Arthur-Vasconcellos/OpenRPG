@@ -4,180 +4,180 @@
   "collectionKey": "featList",
   "entityRows": [
     {
-      "entityId": "feat:xphb:ability_score_improvement:202",
+      "entityId": "feat:ability_score_improvement",
       "name": "Ability Score Improvement",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "ability score improvement",
-      "searchText": "feat:xphb:ability_score_improvement:202 ability score improvement xphb feats.json ability score improvement xphb 202 true true g 4 true true str dex con int wis cha 2 true str dex con int wis cha 2 true increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. this feat can't increase an ability score above 20. entries repeatable you can take this feat more than once.",
-      "payloadJson": "{\"id\":\"feat:xphb:ability_score_improvement:202\",\"name\":\"Ability Score Improvement\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Ability Score Improvement\",\"source\":\"XPHB\",\"page\":202,\"srd52\":true,\"basicRules2024\":true,\"category\":\"G\",\"prerequisite\":[{\"level\":4}],\"repeatable\":true,\"repeatableHidden\":true,\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"],\"amount\":2},\"hidden\":true},{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"],\"count\":2},\"hidden\":true}],\"entries\":[\"Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.\",{\"type\":\"entries\",\"name\":\"Repeatable\",\"entries\":[\"You can take this feat more than once.\"]}]}}"
+      "searchText": "feat:ability_score_improvement ability score improvement ability score improvement g 4 true true str dex con int wis cha 2 true str dex con int wis cha 2 true increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. this feat can't increase an ability score above 20. entries repeatable you can take this feat more than once.",
+      "payloadJson": "{\"id\":\"feat:ability_score_improvement\",\"name\":\"Ability Score Improvement\",\"data\":{\"name\":\"Ability Score Improvement\",\"category\":\"G\",\"prerequisite\":[{\"level\":4}],\"repeatable\":true,\"repeatableHidden\":true,\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"],\"amount\":2},\"hidden\":true},{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"],\"count\":2},\"hidden\":true}],\"entries\":[\"Increase one ability score of your choice by 2, or increase two ability scores of your choice by 1. This feat can't increase an ability score above 20.\",{\"type\":\"entries\",\"name\":\"Repeatable\",\"entries\":[\"You can take this feat more than once.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:alert:200",
+      "entityId": "feat:alert",
       "name": "Alert",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "alert",
-      "searchText": "feat:xphb:alert:200 alert xphb feats.json alert xphb 200 true true o you gain the following benefits. entries initiative proficiency when you roll {@variantrule initiative|xphb}, you can add your {@variantrule proficiency|xphb|proficiency bonus} to the roll. entries initiative swap immediately after you roll {@variantrule initiative|xphb}, you can swap your {@variantrule initiative|xphb} with the {@variantrule initiative|xphb} of one willing ally in the same combat. you can't make this swap if you or the ally has the {@condition incapacitated|xphb} condition.",
-      "payloadJson": "{\"id\":\"feat:xphb:alert:200\",\"name\":\"Alert\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Alert\",\"source\":\"XPHB\",\"page\":200,\"srd52\":true,\"basicRules2024\":true,\"category\":\"O\",\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Initiative Proficiency\",\"entries\":[\"When you roll {@variantrule Initiative|XPHB}, you can add your {@variantrule Proficiency|XPHB|Proficiency Bonus} to the roll.\"]},{\"type\":\"entries\",\"name\":\"Initiative Swap\",\"entries\":[\"Immediately after you roll {@variantrule Initiative|XPHB}, you can swap your {@variantrule Initiative|XPHB} with the {@variantrule Initiative|XPHB} of one willing ally in the same combat. You can't make this swap if you or the ally has the {@condition Incapacitated|XPHB} condition.\"]}]}}"
+      "searchText": "feat:alert alert alert o you gain the following benefits. entries initiative proficiency when you roll {@variantrule initiative|xphb}, you can add your {@variantrule proficiency|xphb|proficiency bonus} to the roll. entries initiative swap immediately after you roll {@variantrule initiative|xphb}, you can swap your {@variantrule initiative|xphb} with the {@variantrule initiative|xphb} of one willing ally in the same combat. you can't make this swap if you or the ally has the {@condition incapacitated|xphb} condition.",
+      "payloadJson": "{\"id\":\"feat:alert\",\"name\":\"Alert\",\"data\":{\"name\":\"Alert\",\"category\":\"O\",\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Initiative Proficiency\",\"entries\":[\"When you roll {@variantrule Initiative|XPHB}, you can add your {@variantrule Proficiency|XPHB|Proficiency Bonus} to the roll.\"]},{\"type\":\"entries\",\"name\":\"Initiative Swap\",\"entries\":[\"Immediately after you roll {@variantrule Initiative|XPHB}, you can swap your {@variantrule Initiative|XPHB} with the {@variantrule Initiative|XPHB} of one willing ally in the same combat. You can't make this swap if you or the ally has the {@condition Incapacitated|XPHB} condition.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:archery:209",
+      "entityId": "feat:archery",
       "name": "Archery",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "archery",
-      "searchText": "feat:xphb:archery:209 archery xphb feats.json archery xphb 209 true true fs fighting style you gain a +2 bonus to attack rolls you make with ranged weapons.",
-      "payloadJson": "{\"id\":\"feat:xphb:archery:209\",\"name\":\"Archery\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Archery\",\"source\":\"XPHB\",\"page\":209,\"srd52\":true,\"basicRules2024\":true,\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"You gain a +2 bonus to attack rolls you make with Ranged weapons.\"]}}"
+      "searchText": "feat:archery archery archery fs fighting style you gain a +2 bonus to attack rolls you make with ranged weapons.",
+      "payloadJson": "{\"id\":\"feat:archery\",\"name\":\"Archery\",\"data\":{\"name\":\"Archery\",\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"You gain a +2 bonus to attack rolls you make with Ranged weapons.\"]}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_combat_prowess:210",
+      "entityId": "feat:boon_of_combat_prowess",
       "name": "Boon of Combat Prowess",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of combat prowess",
-      "searchText": "feat:xphb:boon_of_combat_prowess:210 boon of combat prowess xphb feats.json boon of combat prowess xphb 210 true true eb 19 str dex con int wis cha 30 you gain the following benefits. entries peerless aim when you miss with an attack roll, you can hit instead. once you use this benefit, you can't use it again until the start of your next turn.",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_combat_prowess:210\",\"name\":\"Boon of Combat Prowess\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of Combat Prowess\",\"source\":\"XPHB\",\"page\":210,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Peerless Aim\",\"entries\":[\"When you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn.\"]}]}}"
+      "searchText": "feat:boon_of_combat_prowess boon of combat prowess boon of combat prowess eb 19 str dex con int wis cha 30 you gain the following benefits. entries peerless aim when you miss with an attack roll, you can hit instead. once you use this benefit, you can't use it again until the start of your next turn.",
+      "payloadJson": "{\"id\":\"feat:boon_of_combat_prowess\",\"name\":\"Boon of Combat Prowess\",\"data\":{\"name\":\"Boon of Combat Prowess\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Peerless Aim\",\"entries\":[\"When you miss with an attack roll, you can hit instead. Once you use this benefit, you can't use it again until the start of your next turn.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_dimensional_travel:210",
+      "entityId": "feat:boon_of_dimensional_travel",
       "name": "Boon of Dimensional Travel",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of dimensional travel",
-      "searchText": "feat:xphb:boon_of_dimensional_travel:210 boon of dimensional travel xphb feats.json boon of dimensional travel xphb 210 true true eb 19 str dex con int wis cha 30 you gain the following benefits. entries blink steps immediately after you take the {@action attack|xphb} action or the {@action magic|xphb} action, you can teleport up to 30 feet to an unoccupied space you can see.",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_dimensional_travel:210\",\"name\":\"Boon of Dimensional Travel\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of Dimensional Travel\",\"source\":\"XPHB\",\"page\":210,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Blink Steps\",\"entries\":[\"Immediately after you take the {@action Attack|XPHB} action or the {@action Magic|XPHB} action, you can teleport up to 30 feet to an unoccupied space you can see.\"]}]}}"
+      "searchText": "feat:boon_of_dimensional_travel boon of dimensional travel boon of dimensional travel eb 19 str dex con int wis cha 30 you gain the following benefits. entries blink steps immediately after you take the {@action attack|xphb} action or the {@action magic|xphb} action, you can teleport up to 30 feet to an unoccupied space you can see.",
+      "payloadJson": "{\"id\":\"feat:boon_of_dimensional_travel\",\"name\":\"Boon of Dimensional Travel\",\"data\":{\"name\":\"Boon of Dimensional Travel\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Blink Steps\",\"entries\":[\"Immediately after you take the {@action Attack|XPHB} action or the {@action Magic|XPHB} action, you can teleport up to 30 feet to an unoccupied space you can see.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_fate:210",
+      "entityId": "feat:boon_of_fate",
       "name": "Boon of Fate",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of fate",
-      "searchText": "feat:xphb:boon_of_fate:210 boon of fate xphb feats.json boon of fate xphb 210 true true eb 19 str dex con int wis cha 30 you gain the following benefits. entries improve fate when you or another creature within 60 feet of you succeeds on or fails a {@variantrule d20 test|xphb}, you can roll {@dice 2d4} and apply the total rolled as a bonus or penalty to the {@dice d20} roll. once you use this benefit, you can't use it again until you roll {@variantrule initiative|xphb} or finish a {@variantrule short rest|xphb|short} or {@variantrule long rest|xphb}. true",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_fate:210\",\"name\":\"Boon of Fate\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of Fate\",\"source\":\"XPHB\",\"page\":210,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Improve Fate\",\"entries\":[\"When you or another creature within 60 feet of you succeeds on or fails a {@variantrule D20 Test|XPHB}, you can roll {@dice 2d4} and apply the total rolled as a bonus or penalty to the {@dice d20} roll. Once you use this benefit, you can't use it again until you roll {@variantrule Initiative|XPHB} or finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.\"]}],\"hasFluffImages\":true}}"
+      "searchText": "feat:boon_of_fate boon of fate boon of fate eb 19 str dex con int wis cha 30 you gain the following benefits. entries improve fate when you or another creature within 60 feet of you succeeds on or fails a {@variantrule d20 test|xphb}, you can roll {@dice 2d4} and apply the total rolled as a bonus or penalty to the {@dice d20} roll. once you use this benefit, you can't use it again until you roll {@variantrule initiative|xphb} or finish a {@variantrule short rest|xphb|short} or {@variantrule long rest|xphb}. true",
+      "payloadJson": "{\"id\":\"feat:boon_of_fate\",\"name\":\"Boon of Fate\",\"data\":{\"name\":\"Boon of Fate\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Improve Fate\",\"entries\":[\"When you or another creature within 60 feet of you succeeds on or fails a {@variantrule D20 Test|XPHB}, you can roll {@dice 2d4} and apply the total rolled as a bonus or penalty to the {@dice d20} roll. Once you use this benefit, you can't use it again until you roll {@variantrule Initiative|XPHB} or finish a {@variantrule Short Rest|XPHB|Short} or {@variantrule Long Rest|XPHB}.\"]}],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_irresistible_offense:211",
+      "entityId": "feat:boon_of_irresistible_offense",
       "name": "Boon of Irresistible Offense",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of irresistible offense",
-      "searchText": "feat:xphb:boon_of_irresistible_offense:211 boon of irresistible offense xphb feats.json boon of irresistible offense xphb 211 true true eb 19 str dex 30 you gain the following benefits. entries overcome defenses the bludgeoning, piercing, and slashing damage you deal always ignores {@variantrule resistance|xphb}. entries overwhelming strike when you roll a 20 on the {@dice d20} for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. the extra damage's type is the same as the attack's type.",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_irresistible_offense:211\",\"name\":\"Boon of Irresistible Offense\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of Irresistible Offense\",\"source\":\"XPHB\",\"page\":211,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Overcome Defenses\",\"entries\":[\"The Bludgeoning, Piercing, and Slashing damage you deal always ignores {@variantrule Resistance|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Overwhelming Strike\",\"entries\":[\"When you roll a 20 on the {@dice d20} for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. The extra damage's type is the same as the attack's type.\"]}]}}"
+      "searchText": "feat:boon_of_irresistible_offense boon of irresistible offense boon of irresistible offense eb 19 str dex 30 you gain the following benefits. entries overcome defenses the bludgeoning, piercing, and slashing damage you deal always ignores {@variantrule resistance|xphb}. entries overwhelming strike when you roll a 20 on the {@dice d20} for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. the extra damage's type is the same as the attack's type.",
+      "payloadJson": "{\"id\":\"feat:boon_of_irresistible_offense\",\"name\":\"Boon of Irresistible Offense\",\"data\":{\"name\":\"Boon of Irresistible Offense\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Overcome Defenses\",\"entries\":[\"The Bludgeoning, Piercing, and Slashing damage you deal always ignores {@variantrule Resistance|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Overwhelming Strike\",\"entries\":[\"When you roll a 20 on the {@dice d20} for an attack roll, you can deal extra damage to the target equal to the ability score increased by this feat. The extra damage's type is the same as the attack's type.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_spell_recall:211",
+      "entityId": "feat:boon_of_spell_recall",
       "name": "Boon of Spell Recall",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of spell recall",
-      "searchText": "feat:xphb:boon_of_spell_recall:211 boon of spell recall xphb feats.json boon of spell recall xphb 211 true true eb 19 true int wis cha 30 you gain the following benefits. entries free casting whenever you cast a spell with a level 1-4 spell slot, roll {@dice 1d4}. if the number you roll is the same as the slot's level, the slot isn't expended.",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_spell_recall:211\",\"name\":\"Boon of Spell Recall\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of Spell Recall\",\"source\":\"XPHB\",\"page\":211,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19,\"spellcasting2020\":true}],\"ability\":[{\"choose\":{\"from\":[\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Free Casting\",\"entries\":[\"Whenever you cast a spell with a level 1-4 spell slot, roll {@dice 1d4}. If the number you roll is the same as the slot's level, the slot isn't expended.\"]}]}}"
+      "searchText": "feat:boon_of_spell_recall boon of spell recall boon of spell recall eb 19 true int wis cha 30 you gain the following benefits. entries free casting whenever you cast a spell with a level 1-4 spell slot, roll {@dice 1d4}. if the number you roll is the same as the slot's level, the slot isn't expended.",
+      "payloadJson": "{\"id\":\"feat:boon_of_spell_recall\",\"name\":\"Boon of Spell Recall\",\"data\":{\"name\":\"Boon of Spell Recall\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19,\"spellcasting2020\":true}],\"ability\":[{\"choose\":{\"from\":[\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Free Casting\",\"entries\":[\"Whenever you cast a spell with a level 1-4 spell slot, roll {@dice 1d4}. If the number you roll is the same as the slot's level, the slot isn't expended.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "entityId": "feat:boon_of_the_night_spirit",
       "name": "Boon of the Night Spirit",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of the night spirit",
-      "searchText": "feat:xphb:boon_of_the_night_spirit:211 boon of the night spirit xphb feats.json boon of the night spirit xphb 211 true true eb 19 str dex con int wis cha 30 you gain the following benefits. entries merge with shadows while within {@variantrule dim light|xphb} or {@variantrule darkness|xphb}, you can give yourself the {@condition invisible|xphb} condition as a {@variantrule bonus action|xphb}. the condition ends on you immediately after you take an action, a {@variantrule bonus action|xphb}, or a {@variantrule reaction|xphb}. entries shadowy form while within {@variantrule dim light|xphb} or {@variantrule darkness|xphb}, you have {@variantrule resistance|xphb} to all damage except psychic and radiant.",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_the_night_spirit:211\",\"name\":\"Boon of the Night Spirit\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of the Night Spirit\",\"source\":\"XPHB\",\"page\":211,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Merge with Shadows\",\"entries\":[\"While within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you can give yourself the {@condition Invisible|XPHB} condition as a {@variantrule Bonus Action|XPHB}. The condition ends on you immediately after you take an action, a {@variantrule Bonus Action|XPHB}, or a {@variantrule Reaction|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Shadowy Form\",\"entries\":[\"While within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you have {@variantrule Resistance|XPHB} to all damage except Psychic and Radiant.\"]}]}}"
+      "searchText": "feat:boon_of_the_night_spirit boon of the night spirit boon of the night spirit eb 19 str dex con int wis cha 30 you gain the following benefits. entries merge with shadows while within {@variantrule dim light|xphb} or {@variantrule darkness|xphb}, you can give yourself the {@condition invisible|xphb} condition as a {@variantrule bonus action|xphb}. the condition ends on you immediately after you take an action, a {@variantrule bonus action|xphb}, or a {@variantrule reaction|xphb}. entries shadowy form while within {@variantrule dim light|xphb} or {@variantrule darkness|xphb}, you have {@variantrule resistance|xphb} to all damage except psychic and radiant.",
+      "payloadJson": "{\"id\":\"feat:boon_of_the_night_spirit\",\"name\":\"Boon of the Night Spirit\",\"data\":{\"name\":\"Boon of the Night Spirit\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Merge with Shadows\",\"entries\":[\"While within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you can give yourself the {@condition Invisible|XPHB} condition as a {@variantrule Bonus Action|XPHB}. The condition ends on you immediately after you take an action, a {@variantrule Bonus Action|XPHB}, or a {@variantrule Reaction|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Shadowy Form\",\"entries\":[\"While within {@variantrule Dim Light|XPHB} or {@variantrule Darkness|XPHB}, you have {@variantrule Resistance|XPHB} to all damage except Psychic and Radiant.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:boon_of_truesight:211",
+      "entityId": "feat:boon_of_truesight",
       "name": "Boon of Truesight",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "boon of truesight",
-      "searchText": "feat:xphb:boon_of_truesight:211 boon of truesight xphb feats.json boon of truesight xphb 211 true true eb 19 str dex con int wis cha 30 60 you gain the following benefits. entries truesight you have {@sense truesight|xphb} with a range of 60 feet.",
-      "payloadJson": "{\"id\":\"feat:xphb:boon_of_truesight:211\",\"name\":\"Boon of Truesight\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Boon of Truesight\",\"source\":\"XPHB\",\"page\":211,\"srd52\":true,\"basicRules2024\":true,\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"senses\":[{\"truesight\":60}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Truesight\",\"entries\":[\"You have {@sense Truesight|XPHB} with a range of 60 feet.\"]}]}}"
+      "searchText": "feat:boon_of_truesight boon of truesight boon of truesight eb 19 str dex con int wis cha 30 60 you gain the following benefits. entries truesight you have {@sense truesight|xphb} with a range of 60 feet.",
+      "payloadJson": "{\"id\":\"feat:boon_of_truesight\",\"name\":\"Boon of Truesight\",\"data\":{\"name\":\"Boon of Truesight\",\"category\":\"EB\",\"prerequisite\":[{\"level\":19}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\",\"con\",\"int\",\"wis\",\"cha\"]},\"max\":30}],\"senses\":[{\"truesight\":60}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Truesight\",\"entries\":[\"You have {@sense Truesight|XPHB} with a range of 60 feet.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:defense:209",
+      "entityId": "feat:defense",
       "name": "Defense",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "defense",
-      "searchText": "feat:xphb:defense:209 defense xphb feats.json defense xphb 209 true true fs fighting style while you're wearing light, medium, or heavy armor, you gain a +1 bonus to {@variantrule armor class|xphb}.",
-      "payloadJson": "{\"id\":\"feat:xphb:defense:209\",\"name\":\"Defense\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Defense\",\"source\":\"XPHB\",\"page\":209,\"srd52\":true,\"basicRules2024\":true,\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to {@variantrule Armor Class|XPHB}.\"]}}"
+      "searchText": "feat:defense defense defense fs fighting style while you're wearing light, medium, or heavy armor, you gain a +1 bonus to {@variantrule armor class|xphb}.",
+      "payloadJson": "{\"id\":\"feat:defense\",\"name\":\"Defense\",\"data\":{\"name\":\"Defense\",\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"While you're wearing Light, Medium, or Heavy armor, you gain a +1 bonus to {@variantrule Armor Class|XPHB}.\"]}}"
     },
     {
-      "entityId": "feat:xphb:grappler:204",
+      "entityId": "feat:grappler",
       "name": "Grappler",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "grappler",
-      "searchText": "feat:xphb:grappler:204 grappler xphb feats.json grappler xphb 204 true true g 4 13 4 13 str dex you gain the following benefits. entries punch and grab when you hit a creature with an {@variantrule unarmed strike|xphb} as part of the {@action attack|xphb} action on your turn, you can use both the damage and the grapple option. you can use this benefit only once per turn. entries attack advantage you have {@variantrule advantage|xphb} on attack rolls against a creature {@condition grappled|xphb} by you. entries fast wrestler you don't have to spend extra movement to move a creature {@condition grappled|xphb} by you if the creature is your size or smaller.",
-      "payloadJson": "{\"id\":\"feat:xphb:grappler:204\",\"name\":\"Grappler\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Grappler\",\"source\":\"XPHB\",\"page\":204,\"srd52\":true,\"basicRules2024\":true,\"category\":\"G\",\"prerequisite\":[{\"level\":4,\"ability\":[{\"str\":13}]},{\"level\":4,\"ability\":[{\"dex\":13}]}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\"]}}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Punch and Grab\",\"entries\":[\"When you hit a creature with an {@variantrule Unarmed Strike|XPHB} as part of the {@action Attack|XPHB} action on your turn, you can use both the Damage and the Grapple option. You can use this benefit only once per turn.\"]},{\"type\":\"entries\",\"name\":\"Attack Advantage\",\"entries\":[\"You have {@variantrule Advantage|XPHB} on attack rolls against a creature {@condition Grappled|XPHB} by you.\"]},{\"type\":\"entries\",\"name\":\"Fast Wrestler\",\"entries\":[\"You don't have to spend extra movement to move a creature {@condition Grappled|XPHB} by you if the creature is your size or smaller.\"]}]}}"
+      "searchText": "feat:grappler grappler grappler g 4 13 4 13 str dex you gain the following benefits. entries punch and grab when you hit a creature with an {@variantrule unarmed strike|xphb} as part of the {@action attack|xphb} action on your turn, you can use both the damage and the grapple option. you can use this benefit only once per turn. entries attack advantage you have {@variantrule advantage|xphb} on attack rolls against a creature {@condition grappled|xphb} by you. entries fast wrestler you don't have to spend extra movement to move a creature {@condition grappled|xphb} by you if the creature is your size or smaller.",
+      "payloadJson": "{\"id\":\"feat:grappler\",\"name\":\"Grappler\",\"data\":{\"name\":\"Grappler\",\"category\":\"G\",\"prerequisite\":[{\"level\":4,\"ability\":[{\"str\":13}]},{\"level\":4,\"ability\":[{\"dex\":13}]}],\"ability\":[{\"choose\":{\"from\":[\"str\",\"dex\"]}}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Punch and Grab\",\"entries\":[\"When you hit a creature with an {@variantrule Unarmed Strike|XPHB} as part of the {@action Attack|XPHB} action on your turn, you can use both the Damage and the Grapple option. You can use this benefit only once per turn.\"]},{\"type\":\"entries\",\"name\":\"Attack Advantage\",\"entries\":[\"You have {@variantrule Advantage|XPHB} on attack rolls against a creature {@condition Grappled|XPHB} by you.\"]},{\"type\":\"entries\",\"name\":\"Fast Wrestler\",\"entries\":[\"You don't have to spend extra movement to move a creature {@condition Grappled|XPHB} by you if the creature is your size or smaller.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:great_weapon_fighting:209",
+      "entityId": "feat:great_weapon_fighting",
       "name": "Great Weapon Fighting",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "great weapon fighting",
-      "searchText": "feat:xphb:great_weapon_fighting:209 great weapon fighting xphb feats.json great weapon fighting xphb 209 true true fs fighting style when you roll damage for an attack you make with a melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. the weapon must have the {@itemproperty 2h|xphb|two-handed} or {@itemproperty v|xphb|versatile} property to gain this benefit.",
-      "payloadJson": "{\"id\":\"feat:xphb:great_weapon_fighting:209\",\"name\":\"Great Weapon Fighting\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Great Weapon Fighting\",\"source\":\"XPHB\",\"page\":209,\"srd52\":true,\"basicRules2024\":true,\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"When you roll damage for an attack you make with a Melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. The weapon must have the {@itemProperty 2h|XPHB|Two-Handed} or {@itemProperty V|XPHB|Versatile} property to gain this benefit.\"]}}"
+      "searchText": "feat:great_weapon_fighting great weapon fighting great weapon fighting fs fighting style when you roll damage for an attack you make with a melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. the weapon must have the {@itemproperty 2h|xphb|two-handed} or {@itemproperty v|xphb|versatile} property to gain this benefit.",
+      "payloadJson": "{\"id\":\"feat:great_weapon_fighting\",\"name\":\"Great Weapon Fighting\",\"data\":{\"name\":\"Great Weapon Fighting\",\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"When you roll damage for an attack you make with a Melee weapon that you are holding with two hands, you can treat any 1 or 2 on a damage die as a 3. The weapon must have the {@itemProperty 2h|XPHB|Two-Handed} or {@itemProperty V|XPHB|Versatile} property to gain this benefit.\"]}}"
     },
     {
-      "entityId": "feat:xphb:magic_initiate:201",
+      "entityId": "feat:magic_initiate",
       "name": "Magic Initiate",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "magic initiate",
-      "searchText": "feat:xphb:magic_initiate:201 magic initiate xphb feats.json magic initiate xphb 201 true true o true true cleric spells int wis cha level=1|class=cleric level=0|class=cleric 2 druid spells int wis cha level=1|class=druid level=0|class=druid 2 wizard spells int wis cha level=1|class=wizard level=0|class=wizard 2 you gain the following benefits. entries two cantrips you learn two cantrips of your choice from the {@filter cleric|spells|level=0;1|class=cleric}, {@filter druid|spells|level=0;1|class=druid}, or {@filter wizard|spells|level=0;1|class=wizard} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). entries level 1 spell choose a level 1 spell from the same list you selected for this feat's cantrips. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. entries spell change whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list. entries repeatable you can take this feat more than once, but you must choose a different spell list each time. magic initiate; cleric xphb replacearr two cantrips two cantrips you learn two cantrips of your choice from the {@filter cleric|spells|level=0;1|class=cleric} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). replacearr level 1 spell level 1 spell choose a level 1 spell from the {@filter cleric|spells|level=0;1|class=cleric} spell list. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. int wis cha level=1|class=cleric level=0|class=cleric 2 magic initiate; druid xphb replacearr two cantrips two cantrips you learn two cantrips of your choice from the {@filter druid|spells|level=0;1|class=druid} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). replacearr level 1 spell level 1 spell choose a level 1 spell from the {@filter druid|spells|level=0;1|class=druid} spell list. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. int wis cha level=1|class=druid level=0|class=druid 2 magic initiate; wizard xphb replacearr two cantrips two cantrips you learn two cantrips of your choice from the {@filter wizard|spells|level=0;1|class=wizard} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). replacearr level 1 spell level 1 spell choose a level 1 spell from the {@filter wizard|spells|level=0;1|class=wizard} spell list. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. int wis cha level=1|class=wizard level=0|class=wizard 2",
-      "payloadJson": "{\"id\":\"feat:xphb:magic_initiate:201\",\"name\":\"Magic Initiate\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Magic Initiate\",\"source\":\"XPHB\",\"page\":201,\"srd52\":true,\"basicRules2024\":true,\"category\":\"O\",\"repeatable\":true,\"repeatableHidden\":true,\"additionalSpells\":[{\"name\":\"Cleric Spells\",\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Cleric\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Cleric\",\"count\":2}]}},{\"name\":\"Druid Spells\",\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Druid\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Druid\",\"count\":2}]}},{\"name\":\"Wizard Spells\",\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Wizard\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Wizard\",\"count\":2}]}}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Cleric|spells|level=0;1|class=Cleric}, {@filter Druid|spells|level=0;1|class=Druid}, or {@filter Wizard|spells|level=0;1|class=Wizard} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]},{\"type\":\"entries\",\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]},{\"type\":\"entries\",\"name\":\"Spell Change\",\"entries\":[\"Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\"]},{\"type\":\"entries\",\"name\":\"Repeatable\",\"entries\":[\"You can take this feat more than once, but you must choose a different spell list each time.\"]}],\"_versions\":[{\"name\":\"Magic Initiate; Cleric\",\"source\":\"XPHB\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Two Cantrips\",\"items\":{\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Cleric|spells|level=0;1|class=Cleric} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Level 1 Spell\",\"items\":{\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the {@filter Cleric|spells|level=0;1|class=Cleric} spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]}}]},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Cleric\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Cleric\",\"count\":2}]}}]},{\"name\":\"Magic Initiate; Druid\",\"source\":\"XPHB\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Two Cantrips\",\"items\":{\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Druid|spells|level=0;1|class=Druid} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Level 1 Spell\",\"items\":{\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the {@filter Druid|spells|level=0;1|class=Druid} spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]}}]},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Druid\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Druid\",\"count\":2}]}}]},{\"name\":\"Magic Initiate; Wizard\",\"source\":\"XPHB\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Two Cantrips\",\"items\":{\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Wizard|spells|level=0;1|class=Wizard} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Level 1 Spell\",\"items\":{\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the {@filter Wizard|spells|level=0;1|class=Wizard} spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]}}]},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Wizard\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Wizard\",\"count\":2}]}}]}]}}"
+      "searchText": "feat:magic_initiate magic initiate magic initiate o true true cleric spells int wis cha level=1|class=cleric level=0|class=cleric 2 druid spells int wis cha level=1|class=druid level=0|class=druid 2 wizard spells int wis cha level=1|class=wizard level=0|class=wizard 2 you gain the following benefits. entries two cantrips you learn two cantrips of your choice from the {@filter cleric|spells|level=0;1|class=cleric}, {@filter druid|spells|level=0;1|class=druid}, or {@filter wizard|spells|level=0;1|class=wizard} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). entries level 1 spell choose a level 1 spell from the same list you selected for this feat's cantrips. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. entries spell change whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list. entries repeatable you can take this feat more than once, but you must choose a different spell list each time. magic initiate; cleric replacearr two cantrips two cantrips you learn two cantrips of your choice from the {@filter cleric|spells|level=0;1|class=cleric} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). replacearr level 1 spell level 1 spell choose a level 1 spell from the {@filter cleric|spells|level=0;1|class=cleric} spell list. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. int wis cha level=1|class=cleric level=0|class=cleric 2 magic initiate; druid replacearr two cantrips two cantrips you learn two cantrips of your choice from the {@filter druid|spells|level=0;1|class=druid} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). replacearr level 1 spell level 1 spell choose a level 1 spell from the {@filter druid|spells|level=0;1|class=druid} spell list. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. int wis cha level=1|class=druid level=0|class=druid 2 magic initiate; wizard replacearr two cantrips two cantrips you learn two cantrips of your choice from the {@filter wizard|spells|level=0;1|class=wizard} spell list. intelligence, wisdom, or charisma is your spellcasting ability for this feat's spells (choose when you select this feat). replacearr level 1 spell level 1 spell choose a level 1 spell from the {@filter wizard|spells|level=0;1|class=wizard} spell list. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have. int wis cha level=1|class=wizard level=0|class=wizard 2",
+      "payloadJson": "{\"id\":\"feat:magic_initiate\",\"name\":\"Magic Initiate\",\"data\":{\"name\":\"Magic Initiate\",\"category\":\"O\",\"repeatable\":true,\"repeatableHidden\":true,\"additionalSpells\":[{\"name\":\"Cleric Spells\",\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Cleric\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Cleric\",\"count\":2}]}},{\"name\":\"Druid Spells\",\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Druid\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Druid\",\"count\":2}]}},{\"name\":\"Wizard Spells\",\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Wizard\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Wizard\",\"count\":2}]}}],\"entries\":[\"You gain the following benefits.\",{\"type\":\"entries\",\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Cleric|spells|level=0;1|class=Cleric}, {@filter Druid|spells|level=0;1|class=Druid}, or {@filter Wizard|spells|level=0;1|class=Wizard} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]},{\"type\":\"entries\",\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]},{\"type\":\"entries\",\"name\":\"Spell Change\",\"entries\":[\"Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.\"]},{\"type\":\"entries\",\"name\":\"Repeatable\",\"entries\":[\"You can take this feat more than once, but you must choose a different spell list each time.\"]}],\"_versions\":[{\"name\":\"Magic Initiate; Cleric\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Two Cantrips\",\"items\":{\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Cleric|spells|level=0;1|class=Cleric} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Level 1 Spell\",\"items\":{\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the {@filter Cleric|spells|level=0;1|class=Cleric} spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]}}]},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Cleric\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Cleric\",\"count\":2}]}}]},{\"name\":\"Magic Initiate; Druid\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Two Cantrips\",\"items\":{\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Druid|spells|level=0;1|class=Druid} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Level 1 Spell\",\"items\":{\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the {@filter Druid|spells|level=0;1|class=Druid} spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]}}]},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Druid\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Druid\",\"count\":2}]}}]},{\"name\":\"Magic Initiate; Wizard\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Two Cantrips\",\"items\":{\"name\":\"Two Cantrips\",\"entries\":[\"You learn two cantrips of your choice from the {@filter Wizard|spells|level=0;1|class=Wizard} spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Level 1 Spell\",\"items\":{\"name\":\"Level 1 Spell\",\"entries\":[\"Choose a level 1 spell from the {@filter Wizard|spells|level=0;1|class=Wizard} spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have.\"]}}]},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"innate\":{\"_\":{\"daily\":{\"1\":[{\"choose\":\"level=1|class=Wizard\"}]}}},\"known\":{\"_\":[{\"choose\":\"level=0|class=Wizard\",\"count\":2}]}}]}]}}"
     },
     {
-      "entityId": "feat:xphb:savage_attacker:201",
+      "entityId": "feat:savage_attacker",
       "name": "Savage Attacker",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "savage attacker",
-      "searchText": "feat:xphb:savage_attacker:201 savage attacker xphb feats.json savage attacker xphb 201 true true o you've trained to deal particularly damaging strikes. once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.",
-      "payloadJson": "{\"id\":\"feat:xphb:savage_attacker:201\",\"name\":\"Savage Attacker\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Savage Attacker\",\"source\":\"XPHB\",\"page\":201,\"srd52\":true,\"basicRules2024\":true,\"category\":\"O\",\"entries\":[\"You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.\"]}}"
+      "searchText": "feat:savage_attacker savage attacker savage attacker o you've trained to deal particularly damaging strikes. once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.",
+      "payloadJson": "{\"id\":\"feat:savage_attacker\",\"name\":\"Savage Attacker\",\"data\":{\"name\":\"Savage Attacker\",\"category\":\"O\",\"entries\":[\"You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll against the target.\"]}}"
     },
     {
-      "entityId": "feat:xphb:skilled:201",
+      "entityId": "feat:skilled",
       "name": "Skilled",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "skilled",
-      "searchText": "feat:xphb:skilled:201 skilled xphb feats.json skilled xphb 201 true true o true true anyskill anytool 3 you gain proficiency in any combination of three {@table skill list; skills|xphb|skills} or {@filter tools|items|type=tool;artisan's tools;instrument;gaming set} of your choice. entries repeatable you can take this feat more than once.",
-      "payloadJson": "{\"id\":\"feat:xphb:skilled:201\",\"name\":\"Skilled\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Skilled\",\"source\":\"XPHB\",\"page\":201,\"srd52\":true,\"basicRules2024\":true,\"category\":\"O\",\"repeatable\":true,\"repeatableHidden\":true,\"skillToolLanguageProficiencies\":[{\"choose\":[{\"from\":[\"anySkill\",\"anyTool\"],\"count\":3}]}],\"entries\":[\"You gain proficiency in any combination of three {@table Skill List; Skills|XPHB|skills} or {@filter tools|items|type=tool;artisan's tools;instrument;gaming set} of your choice.\",{\"type\":\"entries\",\"name\":\"Repeatable\",\"entries\":[\"You can take this feat more than once.\"]}]}}"
+      "searchText": "feat:skilled skilled skilled o true true anyskill anytool 3 you gain proficiency in any combination of three {@table skill list; skills|xphb|skills} or {@filter tools|items|type=tool;artisan's tools;instrument;gaming set} of your choice. entries repeatable you can take this feat more than once.",
+      "payloadJson": "{\"id\":\"feat:skilled\",\"name\":\"Skilled\",\"data\":{\"name\":\"Skilled\",\"category\":\"O\",\"repeatable\":true,\"repeatableHidden\":true,\"skillToolLanguageProficiencies\":[{\"choose\":[{\"from\":[\"anySkill\",\"anyTool\"],\"count\":3}]}],\"entries\":[\"You gain proficiency in any combination of three {@table Skill List; Skills|XPHB|skills} or {@filter tools|items|type=tool;artisan's tools;instrument;gaming set} of your choice.\",{\"type\":\"entries\",\"name\":\"Repeatable\",\"entries\":[\"You can take this feat more than once.\"]}]}}"
     },
     {
-      "entityId": "feat:xphb:two_weapon_fighting:210",
+      "entityId": "feat:two_weapon_fighting",
       "name": "Two-Weapon Fighting",
-      "source": "XPHB",
-      "sourceFile": "feats.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "two-weapon fighting",
-      "searchText": "feat:xphb:two_weapon_fighting:210 two-weapon fighting xphb feats.json two-weapon fighting xphb 210 true true fs fighting style when you make an extra attack as a result of using a weapon that has the {@itemproperty l|xphb|light} property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage. true",
-      "payloadJson": "{\"id\":\"feat:xphb:two_weapon_fighting:210\",\"name\":\"Two-Weapon Fighting\",\"source\":\"XPHB\",\"sourceFile\":\"feats.json\",\"data\":{\"name\":\"Two-Weapon Fighting\",\"source\":\"XPHB\",\"page\":210,\"srd52\":true,\"basicRules2024\":true,\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"When you make an extra attack as a result of using a weapon that has the {@itemProperty L|XPHB|Light} property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.\"],\"hasFluffImages\":true}}"
+      "searchText": "feat:two_weapon_fighting two-weapon fighting two-weapon fighting fs fighting style when you make an extra attack as a result of using a weapon that has the {@itemproperty l|xphb|light} property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage. true",
+      "payloadJson": "{\"id\":\"feat:two_weapon_fighting\",\"name\":\"Two-Weapon Fighting\",\"data\":{\"name\":\"Two-Weapon Fighting\",\"category\":\"FS\",\"prerequisite\":[{\"feature\":[\"Fighting Style\"]}],\"entries\":[\"When you make an extra attack as a result of using a weapon that has the {@itemProperty L|XPHB|Light} property, you can add your ability modifier to the damage of that attack if you aren't already adding it to the damage.\"],\"hasFluffImages\":true}}"
     }
   ],
   "linkRows": [
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:alert:200",
+      "sourceEntityId": "feat:alert",
       "targetTag": "variantrule",
       "rawReference": "Initiative|XPHB",
       "displayText": "Initiative",
@@ -186,7 +186,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:alert:200",
+      "sourceEntityId": "feat:alert",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -195,7 +195,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:alert:200",
+      "sourceEntityId": "feat:alert",
       "targetTag": "variantrule",
       "rawReference": "Initiative|XPHB",
       "displayText": "Initiative",
@@ -204,7 +204,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:alert:200",
+      "sourceEntityId": "feat:alert",
       "targetTag": "variantrule",
       "rawReference": "Initiative|XPHB",
       "displayText": "Initiative",
@@ -213,7 +213,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:alert:200",
+      "sourceEntityId": "feat:alert",
       "targetTag": "variantrule",
       "rawReference": "Initiative|XPHB",
       "displayText": "Initiative",
@@ -222,7 +222,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:alert:200",
+      "sourceEntityId": "feat:alert",
       "targetTag": "condition",
       "rawReference": "Incapacitated|XPHB",
       "displayText": "Incapacitated",
@@ -231,7 +231,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_dimensional_travel:210",
+      "sourceEntityId": "feat:boon_of_dimensional_travel",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",
@@ -240,7 +240,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_dimensional_travel:210",
+      "sourceEntityId": "feat:boon_of_dimensional_travel",
       "targetTag": "action",
       "rawReference": "Magic|XPHB",
       "displayText": "Magic",
@@ -249,7 +249,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_fate:210",
+      "sourceEntityId": "feat:boon_of_fate",
       "targetTag": "variantrule",
       "rawReference": "D20 Test|XPHB",
       "displayText": "D20 Test",
@@ -258,7 +258,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_fate:210",
+      "sourceEntityId": "feat:boon_of_fate",
       "targetTag": "dice",
       "rawReference": "2d4",
       "displayText": "2d4",
@@ -267,7 +267,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_fate:210",
+      "sourceEntityId": "feat:boon_of_fate",
       "targetTag": "dice",
       "rawReference": "d20",
       "displayText": "d20",
@@ -276,7 +276,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_fate:210",
+      "sourceEntityId": "feat:boon_of_fate",
       "targetTag": "variantrule",
       "rawReference": "Initiative|XPHB",
       "displayText": "Initiative",
@@ -285,7 +285,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_fate:210",
+      "sourceEntityId": "feat:boon_of_fate",
       "targetTag": "variantrule",
       "rawReference": "Short Rest|XPHB|Short",
       "displayText": "Short Rest",
@@ -294,7 +294,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_fate:210",
+      "sourceEntityId": "feat:boon_of_fate",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -303,7 +303,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_irresistible_offense:211",
+      "sourceEntityId": "feat:boon_of_irresistible_offense",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -312,7 +312,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_irresistible_offense:211",
+      "sourceEntityId": "feat:boon_of_irresistible_offense",
       "targetTag": "dice",
       "rawReference": "d20",
       "displayText": "d20",
@@ -321,7 +321,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_spell_recall:211",
+      "sourceEntityId": "feat:boon_of_spell_recall",
       "targetTag": "dice",
       "rawReference": "1d4",
       "displayText": "1d4",
@@ -330,7 +330,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Dim Light|XPHB",
       "displayText": "Dim Light",
@@ -339,7 +339,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -348,7 +348,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "condition",
       "rawReference": "Invisible|XPHB",
       "displayText": "Invisible",
@@ -357,7 +357,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -366,7 +366,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -375,7 +375,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -384,7 +384,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Dim Light|XPHB",
       "displayText": "Dim Light",
@@ -393,7 +393,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -402,7 +402,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_the_night_spirit:211",
+      "sourceEntityId": "feat:boon_of_the_night_spirit",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -411,7 +411,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:boon_of_truesight:211",
+      "sourceEntityId": "feat:boon_of_truesight",
       "targetTag": "sense",
       "rawReference": "Truesight|XPHB",
       "displayText": "Truesight",
@@ -420,7 +420,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:defense:209",
+      "sourceEntityId": "feat:defense",
       "targetTag": "variantrule",
       "rawReference": "Armor Class|XPHB",
       "displayText": "Armor Class",
@@ -429,7 +429,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:grappler:204",
+      "sourceEntityId": "feat:grappler",
       "targetTag": "variantrule",
       "rawReference": "Unarmed Strike|XPHB",
       "displayText": "Unarmed Strike",
@@ -438,7 +438,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:grappler:204",
+      "sourceEntityId": "feat:grappler",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",
@@ -447,7 +447,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:grappler:204",
+      "sourceEntityId": "feat:grappler",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -456,7 +456,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:grappler:204",
+      "sourceEntityId": "feat:grappler",
       "targetTag": "condition",
       "rawReference": "Grappled|XPHB",
       "displayText": "Grappled",
@@ -465,7 +465,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:grappler:204",
+      "sourceEntityId": "feat:grappler",
       "targetTag": "condition",
       "rawReference": "Grappled|XPHB",
       "displayText": "Grappled",
@@ -474,7 +474,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:great_weapon_fighting:209",
+      "sourceEntityId": "feat:great_weapon_fighting",
       "targetTag": "itemProperty",
       "rawReference": "2h|XPHB|Two-Handed",
       "displayText": "2h",
@@ -483,7 +483,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:great_weapon_fighting:209",
+      "sourceEntityId": "feat:great_weapon_fighting",
       "targetTag": "itemProperty",
       "rawReference": "V|XPHB|Versatile",
       "displayText": "V",
@@ -492,7 +492,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Cleric|spells|level=0;1|class=Cleric",
       "displayText": "Cleric",
@@ -501,7 +501,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Druid|spells|level=0;1|class=Druid",
       "displayText": "Druid",
@@ -510,7 +510,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Wizard|spells|level=0;1|class=Wizard",
       "displayText": "Wizard",
@@ -519,7 +519,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -528,7 +528,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Cleric|spells|level=0;1|class=Cleric",
       "displayText": "Cleric",
@@ -537,7 +537,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Cleric|spells|level=0;1|class=Cleric",
       "displayText": "Cleric",
@@ -546,7 +546,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -555,7 +555,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Druid|spells|level=0;1|class=Druid",
       "displayText": "Druid",
@@ -564,7 +564,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Druid|spells|level=0;1|class=Druid",
       "displayText": "Druid",
@@ -573,7 +573,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -582,7 +582,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Wizard|spells|level=0;1|class=Wizard",
       "displayText": "Wizard",
@@ -591,7 +591,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "filter",
       "rawReference": "Wizard|spells|level=0;1|class=Wizard",
       "displayText": "Wizard",
@@ -600,7 +600,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:magic_initiate:201",
+      "sourceEntityId": "feat:magic_initiate",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -609,7 +609,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:skilled:201",
+      "sourceEntityId": "feat:skilled",
       "targetTag": "table",
       "rawReference": "Skill List; Skills|XPHB|skills",
       "displayText": "Skill List; Skills",
@@ -618,7 +618,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:skilled:201",
+      "sourceEntityId": "feat:skilled",
       "targetTag": "filter",
       "rawReference": "tools|items|type=tool;artisan's tools;instrument;gaming set",
       "displayText": "tools",
@@ -627,7 +627,7 @@
     },
     {
       "sourceEntityType": "feat",
-      "sourceEntityId": "feat:xphb:two_weapon_fighting:210",
+      "sourceEntityId": "feat:two_weapon_fighting",
       "targetTag": "itemProperty",
       "rawReference": "L|XPHB|Light",
       "displayText": "L",

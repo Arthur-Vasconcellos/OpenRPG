@@ -59,11 +59,8 @@ void main() {
     final entity = parseEntityJson('spell', {
       'id': 'spell:hb:ember_bolt',
       'name': 'Ember Bolt',
-      'source': 'HB',
-      'sourceFile': 'custom/spell.json',
       'data': {
         'name': 'Ember Bolt',
-        'source': 'HB',
         'entries': ['A bolt of harmless practice fire.'],
         'level': 0,
       },
@@ -72,13 +69,8 @@ void main() {
     final entity2024 = parseEntityJson('spell', {
       'id': 'spell:hb2:lantern_spark',
       'name': 'Lantern Spark',
-      'source': 'HB2',
-      'sourceFile': 'custom/spell_2024.json',
-      'edition': '2024',
       'data': {
         'name': 'Lantern Spark',
-        'source': 'HB2',
-        'edition': '2024',
         'entries': ['A brighter ember tuned for the 2024 starter rules.'],
         'level': 0,
       },
@@ -109,35 +101,21 @@ void main() {
       isTrue,
     );
 
-    final filteredBySource = await repository.searchEntities(
-      CompendiumSearchQuery(
-        text: 'spark',
-        rulesetIds: [created.id],
-        source: 'HB2',
-      ),
-    );
-    expect(filteredBySource.single.preview.displayName, 'Lantern Spark');
-
-    final filteredByEdition = await repository.searchEntities(
-      CompendiumSearchQuery(
-        text: 'spark',
-        rulesetIds: [created.id],
-        edition: '2024',
-      ),
-    );
-    expect(filteredByEdition.single.preview.displayName, 'Lantern Spark');
-
     final page = await repository.getCollectionPage(
       rulesetId: created.id,
       entityType: 'spell',
-      edition: '2024',
     );
-    expect(page.items.single.displayName, 'Lantern Spark');
-    expect(page.availableEditions, contains('2024'));
+    expect(page.items, hasLength(2));
+    expect(
+      page.items.map((item) => item.displayName),
+      containsAll(<String>['Ember Bolt', 'Lantern Spark']),
+    );
 
     final exported = await repository.exportRulesetJson(created.id);
     expect(exported, contains('Ember Bolt'));
     expect(exported, contains('Lantern Spark'));
     expect(exported, contains('"schemaVersion"'));
+    expect(exported, isNot(contains('"source"')));
+    expect(exported, isNot(contains('"edition"')));
   });
 }

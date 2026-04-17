@@ -20,7 +20,11 @@ class CompendiumRichContentRenderer extends StatelessWidget {
     return _buildNode(context, content);
   }
 
-  Widget _buildNode(BuildContext context, dynamic value) {
+  Widget _buildNode(
+    BuildContext context,
+    dynamic value, {
+    String? hintedFieldKey,
+  }) {
     if (value == null) {
       return const SizedBox.shrink();
     }
@@ -28,7 +32,11 @@ class CompendiumRichContentRenderer extends StatelessWidget {
     if (value is String) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
-        child: _buildText(context, value),
+        child: _buildText(
+          context,
+          value,
+          hintedFieldKey: hintedFieldKey,
+        ),
       );
     }
 
@@ -39,7 +47,15 @@ class CompendiumRichContentRenderer extends StatelessWidget {
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: value.map((entry) => _buildNode(context, entry)).toList(),
+        children: value
+            .map(
+              (entry) => _buildNode(
+                context,
+                entry,
+                hintedFieldKey: hintedFieldKey,
+              ),
+            )
+            .toList(),
       );
     }
 
@@ -245,7 +261,11 @@ class CompendiumRichContentRenderer extends StatelessWidget {
             children: [
               Text(entry.key, style: Theme.of(context).textTheme.labelLarge),
               const SizedBox(height: 4),
-              _buildNode(context, entry.value),
+              _buildNode(
+                context,
+                entry.value,
+                hintedFieldKey: entry.key,
+              ),
             ],
           ),
         );
@@ -253,7 +273,30 @@ class CompendiumRichContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildText(BuildContext context, String value) {
+  Widget _buildText(
+    BuildContext context,
+    String value, {
+    String? hintedFieldKey,
+  }) {
+    final plainReference = CompendiumLinkParser.tryParsePlainReference(
+      value,
+      hintedFieldKey: hintedFieldKey,
+    );
+    if (plainReference != null) {
+      if (onLinkTap == null) {
+        return Text(plainReference.displayText);
+      }
+
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: ActionChip(
+          avatar: const Icon(Icons.visibility_outlined, size: 18),
+          label: Text(plainReference.displayText),
+          onPressed: () => onLinkTap!(plainReference),
+        ),
+      );
+    }
+
     final regex = RegExp(r'\{@([a-zA-Z]+)\s+([^}]+)\}');
     final matches = regex.allMatches(value).toList();
     if (matches.isEmpty) {

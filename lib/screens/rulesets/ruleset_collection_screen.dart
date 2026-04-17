@@ -34,13 +34,9 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
 
   RulesetSummary? _summary;
   final List<CompendiumEntityPreview> _items = [];
-  List<String> _availableSources = const [];
-  List<String> _availableEditions = const [];
   bool _isInitialLoading = true;
   bool _isLoadingMore = false;
   bool _hasMore = false;
-  String? _selectedSource;
-  String? _selectedEdition;
   int _page = 0;
   Timer? _searchDebounce;
 
@@ -83,8 +79,6 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
       rulesetId: widget.rulesetId,
       entityType: widget.entityType,
       query: _searchController.text,
-      source: _selectedSource,
-      edition: _selectedEdition,
       page: 0,
       pageSize: 100,
     );
@@ -98,8 +92,6 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
       _items
         ..clear()
         ..addAll(page.items);
-      _availableSources = page.availableSources;
-      _availableEditions = page.availableEditions;
       _hasMore = page.hasMore;
       _isInitialLoading = false;
     });
@@ -119,8 +111,6 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
       rulesetId: widget.rulesetId,
       entityType: widget.entityType,
       query: _searchController.text,
-      source: _selectedSource,
-      edition: _selectedEdition,
       page: nextPage,
       pageSize: 100,
     );
@@ -240,70 +230,6 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
                     ),
                   ),
                 ),
-                if (_availableSources.isNotEmpty ||
-                    _availableEditions.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        if (_availableSources.isNotEmpty)
-                          DropdownButtonFormField<String?>(
-                            initialValue: _selectedSource,
-                            decoration: const InputDecoration(
-                              labelText: 'Source',
-                              border: OutlineInputBorder(),
-                            ),
-                            items: [
-                              const DropdownMenuItem<String?>(
-                                value: null,
-                                child: Text('All Sources'),
-                              ),
-                              ..._availableSources.map(
-                                (source) => DropdownMenuItem<String?>(
-                                  value: source,
-                                  child: Text(source),
-                                ),
-                              ),
-                            ],
-                            onChanged: (value) async {
-                              setState(() {
-                                _selectedSource = value;
-                              });
-                              await _reload();
-                            },
-                          ),
-                        if (_availableSources.isNotEmpty &&
-                            _availableEditions.isNotEmpty)
-                          const SizedBox(height: 12),
-                        if (_availableEditions.isNotEmpty)
-                          DropdownButtonFormField<String?>(
-                            initialValue: _selectedEdition,
-                            decoration: const InputDecoration(
-                              labelText: 'Edition',
-                              border: OutlineInputBorder(),
-                            ),
-                            items: [
-                              const DropdownMenuItem<String?>(
-                                value: null,
-                                child: Text('All Editions'),
-                              ),
-                              ..._availableEditions.map(
-                                (edition) => DropdownMenuItem<String?>(
-                                  value: edition,
-                                  child: Text(edition),
-                                ),
-                              ),
-                            ],
-                            onChanged: (value) async {
-                              setState(() {
-                                _selectedEdition = value;
-                              });
-                              await _reload();
-                            },
-                          ),
-                      ],
-                    ),
-                  ),
                 const SizedBox(height: 6),
                 Expanded(
                   child: _items.isEmpty
@@ -409,21 +335,6 @@ class _RulesetCollectionScreenState extends State<RulesetCollectionScreen> {
                                           CompendiumTypeBadge(
                                             entityType: entity.entityType,
                                           ),
-                                          if (entity.source.trim().isNotEmpty)
-                                            Chip(
-                                              label: Text(
-                                                'Source: ${entity.source}',
-                                              ),
-                                            ),
-                                          if (entity.edition
-                                                  ?.trim()
-                                                  .isNotEmpty ==
-                                              true)
-                                            Chip(
-                                              label: Text(
-                                                'Edition: ${entity.edition}',
-                                              ),
-                                            ),
                                         ],
                                       ),
                                       if (entity.entityId

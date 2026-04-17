@@ -4,70 +4,70 @@
   "collectionKey": "raceList",
   "entityRows": [
     {
-      "entityId": "race:xphb:dragonborn:187",
+      "entityId": "race:dragonborn",
       "name": "Dragonborn",
-      "source": "XPHB",
-      "sourceFile": "races.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "dragonborn",
-      "searchText": "race:xphb:dragonborn:187 dragonborn xphb races.json one dragonborn xphb 187 true true one humanoid m 30 60 acid lightning fire poison cold internal races/dragonborn.mp3 item size: medium (about 5-7 feet tall) entries draconic ancestry your lineage stems from a dragon progenitor. choose the kind of dragon from the draconic ancestors table. your choice affects your breath weapon and {@variantrule damage|xphb} {@variantrule resistance|xphb} traits as well as your appearance. table draconic ancestors dragon damage type col-6 col-6 black acid blue lightning brass fire bronze lightning copper acid gold fire green poison red fire silver cold white cold entries breath weapon when you take the {@action attack|xphb} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule cone [area of effect]|xphb|cone} or a 30-foot {@variantrule line [area of effect]|xphb|line} that is 5 feet wide (choose the shape each time). each creature in that area must make a dexterity saving throw ({@dc 8} plus your constitution modifier and {@variantrule proficiency|xphb|proficiency bonus}). on a failed save, a creature takes {@damage 1d10} damage of the type determined by your draconic ancestry trait. on a successful save, a creature takes half as much damage. this damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}). you can use this breath weapon a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. entries damage resistance you have {@variantrule resistance|xphb} to the damage type determined by your draconic ancestry trait. entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries draconic flight when you reach character level 5, you can channel draconic magic to give yourself temporary flight. as a {@variantrule bonus action|xphb}, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the {@condition incapacitated|xphb} condition. during that time, you have a {@variantrule fly speed|xphb} equal to your {@variantrule speed|xphb}. your wings appear to be made of the same energy as your breath weapon. once you use this trait, you can't use it again until you finish a {@variantrule long rest|xphb}. true true dragonborn ({{color}}) xphb removearr draconic ancestry replacearr breath weapon entries breath weapon when you take the {@action attack|xphb} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule cone [area of effect]|xphb|cone} or a 30-foot {@variantrule line [area of effect]|xphb|line} that is 5 feet wide (choose the shape each time). each creature in that area must make a dexterity saving throw ({@dc 8} plus your constitution modifier and {@variantrule proficiency|xphb|proficiency bonus}). on a failed save, a creature takes {@damage 1d10} {{damagetype}} damage. on a successful save, a creature takes half as much damage. this damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}). you can use this breath weapon a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. replacearr damage resistance entries damage resistance you have {@variantrule resistance|xphb} to {{damagetype}} damage. black acid acid blue lightning lightning brass fire fire bronze lightning lightning copper acid acid gold fire fire green poison poison red fire fire silver cold cold white cold cold",
-      "payloadJson": "{\"id\":\"race:xphb:dragonborn:187\",\"name\":\"Dragonborn\",\"source\":\"XPHB\",\"sourceFile\":\"races.json\",\"edition\":\"one\",\"data\":{\"name\":\"Dragonborn\",\"source\":\"XPHB\",\"page\":187,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"M\"],\"speed\":30,\"darkvision\":60,\"resist\":[{\"choose\":{\"from\":[\"acid\",\"lightning\",\"fire\",\"poison\",\"cold\"]}}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/dragonborn.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 5-7 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Draconic Ancestry\",\"entries\":[\"Your lineage stems from a dragon progenitor. Choose the kind of dragon from the Draconic Ancestors table. Your choice affects your Breath Weapon and {@variantrule Damage|XPHB} {@variantrule Resistance|XPHB} traits as well as your appearance.\",{\"type\":\"table\",\"caption\":\"Draconic Ancestors\",\"colLabels\":[\"Dragon\",\"Damage Type\"],\"colStyles\":[\"col-6\",\"col-6\"],\"rows\":[[\"Black\",\"Acid\"],[\"Blue\",\"Lightning\"],[\"Brass\",\"Fire\"],[\"Bronze\",\"Lightning\"],[\"Copper\",\"Acid\"],[\"Gold\",\"Fire\"],[\"Green\",\"Poison\"],[\"Red\",\"Fire\"],[\"Silver\",\"Cold\"],[\"White\",\"Cold\"]]}]},{\"type\":\"entries\",\"name\":\"Breath Weapon\",\"entries\":[\"When you take the {@action Attack|XPHB} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} or a 30-foot {@variantrule Line [Area of Effect]|XPHB|Line} that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw ({@dc 8} plus your Constitution modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}). On a failed save, a creature takes {@damage 1d10} damage of the type determined by your Draconic Ancestry trait. On a successful save, a creature takes half as much damage. This damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}).\",\"You can use this Breath Weapon a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Damage Resistance\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to the damage type determined by your Draconic Ancestry trait.\"]},{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Draconic Flight\",\"entries\":[\"When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a {@variantrule Bonus Action|XPHB}, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the {@condition Incapacitated|XPHB} condition. During that time, you have a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB}. Your wings appear to be made of the same energy as your Breath Weapon. Once you use this trait, you can't use it again until you finish a {@variantrule Long Rest|XPHB}.\"]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"_abstract\":{\"name\":\"Dragonborn ({{color}})\",\"source\":\"XPHB\",\"_mod\":{\"entries\":[{\"mode\":\"removeArr\",\"names\":\"Draconic Ancestry\"},{\"mode\":\"replaceArr\",\"replace\":\"Breath Weapon\",\"items\":{\"type\":\"entries\",\"name\":\"Breath Weapon\",\"entries\":[\"When you take the {@action Attack|XPHB} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} or a 30-foot {@variantrule Line [Area of Effect]|XPHB|Line} that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw ({@dc 8} plus your Constitution modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}). On a failed save, a creature takes {@damage 1d10} {{damageType}} damage. On a successful save, a creature takes half as much damage. This damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}).\",\"You can use this Breath Weapon a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Damage Resistance\",\"items\":{\"type\":\"entries\",\"name\":\"Damage Resistance\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to {{damageType}} damage.\"]}}]}},\"_implementations\":[{\"_variables\":{\"color\":\"Black\",\"damageType\":\"Acid\"},\"resist\":[\"acid\"]},{\"_variables\":{\"color\":\"Blue\",\"damageType\":\"Lightning\"},\"resist\":[\"lightning\"]},{\"_variables\":{\"color\":\"Brass\",\"damageType\":\"Fire\"},\"resist\":[\"fire\"]},{\"_variables\":{\"color\":\"Bronze\",\"damageType\":\"Lightning\"},\"resist\":[\"lightning\"]},{\"_variables\":{\"color\":\"Copper\",\"damageType\":\"Acid\"},\"resist\":[\"acid\"]},{\"_variables\":{\"color\":\"Gold\",\"damageType\":\"Fire\"},\"resist\":[\"fire\"]},{\"_variables\":{\"color\":\"Green\",\"damageType\":\"Poison\"},\"resist\":[\"poison\"]},{\"_variables\":{\"color\":\"Red\",\"damageType\":\"Fire\"},\"resist\":[\"fire\"]},{\"_variables\":{\"color\":\"Silver\",\"damageType\":\"Cold\"},\"resist\":[\"cold\"]},{\"_variables\":{\"color\":\"White\",\"damageType\":\"Cold\"},\"resist\":[\"cold\"]}]}]}}"
+      "searchText": "race:dragonborn dragonborn dragonborn humanoid m 30 60 acid lightning fire poison cold internal races/dragonborn.mp3 item size: medium (about 5-7 feet tall) entries draconic ancestry your lineage stems from a dragon progenitor. choose the kind of dragon from the draconic ancestors table. your choice affects your breath weapon and {@variantrule damage|xphb} {@variantrule resistance|xphb} traits as well as your appearance. table draconic ancestors dragon damage type col-6 col-6 black acid blue lightning brass fire bronze lightning copper acid gold fire green poison red fire silver cold white cold entries breath weapon when you take the {@action attack|xphb} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule cone [area of effect]|xphb|cone} or a 30-foot {@variantrule line [area of effect]|xphb|line} that is 5 feet wide (choose the shape each time). each creature in that area must make a dexterity saving throw ({@dc 8} plus your constitution modifier and {@variantrule proficiency|xphb|proficiency bonus}). on a failed save, a creature takes {@damage 1d10} damage of the type determined by your draconic ancestry trait. on a successful save, a creature takes half as much damage. this damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}). you can use this breath weapon a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. entries damage resistance you have {@variantrule resistance|xphb} to the damage type determined by your draconic ancestry trait. entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries draconic flight when you reach character level 5, you can channel draconic magic to give yourself temporary flight. as a {@variantrule bonus action|xphb}, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the {@condition incapacitated|xphb} condition. during that time, you have a {@variantrule fly speed|xphb} equal to your {@variantrule speed|xphb}. your wings appear to be made of the same energy as your breath weapon. once you use this trait, you can't use it again until you finish a {@variantrule long rest|xphb}. true true dragonborn ({{color}}) removearr draconic ancestry replacearr breath weapon entries breath weapon when you take the {@action attack|xphb} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule cone [area of effect]|xphb|cone} or a 30-foot {@variantrule line [area of effect]|xphb|line} that is 5 feet wide (choose the shape each time). each creature in that area must make a dexterity saving throw ({@dc 8} plus your constitution modifier and {@variantrule proficiency|xphb|proficiency bonus}). on a failed save, a creature takes {@damage 1d10} {{damagetype}} damage. on a successful save, a creature takes half as much damage. this damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}). you can use this breath weapon a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. replacearr damage resistance entries damage resistance you have {@variantrule resistance|xphb} to {{damagetype}} damage. black acid acid blue lightning lightning brass fire fire bronze lightning lightning copper acid acid gold fire fire green poison poison red fire fire silver cold cold white cold cold",
+      "payloadJson": "{\"id\":\"race:dragonborn\",\"name\":\"Dragonborn\",\"data\":{\"name\":\"Dragonborn\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"M\"],\"speed\":30,\"darkvision\":60,\"resist\":[{\"choose\":{\"from\":[\"acid\",\"lightning\",\"fire\",\"poison\",\"cold\"]}}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/dragonborn.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 5-7 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Draconic Ancestry\",\"entries\":[\"Your lineage stems from a dragon progenitor. Choose the kind of dragon from the Draconic Ancestors table. Your choice affects your Breath Weapon and {@variantrule Damage|XPHB} {@variantrule Resistance|XPHB} traits as well as your appearance.\",{\"type\":\"table\",\"caption\":\"Draconic Ancestors\",\"colLabels\":[\"Dragon\",\"Damage Type\"],\"colStyles\":[\"col-6\",\"col-6\"],\"rows\":[[\"Black\",\"Acid\"],[\"Blue\",\"Lightning\"],[\"Brass\",\"Fire\"],[\"Bronze\",\"Lightning\"],[\"Copper\",\"Acid\"],[\"Gold\",\"Fire\"],[\"Green\",\"Poison\"],[\"Red\",\"Fire\"],[\"Silver\",\"Cold\"],[\"White\",\"Cold\"]]}]},{\"type\":\"entries\",\"name\":\"Breath Weapon\",\"entries\":[\"When you take the {@action Attack|XPHB} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} or a 30-foot {@variantrule Line [Area of Effect]|XPHB|Line} that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw ({@dc 8} plus your Constitution modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}). On a failed save, a creature takes {@damage 1d10} damage of the type determined by your Draconic Ancestry trait. On a successful save, a creature takes half as much damage. This damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}).\",\"You can use this Breath Weapon a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Damage Resistance\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to the damage type determined by your Draconic Ancestry trait.\"]},{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Draconic Flight\",\"entries\":[\"When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a {@variantrule Bonus Action|XPHB}, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the {@condition Incapacitated|XPHB} condition. During that time, you have a {@variantrule Fly Speed|XPHB} equal to your {@variantrule Speed|XPHB}. Your wings appear to be made of the same energy as your Breath Weapon. Once you use this trait, you can't use it again until you finish a {@variantrule Long Rest|XPHB}.\"]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"_abstract\":{\"name\":\"Dragonborn ({{color}})\",\"_mod\":{\"entries\":[{\"mode\":\"removeArr\",\"names\":\"Draconic Ancestry\"},{\"mode\":\"replaceArr\",\"replace\":\"Breath Weapon\",\"items\":{\"type\":\"entries\",\"name\":\"Breath Weapon\",\"entries\":[\"When you take the {@action Attack|XPHB} action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot {@variantrule Cone [Area of Effect]|XPHB|Cone} or a 30-foot {@variantrule Line [Area of Effect]|XPHB|Line} that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw ({@dc 8} plus your Constitution modifier and {@variantrule Proficiency|XPHB|Proficiency Bonus}). On a failed save, a creature takes {@damage 1d10} {{damageType}} damage. On a successful save, a creature takes half as much damage. This damage increases by {@damage 1d10} when you reach character levels 5 ({@damage 2d10}), 11 ({@damage 3d10}), and 17 ({@damage 4d10}).\",\"You can use this Breath Weapon a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Damage Resistance\",\"items\":{\"type\":\"entries\",\"name\":\"Damage Resistance\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to {{damageType}} damage.\"]}}]}},\"_implementations\":[{\"_variables\":{\"color\":\"Black\",\"damageType\":\"Acid\"},\"resist\":[\"acid\"]},{\"_variables\":{\"color\":\"Blue\",\"damageType\":\"Lightning\"},\"resist\":[\"lightning\"]},{\"_variables\":{\"color\":\"Brass\",\"damageType\":\"Fire\"},\"resist\":[\"fire\"]},{\"_variables\":{\"color\":\"Bronze\",\"damageType\":\"Lightning\"},\"resist\":[\"lightning\"]},{\"_variables\":{\"color\":\"Copper\",\"damageType\":\"Acid\"},\"resist\":[\"acid\"]},{\"_variables\":{\"color\":\"Gold\",\"damageType\":\"Fire\"},\"resist\":[\"fire\"]},{\"_variables\":{\"color\":\"Green\",\"damageType\":\"Poison\"},\"resist\":[\"poison\"]},{\"_variables\":{\"color\":\"Red\",\"damageType\":\"Fire\"},\"resist\":[\"fire\"]},{\"_variables\":{\"color\":\"Silver\",\"damageType\":\"Cold\"},\"resist\":[\"cold\"]},{\"_variables\":{\"color\":\"White\",\"damageType\":\"Cold\"},\"resist\":[\"cold\"]}]}]}}"
     },
     {
-      "entityId": "race:xphb:dwarf:188",
+      "entityId": "race:dwarf",
       "name": "Dwarf",
-      "source": "XPHB",
-      "sourceFile": "races.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "dwarf",
-      "searchText": "race:xphb:dwarf:188 dwarf xphb races.json one dwarf xphb 188 true true one humanoid m 30 120 poison internal races/dwarf.mp3 item size: medium (about 4-5 feet tall) entries darkvision you have {@sense darkvision|xphb} with a range of 120 feet. entries dwarven resilience you have {@variantrule resistance|xphb} to poison damage. you also have {@variantrule advantage|xphb} on saving throws you make to avoid or end the {@condition poisoned|xphb} condition. entries dwarven toughness your {@variantrule hit points|xphb|hit point} maximum increases by 1, and it increases by 1 again whenever you gain a level. entries stonecunning as a {@variantrule bonus action|xphb}, you gain {@sense tremorsense|xphb} with a range of 60 feet for 10 minutes. you must be on a stone surface or touching a stone surface to use this {@sense tremorsense|xphb}. the stone can be natural or worked. you can use this {@variantrule bonus action|xphb} a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. true true",
-      "payloadJson": "{\"id\":\"race:xphb:dwarf:188\",\"name\":\"Dwarf\",\"source\":\"XPHB\",\"sourceFile\":\"races.json\",\"edition\":\"one\",\"data\":{\"name\":\"Dwarf\",\"source\":\"XPHB\",\"page\":188,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"M\"],\"speed\":30,\"darkvision\":120,\"resist\":[\"poison\"],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/dwarf.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 4-5 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 120 feet.\"]},{\"type\":\"entries\",\"name\":\"Dwarven Resilience\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to Poison damage. You also have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Poisoned|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Dwarven Toughness\",\"entries\":[\"Your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by 1, and it increases by 1 again whenever you gain a level.\"]},{\"type\":\"entries\",\"name\":\"Stonecunning\",\"entries\":[\"As a {@variantrule Bonus Action|XPHB}, you gain {@sense Tremorsense|XPHB} with a range of 60 feet for 10 minutes. You must be on a stone surface or touching a stone surface to use this {@sense Tremorsense|XPHB}. The stone can be natural or worked.\",\"You can use this {@variantrule Bonus Action|XPHB} a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\"]}],\"hasFluff\":true,\"hasFluffImages\":true}}"
+      "searchText": "race:dwarf dwarf dwarf humanoid m 30 120 poison internal races/dwarf.mp3 item size: medium (about 4-5 feet tall) entries darkvision you have {@sense darkvision|xphb} with a range of 120 feet. entries dwarven resilience you have {@variantrule resistance|xphb} to poison damage. you also have {@variantrule advantage|xphb} on saving throws you make to avoid or end the {@condition poisoned|xphb} condition. entries dwarven toughness your {@variantrule hit points|xphb|hit point} maximum increases by 1, and it increases by 1 again whenever you gain a level. entries stonecunning as a {@variantrule bonus action|xphb}, you gain {@sense tremorsense|xphb} with a range of 60 feet for 10 minutes. you must be on a stone surface or touching a stone surface to use this {@sense tremorsense|xphb}. the stone can be natural or worked. you can use this {@variantrule bonus action|xphb} a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. true true",
+      "payloadJson": "{\"id\":\"race:dwarf\",\"name\":\"Dwarf\",\"data\":{\"name\":\"Dwarf\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"M\"],\"speed\":30,\"darkvision\":120,\"resist\":[\"poison\"],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/dwarf.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 4-5 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 120 feet.\"]},{\"type\":\"entries\",\"name\":\"Dwarven Resilience\",\"entries\":[\"You have {@variantrule Resistance|XPHB} to Poison damage. You also have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Poisoned|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Dwarven Toughness\",\"entries\":[\"Your {@variantrule Hit Points|XPHB|Hit Point} maximum increases by 1, and it increases by 1 again whenever you gain a level.\"]},{\"type\":\"entries\",\"name\":\"Stonecunning\",\"entries\":[\"As a {@variantrule Bonus Action|XPHB}, you gain {@sense Tremorsense|XPHB} with a range of 60 feet for 10 minutes. You must be on a stone surface or touching a stone surface to use this {@sense Tremorsense|XPHB}. The stone can be natural or worked.\",\"You can use this {@variantrule Bonus Action|XPHB} a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}.\"]}],\"hasFluff\":true,\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "race:xphb:elf:189",
+      "entityId": "race:elf",
       "name": "Elf",
-      "source": "XPHB",
-      "sourceFile": "races.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "elf",
-      "searchText": "race:xphb:elf:189 elf xphb races.json one elf xphb 189 true true one humanoid m 30 60 improved resting insight perception survival internal races/elf.mp3 drow faerie fire|xphb darkness|xphb int wis cha dancing lights|xphb#c high elf detect magic|xphb misty step|xphb int wis cha level=0|class=wizard wood elf longstrider|xphb pass without trace|xphb int wis cha druidcraft|xphb#c item size: medium (about 5-6 feet tall) entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries elven lineage you are part of a lineage that grants you supernatural abilities. choose a lineage from the elven lineages table. you gain the level 1 benefit of that lineage. when you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). table elven lineages lineage level 1 level 3 level 5 col-2 col-6 col-2 col-2 drow the range of your {@sense darkvision|xphb} increases to 120 feet. you also know the {@spell dancing lights|xphb} cantrip. {@spell faerie fire|xphb} {@spell darkness|xphb} high elf you know the {@spell prestidigitation|xphb} cantrip. whenever you finish a {@variantrule long rest|xphb}, you can replace that cantrip with a different {@filter cantrip from the wizard spell list|spells|level=0|class=wizard}. {@spell detect magic|xphb} {@spell misty step|xphb} wood elf your {@variantrule speed|xphb} increases to 35 feet. you also know the {@spell druidcraft|xphb} cantrip. {@spell longstrider|xphb} {@spell pass without trace|xphb} entries fey ancestry you have {@variantrule advantage|xphb} on saving throws you make to avoid or end the {@condition charmed|xphb} condition. entries keen senses you have proficiency in the {@skill insight|xphb}, {@skill perception|xphb}, or {@skill survival|xphb} skill. entries trance you don't need to sleep, and magic can't put you to sleep. you can finish a {@variantrule long rest|xphb} in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness. true true elf; drow lineage xphb replacearr elven lineage elven lineage (drow) entries you are part of a lineage that grants you supernatural abilities. the range of your {@sense darkvision|xphb} increases to 120 feet. you also know the {@spell dancing lights|xphb} cantrip. when you reach character level 3, you learn the {@spell faerie fire|xphb} spell. when you reach character level 5, you also learn the {@spell darkness|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). replacearr darkvision darkvision entries you have {@sense darkvision|xphb} with a range of 120 feet. 120 faerie fire|xphb darkness|xphb int wis cha dancing lights|xphb#c elf; high elf lineage xphb replacearr elven lineage elven lineage (high elf) entries you are part of a lineage that grants you supernatural abilities. you know the {@spell prestidigitation|xphb} cantrip. whenever you finish a {@variantrule long rest|xphb}, you can replace that cantrip with a different {@filter cantrip from the wizard spell list|spells|level=0|class=wizard}. when you reach character level 3, you learn the {@spell detect magic|xphb} spell. when you reach character level 5, you also learn the {@spell misty step|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). detect magic|xphb misty step|xphb int wis cha level=0|class=wizard elf; wood elf lineage xphb replacearr elven lineage elven lineage (wood elf) entries you are part of a lineage that grants you supernatural abilities. your {@variantrule speed|xphb} increases to 35 feet. you also know the {@spell druidcraft|xphb} cantrip. when you reach character level 3, you learn the {@spell longstrider|xphb} spell. when you reach character level 5, you also learn the {@spell pass without trace|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). 35 longstrider|xphb pass without trace|xphb int wis cha druidcraft|xphb#c",
-      "payloadJson": "{\"id\":\"race:xphb:elf:189\",\"name\":\"Elf\",\"source\":\"XPHB\",\"sourceFile\":\"races.json\",\"edition\":\"one\",\"data\":{\"name\":\"Elf\",\"source\":\"XPHB\",\"page\":189,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"M\"],\"speed\":30,\"darkvision\":60,\"traitTags\":[\"Improved Resting\"],\"skillProficiencies\":[{\"choose\":{\"from\":[\"insight\",\"perception\",\"survival\"]}}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/elf.mp3\"},\"additionalSpells\":[{\"name\":\"Drow\",\"innate\":{\"3\":{\"daily\":{\"1\":[\"faerie fire|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"darkness|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"dancing lights|xphb#c\"]}},{\"name\":\"High Elf\",\"innate\":{\"3\":{\"daily\":{\"1\":[\"detect magic|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"misty step|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":{\"_\":[{\"choose\":\"level=0|class=Wizard\"}]}}},{\"name\":\"Wood Elf\",\"innate\":{\"3\":{\"daily\":{\"1\":[\"longstrider|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"pass without trace|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"druidcraft|xphb#c\"]}}],\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 5-6 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Elven Lineage\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. Choose a lineage from the Elven Lineages table. You gain the level 1 benefit of that lineage.\",\"When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\",{\"type\":\"table\",\"caption\":\"Elven Lineages\",\"colLabels\":[\"Lineage\",\"Level 1\",\"Level 3\",\"Level 5\"],\"colStyles\":[\"col-2\",\"col-6\",\"col-2\",\"col-2\"],\"rows\":[[\"Drow\",\"The range of your {@sense Darkvision|XPHB} increases to 120 feet. You also know the {@spell Dancing Lights|XPHB} cantrip.\",\"{@spell Faerie Fire|XPHB}\",\"{@spell Darkness|XPHB}\"],[\"High Elf\",\"You know the {@spell Prestidigitation|XPHB} cantrip. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace that cantrip with a different {@filter cantrip from the Wizard spell list|spells|level=0|class=Wizard}.\",\"{@spell Detect Magic|XPHB}\",\"{@spell Misty Step|XPHB}\"],[\"Wood Elf\",\"Your {@variantrule Speed|XPHB} increases to 35 feet. You also know the {@spell Druidcraft|XPHB} cantrip.\",\"{@spell Longstrider|XPHB}\",\"{@spell Pass without Trace|XPHB}\"]]}]},{\"type\":\"entries\",\"name\":\"Fey Ancestry\",\"entries\":[\"You have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Charmed|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Keen Senses\",\"entries\":[\"You have proficiency in the {@skill Insight|XPHB}, {@skill Perception|XPHB}, or {@skill Survival|XPHB} skill.\"]},{\"type\":\"entries\",\"name\":\"Trance\",\"entries\":[\"You don't need to sleep, and magic can't put you to sleep. You can finish a {@variantrule Long Rest|XPHB} in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness.\"]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"name\":\"Elf; Drow Lineage\",\"source\":\"XPHB\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Elven Lineage\",\"items\":{\"name\":\"Elven Lineage (Drow)\",\"type\":\"entries\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. The range of your {@sense Darkvision|XPHB} increases to 120 feet. You also know the {@spell Dancing Lights|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Faerie Fire|XPHB} spell. When you reach character level 5, you also learn the {@spell Darkness|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Darkvision\",\"items\":{\"name\":\"Darkvision\",\"type\":\"entries\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 120 feet.\"]}}]},\"darkvision\":120,\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"faerie fire|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"darkness|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"dancing lights|xphb#c\"]}}]},{\"name\":\"Elf; High Elf Lineage\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Elven Lineage\",\"items\":{\"name\":\"Elven Lineage (High Elf)\",\"type\":\"entries\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. You know the {@spell Prestidigitation|XPHB} cantrip. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace that cantrip with a different {@filter cantrip from the Wizard spell list|spells|level=0|class=Wizard}.\",\"When you reach character level 3, you learn the {@spell Detect Magic|XPHB} spell. When you reach character level 5, you also learn the {@spell Misty Step|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\"]}}},\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"detect magic|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"misty step|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":{\"_\":[{\"choose\":\"level=0|class=Wizard\"}]}}}]},{\"name\":\"Elf; Wood Elf Lineage\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Elven Lineage\",\"items\":{\"name\":\"Elven Lineage (Wood Elf)\",\"type\":\"entries\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. Your {@variantrule Speed|XPHB} increases to 35 feet. You also know the {@spell Druidcraft|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Longstrider|XPHB} spell. When you reach character level 5, you also learn the {@spell Pass without Trace|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\"]}}},\"speed\":35,\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"longstrider|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"pass without trace|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"druidcraft|xphb#c\"]}}]}]}}"
+      "searchText": "race:elf elf elf humanoid m 30 60 improved resting insight perception survival internal races/elf.mp3 drow faerie fire|xphb darkness|xphb int wis cha dancing lights|xphb#c high elf detect magic|xphb misty step|xphb int wis cha level=0|class=wizard wood elf longstrider|xphb pass without trace|xphb int wis cha druidcraft|xphb#c item size: medium (about 5-6 feet tall) entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries elven lineage you are part of a lineage that grants you supernatural abilities. choose a lineage from the elven lineages table. you gain the level 1 benefit of that lineage. when you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). table elven lineages lineage level 1 level 3 level 5 col-2 col-6 col-2 col-2 drow the range of your {@sense darkvision|xphb} increases to 120 feet. you also know the {@spell dancing lights|xphb} cantrip. {@spell faerie fire|xphb} {@spell darkness|xphb} high elf you know the {@spell prestidigitation|xphb} cantrip. whenever you finish a {@variantrule long rest|xphb}, you can replace that cantrip with a different {@filter cantrip from the wizard spell list|spells|level=0|class=wizard}. {@spell detect magic|xphb} {@spell misty step|xphb} wood elf your {@variantrule speed|xphb} increases to 35 feet. you also know the {@spell druidcraft|xphb} cantrip. {@spell longstrider|xphb} {@spell pass without trace|xphb} entries fey ancestry you have {@variantrule advantage|xphb} on saving throws you make to avoid or end the {@condition charmed|xphb} condition. entries keen senses you have proficiency in the {@skill insight|xphb}, {@skill perception|xphb}, or {@skill survival|xphb} skill. entries trance you don't need to sleep, and magic can't put you to sleep. you can finish a {@variantrule long rest|xphb} in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness. true true elf; drow lineage replacearr elven lineage elven lineage (drow) entries you are part of a lineage that grants you supernatural abilities. the range of your {@sense darkvision|xphb} increases to 120 feet. you also know the {@spell dancing lights|xphb} cantrip. when you reach character level 3, you learn the {@spell faerie fire|xphb} spell. when you reach character level 5, you also learn the {@spell darkness|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). replacearr darkvision darkvision entries you have {@sense darkvision|xphb} with a range of 120 feet. 120 faerie fire|xphb darkness|xphb int wis cha dancing lights|xphb#c elf; high elf lineage replacearr elven lineage elven lineage (high elf) entries you are part of a lineage that grants you supernatural abilities. you know the {@spell prestidigitation|xphb} cantrip. whenever you finish a {@variantrule long rest|xphb}, you can replace that cantrip with a different {@filter cantrip from the wizard spell list|spells|level=0|class=wizard}. when you reach character level 3, you learn the {@spell detect magic|xphb} spell. when you reach character level 5, you also learn the {@spell misty step|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). detect magic|xphb misty step|xphb int wis cha level=0|class=wizard elf; wood elf lineage replacearr elven lineage elven lineage (wood elf) entries you are part of a lineage that grants you supernatural abilities. your {@variantrule speed|xphb} increases to 35 feet. you also know the {@spell druidcraft|xphb} cantrip. when you reach character level 3, you learn the {@spell longstrider|xphb} spell. when you reach character level 5, you also learn the {@spell pass without trace|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage). 35 longstrider|xphb pass without trace|xphb int wis cha druidcraft|xphb#c",
+      "payloadJson": "{\"id\":\"race:elf\",\"name\":\"Elf\",\"data\":{\"name\":\"Elf\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"M\"],\"speed\":30,\"darkvision\":60,\"traitTags\":[\"Improved Resting\"],\"skillProficiencies\":[{\"choose\":{\"from\":[\"insight\",\"perception\",\"survival\"]}}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/elf.mp3\"},\"additionalSpells\":[{\"name\":\"Drow\",\"innate\":{\"3\":{\"daily\":{\"1\":[\"faerie fire|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"darkness|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"dancing lights|xphb#c\"]}},{\"name\":\"High Elf\",\"innate\":{\"3\":{\"daily\":{\"1\":[\"detect magic|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"misty step|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":{\"_\":[{\"choose\":\"level=0|class=Wizard\"}]}}},{\"name\":\"Wood Elf\",\"innate\":{\"3\":{\"daily\":{\"1\":[\"longstrider|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"pass without trace|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"druidcraft|xphb#c\"]}}],\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 5-6 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Elven Lineage\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. Choose a lineage from the Elven Lineages table. You gain the level 1 benefit of that lineage.\",\"When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\",{\"type\":\"table\",\"caption\":\"Elven Lineages\",\"colLabels\":[\"Lineage\",\"Level 1\",\"Level 3\",\"Level 5\"],\"colStyles\":[\"col-2\",\"col-6\",\"col-2\",\"col-2\"],\"rows\":[[\"Drow\",\"The range of your {@sense Darkvision|XPHB} increases to 120 feet. You also know the {@spell Dancing Lights|XPHB} cantrip.\",\"{@spell Faerie Fire|XPHB}\",\"{@spell Darkness|XPHB}\"],[\"High Elf\",\"You know the {@spell Prestidigitation|XPHB} cantrip. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace that cantrip with a different {@filter cantrip from the Wizard spell list|spells|level=0|class=Wizard}.\",\"{@spell Detect Magic|XPHB}\",\"{@spell Misty Step|XPHB}\"],[\"Wood Elf\",\"Your {@variantrule Speed|XPHB} increases to 35 feet. You also know the {@spell Druidcraft|XPHB} cantrip.\",\"{@spell Longstrider|XPHB}\",\"{@spell Pass without Trace|XPHB}\"]]}]},{\"type\":\"entries\",\"name\":\"Fey Ancestry\",\"entries\":[\"You have {@variantrule Advantage|XPHB} on saving throws you make to avoid or end the {@condition Charmed|XPHB} condition.\"]},{\"type\":\"entries\",\"name\":\"Keen Senses\",\"entries\":[\"You have proficiency in the {@skill Insight|XPHB}, {@skill Perception|XPHB}, or {@skill Survival|XPHB} skill.\"]},{\"type\":\"entries\",\"name\":\"Trance\",\"entries\":[\"You don't need to sleep, and magic can't put you to sleep. You can finish a {@variantrule Long Rest|XPHB} in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness.\"]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"name\":\"Elf; Drow Lineage\",\"_mod\":{\"entries\":[{\"mode\":\"replaceArr\",\"replace\":\"Elven Lineage\",\"items\":{\"name\":\"Elven Lineage (Drow)\",\"type\":\"entries\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. The range of your {@sense Darkvision|XPHB} increases to 120 feet. You also know the {@spell Dancing Lights|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Faerie Fire|XPHB} spell. When you reach character level 5, you also learn the {@spell Darkness|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\"]}},{\"mode\":\"replaceArr\",\"replace\":\"Darkvision\",\"items\":{\"name\":\"Darkvision\",\"type\":\"entries\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 120 feet.\"]}}]},\"darkvision\":120,\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"faerie fire|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"darkness|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"dancing lights|xphb#c\"]}}]},{\"name\":\"Elf; High Elf Lineage\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Elven Lineage\",\"items\":{\"name\":\"Elven Lineage (High Elf)\",\"type\":\"entries\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. You know the {@spell Prestidigitation|XPHB} cantrip. Whenever you finish a {@variantrule Long Rest|XPHB}, you can replace that cantrip with a different {@filter cantrip from the Wizard spell list|spells|level=0|class=Wizard}.\",\"When you reach character level 3, you learn the {@spell Detect Magic|XPHB} spell. When you reach character level 5, you also learn the {@spell Misty Step|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\"]}}},\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"detect magic|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"misty step|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":{\"_\":[{\"choose\":\"level=0|class=Wizard\"}]}}}]},{\"name\":\"Elf; Wood Elf Lineage\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Elven Lineage\",\"items\":{\"name\":\"Elven Lineage (Wood Elf)\",\"type\":\"entries\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. Your {@variantrule Speed|XPHB} increases to 35 feet. You also know the {@spell Druidcraft|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Longstrider|XPHB} spell. When you reach character level 5, you also learn the {@spell Pass without Trace|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage).\"]}}},\"speed\":35,\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"longstrider|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"pass without trace|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"druidcraft|xphb#c\"]}}]}]}}"
     },
     {
-      "entityId": "race:xphb:gnome:191",
+      "entityId": "race:gnome",
       "name": "Gnome",
-      "source": "XPHB",
-      "sourceFile": "races.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "gnome",
-      "searchText": "race:xphb:gnome:191 gnome xphb races.json one gnome xphb 191 true true one humanoid s 30 60 internal races/gnome.mp3 item size: small (about 3-4 feet tall) entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries gnomish cunning you have {@variantrule advantage|xphb} on intelligence, wisdom, and charisma saving throws. entries gnomish lineage you are part of a lineage that grants you supernatural abilities. choose one of the following options; whichever one you choose, intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage): list list-hang-notitle item forest gnome you know the {@spell minor illusion|xphb} cantrip. you also always have the {@spell speak with animals|xphb} spell prepared. you can cast it without a spell slot a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. you can also use any spell slots you have to cast the spell. item rock gnome you know the {@spell mending|xphb} and {@spell prestidigitation|xphb} cantrips. in addition, you can spend 10 minutes casting {@spell prestidigitation|xphb} to create a tiny clockwork device (ac 5, 1 hp), such as a toy, fire starter, or music box. when you create the device, you determine its function by choosing one effect from {@spell prestidigitation|xphb}; the device produces that effect whenever you or another creature takes a {@variantrule bonus action|xphb} to activate it with a touch. if the chosen effect has options within it, you choose one of those options for the device when you create it. for example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. you can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action utilize|xphb} action. true true gnome; forest gnome lineage xphb replacearr gnomish lineage gnomish lineage (forest gnome) entries you know the {@spell minor illusion|xphb} cantrip. you also always have the {@spell speak with animals|xphb} spell prepared. you can cast it without a spell slot a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. you can also use any spell slots you have to cast the spell. speak with animals|xphb int wis cha minor illusion|xphb#c gnome; rock gnome lineage xphb replacearr gnomish lineage gnomish lineage (rock gnome) entries you know the {@spell mending|xphb} and {@spell prestidigitation|xphb} cantrips. in addition, you can spend 10 minutes casting {@spell prestidigitation|xphb} to create a tiny clockwork device (ac 5, 1 hp), such as a toy, fire starter, or music box. when you create the device, you determine its function by choosing one effect from {@spell prestidigitation|xphb}; the device produces that effect whenever you or another creature takes a {@variantrule bonus action|xphb} to activate it with a touch. if the chosen effect has options within it, you choose one of those options for the device when you create it. for example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. you can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action utilize|xphb} action. int wis cha mending|xphb#c prestidigitation|xphb#c",
-      "payloadJson": "{\"id\":\"race:xphb:gnome:191\",\"name\":\"Gnome\",\"source\":\"XPHB\",\"sourceFile\":\"races.json\",\"edition\":\"one\",\"data\":{\"name\":\"Gnome\",\"source\":\"XPHB\",\"page\":191,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"S\"],\"speed\":30,\"darkvision\":60,\"soundClip\":{\"type\":\"internal\",\"path\":\"races/gnome.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Small (about 3-4 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Gnomish Cunning\",\"entries\":[\"You have {@variantrule Advantage|XPHB} on Intelligence, Wisdom, and Charisma saving throws.\"]},{\"type\":\"entries\",\"name\":\"Gnomish Lineage\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. Choose one of the following options; whichever one you choose, Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage):\",{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Forest Gnome\",\"entries\":[\"You know the {@spell Minor Illusion|XPHB} cantrip. You also always have the {@spell Speak with Animals|XPHB} spell prepared. You can cast it without a spell slot a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You can also use any spell slots you have to cast the spell.\"]},{\"type\":\"item\",\"name\":\"Rock Gnome\",\"entries\":[\"You know the {@spell Mending|XPHB} and {@spell Prestidigitation|XPHB} cantrips. In addition, you can spend 10 minutes casting {@spell Prestidigitation|XPHB} to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from {@spell Prestidigitation|XPHB}; the device produces that effect whenever you or another creature takes a {@variantrule Bonus Action|XPHB} to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action Utilize|XPHB} action.\"]}]}]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"name\":\"Gnome; Forest Gnome Lineage\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Gnomish Lineage\",\"items\":{\"name\":\"Gnomish Lineage (Forest Gnome)\",\"type\":\"entries\",\"entries\":[\"You know the {@spell Minor Illusion|XPHB} cantrip. You also always have the {@spell Speak with Animals|XPHB} spell prepared. You can cast it without a spell slot a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You can also use any spell slots you have to cast the spell.\"]}}},\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"pb\":[\"speak with animals|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"minor illusion|xphb#c\"]}}]},{\"name\":\"Gnome; Rock Gnome Lineage\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Gnomish Lineage\",\"items\":{\"name\":\"Gnomish Lineage (Rock Gnome)\",\"type\":\"entries\",\"entries\":[\"You know the {@spell Mending|XPHB} and {@spell Prestidigitation|XPHB} cantrips. In addition, you can spend 10 minutes casting {@spell Prestidigitation|XPHB} to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from {@spell Prestidigitation|XPHB}; the device produces that effect whenever you or another creature takes a {@variantrule Bonus Action|XPHB} to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action Utilize|XPHB} action.\"]}}},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"mending|xphb#c\",\"prestidigitation|xphb#c\"]}}]}]}}"
+      "searchText": "race:gnome gnome gnome humanoid s 30 60 internal races/gnome.mp3 item size: small (about 3-4 feet tall) entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries gnomish cunning you have {@variantrule advantage|xphb} on intelligence, wisdom, and charisma saving throws. entries gnomish lineage you are part of a lineage that grants you supernatural abilities. choose one of the following options; whichever one you choose, intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage): list list-hang-notitle item forest gnome you know the {@spell minor illusion|xphb} cantrip. you also always have the {@spell speak with animals|xphb} spell prepared. you can cast it without a spell slot a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. you can also use any spell slots you have to cast the spell. item rock gnome you know the {@spell mending|xphb} and {@spell prestidigitation|xphb} cantrips. in addition, you can spend 10 minutes casting {@spell prestidigitation|xphb} to create a tiny clockwork device (ac 5, 1 hp), such as a toy, fire starter, or music box. when you create the device, you determine its function by choosing one effect from {@spell prestidigitation|xphb}; the device produces that effect whenever you or another creature takes a {@variantrule bonus action|xphb} to activate it with a touch. if the chosen effect has options within it, you choose one of those options for the device when you create it. for example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. you can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action utilize|xphb} action. true true gnome; forest gnome lineage replacearr gnomish lineage gnomish lineage (forest gnome) entries you know the {@spell minor illusion|xphb} cantrip. you also always have the {@spell speak with animals|xphb} spell prepared. you can cast it without a spell slot a number of times equal to your {@variantrule proficiency|xphb|proficiency bonus}, and you regain all expended uses when you finish a {@variantrule long rest|xphb}. you can also use any spell slots you have to cast the spell. speak with animals|xphb int wis cha minor illusion|xphb#c gnome; rock gnome lineage replacearr gnomish lineage gnomish lineage (rock gnome) entries you know the {@spell mending|xphb} and {@spell prestidigitation|xphb} cantrips. in addition, you can spend 10 minutes casting {@spell prestidigitation|xphb} to create a tiny clockwork device (ac 5, 1 hp), such as a toy, fire starter, or music box. when you create the device, you determine its function by choosing one effect from {@spell prestidigitation|xphb}; the device produces that effect whenever you or another creature takes a {@variantrule bonus action|xphb} to activate it with a touch. if the chosen effect has options within it, you choose one of those options for the device when you create it. for example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. you can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action utilize|xphb} action. int wis cha mending|xphb#c prestidigitation|xphb#c",
+      "payloadJson": "{\"id\":\"race:gnome\",\"name\":\"Gnome\",\"data\":{\"name\":\"Gnome\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"S\"],\"speed\":30,\"darkvision\":60,\"soundClip\":{\"type\":\"internal\",\"path\":\"races/gnome.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Small (about 3-4 feet tall)\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Gnomish Cunning\",\"entries\":[\"You have {@variantrule Advantage|XPHB} on Intelligence, Wisdom, and Charisma saving throws.\"]},{\"type\":\"entries\",\"name\":\"Gnomish Lineage\",\"entries\":[\"You are part of a lineage that grants you supernatural abilities. Choose one of the following options; whichever one you choose, Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage):\",{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Forest Gnome\",\"entries\":[\"You know the {@spell Minor Illusion|XPHB} cantrip. You also always have the {@spell Speak with Animals|XPHB} spell prepared. You can cast it without a spell slot a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You can also use any spell slots you have to cast the spell.\"]},{\"type\":\"item\",\"name\":\"Rock Gnome\",\"entries\":[\"You know the {@spell Mending|XPHB} and {@spell Prestidigitation|XPHB} cantrips. In addition, you can spend 10 minutes casting {@spell Prestidigitation|XPHB} to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from {@spell Prestidigitation|XPHB}; the device produces that effect whenever you or another creature takes a {@variantrule Bonus Action|XPHB} to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action Utilize|XPHB} action.\"]}]}]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"name\":\"Gnome; Forest Gnome Lineage\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Gnomish Lineage\",\"items\":{\"name\":\"Gnomish Lineage (Forest Gnome)\",\"type\":\"entries\",\"entries\":[\"You know the {@spell Minor Illusion|XPHB} cantrip. You also always have the {@spell Speak with Animals|XPHB} spell prepared. You can cast it without a spell slot a number of times equal to your {@variantrule Proficiency|XPHB|Proficiency Bonus}, and you regain all expended uses when you finish a {@variantrule Long Rest|XPHB}. You can also use any spell slots you have to cast the spell.\"]}}},\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"pb\":[\"speak with animals|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"minor illusion|xphb#c\"]}}]},{\"name\":\"Gnome; Rock Gnome Lineage\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Gnomish Lineage\",\"items\":{\"name\":\"Gnomish Lineage (Rock Gnome)\",\"type\":\"entries\",\"entries\":[\"You know the {@spell Mending|XPHB} and {@spell Prestidigitation|XPHB} cantrips. In addition, you can spend 10 minutes casting {@spell Prestidigitation|XPHB} to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from {@spell Prestidigitation|XPHB}; the device produces that effect whenever you or another creature takes a {@variantrule Bonus Action|XPHB} to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell's ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn't do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a {@action Utilize|XPHB} action.\"]}}},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"mending|xphb#c\",\"prestidigitation|xphb#c\"]}}]}]}}"
     },
     {
-      "entityId": "race:xphb:human:194",
+      "entityId": "race:human",
       "name": "Human",
-      "source": "XPHB",
-      "sourceFile": "races.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "human",
-      "searchText": "race:xphb:human:194 human xphb races.json one human xphb 194 true true one humanoid s m 30 o 1 1 internal races/human.mp3 item size: medium (about 4-7 feet tall) or small (about 2-4 feet tall), chosen when you select this species entries resourceful you gain {@variantrule heroic inspiration|xphb} whenever you finish a {@variantrule long rest|xphb}. entries skillful you gain proficiency in one skill of your choice. entries versatile you gain an {@filter origin feat|feats|category=o} of your choice. true true",
-      "payloadJson": "{\"id\":\"race:xphb:human:194\",\"name\":\"Human\",\"source\":\"XPHB\",\"sourceFile\":\"races.json\",\"edition\":\"one\",\"data\":{\"name\":\"Human\",\"source\":\"XPHB\",\"page\":194,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"S\",\"M\"],\"speed\":30,\"feats\":[{\"anyFromCategory\":{\"category\":[\"O\"],\"count\":1}}],\"skillProficiencies\":[{\"any\":1}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/human.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 4-7 feet tall) or Small (about 2-4 feet tall), chosen when you select this species\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Resourceful\",\"entries\":[\"You gain {@variantrule Heroic Inspiration|XPHB} whenever you finish a {@variantrule Long Rest|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Skillful\",\"entries\":[\"You gain proficiency in one skill of your choice.\"]},{\"type\":\"entries\",\"name\":\"Versatile\",\"entries\":[\"You gain an {@filter Origin feat|feats|category=o} of your choice.\"]}],\"hasFluff\":true,\"hasFluffImages\":true}}"
+      "searchText": "race:human human human humanoid s m 30 o 1 1 internal races/human.mp3 item size: medium (about 4-7 feet tall) or small (about 2-4 feet tall), chosen when you select this species entries resourceful you gain {@variantrule heroic inspiration|xphb} whenever you finish a {@variantrule long rest|xphb}. entries skillful you gain proficiency in one skill of your choice. entries versatile you gain an {@filter origin feat|feats|category=o} of your choice. true true",
+      "payloadJson": "{\"id\":\"race:human\",\"name\":\"Human\",\"data\":{\"name\":\"Human\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"S\",\"M\"],\"speed\":30,\"feats\":[{\"anyFromCategory\":{\"category\":[\"O\"],\"count\":1}}],\"skillProficiencies\":[{\"any\":1}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/human.mp3\"},\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 4-7 feet tall) or Small (about 2-4 feet tall), chosen when you select this species\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Resourceful\",\"entries\":[\"You gain {@variantrule Heroic Inspiration|XPHB} whenever you finish a {@variantrule Long Rest|XPHB}.\"]},{\"type\":\"entries\",\"name\":\"Skillful\",\"entries\":[\"You gain proficiency in one skill of your choice.\"]},{\"type\":\"entries\",\"name\":\"Versatile\",\"entries\":[\"You gain an {@filter Origin feat|feats|category=o} of your choice.\"]}],\"hasFluff\":true,\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "race:xphb:tiefling:197",
+      "entityId": "race:tiefling",
       "name": "Tiefling",
-      "source": "XPHB",
-      "sourceFile": "races.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "tiefling",
-      "searchText": "race:xphb:tiefling:197 tiefling xphb races.json one tiefling xphb 197 true true one humanoid s m 30 60 poison necrotic fire internal races/tiefling.mp3 int wis cha thaumaturgy|xphb#c item size: medium (about 4-7 feet tall) or small (about 3-4 feet tall), chosen when you select this species entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries fiendish legacy you are the recipient of a legacy that grants you supernatural abilities. choose a legacy from the fiendish legacies table. you gain the level 1 benefit of the chosen legacy. when you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). table fiendish legacies legacy level 1 level 3 level 5 col-2 col-6 col-2 col-2 abyssal you have {@variantrule resistance|xphb} to poison damage. you also know the {@spell poison spray|xphb} cantrip. {@spell ray of sickness|xphb} {@spell hold person|xphb} chthonic you have {@variantrule resistance|xphb} to necrotic damage. you also know the {@spell chill touch|xphb} cantrip. {@spell false life|xphb} {@spell ray of enfeeblement|xphb} infernal you have {@variantrule resistance|xphb} to fire damage. you also know the {@spell fire bolt|xphb} cantrip. {@spell hellish rebuke|xphb} {@spell darkness|xphb} entries otherworldly presence you know the {@spell thaumaturgy|xphb} cantrip. when you cast it with this trait, the spell uses the same spellcasting ability you use for your fiendish legacy trait. true true tiefling; abyssal legacy xphb replacearr fiendish legacy fiendish legacy (abyssal) entries you are the recipient of a legacy that grants you supernatural abilities. you have {@variantrule resistance|xphb} to poison damage. you also know the {@spell poison spray|xphb} cantrip. when you reach character level 3, you learn the {@spell ray of sickness|xphb} spell. when you reach character level 5, you also learn the {@spell hold person|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). 120 poison ray of sickness|xphb hold person|xphb int wis cha thaumaturgy|xphb#c poison spray|xphb#c tiefling; chthonic legacy xphb replacearr fiendish legacy fiendish legacy (chthonic) entries you are the recipient of a legacy that grants you supernatural abilities. you have {@variantrule resistance|xphb} to necrotic damage. you also know the {@spell chill touch|xphb} cantrip. when you reach character level 3, you learn the {@spell false life|xphb} spell. when you reach character level 5, you also learn the {@spell ray of enfeeblement|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). necrotic false life|xphb ray of enfeeblement|xphb int wis cha thaumaturgy|xphb#c chill touch|xphb#c tiefling; infernal legacy xphb replacearr fiendish legacy fiendish legacy (infernal) entries you are the recipient of a legacy that grants you supernatural abilities. you have {@variantrule resistance|xphb} to fire damage. you also know the {@spell fire bolt|xphb} cantrip. when you reach character level 3, you learn the {@spell hellish rebuke|xphb} spell. when you reach character level 5, you also learn the {@spell darkness|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). fire hellish rebuke|xphb darkness|xphb int wis cha thaumaturgy|xphb#c fire bolt|xphb#c",
-      "payloadJson": "{\"id\":\"race:xphb:tiefling:197\",\"name\":\"Tiefling\",\"source\":\"XPHB\",\"sourceFile\":\"races.json\",\"edition\":\"one\",\"data\":{\"name\":\"Tiefling\",\"source\":\"XPHB\",\"page\":197,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"S\",\"M\"],\"speed\":30,\"darkvision\":60,\"resist\":[{\"choose\":{\"from\":[\"poison\",\"necrotic\",\"fire\"]}}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/tiefling.mp3\"},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\"]}}],\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 4-7 feet tall) or Small (about 3-4 feet tall), chosen when you select this species\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Fiendish Legacy\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. Choose a legacy from the Fiendish Legacies table. You gain the level 1 benefit of the chosen legacy.\",\"When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\",{\"type\":\"table\",\"caption\":\"Fiendish Legacies\",\"colLabels\":[\"Legacy\",\"Level 1\",\"Level 3\",\"Level 5\"],\"colStyles\":[\"col-2\",\"col-6\",\"col-2\",\"col-2\"],\"rows\":[[\"Abyssal\",\"You have {@variantrule Resistance|XPHB} to Poison damage. You also know the {@spell Poison Spray|XPHB} cantrip.\",\"{@spell Ray of Sickness|XPHB}\",\"{@spell Hold Person|XPHB}\"],[\"Chthonic\",\"You have {@variantrule Resistance|XPHB} to Necrotic damage. You also know the {@spell Chill Touch|XPHB} cantrip.\",\"{@spell False Life|XPHB}\",\"{@spell Ray of Enfeeblement|XPHB}\"],[\"Infernal\",\"You have {@variantrule Resistance|XPHB} to Fire damage. You also know the {@spell Fire Bolt|XPHB} cantrip.\",\"{@spell Hellish Rebuke|XPHB}\",\"{@spell Darkness|XPHB}\"]]}]},{\"type\":\"entries\",\"name\":\"Otherworldly Presence\",\"entries\":[\"You know the {@spell Thaumaturgy|XPHB} cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiendish Legacy Trait.\"]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"name\":\"Tiefling; Abyssal Legacy\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Fiendish Legacy\",\"items\":{\"name\":\"Fiendish Legacy (Abyssal)\",\"type\":\"entries\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. You have {@variantrule Resistance|XPHB} to Poison damage. You also know the {@spell Poison Spray|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Ray of Sickness|XPHB} spell. When you reach character level 5, you also learn the {@spell Hold Person|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\"]}}},\"darkvision\":120,\"resist\":[\"poison\"],\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"ray of sickness|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"hold person|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\",\"poison spray|xphb#c\"]}}]},{\"name\":\"Tiefling; Chthonic Legacy\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Fiendish Legacy\",\"items\":{\"name\":\"Fiendish Legacy (Chthonic)\",\"type\":\"entries\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. You have {@variantrule Resistance|XPHB} to Necrotic damage. You also know the {@spell Chill Touch|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell False Life|XPHB} spell. When you reach character level 5, you also learn the {@spell Ray of Enfeeblement|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\"]}}},\"resist\":[\"necrotic\"],\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"false life|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"ray of enfeeblement|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\",\"chill touch|xphb#c\"]}}]},{\"name\":\"Tiefling; Infernal Legacy\",\"source\":\"XPHB\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Fiendish Legacy\",\"items\":{\"name\":\"Fiendish Legacy (Infernal)\",\"type\":\"entries\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. You have {@variantrule Resistance|XPHB} to Fire damage. You also know the {@spell Fire Bolt|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Hellish Rebuke|XPHB} spell. When you reach character level 5, you also learn the {@spell Darkness|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\"]}}},\"resist\":[\"fire\"],\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"hellish rebuke|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"darkness|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\",\"fire bolt|xphb#c\"]}}]}]}}"
+      "searchText": "race:tiefling tiefling tiefling humanoid s m 30 60 poison necrotic fire internal races/tiefling.mp3 int wis cha thaumaturgy|xphb#c item size: medium (about 4-7 feet tall) or small (about 3-4 feet tall), chosen when you select this species entries darkvision you have {@sense darkvision|xphb} with a range of 60 feet. entries fiendish legacy you are the recipient of a legacy that grants you supernatural abilities. choose a legacy from the fiendish legacies table. you gain the level 1 benefit of the chosen legacy. when you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. you always have that spell prepared. you can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). table fiendish legacies legacy level 1 level 3 level 5 col-2 col-6 col-2 col-2 abyssal you have {@variantrule resistance|xphb} to poison damage. you also know the {@spell poison spray|xphb} cantrip. {@spell ray of sickness|xphb} {@spell hold person|xphb} chthonic you have {@variantrule resistance|xphb} to necrotic damage. you also know the {@spell chill touch|xphb} cantrip. {@spell false life|xphb} {@spell ray of enfeeblement|xphb} infernal you have {@variantrule resistance|xphb} to fire damage. you also know the {@spell fire bolt|xphb} cantrip. {@spell hellish rebuke|xphb} {@spell darkness|xphb} entries otherworldly presence you know the {@spell thaumaturgy|xphb} cantrip. when you cast it with this trait, the spell uses the same spellcasting ability you use for your fiendish legacy trait. true true tiefling; abyssal legacy replacearr fiendish legacy fiendish legacy (abyssal) entries you are the recipient of a legacy that grants you supernatural abilities. you have {@variantrule resistance|xphb} to poison damage. you also know the {@spell poison spray|xphb} cantrip. when you reach character level 3, you learn the {@spell ray of sickness|xphb} spell. when you reach character level 5, you also learn the {@spell hold person|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). 120 poison ray of sickness|xphb hold person|xphb int wis cha thaumaturgy|xphb#c poison spray|xphb#c tiefling; chthonic legacy replacearr fiendish legacy fiendish legacy (chthonic) entries you are the recipient of a legacy that grants you supernatural abilities. you have {@variantrule resistance|xphb} to necrotic damage. you also know the {@spell chill touch|xphb} cantrip. when you reach character level 3, you learn the {@spell false life|xphb} spell. when you reach character level 5, you also learn the {@spell ray of enfeeblement|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). necrotic false life|xphb ray of enfeeblement|xphb int wis cha thaumaturgy|xphb#c chill touch|xphb#c tiefling; infernal legacy replacearr fiendish legacy fiendish legacy (infernal) entries you are the recipient of a legacy that grants you supernatural abilities. you have {@variantrule resistance|xphb} to fire damage. you also know the {@spell fire bolt|xphb} cantrip. when you reach character level 3, you learn the {@spell hellish rebuke|xphb} spell. when you reach character level 5, you also learn the {@spell darkness|xphb} spell. you always have these spells prepared, and you can cast each spell once without a spell slot. once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule long rest|xphb}. you can also cast the spell using any spell slots you have of the appropriate level. intelligence, wisdom, or charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy). fire hellish rebuke|xphb darkness|xphb int wis cha thaumaturgy|xphb#c fire bolt|xphb#c",
+      "payloadJson": "{\"id\":\"race:tiefling\",\"name\":\"Tiefling\",\"data\":{\"name\":\"Tiefling\",\"creatureTypes\":[\"humanoid\"],\"size\":[\"S\",\"M\"],\"speed\":30,\"darkvision\":60,\"resist\":[{\"choose\":{\"from\":[\"poison\",\"necrotic\",\"fire\"]}}],\"soundClip\":{\"type\":\"internal\",\"path\":\"races/tiefling.mp3\"},\"additionalSpells\":[{\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\"]}}],\"sizeEntry\":{\"type\":\"item\",\"name\":\"Size:\",\"entries\":[\"Medium (about 4-7 feet tall) or Small (about 3-4 feet tall), chosen when you select this species\"]},\"entries\":[{\"type\":\"entries\",\"name\":\"Darkvision\",\"entries\":[\"You have {@sense Darkvision|XPHB} with a range of 60 feet.\"]},{\"type\":\"entries\",\"name\":\"Fiendish Legacy\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. Choose a legacy from the Fiendish Legacies table. You gain the level 1 benefit of the chosen legacy.\",\"When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\",{\"type\":\"table\",\"caption\":\"Fiendish Legacies\",\"colLabels\":[\"Legacy\",\"Level 1\",\"Level 3\",\"Level 5\"],\"colStyles\":[\"col-2\",\"col-6\",\"col-2\",\"col-2\"],\"rows\":[[\"Abyssal\",\"You have {@variantrule Resistance|XPHB} to Poison damage. You also know the {@spell Poison Spray|XPHB} cantrip.\",\"{@spell Ray of Sickness|XPHB}\",\"{@spell Hold Person|XPHB}\"],[\"Chthonic\",\"You have {@variantrule Resistance|XPHB} to Necrotic damage. You also know the {@spell Chill Touch|XPHB} cantrip.\",\"{@spell False Life|XPHB}\",\"{@spell Ray of Enfeeblement|XPHB}\"],[\"Infernal\",\"You have {@variantrule Resistance|XPHB} to Fire damage. You also know the {@spell Fire Bolt|XPHB} cantrip.\",\"{@spell Hellish Rebuke|XPHB}\",\"{@spell Darkness|XPHB}\"]]}]},{\"type\":\"entries\",\"name\":\"Otherworldly Presence\",\"entries\":[\"You know the {@spell Thaumaturgy|XPHB} cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiendish Legacy Trait.\"]}],\"hasFluff\":true,\"hasFluffImages\":true,\"_versions\":[{\"name\":\"Tiefling; Abyssal Legacy\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Fiendish Legacy\",\"items\":{\"name\":\"Fiendish Legacy (Abyssal)\",\"type\":\"entries\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. You have {@variantrule Resistance|XPHB} to Poison damage. You also know the {@spell Poison Spray|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Ray of Sickness|XPHB} spell. When you reach character level 5, you also learn the {@spell Hold Person|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\"]}}},\"darkvision\":120,\"resist\":[\"poison\"],\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"ray of sickness|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"hold person|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\",\"poison spray|xphb#c\"]}}]},{\"name\":\"Tiefling; Chthonic Legacy\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Fiendish Legacy\",\"items\":{\"name\":\"Fiendish Legacy (Chthonic)\",\"type\":\"entries\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. You have {@variantrule Resistance|XPHB} to Necrotic damage. You also know the {@spell Chill Touch|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell False Life|XPHB} spell. When you reach character level 5, you also learn the {@spell Ray of Enfeeblement|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\"]}}},\"resist\":[\"necrotic\"],\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"false life|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"ray of enfeeblement|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\",\"chill touch|xphb#c\"]}}]},{\"name\":\"Tiefling; Infernal Legacy\",\"_mod\":{\"entries\":{\"mode\":\"replaceArr\",\"replace\":\"Fiendish Legacy\",\"items\":{\"name\":\"Fiendish Legacy (Infernal)\",\"type\":\"entries\",\"entries\":[\"You are the recipient of a legacy that grants you supernatural abilities. You have {@variantrule Resistance|XPHB} to Fire damage. You also know the {@spell Fire Bolt|XPHB} cantrip.\",\"When you reach character level 3, you learn the {@spell Hellish Rebuke|XPHB} spell. When you reach character level 5, you also learn the {@spell Darkness|XPHB} spell. You always have these spells prepared, and you can cast each spell once without a spell slot. Once you cast either of these spells with this trait, you can't cast that spell with it again until you finish a {@variantrule Long Rest|XPHB}. You can also cast the spell using any spell slots you have of the appropriate level.\",\"Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy).\"]}}},\"resist\":[\"fire\"],\"additionalSpells\":[{\"innate\":{\"3\":{\"daily\":{\"1\":[\"hellish rebuke|xphb\"]}},\"5\":{\"daily\":{\"1\":[\"darkness|xphb\"]}}},\"ability\":{\"choose\":[\"int\",\"wis\",\"cha\"]},\"known\":{\"1\":[\"thaumaturgy|xphb#c\",\"fire bolt|xphb#c\"]}}]}]}}"
     }
   ],
   "linkRows": [
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Damage|XPHB",
       "displayText": "Damage",
@@ -76,7 +76,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -85,7 +85,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",
@@ -94,7 +94,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Cone [Area of Effect]|XPHB|Cone",
       "displayText": "Cone [Area of Effect]",
@@ -103,7 +103,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Line [Area of Effect]|XPHB|Line",
       "displayText": "Line [Area of Effect]",
@@ -112,7 +112,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "dc",
       "rawReference": "8",
       "displayText": "8",
@@ -121,7 +121,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -130,7 +130,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "1d10",
       "displayText": "1d10",
@@ -139,7 +139,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "1d10",
       "displayText": "1d10",
@@ -148,7 +148,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "2d10",
       "displayText": "2d10",
@@ -157,7 +157,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "3d10",
       "displayText": "3d10",
@@ -166,7 +166,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "4d10",
       "displayText": "4d10",
@@ -175,7 +175,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -184,7 +184,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -193,7 +193,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -202,7 +202,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -211,7 +211,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -220,7 +220,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "condition",
       "rawReference": "Incapacitated|XPHB",
       "displayText": "Incapacitated",
@@ -229,7 +229,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Fly Speed|XPHB",
       "displayText": "Fly Speed",
@@ -238,7 +238,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -247,7 +247,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -256,7 +256,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",
@@ -265,7 +265,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Cone [Area of Effect]|XPHB|Cone",
       "displayText": "Cone [Area of Effect]",
@@ -274,7 +274,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Line [Area of Effect]|XPHB|Line",
       "displayText": "Line [Area of Effect]",
@@ -283,7 +283,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "dc",
       "rawReference": "8",
       "displayText": "8",
@@ -292,7 +292,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -301,7 +301,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "1d10",
       "displayText": "1d10",
@@ -310,7 +310,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "1d10",
       "displayText": "1d10",
@@ -319,7 +319,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "2d10",
       "displayText": "2d10",
@@ -328,7 +328,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "3d10",
       "displayText": "3d10",
@@ -337,7 +337,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "damage",
       "rawReference": "4d10",
       "displayText": "4d10",
@@ -346,7 +346,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -355,7 +355,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -364,7 +364,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dragonborn:187",
+      "sourceEntityId": "race:dragonborn",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -373,7 +373,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -382,7 +382,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -391,7 +391,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -400,7 +400,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "condition",
       "rawReference": "Poisoned|XPHB",
       "displayText": "Poisoned",
@@ -409,7 +409,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Hit Points|XPHB|Hit Point",
       "displayText": "Hit Points",
@@ -418,7 +418,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -427,7 +427,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "sense",
       "rawReference": "Tremorsense|XPHB",
       "displayText": "Tremorsense",
@@ -436,7 +436,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "sense",
       "rawReference": "Tremorsense|XPHB",
       "displayText": "Tremorsense",
@@ -445,7 +445,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -454,7 +454,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -463,7 +463,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:dwarf:188",
+      "sourceEntityId": "race:dwarf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -472,7 +472,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -481,7 +481,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -490,7 +490,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -499,7 +499,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Dancing Lights|XPHB",
       "displayText": "Dancing Lights",
@@ -508,7 +508,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Faerie Fire|XPHB",
       "displayText": "Faerie Fire",
@@ -517,7 +517,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -526,7 +526,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -535,7 +535,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -544,7 +544,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "filter",
       "rawReference": "cantrip from the Wizard spell list|spells|level=0|class=Wizard",
       "displayText": "cantrip from the Wizard spell list",
@@ -553,7 +553,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Detect Magic|XPHB",
       "displayText": "Detect Magic",
@@ -562,7 +562,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Misty Step|XPHB",
       "displayText": "Misty Step",
@@ -571,7 +571,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -580,7 +580,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Druidcraft|XPHB",
       "displayText": "Druidcraft",
@@ -589,7 +589,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Longstrider|XPHB",
       "displayText": "Longstrider",
@@ -598,7 +598,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Pass without Trace|XPHB",
       "displayText": "Pass without Trace",
@@ -607,7 +607,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -616,7 +616,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "condition",
       "rawReference": "Charmed|XPHB",
       "displayText": "Charmed",
@@ -625,7 +625,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "skill",
       "rawReference": "Insight|XPHB",
       "displayText": "Insight",
@@ -634,7 +634,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -643,7 +643,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "skill",
       "rawReference": "Survival|XPHB",
       "displayText": "Survival",
@@ -652,7 +652,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -661,7 +661,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -670,7 +670,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Dancing Lights|XPHB",
       "displayText": "Dancing Lights",
@@ -679,7 +679,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Faerie Fire|XPHB",
       "displayText": "Faerie Fire",
@@ -688,7 +688,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -697,7 +697,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -706,7 +706,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -715,7 +715,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -724,7 +724,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -733,7 +733,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "filter",
       "rawReference": "cantrip from the Wizard spell list|spells|level=0|class=Wizard",
       "displayText": "cantrip from the Wizard spell list",
@@ -742,7 +742,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Detect Magic|XPHB",
       "displayText": "Detect Magic",
@@ -751,7 +751,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Misty Step|XPHB",
       "displayText": "Misty Step",
@@ -760,7 +760,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -769,7 +769,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -778,7 +778,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Druidcraft|XPHB",
       "displayText": "Druidcraft",
@@ -787,7 +787,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Longstrider|XPHB",
       "displayText": "Longstrider",
@@ -796,7 +796,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "spell",
       "rawReference": "Pass without Trace|XPHB",
       "displayText": "Pass without Trace",
@@ -805,7 +805,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:elf:189",
+      "sourceEntityId": "race:elf",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -814,7 +814,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -823,7 +823,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -832,7 +832,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Minor Illusion|XPHB",
       "displayText": "Minor Illusion",
@@ -841,7 +841,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Speak with Animals|XPHB",
       "displayText": "Speak with Animals",
@@ -850,7 +850,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -859,7 +859,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -868,7 +868,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Mending|XPHB",
       "displayText": "Mending",
@@ -877,7 +877,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -886,7 +886,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -895,7 +895,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -904,7 +904,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -913,7 +913,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "action",
       "rawReference": "Utilize|XPHB",
       "displayText": "Utilize",
@@ -922,7 +922,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Minor Illusion|XPHB",
       "displayText": "Minor Illusion",
@@ -931,7 +931,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Speak with Animals|XPHB",
       "displayText": "Speak with Animals",
@@ -940,7 +940,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Proficiency|XPHB|Proficiency Bonus",
       "displayText": "Proficiency",
@@ -949,7 +949,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -958,7 +958,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Mending|XPHB",
       "displayText": "Mending",
@@ -967,7 +967,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -976,7 +976,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -985,7 +985,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "spell",
       "rawReference": "Prestidigitation|XPHB",
       "displayText": "Prestidigitation",
@@ -994,7 +994,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -1003,7 +1003,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:gnome:191",
+      "sourceEntityId": "race:gnome",
       "targetTag": "action",
       "rawReference": "Utilize|XPHB",
       "displayText": "Utilize",
@@ -1012,7 +1012,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:human:194",
+      "sourceEntityId": "race:human",
       "targetTag": "variantrule",
       "rawReference": "Heroic Inspiration|XPHB",
       "displayText": "Heroic Inspiration",
@@ -1021,7 +1021,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:human:194",
+      "sourceEntityId": "race:human",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -1030,7 +1030,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:human:194",
+      "sourceEntityId": "race:human",
       "targetTag": "filter",
       "rawReference": "Origin feat|feats|category=o",
       "displayText": "Origin feat",
@@ -1039,7 +1039,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "sense",
       "rawReference": "Darkvision|XPHB",
       "displayText": "Darkvision",
@@ -1048,7 +1048,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -1057,7 +1057,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -1066,7 +1066,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Poison Spray|XPHB",
       "displayText": "Poison Spray",
@@ -1075,7 +1075,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Ray of Sickness|XPHB",
       "displayText": "Ray of Sickness",
@@ -1084,7 +1084,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Hold Person|XPHB",
       "displayText": "Hold Person",
@@ -1093,7 +1093,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -1102,7 +1102,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Chill Touch|XPHB",
       "displayText": "Chill Touch",
@@ -1111,7 +1111,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "False Life|XPHB",
       "displayText": "False Life",
@@ -1120,7 +1120,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Ray of Enfeeblement|XPHB",
       "displayText": "Ray of Enfeeblement",
@@ -1129,7 +1129,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -1138,7 +1138,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Fire Bolt|XPHB",
       "displayText": "Fire Bolt",
@@ -1147,7 +1147,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Hellish Rebuke|XPHB",
       "displayText": "Hellish Rebuke",
@@ -1156,7 +1156,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -1165,7 +1165,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Thaumaturgy|XPHB",
       "displayText": "Thaumaturgy",
@@ -1174,7 +1174,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -1183,7 +1183,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Poison Spray|XPHB",
       "displayText": "Poison Spray",
@@ -1192,7 +1192,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Ray of Sickness|XPHB",
       "displayText": "Ray of Sickness",
@@ -1201,7 +1201,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Hold Person|XPHB",
       "displayText": "Hold Person",
@@ -1210,7 +1210,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -1219,7 +1219,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -1228,7 +1228,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Chill Touch|XPHB",
       "displayText": "Chill Touch",
@@ -1237,7 +1237,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "False Life|XPHB",
       "displayText": "False Life",
@@ -1246,7 +1246,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Ray of Enfeeblement|XPHB",
       "displayText": "Ray of Enfeeblement",
@@ -1255,7 +1255,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",
@@ -1264,7 +1264,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Resistance|XPHB",
       "displayText": "Resistance",
@@ -1273,7 +1273,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Fire Bolt|XPHB",
       "displayText": "Fire Bolt",
@@ -1282,7 +1282,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Hellish Rebuke|XPHB",
       "displayText": "Hellish Rebuke",
@@ -1291,7 +1291,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "spell",
       "rawReference": "Darkness|XPHB",
       "displayText": "Darkness",
@@ -1300,7 +1300,7 @@
     },
     {
       "sourceEntityType": "race",
-      "sourceEntityId": "race:xphb:tiefling:197",
+      "sourceEntityId": "race:tiefling",
       "targetTag": "variantrule",
       "rawReference": "Long Rest|XPHB",
       "displayText": "Long Rest",

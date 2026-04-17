@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:openrpg/compendium/generated/compendium_generated.dart';
 import 'package:openrpg/compendium/models/compendium_editor.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
+import 'package:openrpg/compendium/models/compendium_link.dart';
 import 'package:openrpg/screens/rulesets/compendium_rich_content_renderer.dart';
 import 'package:openrpg/screens/rulesets/compendium_structured_support.dart';
+
+const _globallyHiddenStructuredKeys = <String>{'additionalSources'};
 
 class CompendiumStructuredAttributesView extends StatelessWidget {
   final String? entityType;
@@ -31,6 +34,11 @@ class CompendiumStructuredAttributesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveHiddenKeys = {
+      ...CompendiumJsonUtils.legacyProvenanceKeys,
+      ..._globallyHiddenStructuredKeys,
+      ...hiddenKeys,
+    };
     final descriptorFields =
         fields ??
         editorDescriptorForType(entityType ?? '')?.fields ??
@@ -39,7 +47,7 @@ class CompendiumStructuredAttributesView extends StatelessWidget {
     final children = <Widget>[];
 
     for (final field in descriptorFields) {
-      if (hiddenKeys.contains(field.key)) {
+      if (effectiveHiddenKeys.contains(field.key)) {
         continue;
       }
 
@@ -64,7 +72,7 @@ class CompendiumStructuredAttributesView extends StatelessWidget {
     }
 
     final additionalEntries = data.entries
-        .where((entry) => !hiddenKeys.contains(entry.key))
+        .where((entry) => !effectiveHiddenKeys.contains(entry.key))
         .where((entry) => !renderedKeys.contains(entry.key))
         .where((entry) => compendiumHasMeaningfulValue(entry.value))
         .toList(growable: false);
@@ -201,6 +209,24 @@ class CompendiumStructuredFieldView extends StatelessWidget {
     required dynamic itemValue,
     required CompendiumFieldDescriptor itemDescriptor,
   }) {
+    final referenceCandidate = itemValue is String
+        ? CompendiumLinkParser.tryParsePlainReference(
+            itemValue,
+            hintedFieldKey: field.key,
+          )
+        : null;
+    if (referenceCandidate != null) {
+      return _StructuredSectionCard(
+        compact: compact,
+        child: _CompendiumReferenceAction(
+          candidate: referenceCandidate,
+          onLinkTap: onLinkTap,
+          compact: compact,
+          label: '${field.label} #${index + 1}',
+        ),
+      );
+    }
+
     if (_isPrimitiveValue(itemValue) &&
         !compendiumLooksLikeRichContent(itemValue)) {
       return _StructuredSectionCard(
@@ -228,6 +254,47 @@ class CompendiumStructuredFieldView extends StatelessWidget {
 
     if (itemValue is Map || itemDescriptor.kind == CompendiumFieldKind.object) {
       final mapValue = compendiumAsMap(itemValue);
+      final mapReference = CompendiumLinkParser.extractReferenceFromMap(
+        mapValue,
+      );
+      if (mapReference != null) {
+        final remainingEntries = Map<String, dynamic>.from(mapValue)
+          ..removeWhere(
+            (key, value) => CompendiumLinkParser.tryParsePlainReference(
+                  value?.toString() ?? '',
+                  hintedFieldKey: key,
+                ) !=
+                null,
+          );
+        return _StructuredSectionCard(
+          compact: compact,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _CompendiumReferenceAction(
+                candidate: mapReference,
+                onLinkTap: onLinkTap,
+                compact: compact,
+                label: '${field.label} #${index + 1}',
+              ),
+              if (remainingEntries.isNotEmpty) ...[
+                SizedBox(height: compact ? 10 : 12),
+                CompendiumStructuredAttributesView(
+                  fields: compendiumMergeKnownAndInferredFields(
+                    itemDescriptor.fields,
+                    remainingEntries,
+                  ),
+                  data: remainingEntries,
+                  onLinkTap: onLinkTap,
+                  compact: compact,
+                  emptyText: 'No additional values.',
+                ),
+              ],
+            ],
+          ),
+        );
+      }
+
       final mergedFields = compendiumMergeKnownAndInferredFields(
         itemDescriptor.fields,
         mapValue,
@@ -331,6 +398,21 @@ class CompendiumStructuredValueView extends StatelessWidget {
       return const Text('None');
     }
 
+    if (value is String) {
+      final referenceCandidate = CompendiumLinkParser.tryParsePlainReference(
+        value,
+        hintedFieldKey: field.key,
+      );
+      if (referenceCandidate != null) {
+        return _CompendiumReferenceAction(
+          candidate: referenceCandidate,
+          onLinkTap: onLinkTap,
+          compact: compact,
+          label: field.label,
+        );
+      }
+    }
+
     if (field.kind == CompendiumFieldKind.boolean || value is bool) {
       final enabled = value == true;
       return Chip(
@@ -352,6 +434,32 @@ class CompendiumStructuredValueView extends StatelessWidget {
 
     if (value is List) {
       final values = compendiumAsList(value);
+      final referenceCandidates = values
+          .map(
+            (item) => item is String
+                ? CompendiumLinkParser.tryParsePlainReference(
+                    item,
+                    hintedFieldKey: field.key,
+                  )
+                : null,
+          )
+          .toList(growable: false);
+      final allReferences =
+          values.isNotEmpty && referenceCandidates.every((candidate) => candidate != null);
+      if (allReferences) {
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final candidate in referenceCandidates.whereType<CompendiumLinkCandidate>())
+              _CompendiumReferenceChip(
+                candidate: candidate,
+                onLinkTap: onLinkTap,
+              ),
+          ],
+        );
+      }
+
       final allShort = values.every(
         (item) => item is String && item.trim().isNotEmpty && item.length <= 30,
       );
@@ -401,6 +509,18 @@ class CompendiumStructuredValueView extends StatelessWidget {
     }
 
     if (leafValue is String) {
+      final referenceCandidate = CompendiumLinkParser.tryParsePlainReference(
+        leafValue,
+        hintedFieldKey: field.key,
+      );
+      if (referenceCandidate != null) {
+        return _CompendiumReferenceAction(
+          candidate: referenceCandidate,
+          onLinkTap: onLinkTap,
+          compact: compact,
+          label: field.label,
+        );
+      }
       return SelectableText(leafValue);
     }
 
@@ -518,6 +638,61 @@ class _StructuredSectionCard extends StatelessWidget {
         border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       child: child,
+    );
+  }
+}
+
+class _CompendiumReferenceAction extends StatelessWidget {
+  final CompendiumLinkCandidate candidate;
+  final CompendiumLinkTap? onLinkTap;
+  final bool compact;
+  final String label;
+
+  const _CompendiumReferenceAction({
+    required this.candidate,
+    required this.onLinkTap,
+    required this.compact,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final button = FilledButton.tonalIcon(
+      onPressed: onLinkTap == null ? null : () => onLinkTap!(candidate),
+      icon: const Icon(Icons.open_in_new, size: 18),
+      label: Text(candidate.displayText),
+    );
+
+    if (compact) {
+      return button;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 10),
+        button,
+      ],
+    );
+  }
+}
+
+class _CompendiumReferenceChip extends StatelessWidget {
+  final CompendiumLinkCandidate candidate;
+  final CompendiumLinkTap? onLinkTap;
+
+  const _CompendiumReferenceChip({
+    required this.candidate,
+    required this.onLinkTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      avatar: const Icon(Icons.visibility_outlined, size: 18),
+      label: Text(candidate.displayText),
+      onPressed: onLinkTap == null ? null : () => onLinkTap!(candidate),
     );
   }
 }

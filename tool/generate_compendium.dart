@@ -13,6 +13,59 @@ const _excludedFilePrefixes = <String>[
 
 const _excludedDirectories = <String>['generated'];
 
+const _allowedObjectTypes = <String>{
+  'action',
+  'background',
+  'class',
+  'classFeature',
+  'condition',
+  'deity',
+  'disease',
+  'feat',
+  'hazard',
+  'item',
+  'itemGroup',
+  'itemMastery',
+  'itemProperty',
+  'itemType',
+  'language',
+  'magicvariant',
+  'monster',
+  'monsterfeatures',
+  'object',
+  'race',
+  'reward',
+  'sense',
+  'skill',
+  'spell',
+  'status',
+  'subclass',
+  'subclassFeature',
+  'subrace',
+  'trap',
+  'variantrule',
+  'vehicle',
+};
+
+const _hiddenGeneratedFieldKeys = <String>{
+  'source',
+  'sourceFile',
+  'edition',
+  'page',
+  'basicRules',
+  'basicRules2024',
+  'srd',
+  'srd52',
+  'referenceSources',
+  'otherSources',
+  'additionalSources',
+  'parentSource',
+  'fauxGroupSource',
+  'classSource',
+  'subclassSource',
+  'raceSource',
+};
+
 const _supportCollectionKeys = <String>{
   '_meta',
   'backgroundFluff',
@@ -99,8 +152,7 @@ class _BundleProfile {
 const _starterBundleProfile = _BundleProfile(
   id: 'starter_2024_srd',
   name: '2024 SRD Starter',
-  description:
-      'Bundled 2024 SRD starter content filtered to entries explicitly marked srd52 == true.',
+  description: 'Bundled starter content filtered to the legal shipping subset.',
   license: 'CC-BY-4.0',
   assetPath: _starterBundledRulesetPath,
   includeOnlyExplicitSrd52: true,
@@ -140,6 +192,11 @@ void main(List<String> args) async {
   final schemas =
       (schemaJson['schemas'] as List<dynamic>)
           .map((entry) => Map<String, dynamic>.from(entry as Map))
+          .where(
+            (schema) =>
+                _allowedObjectTypes.contains(schema['objectType']?.toString()),
+          )
+          .map(_filteredSchema)
           .toList()
         ..sort(
           (left, right) => (left['objectType'] as String).compareTo(
@@ -298,10 +355,6 @@ Future<File?> _resolveExistingRulesetSource({
     return File(_resolvePath(projectRoot, inputRulesetArg.trim()));
   }
 
-  if (await bundledOutput.exists()) {
-    return bundledOutput;
-  }
-
   if (profile.includeOnlyExplicitSrd52) {
     final legacyMixed = File(
       p.join(projectRoot.path, _legacyMixedBundledRulesetPath),
@@ -312,6 +365,10 @@ Future<File?> _resolveExistingRulesetSource({
       );
       return legacyMixed;
     }
+  }
+
+  if (await bundledOutput.exists()) {
+    return bundledOutput;
   }
 
   return null;
@@ -361,6 +418,12 @@ Map<String, dynamic> _applyBundleProfile({
     final filteredItems = normalizedItems
         .where(_isExplicitSrd52Entity)
         .map(_cloneJsonMap)
+        .map(
+          (item) => _rewriteStarterEntity(
+            entityType: schema['objectType']?.toString() ?? '',
+            entity: item,
+          ),
+        )
         .toList(growable: false);
     if (normalizedItems.isNotEmpty && filteredItems.isEmpty) {
       omittedCollections.add(label);
@@ -414,6 +477,179 @@ bool _isExplicitSrd52Entity(Map<String, dynamic> entity) {
 
   final data = entity['data'];
   return data is Map && data['srd52'] == true;
+}
+
+Map<String, dynamic> _filteredSchema(Map<String, dynamic> schema) {
+  final normalized = Map<String, dynamic>.from(schema);
+  normalized['fields'] = _filteredSchemaFields(
+    schema['fields'] as List<dynamic>?,
+  );
+  return normalized;
+}
+
+List<Map<String, dynamic>> _filteredSchemaFields(List<dynamic>? fields) {
+  if (fields == null) {
+    return const <Map<String, dynamic>>[];
+  }
+
+  return fields
+      .whereType<Map>()
+      .map((field) => Map<String, dynamic>.from(field))
+      .where(
+        (field) => !_hiddenGeneratedFieldKeys.contains(
+          field['key']?.toString().trim(),
+        ),
+      )
+      .map((field) {
+        final normalized = Map<String, dynamic>.from(field);
+        normalized['fields'] = _filteredSchemaFields(
+          field['fields'] as List<dynamic>?,
+        );
+        final itemSchema = field['itemSchema'];
+        if (itemSchema is Map) {
+          normalized['itemSchema'] = _filteredSchemaField(
+            Map<String, dynamic>.from(itemSchema),
+          );
+        }
+        return normalized;
+      })
+      .whereType<Map<String, dynamic>>()
+      .toList(growable: false);
+}
+
+Map<String, dynamic>? _filteredSchemaField(Map<String, dynamic> field) {
+  if (_hiddenGeneratedFieldKeys.contains(field['key']?.toString().trim())) {
+    return null;
+  }
+
+  final normalized = Map<String, dynamic>.from(field);
+  normalized['fields'] = _filteredSchemaFields(
+    field['fields'] as List<dynamic>?,
+  );
+  final itemSchema = field['itemSchema'];
+  if (itemSchema is Map) {
+    normalized['itemSchema'] = _filteredSchemaField(
+      Map<String, dynamic>.from(itemSchema),
+    );
+  }
+  return normalized;
+}
+
+Map<String, dynamic> _rewriteStarterEntity({
+  required String entityType,
+  required Map<String, dynamic> entity,
+}) {
+  final rewritten = _rewriteStarterValue(entity);
+  final data = rewritten['data'] is Map
+      ? Map<String, dynamic>.from(rewritten['data'] as Map)
+      : <String, dynamic>{};
+  final name = (rewritten['name']?.toString() ?? data['name']?.toString() ?? '')
+      .trim();
+  final generatedId = CompendiumIdBuilder.build(
+    entityType: entityType,
+    name: name,
+    payload: data,
+  );
+
+  rewritten['id'] = generatedId;
+  rewritten['name'] = name.isEmpty ? generatedId : name;
+  if (data.isNotEmpty) {
+    rewritten['data'] = data;
+  }
+
+  return rewritten;
+}
+
+Map<String, dynamic> _rewriteStarterValue(Map<String, dynamic> value) {
+  final rewritten = <String, dynamic>{};
+  for (final entry in value.entries) {
+    if (_hiddenGeneratedFieldKeys.contains(entry.key)) {
+      continue;
+    }
+
+    if (entry.value is Map<String, dynamic>) {
+      rewritten[entry.key] = _rewriteStarterValue(
+        entry.value as Map<String, dynamic>,
+      );
+      continue;
+    }
+    if (entry.value is Map) {
+      rewritten[entry.key] = _rewriteStarterValue(
+        (entry.value as Map).cast<String, dynamic>(),
+      );
+      continue;
+    }
+    if (entry.value is List) {
+      rewritten[entry.key] = _rewriteStarterList(entry.value as List<dynamic>);
+      continue;
+    }
+    if (entry.value is String) {
+      rewritten[entry.key] = _rewriteStarterString(
+        entry.key,
+        entry.value as String,
+      );
+      continue;
+    }
+    rewritten[entry.key] = entry.value;
+  }
+  return rewritten;
+}
+
+List<dynamic> _rewriteStarterList(List<dynamic> values) {
+  return values
+      .map((value) {
+        if (value is Map<String, dynamic>) {
+          return _rewriteStarterValue(value);
+        }
+        if (value is Map) {
+          return _rewriteStarterValue(value.cast<String, dynamic>());
+        }
+        if (value is List) {
+          return _rewriteStarterList(value);
+        }
+        if (value is String) {
+          return _rewriteStarterString('', value);
+        }
+        return value;
+      })
+      .toList(growable: false);
+}
+
+String _rewriteStarterString(String key, String value) {
+  final withRewrittenHints = value.replaceAllMapped(_tagExpression, (match) {
+    final tag = match.group(1)?.trim() ?? '';
+    final body = match.group(2)?.trim() ?? '';
+    final parts = body.split('|');
+    if (tag == 'book' || tag == 'adventure' || tag == 'quickref') {
+      return parts.length > 2 ? parts[2] : parts[0];
+    }
+    if (parts.length > 1 && _looksLikeSrd(parts[1])) {
+      parts[1] = '';
+    }
+    return '{@$tag ${parts.join('|')}}';
+  });
+
+  final pipeParts = withRewrittenHints.split('|');
+  if (pipeParts.length == 2 && _looksLikeSrd(pipeParts[1])) {
+    return pipeParts[0].trim();
+  }
+
+  return withRewrittenHints
+      .replaceAll(
+        RegExp(r'\bSRD52\b', caseSensitive: false),
+        '',
+      )
+      .replaceAll(
+        RegExp(r'\bSRD\b', caseSensitive: false),
+        '',
+      )
+      .replaceAll(RegExp(r'\s{2,}'), ' ')
+      .trim();
+}
+
+bool _looksLikeSrd(String? value) {
+  final normalized = value?.trim().toLowerCase();
+  return normalized == 'srd' || normalized == 'srd52';
 }
 
 dynamic _cloneJson(dynamic value) {
@@ -536,23 +772,15 @@ Future<Map<String, dynamic>> _buildBundledRuleset({
         }
         final item = Map<String, dynamic>.from(rawItem);
         final name = (item['name']?.toString() ?? '').trim();
-        final source = (item['source']?.toString() ?? '').trim();
-        final page = item['page']?.toString();
         final id = CompendiumIdBuilder.build(
           entityType: objectType,
-          source: source,
           name: name,
-          page: page,
+          payload: item,
         );
         targetCollection.add({
           'id': id,
           'name': name.isEmpty ? id : name,
-          'source': source,
-          'sourceFile': p
-              .relative(entity.path, from: sourceRoot.path)
-              .replaceAll('\\', '/'),
-          if (item['edition'] != null) 'edition': item['edition'].toString(),
-          'data': item,
+          'data': _rewriteStarterValue(item),
         });
       }
     }
@@ -636,9 +864,9 @@ Future<void> _writeBrowseAssets({
       entityRows.add({
         'entityId': entityId,
         'name': entityName,
-        'source': item['source']?.toString() ?? '',
-        'sourceFile': item['sourceFile']?.toString() ?? '',
-        'edition': item['edition']?.toString(),
+        'source': '',
+        'sourceFile': '',
+        'edition': null,
         'sortName': entityName.trim().toLowerCase(),
         'searchText': _flattenedSearchText(item).toLowerCase(),
         'payloadJson': payloadJson,
@@ -828,7 +1056,7 @@ String _buildGeneratedRegistry(List<Map<String, dynamic>> schemas) {
       'Map<String, dynamic> _generatedEntityExtra(Map<String, dynamic> json) {',
     )
     ..writeln(
-      "  const knownKeys = <String>{'id', 'name', 'source', 'sourceFile', 'edition', 'data'};",
+      "  const knownKeys = <String>{'id', 'name', 'data'};",
     )
     ..writeln('  final extra = <String, dynamic>{};')
     ..writeln('  for (final entry in json.entries) {')
@@ -855,48 +1083,36 @@ String _buildGeneratedRegistry(List<Map<String, dynamic>> schemas) {
       ..writeln('  const $className({')
       ..writeln('    required super.id,')
       ..writeln('    required super.name,')
-      ..writeln('    required super.source,')
-      ..writeln('    required super.sourceFile,')
-      ..writeln('    required super.edition,')
       ..writeln('    required super.data,')
       ..writeln('    super.extra,')
       ..writeln('  });')
       ..writeln()
       ..writeln('  factory $className.fromJson(Map<String, dynamic> json) {')
       ..writeln(
-        "    final data = CompendiumJsonUtils.jsonMap(json['data'] ?? json);",
+        '    final sanitized = CompendiumJsonUtils.sanitizeEntityJson(json);',
+      )
+      ..writeln(
+        "    final data = CompendiumJsonUtils.jsonMap(sanitized['data']);",
       )
       ..writeln('    final payload = <String, dynamic>{')
-      ..writeln("      'id': json['id'],")
-      ..writeln("      'name': json['name'],")
-      ..writeln("      'source': json['source'],")
-      ..writeln("      'edition': json['edition'],")
+      ..writeln("      'id': sanitized['id'],")
+      ..writeln("      'name': sanitized['name'],")
       ..writeln("      'data': data,")
       ..writeln('    };')
       ..writeln(
-        "    final name = (json['name']?.toString() ?? CompendiumJsonUtils.extractName(payload)).trim();",
-      )
-      ..writeln(
-        "    final source = (json['source']?.toString() ?? CompendiumJsonUtils.extractSource(payload)).trim();",
+        "    final name = (sanitized['name']?.toString() ?? CompendiumJsonUtils.extractName(payload)).trim();",
       )
       ..writeln('    return $className(')
-      ..writeln('      id: json[\'id\']?.toString() ??')
+      ..writeln('      id: sanitized[\'id\']?.toString() ??')
       ..writeln('          CompendiumJsonUtils.stableEntityId(')
       ..writeln('            entityType: entityTypeValue,')
-      ..writeln('            source: source,')
-      ..writeln('            name: name,')
-      ..writeln("            page: data['page']?.toString(),")
+      ..writeln('            payload: payload,')
       ..writeln('          ),')
       ..writeln(
-        '      name: name.isEmpty ? json[\'id\']?.toString() ?? \'untitled\' : name,',
-      )
-      ..writeln('      source: source,')
-      ..writeln("      sourceFile: json['sourceFile']?.toString() ?? '',")
-      ..writeln(
-        '      edition: json[\'edition\']?.toString() ?? CompendiumJsonUtils.extractEdition(payload),',
+        '      name: name.isEmpty ? sanitized[\'id\']?.toString() ?? \'untitled\' : name,',
       )
       ..writeln('      data: data,')
-      ..writeln('      extra: _generatedEntityExtra(json),')
+      ..writeln('      extra: _generatedEntityExtra(sanitized),')
       ..writeln('    );')
       ..writeln('  }')
       ..writeln()
@@ -1100,17 +1316,33 @@ String _escape(String value) {
 class CompendiumIdBuilder {
   static String build({
     required String entityType,
-    required String source,
     required String name,
-    String? page,
+    required Map<String, dynamic> payload,
   }) {
     final normalizedType = _slugify(entityType);
-    final normalizedSource = _slugify(source.isEmpty ? 'custom' : source);
     final normalizedName = _slugify(name.isEmpty ? 'untitled' : name);
-    final normalizedPage = page == null || page.isEmpty
-        ? ''
-        : ':${_slugify(page)}';
-    return '$normalizedType:$normalizedSource:$normalizedName$normalizedPage';
+    final data = payload['data'] is Map
+        ? Map<String, dynamic>.from(payload['data'] as Map)
+        : Map<String, dynamic>.from(payload);
+    final extraSegments = switch (entityType) {
+      'classFeature' => <String>[
+          data['className']?.toString() ?? '',
+          data['level']?.toString() ?? '',
+        ],
+      'subclass' => <String>[data['className']?.toString() ?? ''],
+      'subclassFeature' => <String>[
+          data['className']?.toString() ?? '',
+          data['subclassShortName']?.toString() ?? '',
+          data['level']?.toString() ?? '',
+        ],
+      'subrace' => <String>[data['raceName']?.toString() ?? ''],
+      _ => const <String>[],
+    };
+    return <String>[
+      normalizedType,
+      normalizedName,
+      ...extraSegments.map(_slugify).where((segment) => segment.isNotEmpty),
+    ].join(':');
   }
 
   static String _slugify(String value) {

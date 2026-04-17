@@ -4,6 +4,7 @@ import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
+import 'package:openrpg/screens/rulesets/compendium_entity_summary_sections.dart';
 import 'package:openrpg/screens/rulesets/compendium_rich_content_renderer.dart';
 import 'package:openrpg/screens/rulesets/compendium_structured_attributes.dart';
 import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
@@ -116,6 +117,9 @@ class _CompendiumEntityDetailScreenState
               data['entry'] ??
               data['items'] ??
               data['description'];
+          final summaryHiddenKeys = compendiumSummaryHiddenKeysFor(
+            entity.entityType,
+          );
 
           return CustomScrollView(
             slivers: [
@@ -157,17 +161,23 @@ class _CompendiumEntityDetailScreenState
                     Wrap(
                       spacing: 10,
                       runSpacing: 10,
-                      children: [
-                        CompendiumTypeBadge(entityType: entity.entityType),
-                        if (entity.source.trim().isNotEmpty)
-                          Chip(label: Text('Source: ${entity.source}')),
-                        if (entity.edition?.trim().isNotEmpty == true)
-                          Chip(label: Text('Edition: ${entity.edition}')),
-                        if (data['page'] != null)
-                          Chip(label: Text('Page: ${data['page']}')),
-                      ],
+                      children: [CompendiumTypeBadge(entityType: entity.entityType)],
                     ),
                     const SizedBox(height: 20),
+                    CompendiumEntitySummarySections(
+                      entityType: entity.entityType,
+                      data: data,
+                      compact: false,
+                      onLinkTap: (candidate) => openCompendiumLinkPreview(
+                        context,
+                        browseRepository: _browseRepository,
+                        candidate: candidate,
+                        preferredRulesetId: widget.rulesetId,
+                        currentRulesetId: widget.rulesetId,
+                        currentEntityType: widget.entityType,
+                        currentEntityId: widget.entityId,
+                      ),
+                    ),
                     if (narrativeContent != null)
                       CompendiumRichContentRenderer(
                         content: narrativeContent,
@@ -200,14 +210,11 @@ class _CompendiumEntityDetailScreenState
                           ),
                           hiddenKeys: const {
                             'name',
-                            'source',
-                            'edition',
-                            'page',
                             'entries',
                             'entry',
                             'items',
                             'description',
-                          },
+                          }.union(summaryHiddenKeys),
                           emptyText: 'No additional attributes.',
                         ),
                       ],

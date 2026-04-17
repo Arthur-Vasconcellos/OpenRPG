@@ -30,7 +30,7 @@ void main() {
     final rulesets = await (database.select(database.rulesetRecords)).get();
     expect(rulesets, hasLength(1));
     expect(rulesets.single.rulesetId, 'starter_2024_srd');
-    expect(rulesets.single.name, 'Starter SRD');
+    expect(rulesets.single.name, '2024 SRD Starter');
 
     final status = await service.loadStatus('starter_2024_srd');
     expect(status.isReady, isTrue);
@@ -90,7 +90,7 @@ CompendiumBrowseManifest _starterManifest() {
     rulesets: [
       CompendiumBrowseRulesetAsset(
         rulesetId: 'starter_2024_srd',
-        name: 'Starter SRD',
+        name: '2024 SRD Starter',
         description: 'Built-in starter.',
         mode: 'bundled',
         schemaVersion: '1.0.0',
@@ -132,20 +132,20 @@ String _starterShardJson() {
       {
         'entityId': 'spell:starter:fire_bolt',
         'name': 'Fire Bolt',
-        'source': 'SRD',
+        'source': 'Starter',
         'sourceFile': 'starter/spell.json',
         'edition': '2024',
         'sortName': 'fire bolt',
-        'searchText': 'fire bolt starter srd',
+        'searchText': 'fire bolt starter',
         'payloadJson': jsonEncode({
           'id': 'spell:starter:fire_bolt',
           'name': 'Fire Bolt',
-          'source': 'SRD',
+          'source': 'Starter',
           'sourceFile': 'starter/spell.json',
           'edition': '2024',
           'data': {
             'name': 'Fire Bolt',
-            'source': 'SRD',
+            'source': 'Starter',
             'edition': '2024',
             'entries': ['A quick starter cantrip.'],
             'level': 0,

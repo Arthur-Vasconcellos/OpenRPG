@@ -4,160 +4,160 @@
   "collectionKey": "actionList",
   "entityRows": [
     {
-      "entityId": "action:xphb:attack:361",
+      "entityId": "action:attack",
       "name": "Attack",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "attack",
-      "searchText": "action:xphb:attack:361 attack xphb actions.json attack xphb 361 true 1 action when you take the attack action, you can make one attack roll with a weapon or an {@variantrule unarmed strike|xphb}. entries entries equipping and unequipping weapons you can either equip or unequip one weapon when you make an attack as part of this action. you do so either before or after the attack. if you equip a weapon before an attack, you don't need to use it for that attack. equipping a weapon includes drawing it from a sheath or picking it up. unequipping a weapon includes sheathing, stowing, or dropping it. entries moving between attacks if you move on your turn and have a feature, such as extra attack, that gives you more than one attack as part of the attack action, you can use some or all of that movement to move between those attacks. two-weapon fighting|xphb",
-      "payloadJson": "{\"id\":\"action:xphb:attack:361\",\"name\":\"Attack\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Attack\",\"source\":\"XPHB\",\"page\":361,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Attack action, you can make one attack roll with a weapon or an {@variantrule Unarmed Strike|XPHB}.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Equipping and Unequipping Weapons\",\"entries\":[\"You can either equip or unequip one weapon when you make an attack as part of this action. You do so either before or after the attack. If you equip a weapon before an attack, you don't need to use it for that attack. Equipping a weapon includes drawing it from a sheath or picking it up. Unequipping a weapon includes sheathing, stowing, or dropping it.\"]},{\"type\":\"entries\",\"name\":\"Moving Between Attacks\",\"entries\":[\"If you move on your turn and have a feature, such as Extra Attack, that gives you more than one attack as part of the Attack action, you can use some or all of that movement to move between those attacks.\"]}]}],\"seeAlsoAction\":[\"Two-Weapon Fighting|XPHB\"]}}"
+      "searchText": "action:attack attack attack 1 action when you take the attack action, you can make one attack roll with a weapon or an {@variantrule unarmed strike|xphb}. entries entries equipping and unequipping weapons you can either equip or unequip one weapon when you make an attack as part of this action. you do so either before or after the attack. if you equip a weapon before an attack, you don't need to use it for that attack. equipping a weapon includes drawing it from a sheath or picking it up. unequipping a weapon includes sheathing, stowing, or dropping it. entries moving between attacks if you move on your turn and have a feature, such as extra attack, that gives you more than one attack as part of the attack action, you can use some or all of that movement to move between those attacks. two-weapon fighting|xphb",
+      "payloadJson": "{\"id\":\"action:attack\",\"name\":\"Attack\",\"data\":{\"name\":\"Attack\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Attack action, you can make one attack roll with a weapon or an {@variantrule Unarmed Strike|XPHB}.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Equipping and Unequipping Weapons\",\"entries\":[\"You can either equip or unequip one weapon when you make an attack as part of this action. You do so either before or after the attack. If you equip a weapon before an attack, you don't need to use it for that attack. Equipping a weapon includes drawing it from a sheath or picking it up. Unequipping a weapon includes sheathing, stowing, or dropping it.\"]},{\"type\":\"entries\",\"name\":\"Moving Between Attacks\",\"entries\":[\"If you move on your turn and have a feature, such as Extra Attack, that gives you more than one attack as part of the Attack action, you can use some or all of that movement to move between those attacks.\"]}]}],\"seeAlsoAction\":[\"Two-Weapon Fighting|XPHB\"]}}"
     },
     {
-      "entityId": "action:xphb:dash:365",
+      "entityId": "action:dash",
       "name": "Dash",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "dash",
-      "searchText": "action:xphb:dash:365 dash xphb actions.json dash xphb 365 true 1 action when you take the dash action, you gain extra movement for the current turn. the increase equals your {@variantrule speed|xphb} after applying any modifiers. with a {@variantrule speed|xphb} of 30 feet, for example, you can move up to 60 feet on your turn if you dash. if your {@variantrule speed|xphb} of 30 feet is reduced to 15 feet, you can move up to 30 feet this turn if you dash. if you have a special speed, such as a {@variantrule fly speed|xphb} or {@variantrule swim speed|xphb}, you can use that speed instead of your {@variantrule speed|xphb} when you take this action. you choose which speed to use each time you take it.",
-      "payloadJson": "{\"id\":\"action:xphb:dash:365\",\"name\":\"Dash\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Dash\",\"source\":\"XPHB\",\"page\":365,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Dash action, you gain extra movement for the current turn. The increase equals your {@variantrule Speed|XPHB} after applying any modifiers. With a {@variantrule Speed|XPHB} of 30 feet, for example, you can move up to 60 feet on your turn if you Dash. If your {@variantrule Speed|XPHB} of 30 feet is reduced to 15 feet, you can move up to 30 feet this turn if you Dash.\",\"If you have a special speed, such as a {@variantrule Fly Speed|XPHB} or {@variantrule Swim Speed|XPHB}, you can use that speed instead of your {@variantrule Speed|XPHB} when you take this action. You choose which speed to use each time you take it.\"]}}"
+      "searchText": "action:dash dash dash 1 action when you take the dash action, you gain extra movement for the current turn. the increase equals your {@variantrule speed|xphb} after applying any modifiers. with a {@variantrule speed|xphb} of 30 feet, for example, you can move up to 60 feet on your turn if you dash. if your {@variantrule speed|xphb} of 30 feet is reduced to 15 feet, you can move up to 30 feet this turn if you dash. if you have a special speed, such as a {@variantrule fly speed|xphb} or {@variantrule swim speed|xphb}, you can use that speed instead of your {@variantrule speed|xphb} when you take this action. you choose which speed to use each time you take it.",
+      "payloadJson": "{\"id\":\"action:dash\",\"name\":\"Dash\",\"data\":{\"name\":\"Dash\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Dash action, you gain extra movement for the current turn. The increase equals your {@variantrule Speed|XPHB} after applying any modifiers. With a {@variantrule Speed|XPHB} of 30 feet, for example, you can move up to 60 feet on your turn if you Dash. If your {@variantrule Speed|XPHB} of 30 feet is reduced to 15 feet, you can move up to 30 feet this turn if you Dash.\",\"If you have a special speed, such as a {@variantrule Fly Speed|XPHB} or {@variantrule Swim Speed|XPHB}, you can use that speed instead of your {@variantrule Speed|XPHB} when you take this action. You choose which speed to use each time you take it.\"]}}"
     },
     {
-      "entityId": "action:xphb:disengage:366",
+      "entityId": "action:disengage",
       "name": "Disengage",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "disengage",
-      "searchText": "action:xphb:disengage:366 disengage xphb actions.json disengage xphb 366 true 1 action if you take the disengage action, your movement doesn't provoke {@action opportunity attack|xphb|opportunity attacks} for the rest of the current turn.",
-      "payloadJson": "{\"id\":\"action:xphb:disengage:366\",\"name\":\"Disengage\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Disengage\",\"source\":\"XPHB\",\"page\":366,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"If you take the Disengage action, your movement doesn't provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} for the rest of the current turn.\"]}}"
+      "searchText": "action:disengage disengage disengage 1 action if you take the disengage action, your movement doesn't provoke {@action opportunity attack|xphb|opportunity attacks} for the rest of the current turn.",
+      "payloadJson": "{\"id\":\"action:disengage\",\"name\":\"Disengage\",\"data\":{\"name\":\"Disengage\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"If you take the Disengage action, your movement doesn't provoke {@action Opportunity Attack|XPHB|Opportunity Attacks} for the rest of the current turn.\"]}}"
     },
     {
-      "entityId": "action:xphb:dodge:366",
+      "entityId": "action:dodge",
       "name": "Dodge",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "dodge",
-      "searchText": "action:xphb:dodge:366 dodge xphb actions.json dodge xphb 366 true 1 action lf you take the dodge action, you gain the following benefits: until the start of your next turn, any attack roll made against you has {@variantrule disadvantage|xphb} if you can see the attacker, and you make dexterity {@variantrule saving throw|xphb|saving throws} with {@variantrule advantage|xphb}. you lose these benefits if you have the {@condition incapacitated|xphb} condition or if your {@variantrule speed|xphb} is 0.",
-      "payloadJson": "{\"id\":\"action:xphb:dodge:366\",\"name\":\"Dodge\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Dodge\",\"source\":\"XPHB\",\"page\":366,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"lf you take the Dodge action, you gain the following benefits: until the start of your next turn, any attack roll made against you has {@variantrule Disadvantage|XPHB} if you can see the attacker, and you make Dexterity {@variantrule Saving Throw|XPHB|saving throws} with {@variantrule Advantage|XPHB}.\",\"You lose these benefits if you have the {@condition Incapacitated|XPHB} condition or if your {@variantrule Speed|XPHB} is 0.\"]}}"
+      "searchText": "action:dodge dodge dodge 1 action lf you take the dodge action, you gain the following benefits: until the start of your next turn, any attack roll made against you has {@variantrule disadvantage|xphb} if you can see the attacker, and you make dexterity {@variantrule saving throw|xphb|saving throws} with {@variantrule advantage|xphb}. you lose these benefits if you have the {@condition incapacitated|xphb} condition or if your {@variantrule speed|xphb} is 0.",
+      "payloadJson": "{\"id\":\"action:dodge\",\"name\":\"Dodge\",\"data\":{\"name\":\"Dodge\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"lf you take the Dodge action, you gain the following benefits: until the start of your next turn, any attack roll made against you has {@variantrule Disadvantage|XPHB} if you can see the attacker, and you make Dexterity {@variantrule Saving Throw|XPHB|saving throws} with {@variantrule Advantage|XPHB}.\",\"You lose these benefits if you have the {@condition Incapacitated|XPHB} condition or if your {@variantrule Speed|XPHB} is 0.\"]}}"
     },
     {
-      "entityId": "action:xphb:don_or_doff_a_shield:219",
+      "entityId": "action:don_or_doff_a_shield",
       "name": "Don or Doff a Shield",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "don or doff a shield",
-      "searchText": "action:xphb:don_or_doff_a_shield:219 don or doff a shield xphb actions.json don or doff a shield xphb 219 true true 1 action a {@item shield|xphb} can be donned or doffed as an action.",
-      "payloadJson": "{\"id\":\"action:xphb:don_or_doff_a_shield:219\",\"name\":\"Don or Doff a Shield\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Don or Doff a Shield\",\"source\":\"XPHB\",\"page\":219,\"srd52\":true,\"basicRules2024\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"A {@item Shield|XPHB} can be donned or doffed as an action.\"]}}"
+      "searchText": "action:don_or_doff_a_shield don or doff a shield don or doff a shield 1 action a {@item shield|xphb} can be donned or doffed as an action.",
+      "payloadJson": "{\"id\":\"action:don_or_doff_a_shield\",\"name\":\"Don or Doff a Shield\",\"data\":{\"name\":\"Don or Doff a Shield\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"A {@item Shield|XPHB} can be donned or doffed as an action.\"]}}"
     },
     {
-      "entityId": "action:xphb:end_concentration:363",
+      "entityId": "action:end_concentration",
       "name": "End Concentration",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "end concentration",
-      "searchText": "action:xphb:end_concentration:363 end concentration xphb actions.json end concentration xphb 363 true true free some spells and other effects require concentration to remain active, as specified in their descriptions. you can end concentration at any time (no action required).",
-      "payloadJson": "{\"id\":\"action:xphb:end_concentration:363\",\"name\":\"End Concentration\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"End Concentration\",\"source\":\"XPHB\",\"page\":363,\"srd52\":true,\"basicRules2024\":true,\"time\":[\"Free\"],\"entries\":[\"Some spells and other effects require Concentration to remain active, as specified in their descriptions. You can end Concentration at any time (no action required).\"]}}"
+      "searchText": "action:end_concentration end concentration end concentration free some spells and other effects require concentration to remain active, as specified in their descriptions. you can end concentration at any time (no action required).",
+      "payloadJson": "{\"id\":\"action:end_concentration\",\"name\":\"End Concentration\",\"data\":{\"name\":\"End Concentration\",\"time\":[\"Free\"],\"entries\":[\"Some spells and other effects require Concentration to remain active, as specified in their descriptions. You can end Concentration at any time (no action required).\"]}}"
     },
     {
-      "entityId": "action:xphb:escape_a_grapple:367",
+      "entityId": "action:escape_a_grapple",
       "name": "Escape a Grapple",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "escape a grapple",
-      "searchText": "action:xphb:escape_a_grapple:367 escape a grapple xphb actions.json escape a grapple xphb 367 true true 1 action a grappled creature can use its action to make a strength ({@skill athletics|xphb}) or dexterity ({@skill acrobatics|xphb}) check against the grapple's escape dc, ending the {@variantrule condition|xphb|condition} on itself on a success. the {@variantrule condition|xphb|condition} also ends if the grappler has the {@condition incapacitated|xphb} condition or if the distance between the grappled target and the grappler exceeds the grapple's range.",
-      "payloadJson": "{\"id\":\"action:xphb:escape_a_grapple:367\",\"name\":\"Escape a Grapple\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Escape a Grapple\",\"source\":\"XPHB\",\"page\":367,\"srd52\":true,\"basicRules2024\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"A Grappled creature can use its action to make a Strength ({@skill Athletics|XPHB}) or Dexterity ({@skill Acrobatics|XPHB}) check against the grapple's escape DC, ending the {@variantrule Condition|XPHB|condition} on itself on a success. The {@variantrule Condition|XPHB|condition} also ends if the grappler has the {@condition Incapacitated|XPHB} condition or if the distance between the Grappled target and the grappler exceeds the grapple's range.\"]}}"
+      "searchText": "action:escape_a_grapple escape a grapple escape a grapple 1 action a grappled creature can use its action to make a strength ({@skill athletics|xphb}) or dexterity ({@skill acrobatics|xphb}) check against the grapple's escape dc, ending the {@variantrule condition|xphb|condition} on itself on a success. the {@variantrule condition|xphb|condition} also ends if the grappler has the {@condition incapacitated|xphb} condition or if the distance between the grappled target and the grappler exceeds the grapple's range.",
+      "payloadJson": "{\"id\":\"action:escape_a_grapple\",\"name\":\"Escape a Grapple\",\"data\":{\"name\":\"Escape a Grapple\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"A Grappled creature can use its action to make a Strength ({@skill Athletics|XPHB}) or Dexterity ({@skill Acrobatics|XPHB}) check against the grapple's escape DC, ending the {@variantrule Condition|XPHB|condition} on itself on a success. The {@variantrule Condition|XPHB|condition} also ends if the grappler has the {@condition Incapacitated|XPHB} condition or if the distance between the Grappled target and the grappler exceeds the grapple's range.\"]}}"
     },
     {
-      "entityId": "action:xphb:help:368",
+      "entityId": "action:help",
       "name": "Help",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "help",
-      "searchText": "action:xphb:help:368 help xphb actions.json help xphb 368 true 1 action when you take the help action, you do one of the following. entries entries assist an ability check choose one of your skill or tool proficiencies and one ally who is near enough for you to assist verbally or physically when they make an ability check. that ally has {@variantrule advantage|xphb} on the next ability check they make with the chosen skill or tool. this benefit expires if the ally doesn't use it before the start of your next turn. the dm has final say on whether your assistance is possible. entries assist an attack roll you momentarily distract an enemy within 5 feet of you, giving {@variantrule advantage|xphb} to the next attack roll by one of your allies against that enemy. this benefit expires at the start of your next turn. {@note additionally, the help action may be used to {@book stabilize a creature|xphb|1|stabilizing a character}.}",
-      "payloadJson": "{\"id\":\"action:xphb:help:368\",\"name\":\"Help\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Help\",\"source\":\"XPHB\",\"page\":368,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Help action, you do one of the following.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Assist an Ability Check\",\"entries\":[\"Choose one of your skill or tool proficiencies and one ally who is near enough for you to assist verbally or physically when they make an ability check. That ally has {@variantrule Advantage|XPHB} on the next ability check they make with the chosen skill or tool. This benefit expires if the ally doesn't use it before the start of your next turn. The DM has final say on whether your assistance is possible.\"]},{\"type\":\"entries\",\"name\":\"Assist an Attack Roll\",\"entries\":[\"You momentarily distract an enemy within 5 feet of you, giving {@variantrule Advantage|XPHB} to the next attack roll by one of your allies against that enemy. This benefit expires at the start of your next turn.\"]}]},\"{@note Additionally, the Help action may be used to {@book stabilize a creature|XPHB|1|Stabilizing a Character}.}\"]}}"
+      "searchText": "action:help help help 1 action when you take the help action, you do one of the following. entries entries assist an ability check choose one of your skill or tool proficiencies and one ally who is near enough for you to assist verbally or physically when they make an ability check. that ally has {@variantrule advantage|xphb} on the next ability check they make with the chosen skill or tool. this benefit expires if the ally doesn't use it before the start of your next turn. the dm has final say on whether your assistance is possible. entries assist an attack roll you momentarily distract an enemy within 5 feet of you, giving {@variantrule advantage|xphb} to the next attack roll by one of your allies against that enemy. this benefit expires at the start of your next turn. {@note additionally, the help action may be used to {@book stabilize a creature|xphb|1|stabilizing a character}.}",
+      "payloadJson": "{\"id\":\"action:help\",\"name\":\"Help\",\"data\":{\"name\":\"Help\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Help action, you do one of the following.\",{\"type\":\"entries\",\"entries\":[{\"type\":\"entries\",\"name\":\"Assist an Ability Check\",\"entries\":[\"Choose one of your skill or tool proficiencies and one ally who is near enough for you to assist verbally or physically when they make an ability check. That ally has {@variantrule Advantage|XPHB} on the next ability check they make with the chosen skill or tool. This benefit expires if the ally doesn't use it before the start of your next turn. The DM has final say on whether your assistance is possible.\"]},{\"type\":\"entries\",\"name\":\"Assist an Attack Roll\",\"entries\":[\"You momentarily distract an enemy within 5 feet of you, giving {@variantrule Advantage|XPHB} to the next attack roll by one of your allies against that enemy. This benefit expires at the start of your next turn.\"]}]},\"{@note Additionally, the Help action may be used to {@book stabilize a creature|XPHB|1|Stabilizing a Character}.}\"]}}"
     },
     {
-      "entityId": "action:xphb:hide:368",
+      "entityId": "action:hide",
       "name": "Hide",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "hide",
-      "searchText": "action:xphb:hide:368 hide xphb actions.json hide xphb 368 true 1 action with the hide action, you try to conceal yourself. to do so, you must succeed on a {@dc 15} dexterity ({@skill stealth|xphb}) check while you're {@variantrule heavily obscured|xphb} or behind {@variantrule cover|xphb|three-quarters cover or total cover}, and you must be out of any enemy's line of sight; if you can see a creature, you can discern whether it can see you. on a successful check, you have the {@condition invisible|xphb} condition while hidden. make note of your check's total, which is the dc for a creature to find you with a wisdom ({@skill perception|xphb}) check. you stop being hidden immediately after any of the following occurs: you make a sound louder than a whisper, an enemy finds you, you make an attack roll, or you cast a spell with a verbal component.",
-      "payloadJson": "{\"id\":\"action:xphb:hide:368\",\"name\":\"Hide\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Hide\",\"source\":\"XPHB\",\"page\":368,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"With the Hide action, you try to conceal yourself. To do so, you must succeed on a {@dc 15} Dexterity ({@skill Stealth|XPHB}) check while you're {@variantrule Heavily Obscured|XPHB} or behind {@variantrule Cover|XPHB|Three-Quarters Cover or Total Cover}, and you must be out of any enemy's line of sight; if you can see a creature, you can discern whether it can see you.\",\"On a successful check, you have the {@condition Invisible|XPHB} condition while hidden. Make note of your check's total, which is the DC for a creature to find you with a Wisdom ({@skill Perception|XPHB}) check.\",\"You stop being hidden immediately after any of the following occurs: you make a sound louder than a whisper, an enemy finds you, you make an attack roll, or you cast a spell with a Verbal component.\"]}}"
+      "searchText": "action:hide hide hide 1 action with the hide action, you try to conceal yourself. to do so, you must succeed on a {@dc 15} dexterity ({@skill stealth|xphb}) check while you're {@variantrule heavily obscured|xphb} or behind {@variantrule cover|xphb|three-quarters cover or total cover}, and you must be out of any enemy's line of sight; if you can see a creature, you can discern whether it can see you. on a successful check, you have the {@condition invisible|xphb} condition while hidden. make note of your check's total, which is the dc for a creature to find you with a wisdom ({@skill perception|xphb}) check. you stop being hidden immediately after any of the following occurs: you make a sound louder than a whisper, an enemy finds you, you make an attack roll, or you cast a spell with a verbal component.",
+      "payloadJson": "{\"id\":\"action:hide\",\"name\":\"Hide\",\"data\":{\"name\":\"Hide\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"With the Hide action, you try to conceal yourself. To do so, you must succeed on a {@dc 15} Dexterity ({@skill Stealth|XPHB}) check while you're {@variantrule Heavily Obscured|XPHB} or behind {@variantrule Cover|XPHB|Three-Quarters Cover or Total Cover}, and you must be out of any enemy's line of sight; if you can see a creature, you can discern whether it can see you.\",\"On a successful check, you have the {@condition Invisible|XPHB} condition while hidden. Make note of your check's total, which is the DC for a creature to find you with a Wisdom ({@skill Perception|XPHB}) check.\",\"You stop being hidden immediately after any of the following occurs: you make a sound louder than a whisper, an enemy finds you, you make an attack roll, or you cast a spell with a Verbal component.\"]}}"
     },
     {
-      "entityId": "action:xphb:magic:371",
+      "entityId": "action:magic",
       "name": "Magic",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "magic",
-      "searchText": "action:xphb:magic:371 magic xphb actions.json magic xphb 371 true 1 action when you take the magic action, you cast a spell that has a casting time of an action or use a feature or magic item that requires a magic action to be activated. if you cast a spell that has a casting time of 1 minute or longer, you must take the magic action on each turn of that casting, and you must maintain {@status concentration|xphb} while you do so. if your {@status concentration|xphb} is broken, the spell fails, but you don't expend a spell slot.",
-      "payloadJson": "{\"id\":\"action:xphb:magic:371\",\"name\":\"Magic\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Magic\",\"source\":\"XPHB\",\"page\":371,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Magic action, you cast a spell that has a casting time of an action or use a feature or magic item that requires a Magic action to be activated.\",\"If you cast a spell that has a casting time of 1 minute or longer, you must take the Magic action on each turn of that casting, and you must maintain {@status Concentration|XPHB} while you do so. If your {@status Concentration|XPHB} is broken, the spell fails, but you don't expend a spell slot.\"]}}"
+      "searchText": "action:magic magic magic 1 action when you take the magic action, you cast a spell that has a casting time of an action or use a feature or magic item that requires a magic action to be activated. if you cast a spell that has a casting time of 1 minute or longer, you must take the magic action on each turn of that casting, and you must maintain {@status concentration|xphb} while you do so. if your {@status concentration|xphb} is broken, the spell fails, but you don't expend a spell slot.",
+      "payloadJson": "{\"id\":\"action:magic\",\"name\":\"Magic\",\"data\":{\"name\":\"Magic\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Magic action, you cast a spell that has a casting time of an action or use a feature or magic item that requires a Magic action to be activated.\",\"If you cast a spell that has a casting time of 1 minute or longer, you must take the Magic action on each turn of that casting, and you must maintain {@status Concentration|XPHB} while you do so. If your {@status Concentration|XPHB} is broken, the spell fails, but you don't expend a spell slot.\"]}}"
     },
     {
-      "entityId": "action:xphb:opportunity_attack:371",
+      "entityId": "action:opportunity_attack",
       "name": "Opportunity Attack",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "opportunity attack",
-      "searchText": "action:xphb:opportunity_attack:371 opportunity attack xphb actions.json opportunity attack xphb 371 true 1 reaction you can make an opportunity attack when a creature that you can see leaves your reach using its action, its {@variantrule bonus action|xphb}, its {@variantrule reaction|xphb}, or one of its speeds. to make the opportunity attack, take a {@variantrule reaction|xphb} to make one melee attack with a weapon or an {@variantrule unarmed strike|xphb} against the provoking creature. the attack occurs right before the creature leaves your reach.",
-      "payloadJson": "{\"id\":\"action:xphb:opportunity_attack:371\",\"name\":\"Opportunity Attack\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Opportunity Attack\",\"source\":\"XPHB\",\"page\":371,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"reaction\"}],\"entries\":[\"You can make an Opportunity Attack when a creature that you can see leaves your reach using its action, its {@variantrule Bonus Action|XPHB}, its {@variantrule Reaction|XPHB}, or one of its speeds. To make the Opportunity Attack, take a {@variantrule Reaction|XPHB} to make one melee attack with a weapon or an {@variantrule Unarmed Strike|XPHB} against the provoking creature. The attack occurs right before the creature leaves your reach.\"]}}"
+      "searchText": "action:opportunity_attack opportunity attack opportunity attack 1 reaction you can make an opportunity attack when a creature that you can see leaves your reach using its action, its {@variantrule bonus action|xphb}, its {@variantrule reaction|xphb}, or one of its speeds. to make the opportunity attack, take a {@variantrule reaction|xphb} to make one melee attack with a weapon or an {@variantrule unarmed strike|xphb} against the provoking creature. the attack occurs right before the creature leaves your reach.",
+      "payloadJson": "{\"id\":\"action:opportunity_attack\",\"name\":\"Opportunity Attack\",\"data\":{\"name\":\"Opportunity Attack\",\"time\":[{\"number\":1,\"unit\":\"reaction\"}],\"entries\":[\"You can make an Opportunity Attack when a creature that you can see leaves your reach using its action, its {@variantrule Bonus Action|XPHB}, its {@variantrule Reaction|XPHB}, or one of its speeds. To make the Opportunity Attack, take a {@variantrule Reaction|XPHB} to make one melee attack with a weapon or an {@variantrule Unarmed Strike|XPHB} against the provoking creature. The attack occurs right before the creature leaves your reach.\"]}}"
     },
     {
-      "entityId": "action:xphb:ready:372",
+      "entityId": "action:ready",
       "name": "Ready",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "ready",
-      "searchText": "action:xphb:ready:372 ready xphb actions.json ready xphb 372 true 1 action you take the ready action to wait for a particular circumstance before you act. to do so, you take this action on your turn, which lets you act by taking a {@variantrule reaction|xphb} before the start of your next turn. first, you decide what perceivable circumstance will trigger your {@variantrule reaction|xphb}. then, you choose the action you will take in response to that trigger, or you choose to move up to your {@variantrule speed|xphb} in response to it. examples include \"if the cultist steps on the trapdoor, i'll pull the lever that opens it,\" and \"if the zombie steps next to me, i move away.\" when the trigger occurs, you can either take your {@variantrule reaction|xphb} right after the trigger finishes or ignore the trigger. when you ready a spell, you cast it as normal (expending any resources used to cast it) but hold its energy, which you release with your {@variantrule reaction|xphb} when the trigger occurs. to be readied, a spell must have a casting time of an action, and holding on to the spell's magic requires {@status concentration|xphb}, which you can maintain up to the start of your next turn. if your {@status concentration|xphb} is broken, the spell dissipates without taking effect.",
-      "payloadJson": "{\"id\":\"action:xphb:ready:372\",\"name\":\"Ready\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Ready\",\"source\":\"XPHB\",\"page\":372,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"You take the Ready action to wait for a particular circumstance before you act. To do so, you take this action on your turn, which lets you act by taking a {@variantrule Reaction|XPHB} before the start of your next turn.\",\"First, you decide what perceivable circumstance will trigger your {@variantrule Reaction|XPHB}. Then, you choose the action you will take in response to that trigger, or you choose to move up to your {@variantrule Speed|XPHB} in response to it. Examples include \\\"If the cultist steps on the trapdoor, I'll pull the lever that opens it,\\\" and \\\"If the zombie steps next to me, I move away.\\\"\",\"When the trigger occurs, you can either take your {@variantrule Reaction|XPHB} right after the trigger finishes or ignore the trigger.\",\"When you Ready a spell, you cast it as normal (expending any resources used to cast it) but hold its energy, which you release with your {@variantrule Reaction|XPHB} when the trigger occurs. To be readied, a spell must have a casting time of an action, and holding on to the spell's magic requires {@status Concentration|XPHB}, which you can maintain up to the start of your next turn. If your {@status Concentration|XPHB} is broken, the spell dissipates without taking effect.\"]}}"
+      "searchText": "action:ready ready ready 1 action you take the ready action to wait for a particular circumstance before you act. to do so, you take this action on your turn, which lets you act by taking a {@variantrule reaction|xphb} before the start of your next turn. first, you decide what perceivable circumstance will trigger your {@variantrule reaction|xphb}. then, you choose the action you will take in response to that trigger, or you choose to move up to your {@variantrule speed|xphb} in response to it. examples include \"if the cultist steps on the trapdoor, i'll pull the lever that opens it,\" and \"if the zombie steps next to me, i move away.\" when the trigger occurs, you can either take your {@variantrule reaction|xphb} right after the trigger finishes or ignore the trigger. when you ready a spell, you cast it as normal (expending any resources used to cast it) but hold its energy, which you release with your {@variantrule reaction|xphb} when the trigger occurs. to be readied, a spell must have a casting time of an action, and holding on to the spell's magic requires {@status concentration|xphb}, which you can maintain up to the start of your next turn. if your {@status concentration|xphb} is broken, the spell dissipates without taking effect.",
+      "payloadJson": "{\"id\":\"action:ready\",\"name\":\"Ready\",\"data\":{\"name\":\"Ready\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"You take the Ready action to wait for a particular circumstance before you act. To do so, you take this action on your turn, which lets you act by taking a {@variantrule Reaction|XPHB} before the start of your next turn.\",\"First, you decide what perceivable circumstance will trigger your {@variantrule Reaction|XPHB}. Then, you choose the action you will take in response to that trigger, or you choose to move up to your {@variantrule Speed|XPHB} in response to it. Examples include \\\"If the cultist steps on the trapdoor, I'll pull the lever that opens it,\\\" and \\\"If the zombie steps next to me, I move away.\\\"\",\"When the trigger occurs, you can either take your {@variantrule Reaction|XPHB} right after the trigger finishes or ignore the trigger.\",\"When you Ready a spell, you cast it as normal (expending any resources used to cast it) but hold its energy, which you release with your {@variantrule Reaction|XPHB} when the trigger occurs. To be readied, a spell must have a casting time of an action, and holding on to the spell's magic requires {@status Concentration|XPHB}, which you can maintain up to the start of your next turn. If your {@status Concentration|XPHB} is broken, the spell dissipates without taking effect.\"]}}"
     },
     {
-      "entityId": "action:xphb:search:373",
+      "entityId": "action:search",
       "name": "Search",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "search",
-      "searchText": "action:xphb:search:373 search xphb actions.json search xphb 373 true 1 action when you take the search action, you make a wisdom check to discern something that isn't obvious. the search table suggests which skills are applicable when you take this action, depending on what you're trying to detect. table search skill thing to detect col-4 col-8 {@skill insight|xphb} creature's state of mind {@skill medicine|xphb} creature's ailment or cause of death {@skill perception|xphb} concealed creature or object {@skill survival|xphb} tracks or food",
-      "payloadJson": "{\"id\":\"action:xphb:search:373\",\"name\":\"Search\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Search\",\"source\":\"XPHB\",\"page\":373,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Search action, you make a Wisdom check to discern something that isn't obvious. The Search table suggests which skills are applicable when you take this action, depending on what you're trying to detect.\",{\"type\":\"table\",\"caption\":\"Search\",\"colLabels\":[\"Skill\",\"Thing to Detect\"],\"colStyles\":[\"col-4\",\"col-8\"],\"rows\":[[\"{@skill Insight|XPHB}\",\"Creature's state of mind\"],[\"{@skill Medicine|XPHB}\",\"Creature's ailment or cause of death\"],[\"{@skill Perception|XPHB}\",\"Concealed creature or object\"],[\"{@skill Survival|XPHB}\",\"Tracks or food\"]]}]}}"
+      "searchText": "action:search search search 1 action when you take the search action, you make a wisdom check to discern something that isn't obvious. the search table suggests which skills are applicable when you take this action, depending on what you're trying to detect. table search skill thing to detect col-4 col-8 {@skill insight|xphb} creature's state of mind {@skill medicine|xphb} creature's ailment or cause of death {@skill perception|xphb} concealed creature or object {@skill survival|xphb} tracks or food",
+      "payloadJson": "{\"id\":\"action:search\",\"name\":\"Search\",\"data\":{\"name\":\"Search\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"When you take the Search action, you make a Wisdom check to discern something that isn't obvious. The Search table suggests which skills are applicable when you take this action, depending on what you're trying to detect.\",{\"type\":\"table\",\"caption\":\"Search\",\"colLabels\":[\"Skill\",\"Thing to Detect\"],\"colStyles\":[\"col-4\",\"col-8\"],\"rows\":[[\"{@skill Insight|XPHB}\",\"Creature's state of mind\"],[\"{@skill Medicine|XPHB}\",\"Creature's ailment or cause of death\"],[\"{@skill Perception|XPHB}\",\"Concealed creature or object\"],[\"{@skill Survival|XPHB}\",\"Tracks or food\"]]}]}}"
     },
     {
-      "entityId": "action:xphb:two_weapon_fighting:213",
+      "entityId": "action:two_weapon_fighting",
       "name": "Two-Weapon Fighting",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "two-weapon fighting",
-      "searchText": "action:xphb:two_weapon_fighting:213 two-weapon fighting xphb actions.json two-weapon fighting xphb 213 true true 1 bonus when you take the {@action attack|xphb} action on your turn and attack with a light weapon, you can make one extra attack as a {@variantrule bonus action|xphb} later on the same turn. that extra attack must be made with a different light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. for example, you can attack with a {@item shortsword|xphb} in one hand and a {@item dagger|xphb} in the other using the {@action attack|xphb} action and a {@variantrule bonus action|xphb}, but you don't add your strength or dexterity modifier to the damage roll of the {@variantrule bonus action|xphb} unless that modifier is negative. attack|xphb",
-      "payloadJson": "{\"id\":\"action:xphb:two_weapon_fighting:213\",\"name\":\"Two-Weapon Fighting\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Two-Weapon Fighting\",\"source\":\"XPHB\",\"page\":213,\"srd52\":true,\"basicRules2024\":true,\"time\":[{\"number\":1,\"unit\":\"bonus\"}],\"entries\":[\"When you take the {@action Attack|XPHB} action on your turn and attack with a Light weapon, you can make one extra attack as a {@variantrule Bonus Action|XPHB} later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. For example, you can attack with a {@item Shortsword|XPHB} in one hand and a {@item Dagger|XPHB} in the other using the {@action Attack|XPHB} action and a {@variantrule Bonus Action|XPHB}, but you don't add your Strength or Dexterity modifier to the damage roll of the {@variantrule Bonus Action|XPHB} unless that modifier is negative.\"],\"seeAlsoAction\":[\"Attack|XPHB\"]}}"
+      "searchText": "action:two_weapon_fighting two-weapon fighting two-weapon fighting 1 bonus when you take the {@action attack|xphb} action on your turn and attack with a light weapon, you can make one extra attack as a {@variantrule bonus action|xphb} later on the same turn. that extra attack must be made with a different light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. for example, you can attack with a {@item shortsword|xphb} in one hand and a {@item dagger|xphb} in the other using the {@action attack|xphb} action and a {@variantrule bonus action|xphb}, but you don't add your strength or dexterity modifier to the damage roll of the {@variantrule bonus action|xphb} unless that modifier is negative. attack|xphb",
+      "payloadJson": "{\"id\":\"action:two_weapon_fighting\",\"name\":\"Two-Weapon Fighting\",\"data\":{\"name\":\"Two-Weapon Fighting\",\"time\":[{\"number\":1,\"unit\":\"bonus\"}],\"entries\":[\"When you take the {@action Attack|XPHB} action on your turn and attack with a Light weapon, you can make one extra attack as a {@variantrule Bonus Action|XPHB} later on the same turn. That extra attack must be made with a different Light weapon, and you don't add your ability modifier to the extra attack's damage unless that modifier is negative. For example, you can attack with a {@item Shortsword|XPHB} in one hand and a {@item Dagger|XPHB} in the other using the {@action Attack|XPHB} action and a {@variantrule Bonus Action|XPHB}, but you don't add your Strength or Dexterity modifier to the damage roll of the {@variantrule Bonus Action|XPHB} unless that modifier is negative.\"],\"seeAlsoAction\":[\"Attack|XPHB\"]}}"
     },
     {
-      "entityId": "action:xphb:utilize:377",
+      "entityId": "action:utilize",
       "name": "Utilize",
-      "source": "XPHB",
-      "sourceFile": "actions.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "utilize",
-      "searchText": "action:xphb:utilize:377 utilize xphb actions.json utilize xphb 377 true 1 action you normally interact with an object while doing something else, such as when you draw a sword as part of the {@action attack|xphb} action. when an object requires an action for its use, you take the utilize action.",
-      "payloadJson": "{\"id\":\"action:xphb:utilize:377\",\"name\":\"Utilize\",\"source\":\"XPHB\",\"sourceFile\":\"actions.json\",\"data\":{\"name\":\"Utilize\",\"source\":\"XPHB\",\"page\":377,\"srd52\":true,\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"You normally interact with an object while doing something else, such as when you draw a sword as part of the {@action Attack|XPHB} action. When an object requires an action for its use, you take the Utilize action.\"]}}"
+      "searchText": "action:utilize utilize utilize 1 action you normally interact with an object while doing something else, such as when you draw a sword as part of the {@action attack|xphb} action. when an object requires an action for its use, you take the utilize action.",
+      "payloadJson": "{\"id\":\"action:utilize\",\"name\":\"Utilize\",\"data\":{\"name\":\"Utilize\",\"time\":[{\"number\":1,\"unit\":\"action\"}],\"entries\":[\"You normally interact with an object while doing something else, such as when you draw a sword as part of the {@action Attack|XPHB} action. When an object requires an action for its use, you take the Utilize action.\"]}}"
     }
   ],
   "linkRows": [
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:attack:361",
+      "sourceEntityId": "action:attack",
       "targetTag": "variantrule",
       "rawReference": "Unarmed Strike|XPHB",
       "displayText": "Unarmed Strike",
@@ -166,7 +166,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dash:365",
+      "sourceEntityId": "action:dash",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -175,7 +175,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dash:365",
+      "sourceEntityId": "action:dash",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -184,7 +184,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dash:365",
+      "sourceEntityId": "action:dash",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -193,7 +193,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dash:365",
+      "sourceEntityId": "action:dash",
       "targetTag": "variantrule",
       "rawReference": "Fly Speed|XPHB",
       "displayText": "Fly Speed",
@@ -202,7 +202,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dash:365",
+      "sourceEntityId": "action:dash",
       "targetTag": "variantrule",
       "rawReference": "Swim Speed|XPHB",
       "displayText": "Swim Speed",
@@ -211,7 +211,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dash:365",
+      "sourceEntityId": "action:dash",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -220,7 +220,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:disengage:366",
+      "sourceEntityId": "action:disengage",
       "targetTag": "action",
       "rawReference": "Opportunity Attack|XPHB|Opportunity Attacks",
       "displayText": "Opportunity Attack",
@@ -229,7 +229,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dodge:366",
+      "sourceEntityId": "action:dodge",
       "targetTag": "variantrule",
       "rawReference": "Disadvantage|XPHB",
       "displayText": "Disadvantage",
@@ -238,7 +238,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dodge:366",
+      "sourceEntityId": "action:dodge",
       "targetTag": "variantrule",
       "rawReference": "Saving Throw|XPHB|saving throws",
       "displayText": "Saving Throw",
@@ -247,7 +247,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dodge:366",
+      "sourceEntityId": "action:dodge",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -256,7 +256,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dodge:366",
+      "sourceEntityId": "action:dodge",
       "targetTag": "condition",
       "rawReference": "Incapacitated|XPHB",
       "displayText": "Incapacitated",
@@ -265,7 +265,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:dodge:366",
+      "sourceEntityId": "action:dodge",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -274,7 +274,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:don_or_doff_a_shield:219",
+      "sourceEntityId": "action:don_or_doff_a_shield",
       "targetTag": "item",
       "rawReference": "Shield|XPHB",
       "displayText": "Shield",
@@ -283,7 +283,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:escape_a_grapple:367",
+      "sourceEntityId": "action:escape_a_grapple",
       "targetTag": "skill",
       "rawReference": "Athletics|XPHB",
       "displayText": "Athletics",
@@ -292,7 +292,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:escape_a_grapple:367",
+      "sourceEntityId": "action:escape_a_grapple",
       "targetTag": "skill",
       "rawReference": "Acrobatics|XPHB",
       "displayText": "Acrobatics",
@@ -301,7 +301,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:escape_a_grapple:367",
+      "sourceEntityId": "action:escape_a_grapple",
       "targetTag": "variantrule",
       "rawReference": "Condition|XPHB|condition",
       "displayText": "Condition",
@@ -310,7 +310,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:escape_a_grapple:367",
+      "sourceEntityId": "action:escape_a_grapple",
       "targetTag": "variantrule",
       "rawReference": "Condition|XPHB|condition",
       "displayText": "Condition",
@@ -319,7 +319,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:escape_a_grapple:367",
+      "sourceEntityId": "action:escape_a_grapple",
       "targetTag": "condition",
       "rawReference": "Incapacitated|XPHB",
       "displayText": "Incapacitated",
@@ -328,7 +328,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:help:368",
+      "sourceEntityId": "action:help",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -337,7 +337,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:help:368",
+      "sourceEntityId": "action:help",
       "targetTag": "variantrule",
       "rawReference": "Advantage|XPHB",
       "displayText": "Advantage",
@@ -346,7 +346,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:help:368",
+      "sourceEntityId": "action:help",
       "targetTag": "note",
       "rawReference": "Additionally, the Help action may be used to {@book stabilize a creature|XPHB|1|Stabilizing a Character",
       "displayText": "Additionally, the Help action may be used to {@book stabilize a creature",
@@ -355,7 +355,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:hide:368",
+      "sourceEntityId": "action:hide",
       "targetTag": "dc",
       "rawReference": "15",
       "displayText": "15",
@@ -364,7 +364,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:hide:368",
+      "sourceEntityId": "action:hide",
       "targetTag": "skill",
       "rawReference": "Stealth|XPHB",
       "displayText": "Stealth",
@@ -373,7 +373,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:hide:368",
+      "sourceEntityId": "action:hide",
       "targetTag": "variantrule",
       "rawReference": "Heavily Obscured|XPHB",
       "displayText": "Heavily Obscured",
@@ -382,7 +382,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:hide:368",
+      "sourceEntityId": "action:hide",
       "targetTag": "variantrule",
       "rawReference": "Cover|XPHB|Three-Quarters Cover or Total Cover",
       "displayText": "Cover",
@@ -391,7 +391,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:hide:368",
+      "sourceEntityId": "action:hide",
       "targetTag": "condition",
       "rawReference": "Invisible|XPHB",
       "displayText": "Invisible",
@@ -400,7 +400,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:hide:368",
+      "sourceEntityId": "action:hide",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -409,7 +409,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:magic:371",
+      "sourceEntityId": "action:magic",
       "targetTag": "status",
       "rawReference": "Concentration|XPHB",
       "displayText": "Concentration",
@@ -418,7 +418,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:magic:371",
+      "sourceEntityId": "action:magic",
       "targetTag": "status",
       "rawReference": "Concentration|XPHB",
       "displayText": "Concentration",
@@ -427,7 +427,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:opportunity_attack:371",
+      "sourceEntityId": "action:opportunity_attack",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -436,7 +436,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:opportunity_attack:371",
+      "sourceEntityId": "action:opportunity_attack",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -445,7 +445,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:opportunity_attack:371",
+      "sourceEntityId": "action:opportunity_attack",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -454,7 +454,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:opportunity_attack:371",
+      "sourceEntityId": "action:opportunity_attack",
       "targetTag": "variantrule",
       "rawReference": "Unarmed Strike|XPHB",
       "displayText": "Unarmed Strike",
@@ -463,7 +463,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -472,7 +472,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -481,7 +481,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "variantrule",
       "rawReference": "Speed|XPHB",
       "displayText": "Speed",
@@ -490,7 +490,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -499,7 +499,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "variantrule",
       "rawReference": "Reaction|XPHB",
       "displayText": "Reaction",
@@ -508,7 +508,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "status",
       "rawReference": "Concentration|XPHB",
       "displayText": "Concentration",
@@ -517,7 +517,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:ready:372",
+      "sourceEntityId": "action:ready",
       "targetTag": "status",
       "rawReference": "Concentration|XPHB",
       "displayText": "Concentration",
@@ -526,7 +526,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:search:373",
+      "sourceEntityId": "action:search",
       "targetTag": "skill",
       "rawReference": "Insight|XPHB",
       "displayText": "Insight",
@@ -535,7 +535,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:search:373",
+      "sourceEntityId": "action:search",
       "targetTag": "skill",
       "rawReference": "Medicine|XPHB",
       "displayText": "Medicine",
@@ -544,7 +544,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:search:373",
+      "sourceEntityId": "action:search",
       "targetTag": "skill",
       "rawReference": "Perception|XPHB",
       "displayText": "Perception",
@@ -553,7 +553,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:search:373",
+      "sourceEntityId": "action:search",
       "targetTag": "skill",
       "rawReference": "Survival|XPHB",
       "displayText": "Survival",
@@ -562,7 +562,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",
@@ -571,7 +571,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -580,7 +580,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "item",
       "rawReference": "Shortsword|XPHB",
       "displayText": "Shortsword",
@@ -589,7 +589,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "item",
       "rawReference": "Dagger|XPHB",
       "displayText": "Dagger",
@@ -598,7 +598,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",
@@ -607,7 +607,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -616,7 +616,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:two_weapon_fighting:213",
+      "sourceEntityId": "action:two_weapon_fighting",
       "targetTag": "variantrule",
       "rawReference": "Bonus Action|XPHB",
       "displayText": "Bonus Action",
@@ -625,7 +625,7 @@
     },
     {
       "sourceEntityType": "action",
-      "sourceEntityId": "action:xphb:utilize:377",
+      "sourceEntityId": "action:utilize",
       "targetTag": "action",
       "rawReference": "Attack|XPHB",
       "displayText": "Attack",

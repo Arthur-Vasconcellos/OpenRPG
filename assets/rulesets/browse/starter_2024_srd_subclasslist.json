@@ -4,124 +4,124 @@
   "collectionKey": "subclassList",
   "entityRows": [
     {
-      "entityId": "subclass:xphb:champion:96",
+      "entityId": "subclass:champion:fighter",
       "name": "Champion",
-      "source": "XPHB",
-      "sourceFile": "class/class-fighter.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "champion",
-      "searchText": "subclass:xphb:champion:96 champion xphb class/class-fighter.json one champion champion xphb fighter xphb 96 true true one fighting style fs 1 champion|fighter|xphb|champion|xphb|3 additional fighting style|fighter|xphb|champion|xphb|7 heroic warrior|fighter|xphb|champion|xphb|10 superior critical|fighter|xphb|champion|xphb|15 survivor|fighter|xphb|champion|xphb|18 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:champion:96\",\"name\":\"Champion\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-fighter.json\",\"edition\":\"one\",\"data\":{\"name\":\"Champion\",\"shortName\":\"Champion\",\"source\":\"XPHB\",\"className\":\"Fighter\",\"classSource\":\"XPHB\",\"page\":96,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"featProgression\":[{\"name\":\"Fighting Style\",\"category\":[\"FS\"],\"progression\":{\"7\":1}}],\"subclassFeatures\":[\"Champion|Fighter|XPHB|Champion|XPHB|3\",\"Additional Fighting Style|Fighter|XPHB|Champion|XPHB|7\",\"Heroic Warrior|Fighter|XPHB|Champion|XPHB|10\",\"Superior Critical|Fighter|XPHB|Champion|XPHB|15\",\"Survivor|Fighter|XPHB|Champion|XPHB|18\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:champion:fighter champion champion champion fighter fighting style fs 1 champion|fighter|xphb|champion|xphb|3 additional fighting style|fighter|xphb|champion|xphb|7 heroic warrior|fighter|xphb|champion|xphb|10 superior critical|fighter|xphb|champion|xphb|15 survivor|fighter|xphb|champion|xphb|18 true",
+      "payloadJson": "{\"id\":\"subclass:champion:fighter\",\"name\":\"Champion\",\"data\":{\"name\":\"Champion\",\"shortName\":\"Champion\",\"className\":\"Fighter\",\"featProgression\":[{\"name\":\"Fighting Style\",\"category\":[\"FS\"],\"progression\":{\"7\":1}}],\"subclassFeatures\":[\"Champion|Fighter|XPHB|Champion|XPHB|3\",\"Additional Fighting Style|Fighter|XPHB|Champion|XPHB|7\",\"Heroic Warrior|Fighter|XPHB|Champion|XPHB|10\",\"Superior Critical|Fighter|XPHB|Champion|XPHB|15\",\"Survivor|Fighter|XPHB|Champion|XPHB|18\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:circle_of_the_land:84",
+      "entityId": "subclass:circle_of_the_land:druid",
       "name": "Circle of the Land",
-      "source": "XPHB",
-      "sourceFile": "class/class-druid.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "circle of the land",
-      "searchText": "subclass:xphb:circle_of_the_land:84 circle of the land xphb class/class-druid.json one circle of the land land xphb druid xphb 84 true true one arid land blur|xphb burning hands|xphb fire bolt|xphb fireball|xphb blight|xphb wall of stone|xphb polar land fog cloud|xphb hold person|xphb ray of frost|xphb sleet storm|xphb ice storm|xphb cone of cold|xphb temperate land misty step|xphb shocking grasp|xphb sleep|xphb lightning bolt|xphb freedom of movement|xphb tree stride|xphb tropical land acid splash|xphb ray of sickness|xphb web|xphb stinking cloud|xphb polymorph|xphb insect plague|xphb circle of the land|druid|xphb|land|xphb|3 natural recovery|druid|xphb|land|xphb|6 nature's ward|druid|xphb|land|xphb|10 nature's sanctuary|druid|xphb|land|xphb|14 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:circle_of_the_land:84\",\"name\":\"Circle of the Land\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-druid.json\",\"edition\":\"one\",\"data\":{\"name\":\"Circle of the Land\",\"shortName\":\"Land\",\"source\":\"XPHB\",\"className\":\"Druid\",\"classSource\":\"XPHB\",\"page\":84,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"name\":\"Arid Land\",\"prepared\":{\"3\":[\"blur|xphb\",\"burning hands|xphb\",\"fire bolt|xphb\"],\"5\":[\"fireball|xphb\"],\"7\":[\"blight|xphb\"],\"9\":[\"wall of stone|xphb\"]}},{\"name\":\"Polar Land\",\"prepared\":{\"3\":[\"fog cloud|xphb\",\"hold person|xphb\",\"ray of frost|xphb\"],\"5\":[\"sleet storm|xphb\"],\"7\":[\"ice storm|xphb\"],\"9\":[\"cone of cold|xphb\"]}},{\"name\":\"Temperate Land\",\"prepared\":{\"3\":[\"misty step|xphb\",\"shocking grasp|xphb\",\"sleep|xphb\"],\"5\":[\"lightning bolt|xphb\"],\"7\":[\"freedom of movement|xphb\"],\"9\":[\"tree stride|xphb\"]}},{\"name\":\"Tropical Land\",\"prepared\":{\"3\":[\"acid splash|xphb\",\"ray of sickness|xphb\",\"web|xphb\"],\"5\":[\"stinking cloud|xphb\"],\"7\":[\"polymorph|xphb\"],\"9\":[\"insect plague|xphb\"]}}],\"subclassFeatures\":[\"Circle of the Land|Druid|XPHB|Land|XPHB|3\",\"Natural Recovery|Druid|XPHB|Land|XPHB|6\",\"Nature's Ward|Druid|XPHB|Land|XPHB|10\",\"Nature's Sanctuary|Druid|XPHB|Land|XPHB|14\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:circle_of_the_land:druid circle of the land circle of the land land druid arid land blur|xphb burning hands|xphb fire bolt|xphb fireball|xphb blight|xphb wall of stone|xphb polar land fog cloud|xphb hold person|xphb ray of frost|xphb sleet storm|xphb ice storm|xphb cone of cold|xphb temperate land misty step|xphb shocking grasp|xphb sleep|xphb lightning bolt|xphb freedom of movement|xphb tree stride|xphb tropical land acid splash|xphb ray of sickness|xphb web|xphb stinking cloud|xphb polymorph|xphb insect plague|xphb circle of the land|druid|xphb|land|xphb|3 natural recovery|druid|xphb|land|xphb|6 nature's ward|druid|xphb|land|xphb|10 nature's sanctuary|druid|xphb|land|xphb|14 true",
+      "payloadJson": "{\"id\":\"subclass:circle_of_the_land:druid\",\"name\":\"Circle of the Land\",\"data\":{\"name\":\"Circle of the Land\",\"shortName\":\"Land\",\"className\":\"Druid\",\"additionalSpells\":[{\"name\":\"Arid Land\",\"prepared\":{\"3\":[\"blur|xphb\",\"burning hands|xphb\",\"fire bolt|xphb\"],\"5\":[\"fireball|xphb\"],\"7\":[\"blight|xphb\"],\"9\":[\"wall of stone|xphb\"]}},{\"name\":\"Polar Land\",\"prepared\":{\"3\":[\"fog cloud|xphb\",\"hold person|xphb\",\"ray of frost|xphb\"],\"5\":[\"sleet storm|xphb\"],\"7\":[\"ice storm|xphb\"],\"9\":[\"cone of cold|xphb\"]}},{\"name\":\"Temperate Land\",\"prepared\":{\"3\":[\"misty step|xphb\",\"shocking grasp|xphb\",\"sleep|xphb\"],\"5\":[\"lightning bolt|xphb\"],\"7\":[\"freedom of movement|xphb\"],\"9\":[\"tree stride|xphb\"]}},{\"name\":\"Tropical Land\",\"prepared\":{\"3\":[\"acid splash|xphb\",\"ray of sickness|xphb\",\"web|xphb\"],\"5\":[\"stinking cloud|xphb\"],\"7\":[\"polymorph|xphb\"],\"9\":[\"insect plague|xphb\"]}}],\"subclassFeatures\":[\"Circle of the Land|Druid|XPHB|Land|XPHB|3\",\"Natural Recovery|Druid|XPHB|Land|XPHB|6\",\"Nature's Ward|Druid|XPHB|Land|XPHB|10\",\"Nature's Sanctuary|Druid|XPHB|Land|XPHB|14\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:college_of_lore:66",
+      "entityId": "subclass:college_of_lore:bard",
       "name": "College of Lore",
-      "source": "XPHB",
-      "sourceFile": "class/class-bard.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "college of lore",
-      "searchText": "subclass:xphb:college_of_lore:66 college of lore xphb class/class-bard.json one college of lore lore xphb bard xphb 66 true true one level=0;1;2;3|class=cleric;druid;wizard level=0;1;2;3|class=cleric;druid;wizard college of lore|bard|xphb|lore|xphb|3 magical discoveries|bard|xphb|lore|xphb|6 peerless skill|bard|xphb|lore|xphb|14 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:college_of_lore:66\",\"name\":\"College of Lore\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-bard.json\",\"edition\":\"one\",\"data\":{\"name\":\"College of Lore\",\"shortName\":\"Lore\",\"source\":\"XPHB\",\"className\":\"Bard\",\"classSource\":\"XPHB\",\"page\":66,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"prepared\":{\"6\":[{\"choose\":\"level=0;1;2;3|class=Cleric;Druid;Wizard\"},{\"choose\":\"level=0;1;2;3|class=Cleric;Druid;Wizard\"}]}}],\"subclassFeatures\":[\"College of Lore|Bard|XPHB|Lore|XPHB|3\",\"Magical Discoveries|Bard|XPHB|Lore|XPHB|6\",\"Peerless Skill|Bard|XPHB|Lore|XPHB|14\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:college_of_lore:bard college of lore college of lore lore bard level=0;1;2;3|class=cleric;druid;wizard level=0;1;2;3|class=cleric;druid;wizard college of lore|bard|xphb|lore|xphb|3 magical discoveries|bard|xphb|lore|xphb|6 peerless skill|bard|xphb|lore|xphb|14 true",
+      "payloadJson": "{\"id\":\"subclass:college_of_lore:bard\",\"name\":\"College of Lore\",\"data\":{\"name\":\"College of Lore\",\"shortName\":\"Lore\",\"className\":\"Bard\",\"additionalSpells\":[{\"prepared\":{\"6\":[{\"choose\":\"level=0;1;2;3|class=Cleric;Druid;Wizard\"},{\"choose\":\"level=0;1;2;3|class=Cleric;Druid;Wizard\"}]}}],\"subclassFeatures\":[\"College of Lore|Bard|XPHB|Lore|XPHB|3\",\"Magical Discoveries|Bard|XPHB|Lore|XPHB|6\",\"Peerless Skill|Bard|XPHB|Lore|XPHB|14\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:draconic_sorcery:148",
+      "entityId": "subclass:draconic_sorcery:sorcerer",
       "name": "Draconic Sorcery",
-      "source": "XPHB",
-      "sourceFile": "class/class-sorcerer.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "draconic sorcery",
-      "searchText": "subclass:xphb:draconic_sorcery:148 draconic sorcery xphb class/class-sorcerer.json one draconic sorcery draconic xphb sorcerer xphb 148 true true one alter self|xphb chromatic orb|xphb command|xphb dragon's breath|xphb fear|xphb fly|xphb arcane eye|xphb charm monster|xphb legend lore|xphb summon dragon|xphb draconic sorcery|sorcerer|xphb|draconic|xphb|3 elemental affinity|sorcerer|xphb|draconic|xphb|6 dragon wings|sorcerer|xphb|draconic|xphb|14 dragon companion|sorcerer|xphb|draconic|xphb|18 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:draconic_sorcery:148\",\"name\":\"Draconic Sorcery\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-sorcerer.json\",\"edition\":\"one\",\"data\":{\"name\":\"Draconic Sorcery\",\"shortName\":\"Draconic\",\"source\":\"XPHB\",\"className\":\"Sorcerer\",\"classSource\":\"XPHB\",\"page\":148,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"alter self|xphb\",\"chromatic orb|xphb\",\"command|xphb\",\"dragon's breath|xphb\"],\"5\":[\"fear|xphb\",\"fly|xphb\"],\"7\":[\"arcane eye|xphb\",\"charm monster|xphb\"],\"9\":[\"legend lore|xphb\",\"summon dragon|xphb\"]}}],\"subclassFeatures\":[\"Draconic Sorcery|Sorcerer|XPHB|Draconic|XPHB|3\",\"Elemental Affinity|Sorcerer|XPHB|Draconic|XPHB|6\",\"Dragon Wings|Sorcerer|XPHB|Draconic|XPHB|14\",\"Dragon Companion|Sorcerer|XPHB|Draconic|XPHB|18\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:draconic_sorcery:sorcerer draconic sorcery draconic sorcery draconic sorcerer alter self|xphb chromatic orb|xphb command|xphb dragon's breath|xphb fear|xphb fly|xphb arcane eye|xphb charm monster|xphb legend lore|xphb summon dragon|xphb draconic sorcery|sorcerer|xphb|draconic|xphb|3 elemental affinity|sorcerer|xphb|draconic|xphb|6 dragon wings|sorcerer|xphb|draconic|xphb|14 dragon companion|sorcerer|xphb|draconic|xphb|18 true",
+      "payloadJson": "{\"id\":\"subclass:draconic_sorcery:sorcerer\",\"name\":\"Draconic Sorcery\",\"data\":{\"name\":\"Draconic Sorcery\",\"shortName\":\"Draconic\",\"className\":\"Sorcerer\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"alter self|xphb\",\"chromatic orb|xphb\",\"command|xphb\",\"dragon's breath|xphb\"],\"5\":[\"fear|xphb\",\"fly|xphb\"],\"7\":[\"arcane eye|xphb\",\"charm monster|xphb\"],\"9\":[\"legend lore|xphb\",\"summon dragon|xphb\"]}}],\"subclassFeatures\":[\"Draconic Sorcery|Sorcerer|XPHB|Draconic|XPHB|3\",\"Elemental Affinity|Sorcerer|XPHB|Draconic|XPHB|6\",\"Dragon Wings|Sorcerer|XPHB|Draconic|XPHB|14\",\"Dragon Companion|Sorcerer|XPHB|Draconic|XPHB|18\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:evoker:174",
+      "entityId": "subclass:evoker:wizard",
       "name": "Evoker",
-      "source": "XPHB",
-      "sourceFile": "class/class-wizard.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "evoker",
-      "searchText": "subclass:xphb:evoker:174 evoker xphb class/class-wizard.json one evoker evoker xphb wizard xphb 174 true true one level=0;1;2|class=wizard|school=v level=0;1;2|class=wizard|school=v level=0;1;2;3|class=wizard|school=v level=0;1;2;3;4|class=wizard|school=v level=0;1;2;3;4;5|class=wizard|school=v level=0;1;2;3;4;5;6|class=wizard|school=v level=0;1;2;3;4;5;6;7|class=wizard|school=v level=0;1;2;3;4;5;6;7;8|class=wizard|school=v level=0;1;2;3;4;5;6;7;8;9|class=wizard|school=v evoker|wizard|xphb|evoker|xphb|3 sculpt spells|wizard|xphb|evoker|xphb|6 empowered evocation|wizard|xphb|evoker|xphb|10 overchannel|wizard|xphb|evoker|xphb|14 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:evoker:174\",\"name\":\"Evoker\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-wizard.json\",\"edition\":\"one\",\"data\":{\"name\":\"Evoker\",\"shortName\":\"Evoker\",\"source\":\"XPHB\",\"className\":\"Wizard\",\"classSource\":\"XPHB\",\"page\":174,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"known\":{\"3\":[{\"choose\":\"level=0;1;2|class=Wizard|school=V\"},{\"choose\":\"level=0;1;2|class=Wizard|school=V\"}],\"5\":[{\"choose\":\"level=0;1;2;3|class=Wizard|school=V\"}],\"7\":[{\"choose\":\"level=0;1;2;3;4|class=Wizard|school=V\"}],\"9\":[{\"choose\":\"level=0;1;2;3;4;5|class=Wizard|school=V\"}],\"11\":[{\"choose\":\"level=0;1;2;3;4;5;6|class=Wizard|school=V\"}],\"13\":[{\"choose\":\"level=0;1;2;3;4;5;6;7|class=Wizard|school=V\"}],\"15\":[{\"choose\":\"level=0;1;2;3;4;5;6;7;8|class=Wizard|school=V\"}],\"17\":[{\"choose\":\"level=0;1;2;3;4;5;6;7;8;9|class=Wizard|school=V\"}]}}],\"subclassFeatures\":[\"Evoker|Wizard|XPHB|Evoker|XPHB|3\",\"Sculpt Spells|Wizard|XPHB|Evoker|XPHB|6\",\"Empowered Evocation|Wizard|XPHB|Evoker|XPHB|10\",\"Overchannel|Wizard|XPHB|Evoker|XPHB|14\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:evoker:wizard evoker evoker evoker wizard level=0;1;2|class=wizard|school=v level=0;1;2|class=wizard|school=v level=0;1;2;3|class=wizard|school=v level=0;1;2;3;4|class=wizard|school=v level=0;1;2;3;4;5|class=wizard|school=v level=0;1;2;3;4;5;6|class=wizard|school=v level=0;1;2;3;4;5;6;7|class=wizard|school=v level=0;1;2;3;4;5;6;7;8|class=wizard|school=v level=0;1;2;3;4;5;6;7;8;9|class=wizard|school=v evoker|wizard|xphb|evoker|xphb|3 sculpt spells|wizard|xphb|evoker|xphb|6 empowered evocation|wizard|xphb|evoker|xphb|10 overchannel|wizard|xphb|evoker|xphb|14 true",
+      "payloadJson": "{\"id\":\"subclass:evoker:wizard\",\"name\":\"Evoker\",\"data\":{\"name\":\"Evoker\",\"shortName\":\"Evoker\",\"className\":\"Wizard\",\"additionalSpells\":[{\"known\":{\"3\":[{\"choose\":\"level=0;1;2|class=Wizard|school=V\"},{\"choose\":\"level=0;1;2|class=Wizard|school=V\"}],\"5\":[{\"choose\":\"level=0;1;2;3|class=Wizard|school=V\"}],\"7\":[{\"choose\":\"level=0;1;2;3;4|class=Wizard|school=V\"}],\"9\":[{\"choose\":\"level=0;1;2;3;4;5|class=Wizard|school=V\"}],\"11\":[{\"choose\":\"level=0;1;2;3;4;5;6|class=Wizard|school=V\"}],\"13\":[{\"choose\":\"level=0;1;2;3;4;5;6;7|class=Wizard|school=V\"}],\"15\":[{\"choose\":\"level=0;1;2;3;4;5;6;7;8|class=Wizard|school=V\"}],\"17\":[{\"choose\":\"level=0;1;2;3;4;5;6;7;8;9|class=Wizard|school=V\"}]}}],\"subclassFeatures\":[\"Evoker|Wizard|XPHB|Evoker|XPHB|3\",\"Sculpt Spells|Wizard|XPHB|Evoker|XPHB|6\",\"Empowered Evocation|Wizard|XPHB|Evoker|XPHB|10\",\"Overchannel|Wizard|XPHB|Evoker|XPHB|14\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:fiend_patron:161",
+      "entityId": "subclass:fiend_patron:warlock",
       "name": "Fiend Patron",
-      "source": "XPHB",
-      "sourceFile": "class/class-warlock.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "fiend patron",
-      "searchText": "subclass:xphb:fiend_patron:161 fiend patron xphb class/class-warlock.json one fiend patron fiend xphb warlock xphb 161 true true one burning hands|xphb command|xphb scorching ray|xphb suggestion|xphb fireball|xphb stinking cloud|xphb fire shield|xphb wall of fire|xphb geas|xphb insect plague|xphb fiend patron|warlock|xphb|fiend|xphb|3 dark one's own luck|warlock|xphb|fiend|xphb|6 fiendish resilience|warlock|xphb|fiend|xphb|10 hurl through hell|warlock|xphb|fiend|xphb|14 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:fiend_patron:161\",\"name\":\"Fiend Patron\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-warlock.json\",\"edition\":\"one\",\"data\":{\"name\":\"Fiend Patron\",\"shortName\":\"Fiend\",\"source\":\"XPHB\",\"className\":\"Warlock\",\"classSource\":\"XPHB\",\"page\":161,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"burning hands|xphb\",\"command|xphb\",\"scorching ray|xphb\",\"suggestion|xphb\"],\"5\":[\"fireball|xphb\",\"stinking cloud|xphb\"],\"7\":[\"fire shield|xphb\",\"wall of fire|xphb\"],\"9\":[\"geas|xphb\",\"insect plague|xphb\"]}}],\"subclassFeatures\":[\"Fiend Patron|Warlock|XPHB|Fiend|XPHB|3\",\"Dark One's Own Luck|Warlock|XPHB|Fiend|XPHB|6\",\"Fiendish Resilience|Warlock|XPHB|Fiend|XPHB|10\",\"Hurl Through Hell|Warlock|XPHB|Fiend|XPHB|14\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:fiend_patron:warlock fiend patron fiend patron fiend warlock burning hands|xphb command|xphb scorching ray|xphb suggestion|xphb fireball|xphb stinking cloud|xphb fire shield|xphb wall of fire|xphb geas|xphb insect plague|xphb fiend patron|warlock|xphb|fiend|xphb|3 dark one's own luck|warlock|xphb|fiend|xphb|6 fiendish resilience|warlock|xphb|fiend|xphb|10 hurl through hell|warlock|xphb|fiend|xphb|14 true",
+      "payloadJson": "{\"id\":\"subclass:fiend_patron:warlock\",\"name\":\"Fiend Patron\",\"data\":{\"name\":\"Fiend Patron\",\"shortName\":\"Fiend\",\"className\":\"Warlock\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"burning hands|xphb\",\"command|xphb\",\"scorching ray|xphb\",\"suggestion|xphb\"],\"5\":[\"fireball|xphb\",\"stinking cloud|xphb\"],\"7\":[\"fire shield|xphb\",\"wall of fire|xphb\"],\"9\":[\"geas|xphb\",\"insect plague|xphb\"]}}],\"subclassFeatures\":[\"Fiend Patron|Warlock|XPHB|Fiend|XPHB|3\",\"Dark One's Own Luck|Warlock|XPHB|Fiend|XPHB|6\",\"Fiendish Resilience|Warlock|XPHB|Fiend|XPHB|10\",\"Hurl Through Hell|Warlock|XPHB|Fiend|XPHB|14\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:hunter:127",
+      "entityId": "subclass:hunter:ranger",
       "name": "Hunter",
-      "source": "XPHB",
-      "sourceFile": "class/class-ranger.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "hunter",
-      "searchText": "subclass:xphb:hunter:127 hunter xphb class/class-ranger.json one hunter hunter xphb ranger xphb 127 true true one hunter|ranger|xphb|hunter|xphb|3 defensive tactics|ranger|xphb|hunter|xphb|7 superior hunter's prey|ranger|xphb|hunter|xphb|11 superior hunter's defense|ranger|xphb|hunter|xphb|15 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:hunter:127\",\"name\":\"Hunter\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-ranger.json\",\"edition\":\"one\",\"data\":{\"name\":\"Hunter\",\"shortName\":\"Hunter\",\"source\":\"XPHB\",\"className\":\"Ranger\",\"classSource\":\"XPHB\",\"page\":127,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"subclassFeatures\":[\"Hunter|Ranger|XPHB|Hunter|XPHB|3\",\"Defensive Tactics|Ranger|XPHB|Hunter|XPHB|7\",\"Superior Hunter's Prey|Ranger|XPHB|Hunter|XPHB|11\",\"Superior Hunter's Defense|Ranger|XPHB|Hunter|XPHB|15\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:hunter:ranger hunter hunter hunter ranger hunter|ranger|xphb|hunter|xphb|3 defensive tactics|ranger|xphb|hunter|xphb|7 superior hunter's prey|ranger|xphb|hunter|xphb|11 superior hunter's defense|ranger|xphb|hunter|xphb|15 true",
+      "payloadJson": "{\"id\":\"subclass:hunter:ranger\",\"name\":\"Hunter\",\"data\":{\"name\":\"Hunter\",\"shortName\":\"Hunter\",\"className\":\"Ranger\",\"subclassFeatures\":[\"Hunter|Ranger|XPHB|Hunter|XPHB|3\",\"Defensive Tactics|Ranger|XPHB|Hunter|XPHB|7\",\"Superior Hunter's Prey|Ranger|XPHB|Hunter|XPHB|11\",\"Superior Hunter's Defense|Ranger|XPHB|Hunter|XPHB|15\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:life_domain:73",
+      "entityId": "subclass:life_domain:cleric",
       "name": "Life Domain",
-      "source": "XPHB",
-      "sourceFile": "class/class-cleric.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "life domain",
-      "searchText": "subclass:xphb:life_domain:73 life domain xphb class/class-cleric.json one life domain life xphb cleric xphb 73 true true one aid|xphb bless|xphb cure wounds|xphb lesser restoration|xphb mass healing word|xphb revivify|xphb aura of life|xphb death ward|xphb greater restoration|xphb mass cure wounds|xphb life domain|cleric|xphb|life|xphb|3 blessed healer|cleric|xphb|life|xphb|6 supreme healing|cleric|xphb|life|xphb|17 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:life_domain:73\",\"name\":\"Life Domain\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-cleric.json\",\"edition\":\"one\",\"data\":{\"name\":\"Life Domain\",\"shortName\":\"Life\",\"source\":\"XPHB\",\"className\":\"Cleric\",\"classSource\":\"XPHB\",\"page\":73,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"aid|xphb\",\"bless|xphb\",\"cure wounds|xphb\",\"lesser restoration|xphb\"],\"5\":[\"mass healing word|xphb\",\"revivify|xphb\"],\"7\":[\"aura of life|xphb\",\"death ward|xphb\"],\"9\":[\"greater restoration|xphb\",\"mass cure wounds|xphb\"]}}],\"subclassFeatures\":[\"Life Domain|Cleric|XPHB|Life|XPHB|3\",\"Blessed Healer|Cleric|XPHB|Life|XPHB|6\",\"Supreme Healing|Cleric|XPHB|Life|XPHB|17\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:life_domain:cleric life domain life domain life cleric aid|xphb bless|xphb cure wounds|xphb lesser restoration|xphb mass healing word|xphb revivify|xphb aura of life|xphb death ward|xphb greater restoration|xphb mass cure wounds|xphb life domain|cleric|xphb|life|xphb|3 blessed healer|cleric|xphb|life|xphb|6 supreme healing|cleric|xphb|life|xphb|17 true",
+      "payloadJson": "{\"id\":\"subclass:life_domain:cleric\",\"name\":\"Life Domain\",\"data\":{\"name\":\"Life Domain\",\"shortName\":\"Life\",\"className\":\"Cleric\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"aid|xphb\",\"bless|xphb\",\"cure wounds|xphb\",\"lesser restoration|xphb\"],\"5\":[\"mass healing word|xphb\",\"revivify|xphb\"],\"7\":[\"aura of life|xphb\",\"death ward|xphb\"],\"9\":[\"greater restoration|xphb\",\"mass cure wounds|xphb\"]}}],\"subclassFeatures\":[\"Life Domain|Cleric|XPHB|Life|XPHB|3\",\"Blessed Healer|Cleric|XPHB|Life|XPHB|6\",\"Supreme Healing|Cleric|XPHB|Life|XPHB|17\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:oath_of_devotion:113",
+      "entityId": "subclass:oath_of_devotion:paladin",
       "name": "Oath of Devotion",
-      "source": "XPHB",
-      "sourceFile": "class/class-paladin.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "oath of devotion",
-      "searchText": "subclass:xphb:oath_of_devotion:113 oath of devotion xphb class/class-paladin.json one oath of devotion devotion xphb paladin xphb 113 true true one protection from evil and good|xphb shield of faith|xphb aid|xphb zone of truth|xphb beacon of hope|xphb dispel magic|xphb freedom of movement|xphb guardian of faith|xphb commune|xphb flame strike|xphb oath of devotion|paladin|xphb|devotion|xphb|3 aura of devotion|paladin|xphb|devotion|xphb|7 smite of protection|paladin|xphb|devotion|xphb|15 holy nimbus|paladin|xphb|devotion|xphb|20 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:oath_of_devotion:113\",\"name\":\"Oath of Devotion\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-paladin.json\",\"edition\":\"one\",\"data\":{\"name\":\"Oath of Devotion\",\"shortName\":\"Devotion\",\"source\":\"XPHB\",\"className\":\"Paladin\",\"classSource\":\"XPHB\",\"page\":113,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"protection from evil and good|xphb\",\"shield of faith|xphb\"],\"5\":[\"aid|xphb\",\"zone of truth|xphb\"],\"9\":[\"beacon of hope|xphb\",\"dispel magic|xphb\"],\"13\":[\"freedom of movement|xphb\",\"guardian of faith|xphb\"],\"17\":[\"commune|xphb\",\"flame strike|xphb\"]}}],\"subclassFeatures\":[\"Oath of Devotion|Paladin|XPHB|Devotion|XPHB|3\",\"Aura of Devotion|Paladin|XPHB|Devotion|XPHB|7\",\"Smite of Protection|Paladin|XPHB|Devotion|XPHB|15\",\"Holy Nimbus|Paladin|XPHB|Devotion|XPHB|20\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:oath_of_devotion:paladin oath of devotion oath of devotion devotion paladin protection from evil and good|xphb shield of faith|xphb aid|xphb zone of truth|xphb beacon of hope|xphb dispel magic|xphb freedom of movement|xphb guardian of faith|xphb commune|xphb flame strike|xphb oath of devotion|paladin|xphb|devotion|xphb|3 aura of devotion|paladin|xphb|devotion|xphb|7 smite of protection|paladin|xphb|devotion|xphb|15 holy nimbus|paladin|xphb|devotion|xphb|20 true",
+      "payloadJson": "{\"id\":\"subclass:oath_of_devotion:paladin\",\"name\":\"Oath of Devotion\",\"data\":{\"name\":\"Oath of Devotion\",\"shortName\":\"Devotion\",\"className\":\"Paladin\",\"additionalSpells\":[{\"prepared\":{\"3\":[\"protection from evil and good|xphb\",\"shield of faith|xphb\"],\"5\":[\"aid|xphb\",\"zone of truth|xphb\"],\"9\":[\"beacon of hope|xphb\",\"dispel magic|xphb\"],\"13\":[\"freedom of movement|xphb\",\"guardian of faith|xphb\"],\"17\":[\"commune|xphb\",\"flame strike|xphb\"]}}],\"subclassFeatures\":[\"Oath of Devotion|Paladin|XPHB|Devotion|XPHB|3\",\"Aura of Devotion|Paladin|XPHB|Devotion|XPHB|7\",\"Smite of Protection|Paladin|XPHB|Devotion|XPHB|15\",\"Holy Nimbus|Paladin|XPHB|Devotion|XPHB|20\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:path_of_the_berserker:54",
+      "entityId": "subclass:path_of_the_berserker:barbarian",
       "name": "Path of the Berserker",
-      "source": "XPHB",
-      "sourceFile": "class/class-barbarian.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "path of the berserker",
-      "searchText": "subclass:xphb:path_of_the_berserker:54 path of the berserker xphb class/class-barbarian.json one path of the berserker berserker xphb barbarian xphb 54 true one path of the berserker|barbarian|xphb|berserker|xphb|3 mindless rage|barbarian|xphb|berserker|xphb|6 retaliation|barbarian|xphb|berserker|xphb|10 intimidating presence|barbarian|xphb|berserker|xphb|14 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:path_of_the_berserker:54\",\"name\":\"Path of the Berserker\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-barbarian.json\",\"edition\":\"one\",\"data\":{\"name\":\"Path of the Berserker\",\"shortName\":\"Berserker\",\"source\":\"XPHB\",\"className\":\"Barbarian\",\"classSource\":\"XPHB\",\"page\":54,\"srd52\":true,\"edition\":\"one\",\"subclassFeatures\":[\"Path of the Berserker|Barbarian|XPHB|Berserker|XPHB|3\",\"Mindless Rage|Barbarian|XPHB|Berserker|XPHB|6\",\"Retaliation|Barbarian|XPHB|Berserker|XPHB|10\",\"Intimidating Presence|Barbarian|XPHB|Berserker|XPHB|14\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:path_of_the_berserker:barbarian path of the berserker path of the berserker berserker barbarian path of the berserker|barbarian|xphb|berserker|xphb|3 mindless rage|barbarian|xphb|berserker|xphb|6 retaliation|barbarian|xphb|berserker|xphb|10 intimidating presence|barbarian|xphb|berserker|xphb|14 true",
+      "payloadJson": "{\"id\":\"subclass:path_of_the_berserker:barbarian\",\"name\":\"Path of the Berserker\",\"data\":{\"name\":\"Path of the Berserker\",\"shortName\":\"Berserker\",\"className\":\"Barbarian\",\"subclassFeatures\":[\"Path of the Berserker|Barbarian|XPHB|Berserker|XPHB|3\",\"Mindless Rage|Barbarian|XPHB|Berserker|XPHB|6\",\"Retaliation|Barbarian|XPHB|Berserker|XPHB|10\",\"Intimidating Presence|Barbarian|XPHB|Berserker|XPHB|14\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:thief:137",
+      "entityId": "subclass:thief:rogue",
       "name": "Thief",
-      "source": "XPHB",
-      "sourceFile": "class/class-rogue.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "thief",
-      "searchText": "subclass:xphb:thief:137 thief xphb class/class-rogue.json one thief thief xphb rogue xphb 137 true true one thief|rogue|xphb|thief|xphb|3 supreme sneak|rogue|xphb|thief|xphb|9 use magic device|rogue|xphb|thief|xphb|13 thief's reflexes|rogue|xphb|thief|xphb|17 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:thief:137\",\"name\":\"Thief\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-rogue.json\",\"edition\":\"one\",\"data\":{\"name\":\"Thief\",\"shortName\":\"Thief\",\"source\":\"XPHB\",\"className\":\"Rogue\",\"classSource\":\"XPHB\",\"page\":137,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"subclassFeatures\":[\"Thief|Rogue|XPHB|Thief|XPHB|3\",\"Supreme Sneak|Rogue|XPHB|Thief|XPHB|9\",\"Use Magic Device|Rogue|XPHB|Thief|XPHB|13\",\"Thief's Reflexes|Rogue|XPHB|Thief|XPHB|17\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:thief:rogue thief thief thief rogue thief|rogue|xphb|thief|xphb|3 supreme sneak|rogue|xphb|thief|xphb|9 use magic device|rogue|xphb|thief|xphb|13 thief's reflexes|rogue|xphb|thief|xphb|17 true",
+      "payloadJson": "{\"id\":\"subclass:thief:rogue\",\"name\":\"Thief\",\"data\":{\"name\":\"Thief\",\"shortName\":\"Thief\",\"className\":\"Rogue\",\"subclassFeatures\":[\"Thief|Rogue|XPHB|Thief|XPHB|3\",\"Supreme Sneak|Rogue|XPHB|Thief|XPHB|9\",\"Use Magic Device|Rogue|XPHB|Thief|XPHB|13\",\"Thief's Reflexes|Rogue|XPHB|Thief|XPHB|17\"],\"hasFluffImages\":true}}"
     },
     {
-      "entityId": "subclass:xphb:warrior_of_the_open_hand:107",
+      "entityId": "subclass:warrior_of_the_open_hand:monk",
       "name": "Warrior of the Open Hand",
-      "source": "XPHB",
-      "sourceFile": "class/class-monk.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "warrior of the open hand",
-      "searchText": "subclass:xphb:warrior_of_the_open_hand:107 warrior of the open hand xphb class/class-monk.json one warrior of the open hand open hand xphb monk xphb 107 true true one warrior of the open hand|monk|xphb|open hand|xphb|3 wholeness of body|monk|xphb|open hand|xphb|6 fleet step|monk|xphb|open hand|xphb|11 quivering palm|monk|xphb|open hand|xphb|17 true",
-      "payloadJson": "{\"id\":\"subclass:xphb:warrior_of_the_open_hand:107\",\"name\":\"Warrior of the Open Hand\",\"source\":\"XPHB\",\"sourceFile\":\"class/class-monk.json\",\"edition\":\"one\",\"data\":{\"name\":\"Warrior of the Open Hand\",\"shortName\":\"Open Hand\",\"source\":\"XPHB\",\"className\":\"Monk\",\"classSource\":\"XPHB\",\"page\":107,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"subclassFeatures\":[\"Warrior of the Open Hand|Monk|XPHB|Open Hand|XPHB|3\",\"Wholeness of Body|Monk|XPHB|Open Hand|XPHB|6\",\"Fleet Step|Monk|XPHB|Open Hand|XPHB|11\",\"Quivering Palm|Monk|XPHB|Open Hand|XPHB|17\"],\"hasFluffImages\":true}}"
+      "searchText": "subclass:warrior_of_the_open_hand:monk warrior of the open hand warrior of the open hand open hand monk warrior of the open hand|monk|xphb|open hand|xphb|3 wholeness of body|monk|xphb|open hand|xphb|6 fleet step|monk|xphb|open hand|xphb|11 quivering palm|monk|xphb|open hand|xphb|17 true",
+      "payloadJson": "{\"id\":\"subclass:warrior_of_the_open_hand:monk\",\"name\":\"Warrior of the Open Hand\",\"data\":{\"name\":\"Warrior of the Open Hand\",\"shortName\":\"Open Hand\",\"className\":\"Monk\",\"subclassFeatures\":[\"Warrior of the Open Hand|Monk|XPHB|Open Hand|XPHB|3\",\"Wholeness of Body|Monk|XPHB|Open Hand|XPHB|6\",\"Fleet Step|Monk|XPHB|Open Hand|XPHB|11\",\"Quivering Palm|Monk|XPHB|Open Hand|XPHB|17\"],\"hasFluffImages\":true}}"
     }
   ],
   "linkRows": []

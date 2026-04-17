@@ -157,29 +157,19 @@ class _RulesetObjectEditorScreenState extends State<RulesetObjectEditorScreen> {
 
   void _save() {
     final name = _draftData['name']?.toString().trim() ?? '';
-    final source =
-        _draftData['source']?.toString().trim() ??
-        widget.initialEntity?.source ??
-        'HB';
-    final page = _draftData['page']?.toString();
     final json = <String, dynamic>{
       'id':
           widget.initialEntity?.id ??
           CompendiumJsonUtils.stableEntityId(
             entityType: widget.entityType,
-            source: source,
-            name: name,
-            page: page,
+            payload: <String, dynamic>{
+              'name': name,
+              'data': _draftData,
+            },
           ),
       'name': name.isEmpty
           ? widget.initialEntity?.displayName ?? 'Untitled'
           : name,
-      'source': source,
-      'sourceFile':
-          widget.initialEntity?.sourceFile ??
-          'custom/${widget.entityType}.json',
-      if (_draftData['edition'] != null)
-        'edition': _draftData['edition'].toString(),
       'data': _draftData,
     };
 

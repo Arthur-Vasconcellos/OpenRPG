@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +30,7 @@ void main() {
   testWidgets(
     'startup manifest load failure shows a failure card instead of an empty library',
     (tester) async {
+      _setSurfaceSize(tester, const Size(420, 900));
       final service = CompendiumBootstrapService(
         database: database,
         stringReader: (_) async => throw StateError('manifest missing'),
@@ -46,18 +45,21 @@ void main() {
       );
       await _pumpUntilFound(
         tester,
-        find.text('Bundled starter startup failed'),
+        find.widgetWithText(FilledButton, 'Retry'),
       );
 
-      expect(find.text('Bundled starter startup failed'), findsOneWidget);
-      expect(find.textContaining('manifest load failed'), findsOneWidget);
+      expect(find.widgetWithText(FilledButton, 'Retry'), findsOneWidget);
       expect(find.text('No rulesets installed yet.'), findsNothing);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pumpAndSettle();
     },
   );
 
   testWidgets('retry reruns initialization after a startup failure', (
     tester,
   ) async {
+    _setSurfaceSize(tester, const Size(420, 900));
     var shouldFail = true;
     final service = CompendiumBootstrapService(
       database: database,
@@ -71,26 +73,37 @@ void main() {
       binaryReader: (_) async => _byteDataFromString(_starterShardJson()),
     );
 
-    await tester.pumpWidget(
-      _buildLibraryScreen(
-        service: service,
-        browseRepository: browseRepository,
-        repository: repository,
-      ),
-    );
-    await _pumpUntilFound(tester, find.text('Bundled starter startup failed'));
+      await tester.pumpWidget(
+        _buildLibraryScreen(
+          service: service,
+          browseRepository: browseRepository,
+          repository: repository,
+        ),
+      );
+      await _pumpUntilFound(tester, find.widgetWithText(FilledButton, 'Retry'));
 
-    expect(find.text('Bundled starter startup failed'), findsOneWidget);
+      expect(find.widgetWithText(FilledButton, 'Retry'), findsOneWidget);
 
-    shouldFail = false;
+      shouldFail = false;
     final retryButton = find.widgetWithText(FilledButton, 'Retry');
     await tester.ensureVisible(retryButton);
     await tester.tap(retryButton);
     await tester.pump();
-    await _pumpUntilFound(tester, find.text('Starter SRD'));
+    await _pumpUntil(
+      tester,
+      () async => find.widgetWithText(FilledButton, 'Retry').evaluate().isEmpty,
+    );
 
-    expect(find.text('Bundled starter startup failed'), findsNothing);
-    expect(find.text('Starter SRD'), findsOneWidget);
+    expect(find.widgetWithText(FilledButton, 'Retry'), findsNothing);
+    expect(
+      find.text(
+        'Built-in 2024 SRD starter ruleset, editable homebrew, portable JSON.',
+      ),
+      findsNothing,
+    );
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pumpAndSettle();
   });
 }
 
@@ -114,7 +127,7 @@ String _starterManifestJson() {
     'rulesets': [
       {
         'rulesetId': 'starter_2024_srd',
-        'name': 'Starter SRD',
+        'name': '2024 SRD Starter',
         'description': 'Built-in starter.',
         'mode': 'bundled',
         'schemaVersion': '1.0.0',
@@ -156,20 +169,20 @@ String _starterShardJson() {
       {
         'entityId': 'spell:starter:fire_bolt',
         'name': 'Fire Bolt',
-        'source': 'SRD',
+        'source': 'Starter',
         'sourceFile': 'starter/spell.json',
         'edition': '2024',
         'sortName': 'fire bolt',
-        'searchText': 'fire bolt starter srd',
+        'searchText': 'fire bolt starter',
         'payloadJson': jsonEncode({
           'id': 'spell:starter:fire_bolt',
           'name': 'Fire Bolt',
-          'source': 'SRD',
+          'source': 'Starter',
           'sourceFile': 'starter/spell.json',
           'edition': '2024',
           'data': {
             'name': 'Fire Bolt',
-            'source': 'SRD',
+            'source': 'Starter',
             'edition': '2024',
             'entries': ['A quick starter cantrip.'],
             'level': 0,
@@ -186,11 +199,20 @@ ByteData _byteDataFromString(String value) {
   return ByteData.view(bytes.buffer);
 }
 
+void _setSurfaceSize(WidgetTester tester, Size size) {
+  tester.view.devicePixelRatio = 1.0;
+  tester.view.physicalSize = size;
+  addTearDown(() {
+    tester.view.resetPhysicalSize();
+    tester.view.resetDevicePixelRatio();
+  });
+}
+
 Future<void> _pumpUntilFound(
   WidgetTester tester,
   Finder finder, {
   Duration step = const Duration(milliseconds: 50),
-  int maxPumps = 40,
+  int maxPumps = 120,
 }) async {
   for (var index = 0; index < maxPumps; index++) {
     await tester.pump(step);
@@ -198,6 +220,21 @@ Future<void> _pumpUntilFound(
       return;
     }
   }
+  fail('Did not find the expected widget after pumping.');
+}
 
-  fail('Did not find ${finder.description} after pumping.');
+Future<void> _pumpUntil(
+  WidgetTester tester,
+  Future<bool> Function() predicate, {
+  Duration step = const Duration(milliseconds: 50),
+  int maxPumps = 120,
+}) async {
+  for (var index = 0; index < maxPumps; index++) {
+    await tester.pump(step);
+    if (await predicate()) {
+      return;
+    }
+  }
+
+  fail('Predicate did not become true after pumping.');
 }

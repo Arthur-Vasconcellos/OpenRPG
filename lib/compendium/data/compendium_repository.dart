@@ -25,6 +25,30 @@ typedef ImportedRulesetDocumentPersister =
       required String fileName,
     });
 
+enum CompendiumImportPhase {
+  fileRead,
+  decode,
+  normalize,
+  shardPreparation,
+  dbWrite,
+  finalize,
+}
+
+class CompendiumImportProgress {
+  final CompendiumImportPhase phase;
+  final double progress;
+  final String message;
+
+  const CompendiumImportProgress({
+    required this.phase,
+    required this.progress,
+    required this.message,
+  });
+}
+
+typedef CompendiumImportProgressCallback =
+    void Function(CompendiumImportProgress progress);
+
 class CompendiumRepository {
   static const List<String> bundledRulesetAssets = <String>[
     'assets/rulesets/starter_2024_srd.ruleset.json',
@@ -157,37 +181,81 @@ class CompendiumRepository {
     await saveRuleset(ruleset.removeEntity(entityType, entityId));
   }
 
-  Future<Ruleset> importRulesetJson(String jsonString) async {
+  Future<Ruleset> importRulesetJson(
+    String jsonString, {
+    CompendiumImportProgressCallback? onProgress,
+  }) async {
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.decode,
+      progress: 0.15,
+      message: 'Decoding ruleset JSON…',
+    );
     final prepared = await _prepareImportedRuleset(
       Uint8List.fromList(utf8.encode(jsonString)),
       includePayloadJson: true,
+      onProgress: onProgress,
+    );
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.dbWrite,
+      progress: 0.85,
+      message: 'Writing ruleset data…',
     );
     await _persistPreparedImport(
       prepared: prepared,
       filePath: '${prepared.rulesetId}.ruleset.json',
-      payloadJson: prepared.payloadJson ?? jsonString,
+      payloadJson: prepared.payloadJson ?? '{}',
+    );
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.finalize,
+      progress: 1,
+      message: 'Import complete.',
     );
     return prepared.toLightweightRuleset();
   }
 
-  Future<Ruleset> importRulesetFile(String sourceReference) async {
+  Future<Ruleset> importRulesetFile(
+    String sourceReference, {
+    CompendiumImportProgressCallback? onProgress,
+  }) async {
     final bytes = await _documentLoader(sourceReference);
     if (bytes == null || bytes.isEmpty) {
       throw StateError('Unable to read the selected file on this platform.');
     }
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.fileRead,
+      progress: 0.1,
+      message: 'Reading selected file…',
+    );
 
     final prepared = await _prepareImportedRuleset(
       bytes,
       includePayloadJson: false,
+      onProgress: onProgress,
     );
     final persistedPath = await _documentPersister(
       sourceReference: sourceReference,
       fileName: '${prepared.rulesetId}.ruleset.json',
     );
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.dbWrite,
+      progress: 0.85,
+      message: 'Writing ruleset data…',
+    );
     await _persistPreparedImport(
       prepared: prepared,
       filePath: persistedPath,
       payloadJson: '{}',
+    );
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.finalize,
+      progress: 1,
+      message: 'Import complete.',
     );
     return prepared.toLightweightRuleset();
   }
@@ -212,8 +280,6 @@ class CompendiumRepository {
     required String rulesetId,
     required String entityType,
     String query = '',
-    String? source,
-    String? edition,
     int page = 0,
     int pageSize = 100,
   }) async {
@@ -221,8 +287,6 @@ class CompendiumRepository {
       rulesetId: rulesetId,
       entityType: entityType,
       query: query,
-      source: source,
-      edition: edition,
       page: page,
       pageSize: pageSize,
     );
@@ -339,9 +403,9 @@ class CompendiumRepository {
                 entityId: entity.id,
                 collectionKey: entity.collectionKey,
                 name: entity.displayName,
-                source: drift.Value(entity.source),
-                sourceFile: drift.Value(entity.sourceFile),
-                edition: drift.Value(entity.edition),
+                source: const drift.Value(''),
+                sourceFile: const drift.Value(''),
+                edition: const drift.Value(null),
                 sortName: drift.Value(
                   CompendiumJsonUtils.sortName(entity.displayName),
                 ),
@@ -366,7 +430,7 @@ class CompendiumRepository {
                   targetTag: link.tag,
                   rawReference: link.rawReference,
                   displayText: link.displayText,
-                  sourceHint: drift.Value(link.source),
+                  sourceHint: const drift.Value(null),
                   targetEntityType: drift.Value(link.targetEntityType),
                 ),
               );
@@ -525,13 +589,42 @@ class CompendiumRepository {
     return base.isEmpty ? 'ruleset' : base;
   }
 
+  void _reportImportProgress(
+    CompendiumImportProgressCallback? callback, {
+    required CompendiumImportPhase phase,
+    required double progress,
+    required String message,
+  }) {
+    callback?.call(
+      CompendiumImportProgress(
+        phase: phase,
+        progress: progress.clamp(0, 1).toDouble(),
+        message: message,
+      ),
+    );
+  }
+
   Future<_PreparedRulesetImportData> _prepareImportedRuleset(
     Uint8List bytes, {
     required bool includePayloadJson,
+    CompendiumImportProgressCallback? onProgress,
   }) async {
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.decode,
+      progress: 0.25,
+      message: 'Decoding ruleset content…',
+    );
     final raw = await _prepareImportedRulesetMap(
       bytes,
       includePayloadJson: includePayloadJson,
+      onProgress: onProgress,
+    );
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.shardPreparation,
+      progress: 0.7,
+      message: 'Preparing indexed records…',
     );
     return _PreparedRulesetImportData.fromJson(raw);
   }
@@ -539,8 +632,15 @@ class CompendiumRepository {
   Future<Map<String, dynamic>> _prepareImportedRulesetMap(
     Uint8List bytes, {
     required bool includePayloadJson,
+    CompendiumImportProgressCallback? onProgress,
   }) async {
     if (kIsWeb) {
+      _reportImportProgress(
+        onProgress,
+        phase: CompendiumImportPhase.normalize,
+        progress: 0.45,
+        message: 'Normalizing imported content…',
+      );
       return _prepareRulesetImportMapFromBytes(
         bytes,
         includePayloadJson: includePayloadJson,
@@ -548,6 +648,12 @@ class CompendiumRepository {
     }
 
     final transferable = TransferableTypedData.fromList([bytes]);
+    _reportImportProgress(
+      onProgress,
+      phase: CompendiumImportPhase.normalize,
+      progress: 0.45,
+      message: 'Normalizing imported content…',
+    );
     return Isolate.run<Map<String, dynamic>>(
       () => _prepareRulesetImportMapFromTransferable(
         transferable,
@@ -627,9 +733,9 @@ class CompendiumRepository {
                     entityId: row.entityId,
                     collectionKey: shard.collectionKey,
                     name: row.name,
-                    source: drift.Value(row.source),
-                    sourceFile: drift.Value(row.sourceFile),
-                    edition: drift.Value(row.edition),
+                    source: const drift.Value(''),
+                    sourceFile: const drift.Value(''),
+                    edition: const drift.Value(null),
                     sortName: drift.Value(row.sortName),
                     searchText: drift.Value(row.searchText),
                     payloadJson: row.payloadJson,
@@ -661,7 +767,7 @@ class CompendiumRepository {
                     targetTag: row.targetTag,
                     rawReference: row.rawReference,
                     displayText: row.displayText,
-                    sourceHint: drift.Value(row.sourceHint),
+                    sourceHint: const drift.Value(null),
                     targetEntityType: drift.Value(row.targetEntityType),
                   ),
                 )
@@ -865,6 +971,10 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
 
   final collectionStats = <Map<String, dynamic>>[];
   final shards = <Map<String, dynamic>>[];
+  final normalizedCollections = <String, List<Map<String, dynamic>>>{
+    for (final descriptor in compendiumEntityDescriptors)
+      descriptor.collection.collectionKey: <Map<String, dynamic>>[],
+  };
   var entityCount = 0;
   final usedEntityIdsByType = <String, Set<String>>{};
 
@@ -886,12 +996,15 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
           ),
         );
         payload['id'] = entityId;
+        normalizedCollections[descriptor.collection.collectionKey]!.add(
+          CompendiumJsonUtils.deepCopyMap(payload),
+        );
         entityRows.add({
           'entityId': entityId,
           'name': entity.displayName,
-          'source': entity.source,
-          'sourceFile': entity.sourceFile,
-          'edition': entity.edition,
+          'source': '',
+          'sourceFile': '',
+          'edition': null,
           'sortName': CompendiumJsonUtils.sortName(entity.displayName),
           'searchText':
               CompendiumJsonUtils.flattenedSearchText(payload).toLowerCase(),
@@ -906,7 +1019,7 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
             'targetTag': link.tag,
             'rawReference': link.rawReference,
             'displayText': link.displayText,
-            'sourceHint': link.source,
+            'sourceHint': null,
             'targetEntityType': link.targetEntityType,
           });
         }
@@ -933,6 +1046,26 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
   final createdAt = normalized['createdAt'] != null
       ? DateTime.tryParse(normalized['createdAt'].toString())?.toIso8601String()
       : null;
+  final exportedRuleset = <String, dynamic>{
+    'schemaVersion':
+        normalized['schemaVersion']?.toString() ?? kCurrentRulesetSchemaVersion,
+    'id': rulesetId,
+    'name': normalized['name']?.toString() ?? rulesetId,
+    'description': normalized['description']?.toString() ?? '',
+    'author': normalized['author']?.toString() ?? '',
+    'version': normalized['version']?.toString() ?? '1.0.0',
+    'license': normalized['license']?.toString() ?? '',
+    'mode': RulesetMode.imported.name,
+    if (createdAt != null) 'createdAt': createdAt,
+    'updatedAt': DateTime.now().toIso8601String(),
+    ...CompendiumJsonUtils.deepCopyMap(extra),
+  };
+  for (final descriptor in compendiumEntityDescriptors) {
+    exportedRuleset[descriptor.collection.collectionKey] =
+        normalizedCollections[descriptor.collection.collectionKey]!
+            .map(CompendiumJsonUtils.deepCopyMap)
+            .toList(growable: false);
+  }
 
   return {
     'rulesetId': rulesetId,
@@ -948,7 +1081,8 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
     'updatedAt': DateTime.now().toIso8601String(),
     'entityCount': entityCount,
     'extraJson': jsonEncode(extra),
-    if (includePayloadJson) 'payloadJson': jsonString,
+    if (includePayloadJson)
+      'payloadJson': jsonEncode(exportedRuleset),
     'collectionStats': collectionStats,
     'shards': shards,
   };
@@ -956,23 +1090,48 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
 
 List<CompendiumLinkCandidate> _extractLinksFromValue(dynamic value) {
   final links = <CompendiumLinkCandidate>[];
+  final seen = <String>{};
 
-  void visit(dynamic candidate) {
+  void addLink(CompendiumLinkCandidate candidate) {
+    final fingerprint =
+        '${candidate.tag}|${candidate.rawReference}|${candidate.targetEntityType ?? ''}';
+    if (seen.add(fingerprint)) {
+      links.add(candidate);
+    }
+  }
+
+  void visit(dynamic candidate, {String? currentKey}) {
     if (candidate is String) {
-      links.addAll(CompendiumLinkParser.extractAll(candidate));
+      for (final link in CompendiumLinkParser.extractAll(candidate)) {
+        addLink(link);
+      }
+      final plainReference = CompendiumLinkParser.tryParsePlainReference(
+        candidate,
+        hintedFieldKey: currentKey,
+      );
+      if (plainReference != null) {
+        addLink(plainReference);
+      }
       return;
     }
 
     if (candidate is List) {
       for (final item in candidate) {
-        visit(item);
+        visit(item, currentKey: currentKey);
       }
       return;
     }
 
     if (candidate is Map) {
-      for (final item in candidate.values) {
-        visit(item);
+      final asMap = candidate.cast<String, dynamic>();
+      final mappedReference = CompendiumLinkParser.extractReferenceFromMap(
+        asMap,
+      );
+      if (mappedReference != null) {
+        addLink(mappedReference);
+      }
+      for (final entry in asMap.entries) {
+        visit(entry.value, currentKey: entry.key);
       }
     }
   }
@@ -988,19 +1147,16 @@ String _resolveUniqueImportedEntityId({
   required Set<String> usedIds,
 }) {
   final trimmedPreferred = preferredId.trim();
-  final baseId = trimmedPreferred.isNotEmpty
-      ? trimmedPreferred
-      : CompendiumJsonUtils.stableEntityId(
-          entityType: entityType,
-          source: CompendiumJsonUtils.extractSource(payload),
-          name: CompendiumJsonUtils.extractName(payload),
-          page: (payload['data'] as Map?)?['page']?.toString(),
-        );
+  final baseId = CompendiumJsonUtils.stableEntityId(
+    entityType: entityType,
+    payload: payload,
+  );
   if (usedIds.add(baseId)) {
     return baseId;
   }
 
-  final fingerprinted = '$baseId:${_stableEntityFingerprint(payload)}';
+  final fingerprinted =
+      '$baseId:${CompendiumJsonUtils.stableDisambiguator(payload, legacyId: trimmedPreferred)}';
   if (usedIds.add(fingerprinted)) {
     return fingerprinted;
   }
@@ -1013,15 +1169,4 @@ String _resolveUniqueImportedEntityId({
     }
     suffix += 1;
   }
-}
-
-String _stableEntityFingerprint(Map<String, dynamic> payload) {
-  final normalized = Map<String, dynamic>.from(payload)..remove('id');
-  final encoded = jsonEncode(normalized);
-  var hash = 0x811C9DC5;
-  for (final codeUnit in encoded.codeUnits) {
-    hash ^= codeUnit;
-    hash = (hash * 0x01000193) & 0xFFFFFFFF;
-  }
-  return hash.toRadixString(16).padLeft(8, '0');
 }

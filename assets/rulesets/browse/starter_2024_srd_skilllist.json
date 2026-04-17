@@ -4,184 +4,184 @@
   "collectionKey": "skillList",
   "entityRows": [
     {
-      "entityId": "skill:xphb:acrobatics:14",
+      "entityId": "skill:acrobatics",
       "name": "Acrobatics",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "acrobatics",
-      "searchText": "skill:xphb:acrobatics:14 acrobatics xphb skills.json acrobatics xphb 14 true dex stay on your feet in a tricky situation, or perform an acrobatic stunt.",
-      "payloadJson": "{\"id\":\"skill:xphb:acrobatics:14\",\"name\":\"Acrobatics\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Acrobatics\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"dex\",\"entries\":[\"Stay on your feet in a tricky situation, or perform an acrobatic stunt.\"]}}"
+      "searchText": "skill:acrobatics acrobatics acrobatics dex stay on your feet in a tricky situation, or perform an acrobatic stunt.",
+      "payloadJson": "{\"id\":\"skill:acrobatics\",\"name\":\"Acrobatics\",\"data\":{\"name\":\"Acrobatics\",\"ability\":\"dex\",\"entries\":[\"Stay on your feet in a tricky situation, or perform an acrobatic stunt.\"]}}"
     },
     {
-      "entityId": "skill:xphb:animal_handling:14",
+      "entityId": "skill:animal_handling",
       "name": "Animal Handling",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "animal handling",
-      "searchText": "skill:xphb:animal_handling:14 animal handling xphb skills.json animal handling xphb 14 true wis calm or train an animal, or get an animal to behave in a certain way.",
-      "payloadJson": "{\"id\":\"skill:xphb:animal_handling:14\",\"name\":\"Animal Handling\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Animal Handling\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"wis\",\"entries\":[\"Calm or train an animal, or get an animal to behave in a certain way.\"]}}"
+      "searchText": "skill:animal_handling animal handling animal handling wis calm or train an animal, or get an animal to behave in a certain way.",
+      "payloadJson": "{\"id\":\"skill:animal_handling\",\"name\":\"Animal Handling\",\"data\":{\"name\":\"Animal Handling\",\"ability\":\"wis\",\"entries\":[\"Calm or train an animal, or get an animal to behave in a certain way.\"]}}"
     },
     {
-      "entityId": "skill:xphb:arcana:14",
+      "entityId": "skill:arcana",
       "name": "Arcana",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "arcana",
-      "searchText": "skill:xphb:arcana:14 arcana xphb skills.json arcana xphb 14 true int recall lore about spells, magic items, and the planes of existence.",
-      "payloadJson": "{\"id\":\"skill:xphb:arcana:14\",\"name\":\"Arcana\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Arcana\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"int\",\"entries\":[\"Recall lore about spells, magic items, and the planes of existence.\"]}}"
+      "searchText": "skill:arcana arcana arcana int recall lore about spells, magic items, and the planes of existence.",
+      "payloadJson": "{\"id\":\"skill:arcana\",\"name\":\"Arcana\",\"data\":{\"name\":\"Arcana\",\"ability\":\"int\",\"entries\":[\"Recall lore about spells, magic items, and the planes of existence.\"]}}"
     },
     {
-      "entityId": "skill:xphb:athletics:14",
+      "entityId": "skill:athletics",
       "name": "Athletics",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "athletics",
-      "searchText": "skill:xphb:athletics:14 athletics xphb skills.json athletics xphb 14 true str jump farther than normal, stay afloat in rough water, or break something.",
-      "payloadJson": "{\"id\":\"skill:xphb:athletics:14\",\"name\":\"Athletics\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Athletics\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"str\",\"entries\":[\"Jump farther than normal, stay afloat in rough water, or break something.\"]}}"
+      "searchText": "skill:athletics athletics athletics str jump farther than normal, stay afloat in rough water, or break something.",
+      "payloadJson": "{\"id\":\"skill:athletics\",\"name\":\"Athletics\",\"data\":{\"name\":\"Athletics\",\"ability\":\"str\",\"entries\":[\"Jump farther than normal, stay afloat in rough water, or break something.\"]}}"
     },
     {
-      "entityId": "skill:xphb:deception:14",
+      "entityId": "skill:deception",
       "name": "Deception",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "deception",
-      "searchText": "skill:xphb:deception:14 deception xphb skills.json deception xphb 14 true cha tell a convincing lie, or wear a disguise convincingly.",
-      "payloadJson": "{\"id\":\"skill:xphb:deception:14\",\"name\":\"Deception\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Deception\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"cha\",\"entries\":[\"Tell a convincing lie, or wear a disguise convincingly.\"]}}"
+      "searchText": "skill:deception deception deception cha tell a convincing lie, or wear a disguise convincingly.",
+      "payloadJson": "{\"id\":\"skill:deception\",\"name\":\"Deception\",\"data\":{\"name\":\"Deception\",\"ability\":\"cha\",\"entries\":[\"Tell a convincing lie, or wear a disguise convincingly.\"]}}"
     },
     {
-      "entityId": "skill:xphb:history:14",
+      "entityId": "skill:history",
       "name": "History",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "history",
-      "searchText": "skill:xphb:history:14 history xphb skills.json history xphb 14 true int recall lore about historical events, people, nations, and cultures.",
-      "payloadJson": "{\"id\":\"skill:xphb:history:14\",\"name\":\"History\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"History\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"int\",\"entries\":[\"Recall lore about historical events, people, nations, and cultures.\"]}}"
+      "searchText": "skill:history history history int recall lore about historical events, people, nations, and cultures.",
+      "payloadJson": "{\"id\":\"skill:history\",\"name\":\"History\",\"data\":{\"name\":\"History\",\"ability\":\"int\",\"entries\":[\"Recall lore about historical events, people, nations, and cultures.\"]}}"
     },
     {
-      "entityId": "skill:xphb:insight:14",
+      "entityId": "skill:insight",
       "name": "Insight",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "insight",
-      "searchText": "skill:xphb:insight:14 insight xphb skills.json insight xphb 14 true wis discern a person's mood and intentions.",
-      "payloadJson": "{\"id\":\"skill:xphb:insight:14\",\"name\":\"Insight\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Insight\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"wis\",\"entries\":[\"Discern a person's mood and intentions.\"]}}"
+      "searchText": "skill:insight insight insight wis discern a person's mood and intentions.",
+      "payloadJson": "{\"id\":\"skill:insight\",\"name\":\"Insight\",\"data\":{\"name\":\"Insight\",\"ability\":\"wis\",\"entries\":[\"Discern a person's mood and intentions.\"]}}"
     },
     {
-      "entityId": "skill:xphb:intimidation:14",
+      "entityId": "skill:intimidation",
       "name": "Intimidation",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "intimidation",
-      "searchText": "skill:xphb:intimidation:14 intimidation xphb skills.json intimidation xphb 14 true cha awe or threaten someone into doing what you want.",
-      "payloadJson": "{\"id\":\"skill:xphb:intimidation:14\",\"name\":\"Intimidation\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Intimidation\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"cha\",\"entries\":[\"Awe or threaten someone into doing what you want.\"]}}"
+      "searchText": "skill:intimidation intimidation intimidation cha awe or threaten someone into doing what you want.",
+      "payloadJson": "{\"id\":\"skill:intimidation\",\"name\":\"Intimidation\",\"data\":{\"name\":\"Intimidation\",\"ability\":\"cha\",\"entries\":[\"Awe or threaten someone into doing what you want.\"]}}"
     },
     {
-      "entityId": "skill:xphb:investigation:14",
+      "entityId": "skill:investigation",
       "name": "Investigation",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "investigation",
-      "searchText": "skill:xphb:investigation:14 investigation xphb skills.json investigation xphb 14 true int find obscure information in books, or deduce how something works.",
-      "payloadJson": "{\"id\":\"skill:xphb:investigation:14\",\"name\":\"Investigation\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Investigation\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"int\",\"entries\":[\"Find obscure information in books, or deduce how something works.\"]}}"
+      "searchText": "skill:investigation investigation investigation int find obscure information in books, or deduce how something works.",
+      "payloadJson": "{\"id\":\"skill:investigation\",\"name\":\"Investigation\",\"data\":{\"name\":\"Investigation\",\"ability\":\"int\",\"entries\":[\"Find obscure information in books, or deduce how something works.\"]}}"
     },
     {
-      "entityId": "skill:xphb:medicine:14",
+      "entityId": "skill:medicine",
       "name": "Medicine",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "medicine",
-      "searchText": "skill:xphb:medicine:14 medicine xphb skills.json medicine xphb 14 true wis diagnose an illness, or determine what killed the recently slain.",
-      "payloadJson": "{\"id\":\"skill:xphb:medicine:14\",\"name\":\"Medicine\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Medicine\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"wis\",\"entries\":[\"Diagnose an illness, or determine what killed the recently slain.\"]}}"
+      "searchText": "skill:medicine medicine medicine wis diagnose an illness, or determine what killed the recently slain.",
+      "payloadJson": "{\"id\":\"skill:medicine\",\"name\":\"Medicine\",\"data\":{\"name\":\"Medicine\",\"ability\":\"wis\",\"entries\":[\"Diagnose an illness, or determine what killed the recently slain.\"]}}"
     },
     {
-      "entityId": "skill:xphb:nature:14",
+      "entityId": "skill:nature",
       "name": "Nature",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "nature",
-      "searchText": "skill:xphb:nature:14 nature xphb skills.json nature xphb 14 true int recall lore about terrain, plants, animals, and weather.",
-      "payloadJson": "{\"id\":\"skill:xphb:nature:14\",\"name\":\"Nature\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Nature\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"int\",\"entries\":[\"Recall lore about terrain, plants, animals, and weather.\"]}}"
+      "searchText": "skill:nature nature nature int recall lore about terrain, plants, animals, and weather.",
+      "payloadJson": "{\"id\":\"skill:nature\",\"name\":\"Nature\",\"data\":{\"name\":\"Nature\",\"ability\":\"int\",\"entries\":[\"Recall lore about terrain, plants, animals, and weather.\"]}}"
     },
     {
-      "entityId": "skill:xphb:perception:14",
+      "entityId": "skill:perception",
       "name": "Perception",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "perception",
-      "searchText": "skill:xphb:perception:14 perception xphb skills.json perception xphb 14 true wis using a combination of senses, notice something that's easy to miss.",
-      "payloadJson": "{\"id\":\"skill:xphb:perception:14\",\"name\":\"Perception\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Perception\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"wis\",\"entries\":[\"Using a combination of senses, notice something that's easy to miss.\"]}}"
+      "searchText": "skill:perception perception perception wis using a combination of senses, notice something that's easy to miss.",
+      "payloadJson": "{\"id\":\"skill:perception\",\"name\":\"Perception\",\"data\":{\"name\":\"Perception\",\"ability\":\"wis\",\"entries\":[\"Using a combination of senses, notice something that's easy to miss.\"]}}"
     },
     {
-      "entityId": "skill:xphb:performance:14",
+      "entityId": "skill:performance",
       "name": "Performance",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "performance",
-      "searchText": "skill:xphb:performance:14 performance xphb skills.json performance xphb 14 true cha act, tell a story, perform music, or dance.",
-      "payloadJson": "{\"id\":\"skill:xphb:performance:14\",\"name\":\"Performance\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Performance\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"cha\",\"entries\":[\"Act, tell a story, perform music, or dance.\"]}}"
+      "searchText": "skill:performance performance performance cha act, tell a story, perform music, or dance.",
+      "payloadJson": "{\"id\":\"skill:performance\",\"name\":\"Performance\",\"data\":{\"name\":\"Performance\",\"ability\":\"cha\",\"entries\":[\"Act, tell a story, perform music, or dance.\"]}}"
     },
     {
-      "entityId": "skill:xphb:persuasion:14",
+      "entityId": "skill:persuasion",
       "name": "Persuasion",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "persuasion",
-      "searchText": "skill:xphb:persuasion:14 persuasion xphb skills.json persuasion xphb 14 true cha honestly and graciously convince someone of something.",
-      "payloadJson": "{\"id\":\"skill:xphb:persuasion:14\",\"name\":\"Persuasion\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Persuasion\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"cha\",\"entries\":[\"Honestly and graciously convince someone of something.\"]}}"
+      "searchText": "skill:persuasion persuasion persuasion cha honestly and graciously convince someone of something.",
+      "payloadJson": "{\"id\":\"skill:persuasion\",\"name\":\"Persuasion\",\"data\":{\"name\":\"Persuasion\",\"ability\":\"cha\",\"entries\":[\"Honestly and graciously convince someone of something.\"]}}"
     },
     {
-      "entityId": "skill:xphb:religion:14",
+      "entityId": "skill:religion",
       "name": "Religion",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "religion",
-      "searchText": "skill:xphb:religion:14 religion xphb skills.json religion xphb 14 true int recall lore about gods, religious rituals, and holy symbols.",
-      "payloadJson": "{\"id\":\"skill:xphb:religion:14\",\"name\":\"Religion\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Religion\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"int\",\"entries\":[\"Recall lore about gods, religious rituals, and holy symbols.\"]}}"
+      "searchText": "skill:religion religion religion int recall lore about gods, religious rituals, and holy symbols.",
+      "payloadJson": "{\"id\":\"skill:religion\",\"name\":\"Religion\",\"data\":{\"name\":\"Religion\",\"ability\":\"int\",\"entries\":[\"Recall lore about gods, religious rituals, and holy symbols.\"]}}"
     },
     {
-      "entityId": "skill:xphb:sleight_of_hand:14",
+      "entityId": "skill:sleight_of_hand",
       "name": "Sleight of Hand",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "sleight of hand",
-      "searchText": "skill:xphb:sleight_of_hand:14 sleight of hand xphb skills.json sleight of hand xphb 14 true dex pick a pocket, conceal a handheld object, or perform legerdemain.",
-      "payloadJson": "{\"id\":\"skill:xphb:sleight_of_hand:14\",\"name\":\"Sleight of Hand\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Sleight of Hand\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"dex\",\"entries\":[\"Pick a pocket, conceal a handheld object, or perform legerdemain.\"]}}"
+      "searchText": "skill:sleight_of_hand sleight of hand sleight of hand dex pick a pocket, conceal a handheld object, or perform legerdemain.",
+      "payloadJson": "{\"id\":\"skill:sleight_of_hand\",\"name\":\"Sleight of Hand\",\"data\":{\"name\":\"Sleight of Hand\",\"ability\":\"dex\",\"entries\":[\"Pick a pocket, conceal a handheld object, or perform legerdemain.\"]}}"
     },
     {
-      "entityId": "skill:xphb:stealth:14",
+      "entityId": "skill:stealth",
       "name": "Stealth",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "stealth",
-      "searchText": "skill:xphb:stealth:14 stealth xphb skills.json stealth xphb 14 true dex escape notice by moving quietly and hiding behind things.",
-      "payloadJson": "{\"id\":\"skill:xphb:stealth:14\",\"name\":\"Stealth\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Stealth\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"dex\",\"entries\":[\"Escape notice by moving quietly and hiding behind things.\"]}}"
+      "searchText": "skill:stealth stealth stealth dex escape notice by moving quietly and hiding behind things.",
+      "payloadJson": "{\"id\":\"skill:stealth\",\"name\":\"Stealth\",\"data\":{\"name\":\"Stealth\",\"ability\":\"dex\",\"entries\":[\"Escape notice by moving quietly and hiding behind things.\"]}}"
     },
     {
-      "entityId": "skill:xphb:survival:14",
+      "entityId": "skill:survival",
       "name": "Survival",
-      "source": "XPHB",
-      "sourceFile": "skills.json",
+      "source": "",
+      "sourceFile": "",
       "edition": null,
       "sortName": "survival",
-      "searchText": "skill:xphb:survival:14 survival xphb skills.json survival xphb 14 true wis follow tracks, forage, find a trail, or avoid natural hazards.",
-      "payloadJson": "{\"id\":\"skill:xphb:survival:14\",\"name\":\"Survival\",\"source\":\"XPHB\",\"sourceFile\":\"skills.json\",\"data\":{\"name\":\"Survival\",\"source\":\"XPHB\",\"page\":14,\"srd52\":true,\"ability\":\"wis\",\"entries\":[\"Follow tracks, forage, find a trail, or avoid natural hazards.\"]}}"
+      "searchText": "skill:survival survival survival wis follow tracks, forage, find a trail, or avoid natural hazards.",
+      "payloadJson": "{\"id\":\"skill:survival\",\"name\":\"Survival\",\"data\":{\"name\":\"Survival\",\"ability\":\"wis\",\"entries\":[\"Follow tracks, forage, find a trail, or avoid natural hazards.\"]}}"
     }
   ],
   "linkRows": []

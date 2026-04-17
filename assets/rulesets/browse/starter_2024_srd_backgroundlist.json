@@ -4,20 +4,20 @@
   "collectionKey": "backgroundList",
   "entityRows": [
     {
-      "entityId": "background:xphb:acolyte:178",
+      "entityId": "background:acolyte",
       "name": "Acolyte",
-      "source": "XPHB",
-      "sourceFile": "backgrounds.json",
-      "edition": "one",
+      "source": "",
+      "sourceFile": "",
+      "edition": null,
       "sortName": "acolyte",
-      "searchText": "background:xphb:acolyte:178 acolyte xphb backgrounds.json one acolyte xphb 178 true true one int wis cha 2 1 int wis cha 1 1 1 true true true true book|xphb book (prayers) calligrapher's supplies|xphb holy symbol|xphb parchment|xphb 10 robe|xphb 800 5000 list list-hang-notitle item ability scores: intelligence, wisdom, charisma item feat: {@feat magic initiate|xphb} (cleric) item skill proficiencies: {@skill insight|xphb}, {@skill religion|xphb} item tool proficiency: {@item calligrapher's supplies|xphb} item equipment: choose a or b: (a) {@item calligrapher's supplies|xphb}, {@item book|xphb|book (prayers)}, {@item holy symbol|xphb}, {@item parchment|xphb} (10 sheets), {@item robe|xphb}, 8 gp; or (b) 50 gp true true",
-      "payloadJson": "{\"id\":\"background:xphb:acolyte:178\",\"name\":\"Acolyte\",\"source\":\"XPHB\",\"sourceFile\":\"backgrounds.json\",\"edition\":\"one\",\"data\":{\"name\":\"Acolyte\",\"source\":\"XPHB\",\"page\":178,\"srd52\":true,\"basicRules2024\":true,\"edition\":\"one\",\"ability\":[{\"choose\":{\"weighted\":{\"from\":[\"int\",\"wis\",\"cha\"],\"weights\":[2,1]}}},{\"choose\":{\"weighted\":{\"from\":[\"int\",\"wis\",\"cha\"],\"weights\":[1,1,1]}}}],\"feats\":[{\"magic initiate; cleric|xphb\":true}],\"skillProficiencies\":[{\"insight\":true,\"religion\":true}],\"toolProficiencies\":[{\"calligrapher's supplies\":true}],\"startingEquipment\":[{\"A\":[{\"item\":\"book|xphb\",\"displayName\":\"Book (Prayers)\"},{\"item\":\"calligrapher's supplies|xphb\"},{\"item\":\"holy symbol|xphb\"},{\"item\":\"parchment|xphb\",\"quantity\":10},{\"item\":\"robe|xphb\"},{\"value\":800}],\"B\":[{\"value\":5000}]}],\"entries\":[{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Ability Scores:\",\"entry\":\"Intelligence, Wisdom, Charisma\"},{\"type\":\"item\",\"name\":\"Feat:\",\"entry\":\"{@feat Magic Initiate|XPHB} (Cleric)\"},{\"type\":\"item\",\"name\":\"Skill Proficiencies:\",\"entry\":\"{@skill Insight|XPHB}, {@skill Religion|XPHB}\"},{\"type\":\"item\",\"name\":\"Tool Proficiency:\",\"entry\":\"{@item Calligrapher's Supplies|XPHB}\"},{\"type\":\"item\",\"name\":\"Equipment:\",\"entry\":\"Choose A or B: (A) {@item Calligrapher's Supplies|XPHB}, {@item Book|XPHB|Book (prayers)}, {@item Holy Symbol|XPHB}, {@item Parchment|XPHB} (10 sheets), {@item Robe|xphb}, 8 GP; or (B) 50 GP\"}]}],\"hasFluff\":true,\"hasFluffImages\":true}}"
+      "searchText": "background:acolyte acolyte acolyte int wis cha 2 1 int wis cha 1 1 1 true true true true book|xphb book (prayers) calligrapher's supplies|xphb holy symbol|xphb parchment|xphb 10 robe|xphb 800 5000 list list-hang-notitle item ability scores: intelligence, wisdom, charisma item feat: {@feat magic initiate|xphb} (cleric) item skill proficiencies: {@skill insight|xphb}, {@skill religion|xphb} item tool proficiency: {@item calligrapher's supplies|xphb} item equipment: choose a or b: (a) {@item calligrapher's supplies|xphb}, {@item book|xphb|book (prayers)}, {@item holy symbol|xphb}, {@item parchment|xphb} (10 sheets), {@item robe|xphb}, 8 gp; or (b) 50 gp true true",
+      "payloadJson": "{\"id\":\"background:acolyte\",\"name\":\"Acolyte\",\"data\":{\"name\":\"Acolyte\",\"ability\":[{\"choose\":{\"weighted\":{\"from\":[\"int\",\"wis\",\"cha\"],\"weights\":[2,1]}}},{\"choose\":{\"weighted\":{\"from\":[\"int\",\"wis\",\"cha\"],\"weights\":[1,1,1]}}}],\"feats\":[{\"magic initiate; cleric|xphb\":true}],\"skillProficiencies\":[{\"insight\":true,\"religion\":true}],\"toolProficiencies\":[{\"calligrapher's supplies\":true}],\"startingEquipment\":[{\"A\":[{\"item\":\"book|xphb\",\"displayName\":\"Book (Prayers)\"},{\"item\":\"calligrapher's supplies|xphb\"},{\"item\":\"holy symbol|xphb\"},{\"item\":\"parchment|xphb\",\"quantity\":10},{\"item\":\"robe|xphb\"},{\"value\":800}],\"B\":[{\"value\":5000}]}],\"entries\":[{\"type\":\"list\",\"style\":\"list-hang-notitle\",\"items\":[{\"type\":\"item\",\"name\":\"Ability Scores:\",\"entry\":\"Intelligence, Wisdom, Charisma\"},{\"type\":\"item\",\"name\":\"Feat:\",\"entry\":\"{@feat Magic Initiate|XPHB} (Cleric)\"},{\"type\":\"item\",\"name\":\"Skill Proficiencies:\",\"entry\":\"{@skill Insight|XPHB}, {@skill Religion|XPHB}\"},{\"type\":\"item\",\"name\":\"Tool Proficiency:\",\"entry\":\"{@item Calligrapher's Supplies|XPHB}\"},{\"type\":\"item\",\"name\":\"Equipment:\",\"entry\":\"Choose A or B: (A) {@item Calligrapher's Supplies|XPHB}, {@item Book|XPHB|Book (prayers)}, {@item Holy Symbol|XPHB}, {@item Parchment|XPHB} (10 sheets), {@item Robe|xphb}, 8 GP; or (B) 50 GP\"}]}],\"hasFluff\":true,\"hasFluffImages\":true}}"
     }
   ],
   "linkRows": [
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "feat",
       "rawReference": "Magic Initiate|XPHB",
       "displayText": "Magic Initiate",
@@ -26,7 +26,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "skill",
       "rawReference": "Insight|XPHB",
       "displayText": "Insight",
@@ -35,7 +35,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "skill",
       "rawReference": "Religion|XPHB",
       "displayText": "Religion",
@@ -44,7 +44,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "item",
       "rawReference": "Calligrapher's Supplies|XPHB",
       "displayText": "Calligrapher's Supplies",
@@ -53,7 +53,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "item",
       "rawReference": "Calligrapher's Supplies|XPHB",
       "displayText": "Calligrapher's Supplies",
@@ -62,7 +62,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "item",
       "rawReference": "Book|XPHB|Book (prayers)",
       "displayText": "Book",
@@ -71,7 +71,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "item",
       "rawReference": "Holy Symbol|XPHB",
       "displayText": "Holy Symbol",
@@ -80,7 +80,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "item",
       "rawReference": "Parchment|XPHB",
       "displayText": "Parchment",
@@ -89,7 +89,7 @@
     },
     {
       "sourceEntityType": "background",
-      "sourceEntityId": "background:xphb:acolyte:178",
+      "sourceEntityId": "background:acolyte",
       "targetTag": "item",
       "rawReference": "Robe|xphb",
       "displayText": "Robe",

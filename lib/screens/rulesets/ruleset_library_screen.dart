@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:openrpg/compendium/data/compendium_bootstrap_service.dart';
 import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
+import 'package:openrpg/compendium/data/compendium_import_controller.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/models/compendium_browse_asset.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
@@ -15,12 +13,14 @@ class RulesetLibraryScreen extends StatefulWidget {
   final CompendiumBootstrapService bootstrapService;
   final CompendiumBrowseRepository browseRepository;
   final CompendiumRepository repository;
+  final CompendiumImportController? importController;
 
   RulesetLibraryScreen({
     super.key,
     CompendiumBootstrapService? bootstrapService,
     CompendiumBrowseRepository? browseRepository,
     CompendiumRepository? repository,
+    this.importController,
   }) : bootstrapService = bootstrapService ?? CompendiumBootstrapService(),
        browseRepository = browseRepository ?? CompendiumBrowseRepository(),
        repository = repository ?? CompendiumRepository();
@@ -38,6 +38,10 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
       _RulesetLibraryStartupState.initializing;
   String? _startupErrorMessage;
 
+  CompendiumImportController? get _importController =>
+      widget.importController ??
+      CompendiumImportControllerScope.maybeOf(context);
+
   @override
   void initState() {
     super.initState();
@@ -46,12 +50,10 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
   }
 
   Future<void> _initializeBootstrap() async {
-    if (mounted) {
-      setState(() {
-        _startupState = _RulesetLibraryStartupState.initializing;
-        _startupErrorMessage = null;
-      });
-    }
+    _commitStartupState(
+      _RulesetLibraryStartupState.initializing,
+      errorMessage: null,
+    );
 
     String? bundledRulesetId;
     try {
@@ -79,11 +81,27 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
         return;
       }
 
-      setState(() {
-        _startupState = _RulesetLibraryStartupState.failed;
-        _startupErrorMessage = _formatStartupError(error);
-      });
+      _commitStartupState(
+        _RulesetLibraryStartupState.failed,
+        errorMessage: _formatStartupError(error),
+      );
     }
+  }
+
+  void _commitStartupState(
+    _RulesetLibraryStartupState state, {
+    required String? errorMessage,
+  }) {
+    if (!mounted) {
+      _startupState = state;
+      _startupErrorMessage = errorMessage;
+      return;
+    }
+
+    setState(() {
+      _startupState = state;
+      _startupErrorMessage = errorMessage;
+    });
   }
 
   String _resolveBundledRulesetId(CompendiumBrowseManifest manifest) {
@@ -161,48 +179,20 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
   }
 
   Future<void> _importRuleset() async {
-    try {
-      final picked = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: const ['json'],
-        withData: kIsWeb,
-      );
-      if (picked == null) {
-        return;
-      }
-
-      final file = picked.files.single;
-      final imported = switch ((kIsWeb, file.path, file.bytes)) {
-        (false, final String path?, _) when path.trim().isNotEmpty =>
-          await widget.repository.importRulesetFile(path),
-        (_, _, final bytes?) => await widget.repository.importRulesetJson(
-          utf8.decode(bytes),
-        ),
-        _ => throw StateError(
-          'Unable to read the selected file on this platform.',
-        ),
-      };
+    final controller = _importController;
+    if (controller == null) {
       if (!mounted) {
         return;
       }
-
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Imported ${file.name} successfully.')),
-      );
-      await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => RulesetDetailScreen(rulesetId: imported.id),
+        const SnackBar(
+          content: Text('Import is unavailable until the app scope is ready.'),
         ),
       );
-    } catch (error) {
-      if (!mounted) {
-        return;
-      }
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Import failed: $error')));
+      return;
     }
+
+    await controller.startImportFromPicker();
   }
 
   Future<void> _duplicateRuleset(RulesetSummary summary) async {
@@ -267,6 +257,9 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final importController = _importController;
+    final importTask =
+        importController?.currentTask ?? const CompendiumImportTask.idle();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ruleset Library'),
@@ -326,12 +319,62 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
               final showEmptyLibrary =
                   rulesets.isEmpty &&
                   _startupState == _RulesetLibraryStartupState.ready &&
+                  !importTask.isRunning &&
+                  !importTask.isFailed &&
                   !bootstrapStatus.isRunning &&
                   !bootstrapStatus.isFailed;
 
               return ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
+                  if (isStartupInitializing)
+                    const _StartupStatusCard(
+                      message:
+                          'Preparing the bundled starter and wiring up bootstrap status...',
+                    ),
+                  if (hasStartupFailure)
+                    _StartupFailureCard(
+                      message: _startupErrorMessage!,
+                      onRetry: _retryBootstrap,
+                    ),
+                  if (isStartupInitializing || hasStartupFailure)
+                    const SizedBox(height: 20),
+                  if (!hasStartupFailure && bootstrapStatus.isRunning)
+                    _BootstrapStatusCard(
+                      title: 'Indexing bundled compendium',
+                      message: 'Preparing the built-in starter for browsing.',
+                      progress: bootstrapStatus.progress,
+                    ),
+                  if (!hasStartupFailure && bootstrapStatus.isFailed)
+                    _BootstrapErrorCard(
+                      title: 'Bundled compendium indexing failed',
+                      message:
+                          bootstrapStatus.lastError ??
+                          'The bundled compendium index failed to build.',
+                      onRetry: _retryBootstrap,
+                    ),
+                  if (!hasStartupFailure &&
+                      (bootstrapStatus.isRunning || bootstrapStatus.isFailed))
+                    const SizedBox(height: 20),
+                  if (importTask.isRunning)
+                    _BootstrapStatusCard(
+                      title:
+                          'Importing ${importTask.fileName ?? 'ruleset.json'}',
+                      message: importTask.statusMessage,
+                      progress: importTask.progress,
+                    ),
+                  if (importTask.isFailed)
+                    _BootstrapErrorCard(
+                      title: 'Ruleset import failed',
+                      message:
+                          importTask.errorMessage ??
+                          'The selected ruleset could not be imported.',
+                      onRetry: () async {
+                        await importController?.retryLastImport();
+                      },
+                    ),
+                  if (importTask.isRunning || importTask.isFailed)
+                    const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -349,7 +392,7 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Built-in 2024 SRD starter ruleset, editable homebrew, portable JSON.',
+                          'Built-in starter ruleset, editable homebrew, portable JSON.',
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         const SizedBox(height: 10),
@@ -397,33 +440,6 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  if (isStartupInitializing)
-                    const _StartupStatusCard(
-                      message:
-                          'Preparing the bundled starter and wiring up bootstrap status...',
-                    ),
-                  if (hasStartupFailure)
-                    _StartupFailureCard(
-                      message: _startupErrorMessage!,
-                      onRetry: _retryBootstrap,
-                    ),
-                  if (isStartupInitializing || hasStartupFailure)
-                    const SizedBox(height: 20),
-                  if (!hasStartupFailure && bootstrapStatus.isRunning)
-                    _BootstrapStatusCard(
-                      label: 'Indexing bundled compendium',
-                      progress: bootstrapStatus.progress,
-                    ),
-                  if (!hasStartupFailure && bootstrapStatus.isFailed)
-                    _BootstrapErrorCard(
-                      message:
-                          bootstrapStatus.lastError ??
-                          'The bundled compendium index failed to build.',
-                      onRetry: _retryBootstrap,
-                    ),
-                  if (!hasStartupFailure &&
-                      (bootstrapStatus.isRunning || bootstrapStatus.isFailed))
-                    const SizedBox(height: 20),
                   if (showPreparingShell)
                     const Center(
                       child: Padding(
@@ -629,10 +645,15 @@ class _StartupFailureCard extends StatelessWidget {
 }
 
 class _BootstrapStatusCard extends StatelessWidget {
-  final String label;
+  final String title;
+  final String message;
   final double progress;
 
-  const _BootstrapStatusCard({required this.label, required this.progress});
+  const _BootstrapStatusCard({
+    required this.title,
+    required this.message,
+    required this.progress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -643,7 +664,9 @@ class _BootstrapStatusCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: Theme.of(context).textTheme.titleMedium),
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Text(message),
             const SizedBox(height: 12),
             LinearProgressIndicator(value: progress == 0 ? null : progress),
             const SizedBox(height: 10),
@@ -656,10 +679,15 @@ class _BootstrapStatusCard extends StatelessWidget {
 }
 
 class _BootstrapErrorCard extends StatelessWidget {
+  final String title;
   final String message;
   final Future<void> Function() onRetry;
 
-  const _BootstrapErrorCard({required this.message, required this.onRetry});
+  const _BootstrapErrorCard({
+    required this.title,
+    required this.message,
+    required this.onRetry,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -669,10 +697,7 @@ class _BootstrapErrorCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Bundled compendium indexing failed',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             Text(message),
             const SizedBox(height: 12),

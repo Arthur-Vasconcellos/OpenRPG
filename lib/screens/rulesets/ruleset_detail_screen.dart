@@ -27,8 +27,6 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
   Future<List<CompendiumSearchResult>>? _futureSearchResults;
   Timer? _searchDebounce;
   String? _selectedEntityType;
-  String? _selectedSource;
-  String? _selectedEdition;
 
   @override
   void initState() {
@@ -57,13 +55,9 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
     final collections = await _browseRepository.loadCollectionSummaries(
       widget.rulesetId,
     );
-    final facets = await _browseRepository.loadSearchFacets(
-      rulesetId: widget.rulesetId,
-    );
     return _RulesetDetailState(
       summary: summary,
       collections: collections,
-      facets: facets,
     );
   }
 
@@ -101,8 +95,6 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
           entityTypes: _selectedEntityType == null
               ? const []
               : <String>[_selectedEntityType!],
-          source: _selectedSource,
-          edition: _selectedEdition,
           limit: 150,
         ),
       );
@@ -196,25 +188,10 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
               ] else ...[
                 _RulesetSearchFiltersCard(
                   collections: state.collections,
-                  facets: state.facets,
                   selectedEntityType: _selectedEntityType,
-                  selectedSource: _selectedSource,
-                  selectedEdition: _selectedEdition,
                   onEntityTypeChanged: (value) {
                     setState(() {
                       _selectedEntityType = value;
-                    });
-                    _runSearch();
-                  },
-                  onSourceChanged: (value) {
-                    setState(() {
-                      _selectedSource = value;
-                    });
-                    _runSearch();
-                  },
-                  onEditionChanged: (value) {
-                    setState(() {
-                      _selectedEdition = value;
                     });
                     _runSearch();
                   },
@@ -308,12 +285,10 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
 class _RulesetDetailState {
   final RulesetSummary summary;
   final List<RulesetCollectionSummary> collections;
-  final CompendiumSearchFacets facets;
 
   const _RulesetDetailState({
     required this.summary,
     required this.collections,
-    required this.facets,
   });
 }
 
@@ -440,23 +415,13 @@ class _RulesetCollectionCard extends StatelessWidget {
 
 class _RulesetSearchFiltersCard extends StatelessWidget {
   final List<RulesetCollectionSummary> collections;
-  final CompendiumSearchFacets facets;
   final String? selectedEntityType;
-  final String? selectedSource;
-  final String? selectedEdition;
   final ValueChanged<String?> onEntityTypeChanged;
-  final ValueChanged<String?> onSourceChanged;
-  final ValueChanged<String?> onEditionChanged;
 
   const _RulesetSearchFiltersCard({
     required this.collections,
-    required this.facets,
     required this.selectedEntityType,
-    required this.selectedSource,
-    required this.selectedEdition,
     required this.onEntityTypeChanged,
-    required this.onSourceChanged,
-    required this.onEditionChanged,
   });
 
   @override
@@ -491,48 +456,6 @@ class _RulesetSearchFiltersCard extends StatelessWidget {
                 ),
               ],
               onChanged: onEntityTypeChanged,
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String?>(
-              initialValue: selectedSource,
-              decoration: const InputDecoration(
-                labelText: 'Source',
-                border: OutlineInputBorder(),
-              ),
-              items: [
-                const DropdownMenuItem<String?>(
-                  value: null,
-                  child: Text('All Sources'),
-                ),
-                ...facets.sources.map(
-                  (source) => DropdownMenuItem<String?>(
-                    value: source,
-                    child: Text(source),
-                  ),
-                ),
-              ],
-              onChanged: onSourceChanged,
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String?>(
-              initialValue: selectedEdition,
-              decoration: const InputDecoration(
-                labelText: 'Edition',
-                border: OutlineInputBorder(),
-              ),
-              items: [
-                const DropdownMenuItem<String?>(
-                  value: null,
-                  child: Text('All Editions'),
-                ),
-                ...facets.editions.map(
-                  (edition) => DropdownMenuItem<String?>(
-                    value: edition,
-                    child: Text(edition),
-                  ),
-                ),
-              ],
-              onChanged: onEditionChanged,
             ),
           ],
         ),
@@ -574,13 +497,7 @@ class _SearchResultCard extends StatelessWidget {
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
-                children: [
-                  CompendiumTypeBadge(entityType: preview.entityType),
-                  if (preview.source.trim().isNotEmpty)
-                    Chip(label: Text('Source: ${preview.source}')),
-                  if (preview.edition?.trim().isNotEmpty == true)
-                    Chip(label: Text('Edition: ${preview.edition}')),
-                ],
+                children: [CompendiumTypeBadge(entityType: preview.entityType)],
               ),
             ],
           ),

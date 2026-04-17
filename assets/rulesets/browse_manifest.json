@@ -1,19 +1,19 @@
 {
-  "assetVersion": "1776281427000-3232168",
-  "generatedAt": "2026-04-15T19:30:27.816966Z",
+  "assetVersion": "1776412840000-2756594",
+  "generatedAt": "2026-04-17T08:00:44.146743Z",
   "rulesets": [
     {
       "rulesetId": "starter_2024_srd",
       "name": "2024 SRD Starter",
-      "description": "Bundled 2024 SRD starter content filtered to entries explicitly marked srd52 == true.",
+      "description": "Bundled starter content filtered to the legal shipping subset.",
       "mode": "bundled",
       "schemaVersion": "1.0.0",
       "author": "OpenRPG",
       "version": "1.0.0",
       "license": "CC-BY-4.0",
-      "entityCount": 1886,
+      "entityCount": 1759,
       "createdAt": "2026-04-14T20:06:19.772975",
-      "updatedAt": "2026-04-15T19:30:26.975034Z",
+      "updatedAt": "2026-04-17T08:00:40.707829Z",
       "filePath": "assets/rulesets/starter_2024_srd.ruleset.json",
       "collectionStats": [
         {
@@ -23,52 +23,10 @@
           "entityCount": 15
         },
         {
-          "entityType": "adventure",
-          "collectionKey": "adventureList",
-          "label": "Adventures",
-          "entityCount": 0
-        },
-        {
-          "entityType": "artObjects",
-          "collectionKey": "artObjectsList",
-          "label": "Art Objects",
-          "entityCount": 0
-        },
-        {
           "entityType": "background",
           "collectionKey": "backgroundList",
           "label": "Backgrounds",
           "entityCount": 1
-        },
-        {
-          "entityType": "baseitem",
-          "collectionKey": "baseitemList",
-          "label": "Base Items",
-          "entityCount": 75
-        },
-        {
-          "entityType": "book",
-          "collectionKey": "bookList",
-          "label": "Books",
-          "entityCount": 0
-        },
-        {
-          "entityType": "boon",
-          "collectionKey": "boonList",
-          "label": "Boons",
-          "entityCount": 0
-        },
-        {
-          "entityType": "card",
-          "collectionKey": "cardList",
-          "label": "Cards",
-          "entityCount": 22
-        },
-        {
-          "entityType": "charoption",
-          "collectionKey": "charoptionList",
-          "label": "Character Options",
-          "entityCount": 0
         },
         {
           "entityType": "class",
@@ -89,24 +47,6 @@
           "entityCount": 15
         },
         {
-          "entityType": "cr",
-          "collectionKey": "crList",
-          "label": "Challenge Ratings",
-          "entityCount": 0
-        },
-        {
-          "entityType": "cult",
-          "collectionKey": "cultList",
-          "label": "Cults",
-          "entityCount": 0
-        },
-        {
-          "entityType": "deck",
-          "collectionKey": "deckList",
-          "label": "Decks",
-          "entityCount": 1
-        },
-        {
           "entityType": "deity",
           "collectionKey": "deityList",
           "label": "Deities",
@@ -119,46 +59,10 @@
           "entityCount": 3
         },
         {
-          "entityType": "dragon",
-          "collectionKey": "dragonList",
-          "label": "Dragons",
-          "entityCount": 0
-        },
-        {
-          "entityType": "dragonMundaneItems",
-          "collectionKey": "dragonMundaneItemsList",
-          "label": "Dragon Mundane Items",
-          "entityCount": 0
-        },
-        {
-          "entityType": "encounter",
-          "collectionKey": "encounterList",
-          "label": "Encounters",
-          "entityCount": 0
-        },
-        {
-          "entityType": "encounterShape",
-          "collectionKey": "encounterShapeList",
-          "label": "Encounter Shapes",
-          "entityCount": 0
-        },
-        {
-          "entityType": "facility",
-          "collectionKey": "facilityList",
-          "label": "Facilities",
-          "entityCount": 0
-        },
-        {
           "entityType": "feat",
           "collectionKey": "featList",
           "label": "Feats",
           "entityCount": 17
-        },
-        {
-          "entityType": "gems",
-          "collectionKey": "gemsList",
-          "label": "Gems",
-          "entityCount": 0
         },
         {
           "entityType": "hazard",
@@ -167,28 +71,10 @@
           "entityCount": 0
         },
         {
-          "entityType": "hoard",
-          "collectionKey": "hoardList",
-          "label": "Hoards",
-          "entityCount": 0
-        },
-        {
-          "entityType": "individual",
-          "collectionKey": "individualList",
-          "label": "Individuals",
-          "entityCount": 0
-        },
-        {
           "entityType": "item",
           "collectionKey": "itemList",
           "label": "Items",
           "entityCount": 475
-        },
-        {
-          "entityType": "itemEntry",
-          "collectionKey": "itemEntryList",
-          "label": "Item Entries",
-          "entityCount": 0
         },
         {
           "entityType": "itemGroup",
@@ -215,52 +101,10 @@
           "entityCount": 0
         },
         {
-          "entityType": "itemTypeAdditionalEntries",
-          "collectionKey": "itemTypeAdditionalEntriesList",
-          "label": "Item Type Additional Entries",
-          "entityCount": 0
-        },
-        {
           "entityType": "language",
           "collectionKey": "languageList",
           "label": "Languages",
           "entityCount": 19
-        },
-        {
-          "entityType": "languageScript",
-          "collectionKey": "languageScriptList",
-          "label": "Language Scripts",
-          "entityCount": 0
-        },
-        {
-          "entityType": "legendaryGroup",
-          "collectionKey": "legendaryGroupList",
-          "label": "Legendary Groups",
-          "entityCount": 0
-        },
-        {
-          "entityType": "lifeBackground",
-          "collectionKey": "lifeBackgroundList",
-          "label": "Life Backgrounds",
-          "entityCount": 0
-        },
-        {
-          "entityType": "lifeClass",
-          "collectionKey": "lifeClassList",
-          "label": "Life Classes",
-          "entityCount": 0
-        },
-        {
-          "entityType": "lifeTrinket",
-          "collectionKey": "lifeTrinketList",
-          "label": "Life Trinkets",
-          "entityCount": 0
-        },
-        {
-          "entityType": "magicItems",
-          "collectionKey": "magicItemsList",
-          "label": "Magic Items",
-          "entityCount": 0
         },
         {
           "entityType": "magicvariant",
@@ -275,21 +119,9 @@
           "entityCount": 332
         },
         {
-          "entityType": "monsterTemplate",
-          "collectionKey": "monsterTemplateList",
-          "label": "Monster Templates",
-          "entityCount": 0
-        },
-        {
           "entityType": "monsterfeatures",
           "collectionKey": "monsterfeaturesList",
           "label": "Monster Features",
-          "entityCount": 0
-        },
-        {
-          "entityType": "name",
-          "collectionKey": "nameList",
-          "label": "Names",
           "entityCount": 0
         },
         {
@@ -299,46 +131,10 @@
           "entityCount": 0
         },
         {
-          "entityType": "optionalfeature",
-          "collectionKey": "optionalfeatureList",
-          "label": "Optional Features",
-          "entityCount": 29
-        },
-        {
-          "entityType": "psionic",
-          "collectionKey": "psionicList",
-          "label": "Psionics",
-          "entityCount": 0
-        },
-        {
           "entityType": "race",
           "collectionKey": "raceList",
           "label": "Races",
           "entityCount": 6
-        },
-        {
-          "entityType": "raceFeature",
-          "collectionKey": "raceFeatureList",
-          "label": "Race Features",
-          "entityCount": 0
-        },
-        {
-          "entityType": "recipe",
-          "collectionKey": "recipeList",
-          "label": "Recipes",
-          "entityCount": 0
-        },
-        {
-          "entityType": "reducedItemProperty",
-          "collectionKey": "reducedItemPropertyList",
-          "label": "Reduced Item Properties",
-          "entityCount": 0
-        },
-        {
-          "entityType": "reducedItemType",
-          "collectionKey": "reducedItemTypeList",
-          "label": "Reduced Item Types",
-          "entityCount": 0
         },
         {
           "entityType": "reward",
@@ -389,12 +185,6 @@
           "entityCount": 0
         },
         {
-          "entityType": "table",
-          "collectionKey": "tableList",
-          "label": "Tables",
-          "entityCount": 0
-        },
-        {
           "entityType": "trap",
           "collectionKey": "trapList",
           "label": "Traps",
@@ -410,12 +200,6 @@
           "entityType": "vehicle",
           "collectionKey": "vehicleList",
           "label": "Vehicles",
-          "entityCount": 0
-        },
-        {
-          "entityType": "vehicleUpgrade",
-          "collectionKey": "vehicleUpgradeList",
-          "label": "Vehicle Upgrades",
           "entityCount": 0
         }
       ],
@@ -435,20 +219,6 @@
           "linkCount": 9
         },
         {
-          "entityType": "baseitem",
-          "collectionKey": "baseitemList",
-          "assetPath": "assets/rulesets/browse/starter_2024_srd_baseitemlist.json",
-          "entityCount": 75,
-          "linkCount": 28
-        },
-        {
-          "entityType": "card",
-          "collectionKey": "cardList",
-          "assetPath": "assets/rulesets/browse/starter_2024_srd_cardlist.json",
-          "entityCount": 22,
-          "linkCount": 27
-        },
-        {
           "entityType": "class",
           "collectionKey": "classList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_classlist.json",
@@ -460,7 +230,7 @@
           "collectionKey": "classFeatureList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_classfeaturelist.json",
           "entityCount": 283,
-          "linkCount": 589
+          "linkCount": 578
         },
         {
           "entityType": "condition",
@@ -468,13 +238,6 @@
           "assetPath": "assets/rulesets/browse/starter_2024_srd_conditionlist.json",
           "entityCount": 15,
           "linkCount": 60
-        },
-        {
-          "entityType": "deck",
-          "collectionKey": "deckList",
-          "assetPath": "assets/rulesets/browse/starter_2024_srd_decklist.json",
-          "entityCount": 1,
-          "linkCount": 39
         },
         {
           "entityType": "disease",
@@ -495,7 +258,7 @@
           "collectionKey": "itemList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_itemlist.json",
           "entityCount": 475,
-          "linkCount": 1857
+          "linkCount": 1834
         },
         {
           "entityType": "itemGroup",
@@ -526,13 +289,6 @@
           "linkCount": 3755
         },
         {
-          "entityType": "optionalfeature",
-          "collectionKey": "optionalfeatureList",
-          "assetPath": "assets/rulesets/browse/starter_2024_srd_optionalfeaturelist.json",
-          "entityCount": 29,
-          "linkCount": 53
-        },
-        {
           "entityType": "race",
           "collectionKey": "raceList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_racelist.json",
@@ -558,7 +314,7 @@
           "collectionKey": "spellList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_spelllist.json",
           "entityCount": 322,
-          "linkCount": 1242
+          "linkCount": 1237
         },
         {
           "entityType": "status",
@@ -586,14 +342,14 @@
           "collectionKey": "trapList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_traplist.json",
           "entityCount": 8,
-          "linkCount": 101
+          "linkCount": 100
         },
         {
           "entityType": "variantrule",
           "collectionKey": "variantruleList",
           "assetPath": "assets/rulesets/browse/starter_2024_srd_variantrulelist.json",
           "entityCount": 114,
-          "linkCount": 290
+          "linkCount": 281
         }
       ]
     }

@@ -29,53 +29,66 @@ void main() {
     }
   });
 
-  test('file-backed import indexes the ruleset and preserves a readable file', () async {
-    final sourceFile = File('${tempDirectory.path}\\source.ruleset.json');
-    await sourceFile.writeAsString(_rulesetJson());
+  test(
+    'file-backed import indexes the ruleset and preserves a readable file',
+    () async {
+      final sourceFile = File('${tempDirectory.path}\\source.ruleset.json');
+      await sourceFile.writeAsString(_rulesetJson());
 
-    final repository = CompendiumRepository(
-      database: database,
-      assetLoader: (_) async => '{}',
-      documentLoader: (path) => File(path).readAsBytes(),
-      documentPersister: ({
-        required String sourceReference,
-        required String fileName,
-      }) async {
-        final persisted = File('${tempDirectory.path}\\$fileName');
-        if (await persisted.exists()) {
-          await persisted.delete();
-        }
-        await File(sourceReference).copy(persisted.path);
-        return persisted.path;
-      },
-    );
+      final repository = CompendiumRepository(
+        database: database,
+        assetLoader: (_) async => '{}',
+        documentLoader: (path) => File(path).readAsBytes(),
+        documentPersister:
+            ({
+              required String sourceReference,
+              required String fileName,
+            }) async {
+              final persisted = File('${tempDirectory.path}\\$fileName');
+              if (await persisted.exists()) {
+                await persisted.delete();
+              }
+              await File(sourceReference).copy(persisted.path);
+              return persisted.path;
+            },
+      );
 
-    final imported = await repository.importRulesetFile(sourceFile.path);
+      final imported = await repository.importRulesetFile(sourceFile.path);
 
-    expect(imported.id, 'private_bundle');
+      expect(imported.id, 'private_bundle');
 
-    final record = await (database.select(
-      database.rulesetRecords,
-    )..where((tbl) => tbl.rulesetId.equals(imported.id))).getSingle();
-    expect(record.payloadJson, '{}');
-    expect(record.filePath, '${tempDirectory.path}\\private_bundle.ruleset.json');
-    expect(File(record.filePath).existsSync(), isTrue);
+      final record = await (database.select(
+        database.rulesetRecords,
+      )..where((tbl) => tbl.rulesetId.equals(imported.id))).getSingle();
+      expect(record.payloadJson, '{}');
+      expect(
+        record.filePath,
+        '${tempDirectory.path}\\private_bundle.ruleset.json',
+      );
+      expect(File(record.filePath).existsSync(), isTrue);
 
-    final summaries = await browseRepository.loadCollectionSummaries(imported.id);
-    expect(summaries.length, compendiumEntityDescriptors.length);
-    expect(
-      summaries.firstWhere((summary) => summary.entityType == 'spell').entityCount,
-      1,
-    );
-    expect(
-      summaries.firstWhere((summary) => summary.entityType == 'action').entityCount,
-      0,
-    );
+      final summaries = await browseRepository.loadCollectionSummaries(
+        imported.id,
+      );
+      expect(summaries.length, compendiumEntityDescriptors.length);
+      expect(
+        summaries
+            .firstWhere((summary) => summary.entityType == 'spell')
+            .entityCount,
+        1,
+      );
+      expect(
+        summaries
+            .firstWhere((summary) => summary.entityType == 'action')
+            .entityCount,
+        0,
+      );
 
-    final loaded = await repository.loadRuleset(imported.id);
-    expect(loaded.totalEntityCount, 1);
-    expect(loaded.entitiesForType('spell').single.name, 'Fire Bolt');
-  });
+      final loaded = await repository.loadRuleset(imported.id);
+      expect(loaded.totalEntityCount, 1);
+      expect(loaded.entitiesForType('spell').single.name, 'Fire Bolt');
+    },
+  );
 
   test('string import still stores payload JSON for in-memory flows', () async {
     final repository = CompendiumRepository(
@@ -96,62 +109,57 @@ void main() {
     expect(loaded.entitiesForType('spell').single.name, 'Fire Bolt');
   });
 
-  test('file-backed import disambiguates duplicate generated entity ids', () async {
-    final sourceFile = File('${tempDirectory.path}\\duplicate_cards.ruleset.json');
-    await sourceFile.writeAsString(_duplicateCardRulesetJson());
+  test(
+    'unsupported collections are ignored during import and export',
+    () async {
+      final sourceFile = File(
+        '${tempDirectory.path}\\unsupported_collections.ruleset.json',
+      );
+      await sourceFile.writeAsString(_duplicateCardRulesetJson());
 
-    final repository = CompendiumRepository(
-      database: database,
-      assetLoader: (_) async => '{}',
-      documentLoader: (path) => File(path).readAsBytes(),
-      documentPersister: ({
-        required String sourceReference,
-        required String fileName,
-      }) async {
-        final persisted = File('${tempDirectory.path}\\$fileName');
-        if (await persisted.exists()) {
-          await persisted.delete();
-        }
-        await File(sourceReference).copy(persisted.path);
-        return persisted.path;
-      },
-    );
+      final repository = CompendiumRepository(
+        database: database,
+        assetLoader: (_) async => '{}',
+        documentLoader: (path) => File(path).readAsBytes(),
+        documentPersister:
+            ({
+              required String sourceReference,
+              required String fileName,
+            }) async {
+              final persisted = File('${tempDirectory.path}\\$fileName');
+              if (await persisted.exists()) {
+                await persisted.delete();
+              }
+              await File(sourceReference).copy(persisted.path);
+              return persisted.path;
+            },
+      );
 
-    final imported = await repository.importRulesetFile(sourceFile.path);
-    final rows =
-        await (database.select(database.entityRecords)
-              ..where((tbl) => tbl.rulesetId.equals(imported.id))
-              ..where((tbl) => tbl.entityType.equals('card'))
-              ..orderBy([(tbl) => drift.OrderingTerm.asc(tbl.entityId)]))
-            .get();
+      final imported = await repository.importRulesetFile(sourceFile.path);
+      final rows =
+          await (database.select(database.entityRecords)
+                ..where((tbl) => tbl.rulesetId.equals(imported.id))
+                ..orderBy([
+                  (tbl) => drift.OrderingTerm.asc(tbl.entityType),
+                  (tbl) => drift.OrderingTerm.asc(tbl.entityId),
+                ]))
+              .get();
 
-    expect(rows, hasLength(2));
-    expect(rows.map((row) => row.entityId).toSet(), hasLength(2));
-    expect(rows.any((row) => row.entityId == 'card:screendungeonkit:eight'), isTrue);
-    expect(
-      rows.any(
-        (row) =>
-            row.entityId.startsWith('card:screendungeonkit:eight:') &&
-            row.entityId != 'card:screendungeonkit:eight',
-      ),
-      isTrue,
-    );
+      expect(rows, isEmpty);
 
-    final loaded = await repository.loadRuleset(imported.id);
-    final cards = loaded.entitiesForType('card');
-    expect(cards, hasLength(2));
-    expect(cards.map((card) => card.id).toSet(), hasLength(2));
+      final summaries = await browseRepository.loadCollectionSummaries(
+        imported.id,
+      );
+      expect(summaries.every((summary) => summary.entityCount == 0), isTrue);
 
-    final exportedJson = await repository.exportRulesetJson(imported.id);
-    final exported = jsonDecode(exportedJson) as Map<String, dynamic>;
-    final exportedCards =
-        (exported['cardList'] as List<dynamic>).cast<Map<String, dynamic>>();
-    expect(exportedCards, hasLength(2));
-    expect(
-      exportedCards.map((card) => card['id']).toSet(),
-      hasLength(2),
-    );
-  });
+      final loaded = await repository.loadRuleset(imported.id);
+      expect(loaded.totalEntityCount, 0);
+
+      final exportedJson = await repository.exportRulesetJson(imported.id);
+      final exported = jsonDecode(exportedJson) as Map<String, dynamic>;
+      expect(exported.containsKey('cardList'), isFalse);
+    },
+  );
 }
 
 String _rulesetJson() {
