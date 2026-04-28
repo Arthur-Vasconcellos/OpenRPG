@@ -35,7 +35,7 @@ class CompendiumStructuredAttributesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveHiddenKeys = {
-      ...CompendiumJsonUtils.legacyProvenanceKeys,
+      ...CompendiumJsonUtils.hiddenProvenanceKeys,
       ..._globallyHiddenStructuredKeys,
       ...hiddenKeys,
     };
@@ -260,7 +260,8 @@ class CompendiumStructuredFieldView extends StatelessWidget {
       if (mapReference != null) {
         final remainingEntries = Map<String, dynamic>.from(mapValue)
           ..removeWhere(
-            (key, value) => CompendiumLinkParser.tryParsePlainReference(
+            (key, value) =>
+                CompendiumLinkParser.tryParsePlainReference(
                   value?.toString() ?? '',
                   hintedFieldKey: key,
                 ) !=
@@ -445,13 +446,15 @@ class CompendiumStructuredValueView extends StatelessWidget {
           )
           .toList(growable: false);
       final allReferences =
-          values.isNotEmpty && referenceCandidates.every((candidate) => candidate != null);
+          values.isNotEmpty &&
+          referenceCandidates.every((candidate) => candidate != null);
       if (allReferences) {
         return Wrap(
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (final candidate in referenceCandidates.whereType<CompendiumLinkCandidate>())
+            for (final candidate
+                in referenceCandidates.whereType<CompendiumLinkCandidate>())
               _CompendiumReferenceChip(
                 candidate: candidate,
                 onLinkTap: onLinkTap,

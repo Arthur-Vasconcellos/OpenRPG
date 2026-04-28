@@ -66,7 +66,7 @@ class CompendiumEntityDescriptor<T extends CompendiumEntity> {
 }
 
 class CompendiumJsonUtils {
-  static const Set<String> legacyProvenanceKeys = <String>{
+  static const Set<String> hiddenProvenanceKeys = <String>{
     'source',
     'sourceFile',
     'edition',
@@ -224,15 +224,9 @@ class CompendiumJsonUtils {
     return '$normalizedType:$fingerprint';
   }
 
-  static String stableDisambiguator(
-    Map<String, dynamic> payload, {
-    String? legacyId,
-  }) {
+  static String stableDisambiguator(Map<String, dynamic> payload) {
     final normalized = sanitizeEntityJson(payload);
-    final encoded = jsonEncode(<String, dynamic>{
-      if (legacyId != null && legacyId.trim().isNotEmpty) 'legacyId': legacyId,
-      ...normalized..remove('id'),
-    });
+    final encoded = jsonEncode(<String, dynamic>{...normalized..remove('id')});
     var hash = 0x811C9DC5;
     for (final codeUnit in encoded.codeUnits) {
       hash ^= codeUnit;
@@ -285,10 +279,9 @@ class CompendiumJsonUtils {
     final provisional = <String, dynamic>{
       if (sanitizedInput['id']?.toString().trim().isNotEmpty == true)
         'id': sanitizedInput['id']?.toString(),
-      'name':
-          sanitizedInput['name']?.toString().trim().isNotEmpty == true
-              ? sanitizedInput['name']?.toString().trim()
-              : extractName(<String, dynamic>{'data': sanitizedData}),
+      'name': sanitizedInput['name']?.toString().trim().isNotEmpty == true
+          ? sanitizedInput['name']?.toString().trim()
+          : extractName(<String, dynamic>{'data': sanitizedData}),
       'data': sanitizedData,
       ...extra,
     };
@@ -299,7 +292,7 @@ class CompendiumJsonUtils {
   static Map<String, dynamic> sanitizePayloadMap(Map<String, dynamic> value) {
     final sanitized = <String, dynamic>{};
     for (final entry in value.entries) {
-      if (_isLegacyProvenanceKey(entry.key)) {
+      if (_isHiddenProvenanceKey(entry.key)) {
         continue;
       }
       sanitized[entry.key] = sanitizePayloadValue(
@@ -325,9 +318,11 @@ class CompendiumJsonUtils {
     }
 
     if (value is Map) {
-      return sanitizePayloadMap(value.map<String, dynamic>((key, entryValue) {
-        return MapEntry(key.toString(), entryValue);
-      }));
+      return sanitizePayloadMap(
+        value.map<String, dynamic>((key, entryValue) {
+          return MapEntry(key.toString(), entryValue);
+        }),
+      );
     }
 
     if (value is List<dynamic>) {
@@ -335,7 +330,10 @@ class CompendiumJsonUtils {
     }
 
     if (value is List) {
-      return sanitizePayloadList(List<dynamic>.from(value), currentKey: currentKey);
+      return sanitizePayloadList(
+        List<dynamic>.from(value),
+        currentKey: currentKey,
+      );
     }
 
     if (value is String) {
@@ -371,7 +369,8 @@ class CompendiumJsonUtils {
     }
 
     final simpleSegments = sanitized.split('|');
-    if (simpleSegments.length == 2 && _looksLikeSourceToken(simpleSegments[1])) {
+    if (simpleSegments.length == 2 &&
+        _looksLikeSourceToken(simpleSegments[1])) {
       return simpleSegments.first.trim();
     }
 
@@ -430,11 +429,11 @@ class CompendiumJsonUtils {
         key == 'source' ||
         key == 'sourceFile' ||
         key == 'edition' ||
-        _isLegacyProvenanceKey(key);
+        _isHiddenProvenanceKey(key);
   }
 
-  static bool _isLegacyProvenanceKey(String key) {
-    return legacyProvenanceKeys.contains(key);
+  static bool _isHiddenProvenanceKey(String key) {
+    return hiddenProvenanceKeys.contains(key);
   }
 
   static Map<String, dynamic> _inlineEntityData(Map<String, dynamic> value) {
@@ -519,10 +518,7 @@ class CompendiumJsonUtils {
       case 'quickref':
         return parts.length > 2 && parts[2].isNotEmpty ? parts[2] : parts[0];
       default:
-        final canonicalBody = _canonicalizeReferenceParts(
-          normalizedTag,
-          parts,
-        );
+        final canonicalBody = _canonicalizeReferenceParts(normalizedTag, parts);
         return '{@$normalizedTag $canonicalBody}';
     }
   }
@@ -548,10 +544,7 @@ class CompendiumJsonUtils {
     return _canonicalizeReferenceParts(hintedTag, parts);
   }
 
-  static String _canonicalizeReferenceParts(
-    String tag,
-    List<String> parts,
-  ) {
+  static String _canonicalizeReferenceParts(String tag, List<String> parts) {
     final name = parts.first.trim();
     switch (tag) {
       case 'classFeature':
@@ -573,15 +566,8 @@ class CompendiumJsonUtils {
     String name,
   ) {
     final className = parts.length > 1 ? parts[1].trim() : '';
-    late final String level;
-    String? alias;
-    if (parts.length >= 4 && !_looksLikeLevel(parts[2])) {
-      level = parts[3].trim();
-      alias = parts.length > 4 ? _displayAlias(parts[4], name) : null;
-    } else {
-      level = parts.length > 2 ? parts[2].trim() : '';
-      alias = parts.length > 3 ? _displayAlias(parts[3], name) : null;
-    }
+    final level = parts.length > 2 ? parts[2].trim() : '';
+    final alias = parts.length > 3 ? _displayAlias(parts[3], name) : null;
 
     return _joinReferenceParts(<String?>[name, className, level, alias]);
   }
@@ -605,19 +591,9 @@ class CompendiumJsonUtils {
     String name,
   ) {
     final className = parts.length > 1 ? parts[1].trim() : '';
-    late final String subclassShortName;
-    late final String level;
-    String? alias;
-
-    if (parts.length >= 6 && !_looksLikeLevel(parts[2])) {
-      subclassShortName = parts[3].trim();
-      level = parts[5].trim();
-      alias = parts.length > 6 ? _displayAlias(parts[6], name) : null;
-    } else {
-      subclassShortName = parts.length > 2 ? parts[2].trim() : '';
-      level = parts.length > 3 ? parts[3].trim() : '';
-      alias = parts.length > 4 ? _displayAlias(parts[4], name) : null;
-    }
+    final subclassShortName = parts.length > 2 ? parts[2].trim() : '';
+    final level = parts.length > 3 ? parts[3].trim() : '';
+    final alias = parts.length > 4 ? _displayAlias(parts[4], name) : null;
 
     return _joinReferenceParts(<String?>[
       name,
@@ -628,10 +604,7 @@ class CompendiumJsonUtils {
     ]);
   }
 
-  static String _canonicalizeSubraceReference(
-    List<String> parts,
-    String name,
-  ) {
+  static String _canonicalizeSubraceReference(List<String> parts, String name) {
     final raceName = parts.length > 1 ? parts[1].trim() : '';
     String? alias;
     if (parts.length > 2) {
@@ -653,14 +626,12 @@ class CompendiumJsonUtils {
 
   static String? _displayAlias(String rawAlias, String fallbackName) {
     final alias = rawAlias.trim();
-    if (alias.isEmpty || alias == fallbackName || _looksLikeSourceToken(alias)) {
+    if (alias.isEmpty ||
+        alias == fallbackName ||
+        _looksLikeSourceToken(alias)) {
       return null;
     }
     return alias;
-  }
-
-  static bool _looksLikeLevel(String value) {
-    return int.tryParse(value.trim()) != null;
   }
 
   static bool _looksLikeSourceToken(String value) {

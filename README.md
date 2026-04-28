@@ -2,6 +2,16 @@
 
 A new Flutter project.
 
+## Windows Native Asset Troubleshooting
+
+If Windows test or build runs fail while copying `sqlite3.dll` into
+`build/native_assets/windows`, use the cleanup script documented in
+[docs/windows_native_assets.md](docs/windows_native_assets.md):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tool\repair_windows_native_assets.ps1
+```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

@@ -1,5 +1,4 @@
 import 'package:openrpg/models/character.dart';
-import 'package:openrpg/models/enums.dart';
 
 class DndRules {
   // Calculate expected proficiency bonus based on TOTAL character level
@@ -18,26 +17,8 @@ class DndRules {
     bool isFirstClass = true;
 
     for (final classLevel in classes) {
-      final characterClass = classLevel.characterClass;
       final level = classLevel.level;
-
-      int hitDie;
-      switch (characterClass.hitDie) {
-        case '1d12':
-          hitDie = 12;
-          break;
-        case '1d10':
-          hitDie = 10;
-          break;
-        case '1d8':
-          hitDie = 8;
-          break;
-        case '1d6':
-          hitDie = 6;
-          break;
-        default:
-          hitDie = 8;
-      }
+      final hitDie = _hitDieForClassName(classLevel.className);
 
       // First level of first class gets max hit die
       if (isFirstClass) {
@@ -93,16 +74,17 @@ class DndRules {
 
   // Helper for single-class characters (backward compatibility)
   static int calculateSingleClassHP({
-    required CharacterClass characterClass,
+    required int hitDieFaces,
     required int level,
     required int constitutionScore,
   }) {
-    return calculateExpectedMaxHP(
-      classes: [
-        CharacterClassLevel(characterClass: characterClass, level: level),
-      ],
-      constitutionScore: constitutionScore,
-    );
+    final conModifier = ((constitutionScore - 10) / 2).floor();
+    final hitDie = hitDieFaces <= 0 ? 8 : hitDieFaces;
+    var totalHP = hitDie + conModifier;
+    for (var currentLevel = 2; currentLevel <= level; currentLevel++) {
+      totalHP += (hitDie / 2).ceil() + conModifier;
+    }
+    return totalHP;
   }
 
   // XP required for each level (simplified)
@@ -129,20 +111,28 @@ class DndRules {
     20: 355000,
   };
 
-  // Get hit die for a character class
-  static int getHitDie(CharacterClass characterClass) {
-    switch (characterClass.hitDie) {
-      case '1d12':
-        return 12;
-      case '1d10':
-        return 10;
-      case '1d8':
-        return 8;
-      case '1d6':
-        return 6;
-      default:
-        return 8;
-    }
+  static int _hitDieForClassName(String className) {
+    final normalized = _normalizedName(className);
+    const hitDiceByClass = <String, int>{
+      'barbarian': 12,
+      'fighter': 10,
+      'paladin': 10,
+      'ranger': 10,
+      'bard': 8,
+      'cleric': 8,
+      'druid': 8,
+      'monk': 8,
+      'rogue': 8,
+      'warlock': 8,
+      'artificer': 8,
+      'sorcerer': 6,
+      'wizard': 6,
+    };
+    return hitDiceByClass[normalized] ?? 8;
+  }
+
+  static String _normalizedName(String value) {
+    return value.trim().toLowerCase().replaceAll('-', ' ');
   }
 
   // Calculate ability modifier from score

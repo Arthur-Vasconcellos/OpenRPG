@@ -43,19 +43,30 @@ class CompendiumBrowseRepository {
   Future<List<RulesetCollectionSummary>> loadCollectionSummaries(
     String rulesetId,
   ) async {
-    final rows =
+    final statRows =
         await (_database.select(_database.rulesetCollectionStats)
               ..where((tbl) => tbl.rulesetId.equals(rulesetId))
               ..orderBy([(tbl) => drift.OrderingTerm.asc(tbl.label)]))
             .get();
-    return rows
+    final visibleRows = await _loadVisibleEntityRowsForRuleset(rulesetId);
+    final grouped = <String, List<EntityRecord>>{};
+    for (final row in visibleRows) {
+      grouped.putIfAbsent(row.collectionKey, () => <EntityRecord>[]).add(row);
+    }
+
+    return statRows
         .map(
           (row) => RulesetCollectionSummary(
             rulesetId: row.rulesetId,
             entityType: row.entityType,
             collectionKey: row.collectionKey,
             label: row.label,
-            entityCount: row.entityCount,
+            entityCount: grouped[row.collectionKey]?.length ?? 0,
+            representativeEntries:
+                (grouped[row.collectionKey] ?? const <EntityRecord>[])
+                    .take(3)
+                    .map(_mapEntityPreview)
+                    .toList(growable: false),
           ),
         )
         .toList(growable: false);
@@ -79,11 +90,36 @@ class CompendiumBrowseRepository {
 
     selection.orderBy([(tbl) => drift.OrderingTerm.asc(tbl.sortName)]);
 
-    final totalCount = await selection.get().then((rows) => rows.length);
-    selection.limit(pageSize, offset: page * pageSize);
-
     final rows = await selection.get();
-    final items = rows.map(_mapEntityPreview).toList(growable: false);
+    final archivedKeys = await _archivedKeysForRuleset(rulesetId);
+    final visibleRows = rows
+        .where((row) => !_isArchived(row, archivedKeys))
+        .toList(growable: false);
+    final totalCount = visibleRows.length;
+    final pageRows = visibleRows
+        .skip(page * pageSize)
+        .take(pageSize)
+        .toList(growable: false);
+    final usageCounts = await _characterUsageCounts(
+      rulesetId: rulesetId,
+      entityType: entityType,
+      entityIds: pageRows.map((row) => row.entityId).toSet(),
+    );
+    final inboundCounts = await _inboundReferenceCounts(
+      rulesetId: rulesetId,
+      entityType: entityType,
+      entityNamesById: {for (final row in pageRows) row.entityId: row.name},
+    );
+    final items = pageRows
+        .map(
+          (row) => _mapEntityPreview(
+            row,
+            snippet: _snippetForQuery(row.searchText, trimmedQuery),
+            inboundReferenceCount: inboundCounts[row.entityId] ?? 0,
+            characterUsageCount: usageCounts[row.entityId] ?? 0,
+          ),
+        )
+        .toList(growable: false);
 
     return CompendiumCollectionPage(
       rulesetId: rulesetId,
@@ -116,11 +152,26 @@ class CompendiumBrowseRepository {
 
     selection
       ..orderBy([(tbl) => drift.OrderingTerm.asc(tbl.sortName)])
-      ..limit(query.limit);
+      ..limit(query.limit * 3);
 
     final rows = await selection.get();
-    return rows
-        .map((row) => CompendiumSearchResult(preview: _mapEntityPreview(row)))
+    final visibleRows = await _filterArchivedRows(rows);
+    final limitedRows = visibleRows.take(query.limit).toList(growable: false);
+    final usageCounts = await _characterUsageCountsForRows(limitedRows);
+    final inboundCounts = await _inboundReferenceCountsForRows(limitedRows);
+
+    return limitedRows
+        .map(
+          (row) => CompendiumSearchResult(
+            preview: _mapEntityPreview(
+              row,
+              snippet: _snippetForQuery(row.searchText, trimmed),
+              inboundReferenceCount: inboundCounts[row.entityId] ?? 0,
+              characterUsageCount: usageCounts[row.entityId] ?? 0,
+            ),
+            snippet: _snippetForQuery(row.searchText, trimmed),
+          ),
+        )
         .toList(growable: false);
   }
 
@@ -173,6 +224,28 @@ class CompendiumBrowseRepository {
     );
   }
 
+  Future<CompendiumEntityImpact> loadEntityImpact({
+    required String rulesetId,
+    required String entityType,
+    required String entityId,
+    required String entityName,
+  }) async {
+    final usageCounts = await _characterUsageCounts(
+      rulesetId: rulesetId,
+      entityType: entityType,
+      entityIds: {entityId},
+    );
+    final inboundCounts = await _inboundReferenceCounts(
+      rulesetId: rulesetId,
+      entityType: entityType,
+      entityNamesById: {entityId: entityName},
+    );
+    return CompendiumEntityImpact(
+      inboundReferenceCount: inboundCounts[entityId] ?? 0,
+      characterUsageCount: usageCounts[entityId] ?? 0,
+    );
+  }
+
   Future<CompendiumSearchResult?> resolveLink(
     CompendiumLinkCandidate candidate, {
     String? preferredRulesetId,
@@ -187,17 +260,20 @@ class CompendiumBrowseRepository {
 
     selection.limit(20);
     final initialRows = await selection.get();
-    final rows = initialRows.where((row) {
-      final payload = jsonDecode(row.payloadJson);
-      if (payload is! Map<String, dynamic>) {
-        return false;
-      }
-      return _matchesSemanticReference(
-        entityType: candidate.targetEntityType!,
-        payload: CompendiumJsonUtils.sanitizeEntityJson(payload),
-        candidate: candidate,
-      );
-    }).toList(growable: false);
+    final visibleRows = await _filterArchivedRows(initialRows);
+    final rows = visibleRows
+        .where((row) {
+          final payload = jsonDecode(row.payloadJson);
+          if (payload is! Map<String, dynamic>) {
+            return false;
+          }
+          return _matchesSemanticReference(
+            entityType: candidate.targetEntityType!,
+            payload: CompendiumJsonUtils.sanitizeEntityJson(payload),
+            candidate: candidate,
+          );
+        })
+        .toList(growable: false);
     if (rows.isEmpty) {
       return null;
     }
@@ -217,12 +293,22 @@ class CompendiumBrowseRepository {
     return CompendiumSearchResult(preview: _mapEntityPreview(rows.first));
   }
 
-  CompendiumEntityPreview _mapEntityPreview(EntityRecord row) {
+  CompendiumEntityPreview _mapEntityPreview(
+    EntityRecord row, {
+    String snippet = '',
+    int inboundReferenceCount = 0,
+    int characterUsageCount = 0,
+    bool archived = false,
+  }) {
     return CompendiumEntityPreview(
       rulesetId: row.rulesetId,
       entityType: row.entityType,
       entityId: row.entityId,
       name: row.name,
+      snippet: snippet,
+      inboundReferenceCount: inboundReferenceCount,
+      characterUsageCount: characterUsageCount,
+      archived: archived,
     );
   }
 
@@ -243,6 +329,286 @@ class CompendiumBrowseRepository {
     );
   }
 
+  Future<List<EntityRecord>> _loadVisibleEntityRowsForRuleset(
+    String rulesetId,
+  ) async {
+    final rows =
+        await (_database.select(_database.entityRecords)
+              ..where((tbl) => tbl.rulesetId.equals(rulesetId))
+              ..orderBy([
+                (tbl) => drift.OrderingTerm.asc(tbl.collectionKey),
+                (tbl) => drift.OrderingTerm.asc(tbl.sortName),
+              ]))
+            .get();
+    final archivedKeys = await _archivedKeysForRuleset(rulesetId);
+    return rows
+        .where((row) => !_isArchived(row, archivedKeys))
+        .toList(growable: false);
+  }
+
+  Future<List<EntityRecord>> _filterArchivedRows(
+    List<EntityRecord> rows,
+  ) async {
+    final archivedByRuleset = <String, Set<String>>{};
+    final filtered = <EntityRecord>[];
+    for (final row in rows) {
+      final archivedKeys = archivedByRuleset.putIfAbsent(
+        row.rulesetId,
+        () => <String>{},
+      );
+      if (archivedKeys.isEmpty) {
+        archivedByRuleset[row.rulesetId] = await _archivedKeysForRuleset(
+          row.rulesetId,
+        );
+      }
+      if (!_isArchived(row, archivedByRuleset[row.rulesetId]!)) {
+        filtered.add(row);
+      }
+    }
+    return filtered;
+  }
+
+  Future<Set<String>> _archivedKeysForRuleset(String rulesetId) async {
+    final record = await (_database.select(
+      _database.rulesetRecords,
+    )..where((tbl) => tbl.rulesetId.equals(rulesetId))).getSingleOrNull();
+    if (record == null || record.extraJson.trim().isEmpty) {
+      return const <String>{};
+    }
+
+    final decoded = jsonDecode(record.extraJson);
+    if (decoded is! Map<String, dynamic>) {
+      return const <String>{};
+    }
+
+    final rawValues = decoded['archivedEntityKeys'];
+    if (rawValues is! List) {
+      return const <String>{};
+    }
+
+    return rawValues
+        .map((value) => value.toString().trim())
+        .where((value) => value.isNotEmpty)
+        .toSet();
+  }
+
+  bool _isArchived(EntityRecord row, Set<String> archivedKeys) {
+    return archivedKeys.contains(_entityKey(row.entityType, row.entityId));
+  }
+
+  String _entityKey(String entityType, String entityId) =>
+      '$entityType:$entityId';
+
+  String _snippetForQuery(String searchText, String query) {
+    if (query.trim().isEmpty) {
+      return '';
+    }
+
+    final normalizedText = searchText.replaceAll(RegExp(r'\s+'), ' ').trim();
+    if (normalizedText.isEmpty) {
+      return '';
+    }
+
+    final lower = normalizedText.toLowerCase();
+    final startIndex = lower.indexOf(query);
+    if (startIndex < 0) {
+      return normalizedText.length <= 140
+          ? normalizedText
+          : '${normalizedText.substring(0, 137)}...';
+    }
+
+    final snippetStart = (startIndex - 48).clamp(0, normalizedText.length);
+    final snippetEnd = (startIndex + query.length + 72).clamp(
+      0,
+      normalizedText.length,
+    );
+    final prefix = snippetStart > 0 ? '...' : '';
+    final suffix = snippetEnd < normalizedText.length ? '...' : '';
+    return '$prefix${normalizedText.substring(snippetStart, snippetEnd)}$suffix';
+  }
+
+  Future<Map<String, int>> _characterUsageCountsForRows(
+    List<EntityRecord> rows,
+  ) async {
+    final grouped = <String, Set<String>>{};
+    for (final row in rows) {
+      grouped.putIfAbsent(row.rulesetId, () => <String>{}).add(row.entityType);
+    }
+
+    final results = <String, int>{};
+    for (final row in rows) {
+      results[row.entityId] = 0;
+    }
+
+    final characterRows = await _database
+        .select(_database.characterRecords)
+        .get();
+    for (final characterRow in characterRows) {
+      final decoded = jsonDecode(characterRow.payloadJson);
+      if (decoded is! Map<String, dynamic>) {
+        continue;
+      }
+
+      final usedKeys = <String>{};
+      _collectCharacterReferences(decoded, usedKeys);
+      for (final row in rows) {
+        final key = _characterRefKey(
+          rulesetId: row.rulesetId,
+          entityType: row.entityType,
+          entityId: row.entityId,
+        );
+        if (usedKeys.contains(key)) {
+          results.update(row.entityId, (current) => current + 1);
+        }
+      }
+    }
+
+    return results;
+  }
+
+  Future<Map<String, int>> _characterUsageCounts({
+    required String rulesetId,
+    required String entityType,
+    required Set<String> entityIds,
+  }) async {
+    if (entityIds.isEmpty) {
+      return const <String, int>{};
+    }
+
+    final results = <String, int>{
+      for (final entityId in entityIds) entityId: 0,
+    };
+    final characterRows = await _database
+        .select(_database.characterRecords)
+        .get();
+    for (final characterRow in characterRows) {
+      final decoded = jsonDecode(characterRow.payloadJson);
+      if (decoded is! Map<String, dynamic>) {
+        continue;
+      }
+
+      final usedKeys = <String>{};
+      _collectCharacterReferences(decoded, usedKeys);
+      for (final entityId in entityIds) {
+        final key = _characterRefKey(
+          rulesetId: rulesetId,
+          entityType: entityType,
+          entityId: entityId,
+        );
+        if (usedKeys.contains(key)) {
+          results.update(entityId, (current) => current + 1);
+        }
+      }
+    }
+
+    return results;
+  }
+
+  void _collectCharacterReferences(dynamic node, Set<String> target) {
+    if (node is Map) {
+      final map = node.cast<String, dynamic>();
+      final entityType = map['entityType']?.toString();
+      final entityId = map['entityId']?.toString();
+      final rulesetId = map['rulesetId']?.toString();
+      if (entityType != null &&
+          entityId != null &&
+          rulesetId != null &&
+          entityType.trim().isNotEmpty &&
+          entityId.trim().isNotEmpty &&
+          rulesetId.trim().isNotEmpty) {
+        target.add(
+          _characterRefKey(
+            rulesetId: rulesetId,
+            entityType: entityType,
+            entityId: entityId,
+          ),
+        );
+      }
+      for (final value in map.values) {
+        _collectCharacterReferences(value, target);
+      }
+      return;
+    }
+
+    if (node is List) {
+      for (final value in node) {
+        _collectCharacterReferences(value, target);
+      }
+    }
+  }
+
+  String _characterRefKey({
+    required String rulesetId,
+    required String entityType,
+    required String entityId,
+  }) => '$rulesetId|$entityType|$entityId';
+
+  Future<Map<String, int>> _inboundReferenceCountsForRows(
+    List<EntityRecord> rows,
+  ) async {
+    final groupedByRuleset = <String, Map<String, Map<String, String>>>{};
+    for (final row in rows) {
+      groupedByRuleset.putIfAbsent(
+        row.rulesetId,
+        () => <String, Map<String, String>>{},
+      );
+      final typeMap = groupedByRuleset[row.rulesetId]!.putIfAbsent(
+        row.entityType,
+        () => <String, String>{},
+      );
+      typeMap[row.entityId] = row.name;
+    }
+
+    final counts = <String, int>{for (final row in rows) row.entityId: 0};
+    for (final entry in groupedByRuleset.entries) {
+      for (final typeEntry in entry.value.entries) {
+        final partial = await _inboundReferenceCounts(
+          rulesetId: entry.key,
+          entityType: typeEntry.key,
+          entityNamesById: typeEntry.value,
+        );
+        for (final countEntry in partial.entries) {
+          counts[countEntry.key] = countEntry.value;
+        }
+      }
+    }
+    return counts;
+  }
+
+  Future<Map<String, int>> _inboundReferenceCounts({
+    required String rulesetId,
+    required String entityType,
+    required Map<String, String> entityNamesById,
+  }) async {
+    if (entityNamesById.isEmpty) {
+      return const <String, int>{};
+    }
+
+    final counts = {for (final entityId in entityNamesById.keys) entityId: 0};
+    final nameIndex = <String, List<String>>{};
+    for (final entry in entityNamesById.entries) {
+      final normalized = CompendiumJsonUtils.slugify(entry.value);
+      nameIndex.putIfAbsent(normalized, () => <String>[]).add(entry.key);
+    }
+
+    final links =
+        await (_database.select(_database.entityLinks)
+              ..where((tbl) => tbl.rulesetId.equals(rulesetId))
+              ..where((tbl) => tbl.targetEntityType.equals(entityType)))
+            .get();
+    for (final link in links) {
+      final matchingIds =
+          nameIndex[CompendiumJsonUtils.slugify(link.displayText)];
+      if (matchingIds == null) {
+        continue;
+      }
+      for (final entityId in matchingIds) {
+        counts.update(entityId, (current) => current + 1);
+      }
+    }
+    return counts;
+  }
+
   bool _matchesSemanticReference({
     required String entityType,
     required Map<String, dynamic> payload,
@@ -252,15 +618,19 @@ class CompendiumBrowseRepository {
     final data = CompendiumJsonUtils.jsonMap(payload['data']);
     switch (entityType) {
       case 'classFeature':
+        if (parts.length > 4) {
+          return false;
+        }
         if (parts.length >= 2 &&
             (data['className']?.toString() ?? '') != parts[1]) {
           return false;
         }
         if (parts.length >= 3) {
-          final expectedLevel = int.tryParse(
-            parts[_looksLikeLegacyClassFeature(parts) ? 3 : 2],
-          );
-          if (expectedLevel != null && data['level'] != expectedLevel) {
+          final expectedLevel = int.tryParse(parts[2]);
+          if (expectedLevel == null) {
+            return false;
+          }
+          if (data['level'] != expectedLevel) {
             return false;
           }
         }
@@ -269,20 +639,23 @@ class CompendiumBrowseRepository {
         return parts.length < 2 ||
             (data['className']?.toString() ?? '') == parts[1];
       case 'subclassFeature':
+        if (parts.length > 5) {
+          return false;
+        }
         if (parts.length < 2) {
           return true;
         }
         final expectedClassName = parts[1];
-        final expectedSubclassShortName = parts[
-            _looksLikeLegacySubclassFeature(parts) ? 3 : 2];
-        final expectedLevel = int.tryParse(
-          parts[_looksLikeLegacySubclassFeature(parts) ? 5 : 3],
-        );
+        final expectedSubclassShortName = parts.length >= 3 ? parts[2] : '';
+        final expectedLevel = parts.length >= 4 ? int.tryParse(parts[3]) : null;
         if ((data['className']?.toString() ?? '') != expectedClassName) {
           return false;
         }
         if ((data['subclassShortName']?.toString() ?? '') !=
             expectedSubclassShortName) {
+          return false;
+        }
+        if (parts.length >= 4 && expectedLevel == null) {
           return false;
         }
         return expectedLevel == null || data['level'] == expectedLevel;
@@ -292,13 +665,5 @@ class CompendiumBrowseRepository {
       default:
         return true;
     }
-  }
-
-  bool _looksLikeLegacyClassFeature(List<String> parts) {
-    return parts.length >= 4 && int.tryParse(parts[2]) == null;
-  }
-
-  bool _looksLikeLegacySubclassFeature(List<String> parts) {
-    return parts.length >= 6 && int.tryParse(parts[2]) == null;
   }
 }

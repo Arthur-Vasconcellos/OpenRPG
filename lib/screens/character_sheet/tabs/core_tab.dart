@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:openrpg/characters/data/character_editor_controller.dart';
 import 'package:openrpg/models/character.dart';
-import 'package:openrpg/models/enums.dart';
-import 'package:openrpg/screens/character_sheet/widget/attribute_card.dart';
+import 'package:openrpg/screens/character_sheet/widget/ability_score_grid.dart';
+import 'package:openrpg/screens/character_sheet/widget/build_selection_card.dart';
 import 'package:openrpg/screens/character_sheet/widget/character_compendium_picker.dart';
-import 'package:openrpg/screens/character_sheet/widget/character_entity_summary_card.dart';
+import 'package:openrpg/screens/character_sheet/widget/class_entry_card.dart';
 import 'package:openrpg/screens/character_sheet/widget/saving_throw_grid.dart';
+import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
 
 class CoreTab extends StatelessWidget {
   final CharacterEditorController controller;
@@ -15,6 +16,7 @@ class CoreTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final character = controller.character!;
+    final schema = controller.sheetSchema;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -22,6 +24,8 @@ class CoreTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _CharacterIdentityCard(controller: controller),
+          const SizedBox(height: 16),
+          _BuildHealthCard(controller: controller),
           const SizedBox(height: 16),
           _BuildSelectionsCard(controller: controller),
           const SizedBox(height: 16),
@@ -36,63 +40,9 @@ class CoreTab extends StatelessWidget {
                     icon: Icons.fitness_center_outlined,
                   ),
                   const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    childAspectRatio: 0.86,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    children: [
-                      AttributeCard(
-                        abbreviation: 'STR',
-                        name: 'Strength',
-                        value: character.abilityScores.strength,
-                        modifier: character.modifiers.strength,
-                        onDecrement: () => _adjustAbility('strength', -1),
-                        onIncrement: () => _adjustAbility('strength', 1),
-                      ),
-                      AttributeCard(
-                        abbreviation: 'DEX',
-                        name: 'Dexterity',
-                        value: character.abilityScores.dexterity,
-                        modifier: character.modifiers.dexterity,
-                        onDecrement: () => _adjustAbility('dexterity', -1),
-                        onIncrement: () => _adjustAbility('dexterity', 1),
-                      ),
-                      AttributeCard(
-                        abbreviation: 'CON',
-                        name: 'Constitution',
-                        value: character.abilityScores.constitution,
-                        modifier: character.modifiers.constitution,
-                        onDecrement: () => _adjustAbility('constitution', -1),
-                        onIncrement: () => _adjustAbility('constitution', 1),
-                      ),
-                      AttributeCard(
-                        abbreviation: 'INT',
-                        name: 'Intelligence',
-                        value: character.abilityScores.intelligence,
-                        modifier: character.modifiers.intelligence,
-                        onDecrement: () => _adjustAbility('intelligence', -1),
-                        onIncrement: () => _adjustAbility('intelligence', 1),
-                      ),
-                      AttributeCard(
-                        abbreviation: 'WIS',
-                        name: 'Wisdom',
-                        value: character.abilityScores.wisdom,
-                        modifier: character.modifiers.wisdom,
-                        onDecrement: () => _adjustAbility('wisdom', -1),
-                        onIncrement: () => _adjustAbility('wisdom', 1),
-                      ),
-                      AttributeCard(
-                        abbreviation: 'CHA',
-                        name: 'Charisma',
-                        value: character.abilityScores.charisma,
-                        modifier: character.modifiers.charisma,
-                        onDecrement: () => _adjustAbility('charisma', -1),
-                        onIncrement: () => _adjustAbility('charisma', 1),
-                      ),
-                    ],
+                  AbilityScoreGrid(
+                    controller: controller,
+                    abilities: schema.abilities,
                   ),
                 ],
               ),
@@ -114,9 +64,8 @@ class CoreTab extends StatelessWidget {
                   const SizedBox(height: 12),
                   SavingThrowGrid(
                     character: character,
-                    onCharacterUpdated: (updated) {
-                      controller.updateManual((_) => updated);
-                    },
+                    controller: controller,
+                    abilities: schema.abilities,
                   ),
                 ],
               ),
@@ -149,28 +98,6 @@ class CoreTab extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _adjustAbility(String ability, int delta) {
-    final character = controller.character!;
-    final scores = character.abilityScores;
-    final next = switch (ability) {
-      'strength' => scores.copyWith(
-        strength: (scores.strength + delta).clamp(1, 30),
-      ),
-      'dexterity' => scores.copyWith(
-        dexterity: (scores.dexterity + delta).clamp(1, 30),
-      ),
-      'constitution' => scores.copyWith(
-        constitution: (scores.constitution + delta).clamp(1, 30),
-      ),
-      'intelligence' => scores.copyWith(
-        intelligence: (scores.intelligence + delta).clamp(1, 30),
-      ),
-      'wisdom' => scores.copyWith(wisdom: (scores.wisdom + delta).clamp(1, 30)),
-      _ => scores.copyWith(charisma: (scores.charisma + delta).clamp(1, 30)),
-    };
-    controller.updateManual((current) => current.copyWith(abilityScores: next));
   }
 }
 
@@ -253,28 +180,13 @@ class _CharacterIdentityCard extends StatelessWidget {
                     },
             ),
             const SizedBox(height: 12),
-            DropdownButtonFormField<MoralAlignment>(
-              initialValue: character.moralAlignment,
+            TextFormField(
+              initialValue: character.alignment,
               decoration: const InputDecoration(
                 labelText: 'Alignment',
                 border: OutlineInputBorder(),
               ),
-              items: MoralAlignment.values
-                  .map(
-                    (alignment) => DropdownMenuItem<MoralAlignment>(
-                      value: alignment,
-                      child: Text(alignment.displayName),
-                    ),
-                  )
-                  .toList(growable: false),
-              onChanged: (value) {
-                if (value == null) {
-                  return;
-                }
-                controller.updateManual(
-                  (current) => current.copyWith(moralAlignment: value),
-                );
-              },
+              onChanged: controller.setAlignment,
             ),
           ],
         ),
@@ -302,42 +214,37 @@ class _BuildSelectionsCard extends StatelessWidget {
               icon: Icons.auto_stories_outlined,
             ),
             const SizedBox(height: 16),
-            _SelectionTile(
+            BuildSelectionCard(
               title: 'Race',
-              value: character.raceRef?.displayName ?? 'Choose a race',
               icon: Icons.people_outline,
-              onTap: () => _pickRace(context),
+              reference: character.raceRef,
+              service: controller.compendium,
+              emptyLabel: 'No race selected yet.',
+              helperText:
+                  'Race drives ancestry traits, movement, proficiencies, and other derived features.',
+              onSelect: () => _pickRace(context),
               onClear: character.raceRef == null
                   ? null
                   : () => controller.setRace(null),
+              selectLabel: character.raceRef == null ? 'Choose Race' : 'Change',
             ),
-            if (character.raceRef != null) ...[
-              const SizedBox(height: 12),
-              CharacterEntitySummaryCard(
-                title: 'Selected Race',
-                reference: character.raceRef,
-                service: controller.compendium,
-              ),
-            ],
             const SizedBox(height: 12),
-            _SelectionTile(
+            BuildSelectionCard(
               title: 'Background',
-              value:
-                  character.backgroundRef?.displayName ?? 'Choose a background',
               icon: Icons.work_outline,
-              onTap: () => _pickBackground(context),
+              reference: character.backgroundRef,
+              service: controller.compendium,
+              emptyLabel: 'No background selected yet.',
+              helperText:
+                  'Background contributes proficiencies, starting flavor, and compendium-linked notes.',
+              onSelect: () => _pickBackground(context),
               onClear: character.backgroundRef == null
                   ? null
                   : () => controller.setBackground(null),
+              selectLabel: character.backgroundRef == null
+                  ? 'Choose Background'
+                  : 'Change',
             ),
-            if (character.backgroundRef != null) ...[
-              const SizedBox(height: 12),
-              CharacterEntitySummaryCard(
-                title: 'Selected Background',
-                reference: character.backgroundRef,
-                service: controller.compendium,
-              ),
-            ],
             const SizedBox(height: 16),
             Row(
               children: [
@@ -359,10 +266,11 @@ class _BuildSelectionsCard extends StatelessWidget {
             ...character.classes.asMap().entries.map((entry) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: _ClassEntryCard(
+                child: ClassEntryCard(
                   controller: controller,
                   index: entry.key,
                   entry: entry.value,
+                  canRemove: character.classes.length > 1,
                 ),
               );
             }),
@@ -401,196 +309,16 @@ class _BuildSelectionsCard extends StatelessWidget {
   }
 }
 
-class _ClassEntryCard extends StatelessWidget {
-  final CharacterEditorController controller;
-  final int index;
-  final CharacterClassLevel entry;
-
-  const _ClassEntryCard({
-    required this.controller,
-    required this.index,
-    required this.entry,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final canRemove = controller.character!.classes.length > 1;
-    return Card(
-      color: Theme.of(context).colorScheme.surfaceContainerLow,
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Class ${index + 1}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                if (canRemove)
-                  IconButton(
-                    tooltip: 'Remove class',
-                    onPressed: () => controller.removeClassEntry(index),
-                    icon: const Icon(Icons.delete_outline),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _SelectionTile(
-              title: 'Class',
-              value: entry.classRef?.displayName ?? 'Choose a class',
-              icon: Icons.class_outlined,
-              onTap: () => _pickClass(context),
-            ),
-            const SizedBox(height: 8),
-            _SelectionTile(
-              title: 'Subclass',
-              value: entry.subclassRef?.displayName ?? 'Choose a subclass',
-              icon: Icons.account_tree_outlined,
-              onTap: entry.classRef == null
-                  ? null
-                  : () => _pickSubclass(context),
-              onClear: entry.subclassRef == null
-                  ? null
-                  : () => controller.setClassEntry(
-                      index,
-                      classRef: entry.classRef,
-                      clearSubclass: true,
-                    ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Text('Level', style: Theme.of(context).textTheme.labelLarge),
-                const Spacer(),
-                IconButton(
-                  onPressed: entry.level <= 1
-                      ? null
-                      : () => controller.setClassEntry(
-                          index,
-                          classRef: entry.classRef,
-                          subclassRef: entry.subclassRef,
-                          level: entry.level - 1,
-                        ),
-                  icon: const Icon(Icons.remove),
-                ),
-                Text(
-                  '${entry.level}',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                IconButton(
-                  onPressed: entry.level >= 20
-                      ? null
-                      : () => controller.setClassEntry(
-                          index,
-                          classRef: entry.classRef,
-                          subclassRef: entry.subclassRef,
-                          level: entry.level + 1,
-                        ),
-                  icon: const Icon(Icons.add),
-                ),
-              ],
-            ),
-            if (entry.classRef != null) ...[
-              const SizedBox(height: 8),
-              CharacterEntitySummaryCard(
-                title: 'Selected Class',
-                reference: entry.classRef,
-                service: controller.compendium,
-              ),
-            ],
-            if (entry.subclassRef != null) ...[
-              const SizedBox(height: 8),
-              CharacterEntitySummaryCard(
-                title: 'Selected Subclass',
-                reference: entry.subclassRef,
-                service: controller.compendium,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _pickClass(BuildContext context) async {
-    final result = await showCharacterCompendiumPicker(
-      context,
-      service: controller.compendium,
-      installedRulesets: controller.installedRulesets,
-      primaryRulesetId: controller.character!.primaryRulesetId,
-      entityTypes: const ['class'],
-      title: 'Choose Class',
-    );
-    if (result != null) {
-      await controller.setClassEntry(
-        index,
-        classRef: result.ref,
-        clearSubclass: true,
-        level: entry.level,
-      );
-    }
-  }
-
-  Future<void> _pickSubclass(BuildContext context) async {
-    final classRef = entry.classRef;
-    if (classRef == null) {
-      return;
-    }
-
-    final result = await showCharacterCompendiumPicker(
-      context,
-      service: controller.compendium,
-      installedRulesets: controller.installedRulesets,
-      primaryRulesetId: controller.character!.primaryRulesetId,
-      entityTypes: const ['subclass'],
-      classNameForSubclasses: classRef.displayName,
-      title: 'Choose Subclass',
-    );
-    if (result != null) {
-      await controller.setClassEntry(
-        index,
-        classRef: classRef,
-        subclassRef: result.ref,
-        level: entry.level,
-      );
-    }
-  }
-}
-
 class _SkillsCard extends StatelessWidget {
   final CharacterEditorController controller;
 
   const _SkillsCard({required this.controller});
 
-  static const List<(Skill, String, String)> _skillRows = [
-    (Skill.acrobatics, 'Acrobatics', 'DEX'),
-    (Skill.animalHandling, 'Animal Handling', 'WIS'),
-    (Skill.arcana, 'Arcana', 'INT'),
-    (Skill.athletics, 'Athletics', 'STR'),
-    (Skill.deception, 'Deception', 'CHA'),
-    (Skill.history, 'History', 'INT'),
-    (Skill.insight, 'Insight', 'WIS'),
-    (Skill.intimidation, 'Intimidation', 'CHA'),
-    (Skill.investigation, 'Investigation', 'INT'),
-    (Skill.medicine, 'Medicine', 'WIS'),
-    (Skill.nature, 'Nature', 'INT'),
-    (Skill.perception, 'Perception', 'WIS'),
-    (Skill.performance, 'Performance', 'CHA'),
-    (Skill.persuasion, 'Persuasion', 'CHA'),
-    (Skill.religion, 'Religion', 'INT'),
-    (Skill.sleightOfHand, 'Sleight of Hand', 'DEX'),
-    (Skill.stealth, 'Stealth', 'DEX'),
-    (Skill.survival, 'Survival', 'WIS'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final character = controller.character!;
     final colorScheme = Theme.of(context).colorScheme;
+    final skills = controller.sheetSchema.skills;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -611,22 +339,16 @@ class _SkillsCard extends StatelessWidget {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
-              itemCount: _skillRows.length,
+              itemCount: skills.length,
               itemBuilder: (context, index) {
-                final row = _skillRows[index];
-                final skill = row.$1;
-                final proficiency =
-                    character.proficiencies.skills.proficiencies[skill] ??
-                    ProficiencyLevel.none;
-                final modifier = character.proficiencies.skills.getModifier(
-                  skill,
-                  character.modifiers,
-                  character.proficiencies.proficiencyBonus,
-                );
+                final skill = skills[index];
+                final proficiency = character.proficiencies.skills
+                    .proficiencyFor(skill.id);
+                final modifier = controller.skillModifierFor(skill);
 
                 return InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () => _cycleSkill(skill, proficiency),
+                  onTap: () => controller.cycleSkillTraining(skill.id),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -636,7 +358,7 @@ class _SkillsCard extends StatelessWidget {
                       color: colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: proficiency == ProficiencyLevel.none
+                        color: proficiency == SkillTrainingLevel.none
                             ? colorScheme.outlineVariant
                             : colorScheme.primary,
                       ),
@@ -649,13 +371,15 @@ class _SkillsCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                row.$2,
+                                skill.label,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               Text(
-                                row.$3,
+                                controller.sheetSchema.abilityAbbreviation(
+                                  skill.abilityId,
+                                ),
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
@@ -669,12 +393,10 @@ class _SkillsCard extends StatelessWidget {
                               modifier >= 0 ? '+$modifier' : '$modifier',
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            Text(switch (proficiency) {
-                              ProficiencyLevel.none => 'None',
-                              ProficiencyLevel.proficient => 'Prof.',
-                              ProficiencyLevel.expert => 'Expert',
-                              ProficiencyLevel.jackOfAllTrades => 'Half',
-                            }, style: Theme.of(context).textTheme.labelSmall),
+                            Text(
+                              SkillTrainingLevel.shortLabel(proficiency),
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
                           ],
                         ),
                       ],
@@ -688,71 +410,109 @@ class _SkillsCard extends StatelessWidget {
       ),
     );
   }
-
-  void _cycleSkill(Skill skill, ProficiencyLevel current) {
-    final next = switch (current) {
-      ProficiencyLevel.none => ProficiencyLevel.proficient,
-      ProficiencyLevel.proficient => ProficiencyLevel.expert,
-      ProficiencyLevel.expert => ProficiencyLevel.none,
-      ProficiencyLevel.jackOfAllTrades => ProficiencyLevel.none,
-    };
-
-    controller.updateManual((character) {
-      final proficiencies = Map<Skill, ProficiencyLevel>.from(
-        character.proficiencies.skills.proficiencies,
-      );
-      proficiencies[skill] = next;
-      return character.copyWith(
-        proficiencies: character.proficiencies.copyWith(
-          skills: character.proficiencies.skills.copyWith(
-            proficiencies: proficiencies,
-          ),
-        ),
-      );
-    });
-  }
 }
 
-class _SelectionTile extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-  final VoidCallback? onTap;
-  final VoidCallback? onClear;
+class _BuildHealthCard extends StatelessWidget {
+  final CharacterEditorController controller;
 
-  const _SelectionTile({
-    required this.title,
-    required this.value,
-    required this.icon,
-    required this.onTap,
-    this.onClear,
-  });
+  const _BuildHealthCard({required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
-      ),
-      child: ListTile(
-        leading: Icon(icon),
-        title: Text(title),
-        subtitle: Text(value),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+    final character = controller.character!;
+    final previewController = CompendiumPreviewControllerScope.maybeOf(context);
+    final unresolvedSelections = controller.unresolvedSelectionCount;
+    final hasWidePreviewLayout = MediaQuery.sizeOf(context).width >= 720;
+    final trackedSpellCount =
+        (character.spellcasting?.preparedSpells.length ?? 0) +
+        (character.spellcasting?.knownSpells.length ?? 0);
+    final compendiumEquipmentCount = character.equipment.entries
+        .where((entry) => entry.reference != null)
+        .length;
+    final rulesetInstalled =
+        character.primaryRulesetId.trim().isNotEmpty &&
+        controller.installedRulesets.any(
+          (ruleset) => ruleset.id == character.primaryRulesetId,
+        );
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (onClear != null)
-              IconButton(
-                tooltip: 'Clear selection',
-                onPressed: onClear,
-                icon: const Icon(Icons.clear),
+            const _SectionTitle(
+              title: 'Build Health',
+              icon: Icons.health_and_safety_outlined,
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                Chip(
+                  label: Text(
+                    unresolvedSelections == 0
+                        ? 'All selections resolved'
+                        : '$unresolvedSelections unresolved',
+                  ),
+                ),
+                Chip(
+                  label: Text(
+                    '${controller.resolvedBuild.allFeatures.length} derived features',
+                  ),
+                ),
+                Chip(
+                  label: Text(
+                    trackedSpellCount == 0
+                        ? 'No tracked spells'
+                        : '$trackedSpellCount tracked spells',
+                  ),
+                ),
+                Chip(
+                  label: Text(
+                    compendiumEquipmentCount == 0
+                        ? 'No linked equipment'
+                        : '$compendiumEquipmentCount linked equipment',
+                  ),
+                ),
+                Chip(
+                  label: Text(
+                    rulesetInstalled
+                        ? 'Ruleset installed'
+                        : character.primaryRulesetId.trim().isEmpty
+                        ? 'No primary ruleset'
+                        : 'Ruleset missing',
+                  ),
+                ),
+                if (hasWidePreviewLayout)
+                  Chip(
+                    label: Text(
+                      previewController?.hasPinnedPreview == true
+                          ? 'Preview rail pinned'
+                          : 'Preview rail available',
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              unresolvedSelections == 0
+                  ? 'Every current core selection resolves cleanly against the installed compendium, so combat, features, and spells can derive from a stable build.'
+                  : 'Resolve the highlighted selections below to restore full compendium-backed derivation for combat, features, notes, and spells.',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            if (hasWidePreviewLayout) ...[
+              const SizedBox(height: 8),
+              Text(
+                previewController?.hasPinnedPreview == true
+                    ? 'The pinned preview rail is active on this layout, so nested reference browsing stays visible while you edit the build.'
+                    : 'On wider layouts, previewing a compendium-backed name can stay pinned beside the character sheet for quick comparison.',
+                style: Theme.of(context).textTheme.bodySmall,
               ),
-            const Icon(Icons.chevron_right),
+            ],
           ],
         ),
-        onTap: onTap,
       ),
     );
   }

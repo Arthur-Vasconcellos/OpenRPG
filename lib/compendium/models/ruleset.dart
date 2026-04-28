@@ -9,10 +9,13 @@ enum RulesetMode {
   editable;
 
   static RulesetMode fromValue(String value) {
-    return RulesetMode.values.firstWhere(
-      (mode) => mode.name == value,
-      orElse: () => RulesetMode.imported,
-    );
+    final normalized = value.trim();
+    for (final mode in RulesetMode.values) {
+      if (mode.name == normalized) {
+        return mode;
+      }
+    }
+    throw FormatException('Unsupported ruleset mode "$value".');
   }
 }
 
@@ -81,6 +84,13 @@ class Ruleset {
   }
 
   factory Ruleset.fromJson(Map<String, dynamic> json) {
+    final schemaVersion = json['schemaVersion']?.toString().trim() ?? '';
+    if (schemaVersion != kCurrentRulesetSchemaVersion) {
+      throw FormatException(
+        'Unsupported ruleset schema version "$schemaVersion".',
+      );
+    }
+
     final knownTopLevelKeys = <String>{
       'schemaVersion',
       'id',
@@ -127,9 +137,7 @@ class Ruleset {
     }
 
     return Ruleset(
-      schemaVersion: json['schemaVersion']?.toString().trim().isNotEmpty == true
-          ? json['schemaVersion'].toString()
-          : kCurrentRulesetSchemaVersion,
+      schemaVersion: schemaVersion,
       id: json['id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       description: json['description']?.toString() ?? '',

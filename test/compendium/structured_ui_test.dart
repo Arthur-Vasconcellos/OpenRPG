@@ -5,6 +5,7 @@ import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/compendium/data/compendium_database.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/generated/compendium_generated.dart';
+import 'package:openrpg/compendium/models/compendium_entity.dart';
 import 'package:openrpg/compendium/models/compendium_editor.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_detail_screen.dart';
 import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
@@ -321,6 +322,13 @@ void main() {
 
       expect(find.text('Metadata'), findsOneWidget);
       expect(find.text('Tags'), findsOneWidget);
+      await tester.tap(find.text('Metadata'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Title'), findsOneWidget);
+
+      await tester.drag(find.byType(ListView).first, const Offset(0, -300));
+      await tester.pumpAndSettle();
       expect(
         find.byWidgetPredicate(
           (widget) => widget is DropdownButtonFormField<String>,
@@ -328,13 +336,147 @@ void main() {
         findsOneWidget,
       );
       expect(find.text('Edit JSON'), findsNothing);
-
-      await tester.tap(find.text('Metadata'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Title'), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'editor validates unresolved references and previews resolved ones',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: RulesetObjectEditorScreen(
+            entityType: 'spell',
+            rulesetId: rulesetId,
+            browseRepository: browseRepository,
+            initialEntity: parseEntityJson('spell', {
+              'id': 'spell:test:broken_links',
+              'name': 'Broken Links',
+              'data': {
+                'name': 'Broken Links',
+                'entries': [
+                  'Preview {@spell Magic Missile|SRD}.',
+                  'Missing {@spell Missing Spell|SRD}.',
+                  'Broken token {@spell Bad Link',
+                ],
+              },
+            })!,
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      await tester.drag(find.byType(ListView).first, const Offset(0, -1400));
+      await tester.pumpAndSettle();
+      await _pumpUntilFound(tester, find.text('Relationship Validation'));
+
+      expect(find.text('Reference Preview'), findsOneWidget);
+      expect(find.textContaining('Missing Spell'), findsOneWidget);
+      expect(
+        find.textContaining('Malformed inline reference tokens'),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets('editor rebuilds draft data when switching to another entity', (
+    tester,
+  ) async {
+    final descriptor = CompendiumEditorDescriptor(
+      entityType: 'spell',
+      collectionKey: 'spellList',
+      label: 'Spells',
+      fields: const [
+        CompendiumFieldDescriptor(
+          key: 'title',
+          label: 'Title',
+          kind: CompendiumFieldKind.string,
+        ),
+      ],
+    );
+    final currentEntity = ValueNotifier<CompendiumEntity>(
+      parseEntityJson('spell', {
+        'id': 'spell:test:first',
+        'name': 'First Entry',
+        'data': {'name': 'First Entry', 'title': 'First draft'},
+      })!,
+    );
+    addTearDown(currentEntity.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ValueListenableBuilder<CompendiumEntity>(
+          valueListenable: currentEntity,
+          builder: (context, entity, _) {
+            return RulesetObjectEditorScreen(
+              entityType: 'spell',
+              rulesetId: rulesetId,
+              browseRepository: browseRepository,
+              initialEntity: entity,
+              descriptorOverride: descriptor,
+            );
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('First draft'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).first, 'Edited first');
+    await tester.pumpAndSettle();
+    expect(find.text('Edited first'), findsOneWidget);
+
+    currentEntity.value = parseEntityJson('spell', {
+      'id': 'spell:test:second',
+      'name': 'Second Entry',
+      'data': {'name': 'Second Entry', 'title': 'Second draft'},
+    })!;
+    await tester.pumpAndSettle();
+
+    expect(find.text('Second draft'), findsOneWidget);
+    expect(find.text('Edited first'), findsNothing);
+  });
+
+  testWidgets('unsupported entity types are shown as read-only', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: RulesetObjectEditorScreen(entityType: 'unknownEntityType'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Read-only unknownEntityType'), findsOneWidget);
+    expect(find.byIcon(Icons.save_outlined), findsNothing);
+    expect(find.textContaining('currently read-only'), findsOneWidget);
+  });
+
+  testWidgets('detail screen follows linked references with breadcrumb trail', (
+    tester,
+  ) async {
+    _setSurfaceSize(tester, const Size(1280, 900));
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: CompendiumEntityDetailScreen(
+          rulesetId: rulesetId,
+          entityType: 'spell',
+          entityId: 'spell:srd:fire_bolt',
+          browseRepository: browseRepository,
+          repository: repository,
+        ),
+      ),
+    );
+
+    await _pumpUntilFound(tester, find.text('Linked References'));
+    await tester.tap(find.byTooltip('Open in this detail page').first);
+    await tester.pump();
+    await _pumpUntilFound(tester, find.text('Automatically hits.'));
+    await tester.pumpAndSettle();
+
+    expect(find.byTooltip('Back in reference trail'), findsOneWidget);
+    expect(find.text('Fire Bolt'), findsAtLeastNWidgets(1));
+  });
 }
 
 class _PreviewHost extends StatelessWidget {

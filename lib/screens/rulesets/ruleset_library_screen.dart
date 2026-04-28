@@ -7,6 +7,7 @@ import 'package:openrpg/compendium/data/compendium_import_controller.dart';
 import 'package:openrpg/compendium/data/compendium_repository.dart';
 import 'package:openrpg/compendium/models/compendium_browse_asset.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
+import 'package:openrpg/screens/characters/character_creation_flow.dart';
 import 'package:openrpg/screens/rulesets/ruleset_detail_screen.dart';
 
 class RulesetLibraryScreen extends StatefulWidget {
@@ -29,14 +30,15 @@ class RulesetLibraryScreen extends StatefulWidget {
   State<RulesetLibraryScreen> createState() => _RulesetLibraryScreenState();
 }
 
-enum _RulesetLibraryStartupState { initializing, ready, failed }
+enum _RulesetLibraryStartupState { idle, bootstrapping, ready, failed }
 
 class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
   late final Stream<List<RulesetSummary>> _rulesetStream;
   Stream<CompendiumBootstrapStatus>? _bootstrapStatusStream;
-  _RulesetLibraryStartupState _startupState =
-      _RulesetLibraryStartupState.initializing;
+  _RulesetLibraryStartupState _startupState = _RulesetLibraryStartupState.idle;
   String? _startupErrorMessage;
+  String _modeFilter = 'all';
+  final TextEditingController _authorFilterController = TextEditingController();
 
   CompendiumImportController? get _importController =>
       widget.importController ??
@@ -49,9 +51,15 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
     unawaited(_initializeBootstrap());
   }
 
+  @override
+  void dispose() {
+    _authorFilterController.dispose();
+    super.dispose();
+  }
+
   Future<void> _initializeBootstrap() async {
     _commitStartupState(
-      _RulesetLibraryStartupState.initializing,
+      _RulesetLibraryStartupState.bootstrapping,
       errorMessage: null,
     );
 
@@ -67,20 +75,15 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
         _bootstrapStatusStream = widget.bootstrapService.watchStatus(
           bundledRulesetId!,
         );
-        _startupState = _RulesetLibraryStartupState.ready;
-        _startupErrorMessage = null;
       });
 
       await widget.bootstrapService.ensureBootstrappedWithManifest(manifest);
-    } catch (error, stackTrace) {
-      final trackedFailure = await _hasTrackedBootstrapFailure(
-        bundledRulesetId,
+      _commitStartupState(
+        _RulesetLibraryStartupState.ready,
+        errorMessage: null,
       );
+    } catch (error, stackTrace) {
       _reportBootstrapError(error, stackTrace);
-      if (!mounted || trackedFailure) {
-        return;
-      }
-
       _commitStartupState(
         _RulesetLibraryStartupState.failed,
         errorMessage: _formatStartupError(error),
@@ -121,19 +124,6 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
     }
 
     return rulesetId;
-  }
-
-  Future<bool> _hasTrackedBootstrapFailure(String? rulesetId) async {
-    if (rulesetId == null || rulesetId.isEmpty) {
-      return false;
-    }
-
-    try {
-      final status = await widget.bootstrapService.loadStatus(rulesetId);
-      return status.isFailed;
-    } catch (_) {
-      return false;
-    }
   }
 
   String _formatStartupError(Object error) {
@@ -254,6 +244,13 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
     await widget.repository.deleteRuleset(summary.id);
   }
 
+  Future<void> _useRulesetForCharacter(RulesetSummary summary) async {
+    await createCharacterFromRulesetFlow(
+      context,
+      preselectedRulesetId: summary.id,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -288,7 +285,7 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
           final bootstrapStatus =
               bootstrapSnapshot.data ?? const CompendiumBootstrapStatus.idle();
           final isStartupInitializing =
-              _startupState == _RulesetLibraryStartupState.initializing;
+              _startupState == _RulesetLibraryStartupState.bootstrapping;
           final hasStartupFailure =
               _startupState == _RulesetLibraryStartupState.failed &&
               (_startupErrorMessage?.trim().isNotEmpty ?? false);
@@ -309,13 +306,10 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
               }
 
               final rulesets = rulesetSnapshot.data ?? const <RulesetSummary>[];
+              final filteredRulesets = _filterRulesets(rulesets);
               final showPreparingShell =
                   rulesets.isEmpty &&
-                  (isStartupInitializing ||
-                      (_startupState == _RulesetLibraryStartupState.ready &&
-                          _bootstrapStatusStream != null &&
-                          !bootstrapStatus.isReady &&
-                          !bootstrapStatus.isFailed));
+                  (isStartupInitializing || bootstrapStatus.isRunning);
               final showEmptyLibrary =
                   rulesets.isEmpty &&
                   _startupState == _RulesetLibraryStartupState.ready &&
@@ -440,6 +434,66 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Filter library',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 12),
+                          DropdownButtonFormField<String>(
+                            initialValue: _modeFilter,
+                            decoration: const InputDecoration(
+                              labelText: 'Ruleset mode',
+                              border: OutlineInputBorder(),
+                            ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'all',
+                                child: Text('All modes'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'bundled',
+                                child: Text('Bundled'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'editable',
+                                child: Text('Editable'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'imported',
+                                child: Text('Imported'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              if (value == null) {
+                                return;
+                              }
+                              setState(() {
+                                _modeFilter = value;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                          TextField(
+                            controller: _authorFilterController,
+                            decoration: const InputDecoration(
+                              labelText: 'Author filter',
+                              hintText: 'Filter by author name',
+                              prefixIcon: Icon(Icons.person_search_outlined),
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (_) => setState(() {}),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   if (showPreparingShell)
                     const Center(
                       child: Padding(
@@ -477,8 +531,15 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
                         ),
                       ),
                     )
-                  else if (rulesets.isNotEmpty)
-                    ...rulesets.map((summary) {
+                  else if (filteredRulesets.isEmpty)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(32),
+                        child: Text('No rulesets matched the current filters.'),
+                      ),
+                    )
+                  else if (filteredRulesets.isNotEmpty)
+                    ...filteredRulesets.map((summary) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Card(
@@ -572,6 +633,39 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(height: 14),
+                                  _RulesetCoverageRow(
+                                    rulesetId: summary.id,
+                                    browseRepository: widget.browseRepository,
+                                  ),
+                                  const SizedBox(height: 14),
+                                  Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: [
+                                      FilledButton.tonalIcon(
+                                        onPressed: () =>
+                                            _useRulesetForCharacter(summary),
+                                        icon: const Icon(
+                                          Icons.auto_awesome_outlined,
+                                        ),
+                                        label: const Text('Use for Character'),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: () async {
+                                          await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  RulesetDetailScreen(
+                                                    rulesetId: summary.id,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text('Open Ruleset'),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
@@ -586,6 +680,21 @@ class _RulesetLibraryScreenState extends State<RulesetLibraryScreen> {
         },
       ),
     );
+  }
+
+  List<RulesetSummary> _filterRulesets(List<RulesetSummary> rulesets) {
+    final authorQuery = _authorFilterController.text.trim().toLowerCase();
+    return rulesets
+        .where((ruleset) {
+          final modeMatches =
+              _modeFilter == 'all' || ruleset.mode.toLowerCase() == _modeFilter;
+          final authorMatches =
+              authorQuery.isEmpty ||
+              ruleset.author.toLowerCase().contains(authorQuery) ||
+              ruleset.name.toLowerCase().contains(authorQuery);
+          return modeMatches && authorMatches;
+        })
+        .toList(growable: false);
   }
 }
 
@@ -746,6 +855,71 @@ class _MetricChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(label: Text('$label: $value'));
+  }
+}
+
+class _RulesetCoverageRow extends StatelessWidget {
+  final String rulesetId;
+  final CompendiumBrowseRepository browseRepository;
+
+  const _RulesetCoverageRow({
+    required this.rulesetId,
+    required this.browseRepository,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<RulesetCollectionSummary>>(
+      future: browseRepository.loadCollectionSummaries(rulesetId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const SizedBox.shrink();
+        }
+
+        final collections = snapshot.data ?? const <RulesetCollectionSummary>[];
+        final metrics = <({String label, int count})>[
+          (
+            label: 'Classes',
+            count: _countFor(collections, const [
+              'class',
+              'subclass',
+              'classFeature',
+              'subclassFeature',
+            ]),
+          ),
+          (
+            label: 'Races',
+            count: _countFor(collections, const ['race', 'subrace']),
+          ),
+          (
+            label: 'Backgrounds',
+            count: _countFor(collections, const ['background']),
+          ),
+          (label: 'Spells', count: _countFor(collections, const ['spell'])),
+          (label: 'Items', count: _countFor(collections, const ['item'])),
+        ];
+
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: metrics
+              .map(
+                (metric) =>
+                    Chip(label: Text('${metric.label}: ${metric.count}')),
+              )
+              .toList(growable: false),
+        );
+      },
+    );
+  }
+
+  int _countFor(
+    List<RulesetCollectionSummary> collections,
+    List<String> entityTypes,
+  ) {
+    return collections
+        .where((collection) => entityTypes.contains(collection.entityType))
+        .fold<int>(0, (sum, collection) => sum + collection.entityCount);
   }
 }
 

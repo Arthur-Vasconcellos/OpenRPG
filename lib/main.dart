@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/app_navigator_scope.dart';
 import 'package:openrpg/compendium/data/compendium_import_controller.dart';
+import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
 import 'package:openrpg/screens/rulesets/ruleset_detail_screen.dart';
 import 'package:openrpg/screens/workspace_home_screen.dart';
 
@@ -20,6 +22,8 @@ class _OpenRpgAppState extends State<OpenRpgApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   late final CompendiumImportController _importController =
       CompendiumImportController()..addListener(_handleImportStateChanged);
+  late final CompendiumPreviewController _previewController =
+      CompendiumPreviewController();
 
   int _lastNotificationToken = 0;
 
@@ -62,9 +66,8 @@ class _OpenRpgAppState extends State<OpenRpgApp> {
                     }
                     navigator.push(
                       MaterialPageRoute(
-                        builder: (_) => RulesetDetailScreen(
-                          rulesetId: rulesetId,
-                        ),
+                        builder: (_) =>
+                            RulesetDetailScreen(rulesetId: rulesetId),
                       ),
                     );
                   },
@@ -96,29 +99,44 @@ class _OpenRpgAppState extends State<OpenRpgApp> {
       fontFamily: 'Georgia',
     );
 
-    return CompendiumImportControllerScope(
-      controller: _importController,
-      child: MaterialApp(
-        title: 'OpenRPG',
-        navigatorKey: _navigatorKey,
-        scaffoldMessengerKey: _scaffoldMessengerKey,
-        theme: base.copyWith(
-          scaffoldBackgroundColor: const Color(0xFFF4EEE1),
-          cardTheme: base.cardTheme.copyWith(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+    return AppNavigatorScope(
+      navigatorKey: _navigatorKey,
+      child: CompendiumImportControllerScope(
+        controller: _importController,
+        child: CompendiumPreviewControllerScope(
+          controller: _previewController,
+          child: MaterialApp(
+            title: 'OpenRPG',
+            navigatorKey: _navigatorKey,
+            scaffoldMessengerKey: _scaffoldMessengerKey,
+            theme: base.copyWith(
+              scaffoldBackgroundColor: const Color(0xFFF4EEE1),
+              cardTheme: base.cardTheme.copyWith(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+              ),
             ),
+            builder: (context, child) {
+              return Overlay(
+                initialEntries: [
+                  OverlayEntry(
+                    builder: (context) => CompendiumPreviewHost(
+                      controller: _previewController,
+                      child: _CompendiumImportOverlay(
+                        controller: _importController,
+                        child: child ?? const SizedBox.shrink(),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+            home: const WorkspaceHomeScreen(),
+            debugShowCheckedModeBanner: false,
           ),
         ),
-        builder: (context, child) {
-          return _CompendiumImportOverlay(
-            controller: _importController,
-            child: child ?? const SizedBox.shrink(),
-          );
-        },
-        home: const WorkspaceHomeScreen(),
-        debugShowCheckedModeBanner: false,
       ),
     );
   }

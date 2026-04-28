@@ -69,6 +69,7 @@ class RulesetCollectionSummary {
   final String collectionKey;
   final String label;
   final int entityCount;
+  final List<CompendiumEntityPreview> representativeEntries;
 
   const RulesetCollectionSummary({
     required this.rulesetId,
@@ -76,6 +77,7 @@ class RulesetCollectionSummary {
     required this.collectionKey,
     required this.label,
     required this.entityCount,
+    this.representativeEntries = const <CompendiumEntityPreview>[],
   });
 }
 
@@ -84,12 +86,20 @@ class CompendiumEntityPreview {
   final String entityType;
   final String entityId;
   final String name;
+  final String snippet;
+  final int inboundReferenceCount;
+  final int characterUsageCount;
+  final bool archived;
 
   const CompendiumEntityPreview({
     required this.rulesetId,
     required this.entityType,
     required this.entityId,
     required this.name,
+    this.snippet = '',
+    this.inboundReferenceCount = 0,
+    this.characterUsageCount = 0,
+    this.archived = false,
   });
 
   String get displayName => name.trim().isEmpty ? entityId : name.trim();
@@ -131,8 +141,9 @@ class CompendiumSearchQuery {
 
 class CompendiumSearchResult {
   final CompendiumEntityPreview preview;
+  final String snippet;
 
-  const CompendiumSearchResult({required this.preview});
+  const CompendiumSearchResult({required this.preview, this.snippet = ''});
 }
 
 class CompendiumEntityDetail {
@@ -144,5 +155,15 @@ class CompendiumEntityDetail {
     required this.rulesetId,
     required this.entity,
     required this.outgoingLinks,
+  });
+}
+
+class CompendiumEntityImpact {
+  final int inboundReferenceCount;
+  final int characterUsageCount;
+
+  const CompendiumEntityImpact({
+    required this.inboundReferenceCount,
+    required this.characterUsageCount,
   });
 }

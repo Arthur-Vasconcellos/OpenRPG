@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:openrpg/compendium/models/compendium_link.dart';
 
@@ -313,18 +312,20 @@ class CompendiumRichContentRenderer extends StatelessWidget {
       final token = value.substring(match.start, match.end);
       final candidate = CompendiumLinkParser.extractAll(token).first;
       spans.add(
-        TextSpan(
-          text: candidate.displayText,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w700,
+        WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              onPressed: onLinkTap == null ? null : () => onLinkTap!(candidate),
+              child: Text(candidate.displayText),
+            ),
           ),
-          recognizer: onLinkTap == null
-              ? null
-              : (TapGestureRecognizer()
-                  ..onTap = () {
-                    onLinkTap!(candidate);
-                  }),
         ),
       );
       lastEnd = match.end;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/compendium/data/compendium_browse_repository.dart';
 import 'package:openrpg/characters/data/character_editor_controller.dart';
 import 'package:openrpg/models/character.dart';
 import 'package:openrpg/screens/character_sheet/widget/character_compendium_picker.dart';
@@ -19,6 +20,18 @@ class SpellsTab extends StatelessWidget {
         (controller.resolvedBuild.hasSpellcasting ||
             spellcasting.preparedSpells.isNotEmpty ||
             spellcasting.knownSpells.isNotEmpty);
+    final unresolvedSpellCount = spellcasting == null
+        ? 0
+        : spellcasting.allSpells
+              .where(
+                (spell) =>
+                    spell.reference != null && !spell.reference!.isResolved,
+              )
+              .length;
+    final rulesetNames = {
+      for (final ruleset in controller.installedRulesets)
+        ruleset.id: ruleset.name,
+    };
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -39,6 +52,27 @@ class SpellsTab extends StatelessWidget {
                       ? 'Add known or prepared spells from installed rulesets, then preview them or drill into linked references.'
                       : 'This build does not currently resolve to a spellcasting profile, but you can still add spell references manually if you need them.',
                   style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 14),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    Chip(
+                      label: Text(
+                        '${spellcasting?.preparedSpells.length ?? 0} prepared',
+                      ),
+                    ),
+                    Chip(
+                      label: Text(
+                        '${spellcasting?.knownSpells.length ?? 0} known',
+                      ),
+                    ),
+                    if (unresolvedSpellCount > 0)
+                      Chip(
+                        label: Text('$unresolvedSpellCount unresolved refs'),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -82,38 +116,62 @@ class SpellsTab extends StatelessWidget {
                     runSpacing: 10,
                     children: [
                       if (spellcasting.spellcastingAbility != null)
-                        Chip(
-                          label: Text(
-                            'Ability: ${spellcasting.spellcastingAbility!.toUpperCase()}',
+                        Tooltip(
+                          message:
+                              'The resolved spellcasting ability for the current build.',
+                          child: Chip(
+                            label: Text(
+                              'Ability: ${spellcasting.spellcastingAbility!.toUpperCase()}',
+                            ),
                           ),
                         ),
-                      Chip(
-                        label: Text(
-                          'Spell Save DC: ${spellcasting.spellSaveDC}',
+                      Tooltip(
+                        message:
+                            'The current spell save DC after the resolved build and manual character stats are applied.',
+                        child: Chip(
+                          label: Text(
+                            'Spell Save DC: ${spellcasting.spellSaveDC}',
+                          ),
                         ),
                       ),
-                      Chip(
-                        label: Text(
-                          'Attack Bonus: +${spellcasting.spellAttackBonus}',
+                      Tooltip(
+                        message:
+                            'The current spell attack bonus after the resolved build and manual character stats are applied.',
+                        child: Chip(
+                          label: Text(
+                            'Attack Bonus: +${spellcasting.spellAttackBonus}',
+                          ),
                         ),
                       ),
                       if (controller.resolvedBuild.preparedSpellCapacity !=
                           null)
-                        Chip(
-                          label: Text(
-                            'Prepared Capacity: ${controller.resolvedBuild.preparedSpellCapacity}',
+                        Tooltip(
+                          message:
+                              'How many prepared spells the current compendium-backed build expects.',
+                          child: Chip(
+                            label: Text(
+                              'Prepared Capacity: ${controller.resolvedBuild.preparedSpellCapacity}',
+                            ),
                           ),
                         ),
                       if (controller.resolvedBuild.knownSpellCapacity != null)
-                        Chip(
-                          label: Text(
-                            'Known Capacity: ${controller.resolvedBuild.knownSpellCapacity}',
+                        Tooltip(
+                          message:
+                              'How many known spells the current compendium-backed build expects.',
+                          child: Chip(
+                            label: Text(
+                              'Known Capacity: ${controller.resolvedBuild.knownSpellCapacity}',
+                            ),
                           ),
                         ),
                       if (controller.resolvedBuild.cantripCapacity != null)
-                        Chip(
-                          label: Text(
-                            'Cantrips: ${controller.resolvedBuild.cantripCapacity}',
+                        Tooltip(
+                          message:
+                              'How many cantrips the current compendium-backed build expects.',
+                          child: Chip(
+                            label: Text(
+                              'Cantrips: ${controller.resolvedBuild.cantripCapacity}',
+                            ),
                           ),
                         ),
                     ],
@@ -130,6 +188,8 @@ class SpellsTab extends StatelessWidget {
           title: 'Prepared Spells',
           emptyLabel: 'No prepared spells yet.',
           spells: spellcasting?.preparedSpells ?? const <Spell>[],
+          browseRepository: controller.compendium.browseRepository,
+          rulesetNames: rulesetNames,
           onRemove: (spell) => controller.removeSpell(spell.id, prepared: true),
           onTogglePrepared: (spell, prepared) =>
               controller.togglePreparedSpell(spell, prepared),
@@ -139,6 +199,8 @@ class SpellsTab extends StatelessWidget {
           title: 'Known Spells',
           emptyLabel: 'No known spells yet.',
           spells: spellcasting?.knownSpells ?? const <Spell>[],
+          browseRepository: controller.compendium.browseRepository,
+          rulesetNames: rulesetNames,
           onRemove: (spell) =>
               controller.removeSpell(spell.id, prepared: false),
           onTogglePrepared: (spell, prepared) =>
@@ -170,6 +232,8 @@ class _SpellSection extends StatelessWidget {
   final String title;
   final String emptyLabel;
   final List<Spell> spells;
+  final CompendiumBrowseRepository browseRepository;
+  final Map<String, String> rulesetNames;
   final ValueChanged<Spell> onRemove;
   final Future<void> Function(Spell spell, bool prepared) onTogglePrepared;
 
@@ -177,6 +241,8 @@ class _SpellSection extends StatelessWidget {
     required this.title,
     required this.emptyLabel,
     required this.spells,
+    required this.browseRepository,
+    required this.rulesetNames,
     required this.onRemove,
     required this.onTogglePrepared,
   });
@@ -194,15 +260,31 @@ class _SpellSection extends StatelessWidget {
             if (spells.isEmpty)
               Text(emptyLabel, style: Theme.of(context).textTheme.bodyMedium)
             else
-              ...spells.map(
-                (spell) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: _SpellRow(
-                    spell: spell,
-                    onRemove: () => onRemove(spell),
-                    onTogglePrepared: (prepared) =>
-                        onTogglePrepared(spell, prepared),
-                  ),
+              ..._groupSpellsByLevel(spells).entries.map(
+                (group) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      group.key == 0 ? 'Cantrips' : 'Level ${group.key}',
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    const SizedBox(height: 10),
+                    ...group.value.map(
+                      (spell) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _SpellRow(
+                          spell: spell,
+                          browseRepository: browseRepository,
+                          rulesetLabel: spell.reference == null
+                              ? null
+                              : rulesetNames[spell.reference!.rulesetId],
+                          onRemove: () => onRemove(spell),
+                          onTogglePrepared: (prepared) =>
+                              onTogglePrepared(spell, prepared),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
           ],
@@ -214,11 +296,15 @@ class _SpellSection extends StatelessWidget {
 
 class _SpellRow extends StatelessWidget {
   final Spell spell;
+  final CompendiumBrowseRepository browseRepository;
+  final String? rulesetLabel;
   final VoidCallback onRemove;
   final Future<void> Function(bool prepared) onTogglePrepared;
 
   const _SpellRow({
     required this.spell,
+    required this.browseRepository,
+    required this.rulesetLabel,
     required this.onRemove,
     required this.onTogglePrepared,
   });
@@ -235,14 +321,74 @@ class _SpellRow extends StatelessWidget {
         leading: CircleAvatar(
           child: Text(spell.level == 0 ? 'C' : '${spell.level}'),
         ),
-        title: Text(spell.name),
-        subtitle: Text(
-          [
-            if (spell.school.trim().isNotEmpty) spell.school,
-            if (spell.isRitual) 'Ritual',
-            if (spell.isConcentration) 'Concentration',
-          ].join(' • '),
+        title: ref == null
+            ? Text(spell.name)
+            : CompendiumReferenceAnchor(
+                rulesetId: ref.rulesetId,
+                entityType: ref.entityType,
+                entityId: ref.entityId,
+                entityName: ref.displayName,
+                browseRepository: browseRepository,
+                onTap: () {
+                  showCompendiumEntityPreviewSurface(
+                    context,
+                    rulesetId: ref.rulesetId,
+                    entityType: ref.entityType,
+                    entityId: ref.entityId,
+                    browseRepository: browseRepository,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Text(spell.name),
+                ),
+              ),
+        subtitle: Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: [
+            if (rulesetLabel != null)
+              Chip(
+                label: Text(rulesetLabel!),
+                visualDensity: VisualDensity.compact,
+              ),
+            if (spell.school.trim().isNotEmpty)
+              Tooltip(
+                message: 'Spell school',
+                child: Chip(
+                  label: Text(spell.school),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            if (spell.isRitual)
+              Tooltip(
+                message: 'Can be cast as a ritual when allowed.',
+                child: const Chip(
+                  label: Text('Ritual'),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            if (spell.isConcentration)
+              Tooltip(
+                message: 'Requires concentration while active.',
+                child: const Chip(
+                  label: Text('Concentration'),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+          ],
         ),
+        onTap: ref == null
+            ? null
+            : () {
+                showCompendiumEntityPreviewSurface(
+                  context,
+                  rulesetId: ref.rulesetId,
+                  entityType: ref.entityType,
+                  entityId: ref.entityId,
+                  browseRepository: browseRepository,
+                );
+              },
         trailing: Wrap(
           spacing: 4,
           children: [
@@ -256,6 +402,7 @@ class _SpellRow extends StatelessWidget {
                     rulesetId: ref.rulesetId,
                     entityType: ref.entityType,
                     entityId: ref.entityId,
+                    browseRepository: browseRepository,
                   );
                 },
               ),
@@ -293,4 +440,20 @@ class _SpellRow extends StatelessWidget {
       ),
     );
   }
+}
+
+Map<int, List<Spell>> _groupSpellsByLevel(List<Spell> spells) {
+  final grouped = <int, List<Spell>>{};
+  final sorted = List<Spell>.from(spells)
+    ..sort((left, right) {
+      final levelOrder = left.level.compareTo(right.level);
+      if (levelOrder != 0) {
+        return levelOrder;
+      }
+      return left.name.compareTo(right.name);
+    });
+  for (final spell in sorted) {
+    grouped.putIfAbsent(spell.level, () => <Spell>[]).add(spell);
+  }
+  return grouped;
 }

@@ -160,10 +160,168 @@ void main() {
       expect(exported.containsKey('cardList'), isFalse);
     },
   );
+
+  test('import rejects rulesets without a usable id or name', () async {
+    final repository = CompendiumRepository(
+      database: database,
+      assetLoader: (_) async => '{}',
+    );
+
+    await expectLater(
+      repository.importRulesetJson(
+        jsonEncode({
+          'schemaVersion': '1.0.0',
+          'description': 'Missing identifiers.',
+          'spellList': const <Map<String, Object?>>[],
+        }),
+      ),
+      throwsA(
+        isA<FormatException>().having(
+          (error) => error.message,
+          'message',
+          contains('non-empty "name" or "id"'),
+        ),
+      ),
+    );
+  });
+
+  test('import rejects invalid mode values early', () async {
+    final repository = CompendiumRepository(
+      database: database,
+      assetLoader: (_) async => '{}',
+    );
+
+    await expectLater(
+      repository.importRulesetJson(
+        jsonEncode({
+          'schemaVersion': '1.0.0',
+          'name': 'Broken Mode',
+          'mode': 'mystery',
+          'spellList': const <Map<String, Object?>>[],
+        }),
+      ),
+      throwsA(
+        isA<FormatException>().having(
+          (error) => error.message,
+          'message',
+          contains('Ruleset "mode"'),
+        ),
+      ),
+    );
+  });
+
+  test(
+    'import reports malformed collection entries with collection context',
+    () async {
+      final repository = CompendiumRepository(
+        database: database,
+        assetLoader: (_) async => '{}',
+      );
+
+      await expectLater(
+        repository.importRulesetJson(
+          jsonEncode({
+            'schemaVersion': '1.0.0',
+            'name': 'Broken Spell List',
+            'spellList': const ['not an object'],
+          }),
+        ),
+        throwsA(
+          isA<FormatException>().having(
+            (error) => error.message,
+            'message',
+            contains('spellList'),
+          ),
+        ),
+      );
+    },
+  );
+
+  test('import rejects rulesets without an explicit schema version', () async {
+    final repository = CompendiumRepository(
+      database: database,
+      assetLoader: (_) async => '{}',
+    );
+
+    await expectLater(
+      repository.importRulesetJson(
+        jsonEncode({
+          'name': 'Schema-less Ruleset',
+          'spellList': const <Map<String, Object?>>[],
+        }),
+      ),
+      throwsA(
+        isA<FormatException>().having(
+          (error) => error.message,
+          'message',
+          contains('Unsupported ruleset schema version ""'),
+        ),
+      ),
+    );
+  });
+
+  test('import rejects unsupported schema versions', () async {
+    final repository = CompendiumRepository(
+      database: database,
+      assetLoader: (_) async => '{}',
+    );
+
+    await expectLater(
+      repository.importRulesetJson(
+        jsonEncode({
+          'schemaVersion': '0.9.0',
+          'name': 'Old Ruleset',
+          'spellList': const <Map<String, Object?>>[],
+        }),
+      ),
+      throwsA(
+        isA<FormatException>().having(
+          (error) => error.message,
+          'message',
+          contains('Unsupported ruleset schema version "0.9.0"'),
+        ),
+      ),
+    );
+  });
+
+  test(
+    'loadRuleset rejects imported records without current payload or index data',
+    () async {
+      final repository = CompendiumRepository(
+        database: database,
+        assetLoader: (_) async => '{}',
+      );
+
+      await database
+          .into(database.rulesetRecords)
+          .insert(
+            RulesetRecordsCompanion.insert(
+              rulesetId: 'orphan_ruleset',
+              name: 'Orphan Ruleset',
+              mode: 'imported',
+              schemaVersion: '1.0.0',
+              filePath: '${tempDirectory.path}\\orphan.ruleset.json',
+              payloadJson: const drift.Value('{}'),
+            ),
+          );
+
+      await expectLater(
+        repository.loadRuleset('orphan_ruleset'),
+        throwsA(
+          isA<StateError>().having(
+            (error) => error.message,
+            'message',
+            contains('could not be loaded'),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 String _rulesetJson() {
   return jsonEncode({
+    'schemaVersion': '1.0.0',
     'name': 'Private Bundle',
     'description': 'A private import used for device testing.',
     'author': 'OpenRPG',
@@ -188,6 +346,7 @@ String _rulesetJson() {
 
 String _duplicateCardRulesetJson() {
   return jsonEncode({
+    'schemaVersion': '1.0.0',
     'name': 'Duplicate Cards',
     'description': 'Two cards that would previously collapse to the same id.',
     'author': 'OpenRPG',

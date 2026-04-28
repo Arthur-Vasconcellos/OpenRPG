@@ -1,7 +1,5 @@
 import 'package:openrpg/compendium/models/compendium_entity.dart';
 
-import 'enums.dart';
-
 class CharacterEntityRef {
   final String entityType;
   final String entityId;
@@ -55,7 +53,7 @@ class CharacterEntityRef {
 }
 
 class Character {
-  static const String jsonSchemaVersion = '2.0.0';
+  static const String jsonSchemaVersion = '3.0.0';
 
   final String id;
   final String name;
@@ -64,9 +62,7 @@ class Character {
   final List<CharacterClassLevel> classes;
   final CharacterEntityRef? raceRef;
   final CharacterEntityRef? backgroundRef;
-  final Race _legacyRace;
-  final Background _legacyBackground;
-  final MoralAlignment moralAlignment;
+  final String alignment;
   final int experiencePoints;
   final int inspiration;
 
@@ -90,21 +86,12 @@ class Character {
 
   final PhysicalDescription physicalDescription;
   final Notes notes;
+  final Map<String, dynamic> extraData;
 
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  final EquippedCombatStats equippedCombatStats;
-
   int get totalLevel => classes.fold(0, (sum, cls) => sum + cls.level);
-  Race get race => _legacyRace;
-  Background get background => _legacyBackground;
-
-  CharacterClass get primaryClass =>
-      classes.isNotEmpty ? classes.first.characterClass : CharacterClass.custom;
-
-  Subclass get primarySubclass =>
-      classes.isNotEmpty ? classes.first.subclass : Subclass.none;
 
   bool get hasBuildSelections =>
       raceRef != null ||
@@ -120,11 +107,9 @@ class Character {
     this.playerName = '',
     this.primaryRulesetId = '',
     required this.classes,
-    CharacterEntityRef? raceRef,
-    Race race = Race.custom,
-    CharacterEntityRef? backgroundRef,
-    Background background = Background.custom,
-    required this.moralAlignment,
+    this.raceRef,
+    this.backgroundRef,
+    this.alignment = '',
     this.experiencePoints = 0,
     this.inspiration = 0,
     required this.abilityScores,
@@ -141,15 +126,10 @@ class Character {
     this.backgroundTraits = const [],
     required this.physicalDescription,
     required this.notes,
+    this.extraData = const <String, dynamic>{},
     DateTime? createdAt,
     DateTime? updatedAt,
-    required this.equippedCombatStats,
-  }) : raceRef = raceRef ?? _legacyRaceRef(race, primaryRulesetId),
-       backgroundRef =
-           backgroundRef ?? _legacyBackgroundRef(background, primaryRulesetId),
-       _legacyRace = _resolveLegacyRace(raceRef, race),
-       _legacyBackground = _resolveLegacyBackground(backgroundRef, background),
-       createdAt = createdAt ?? DateTime.now().toUtc(),
+  }) : createdAt = createdAt ?? DateTime.now().toUtc(),
        updatedAt = updatedAt ?? DateTime.now().toUtc();
 
   factory Character.createBlank({
@@ -159,43 +139,25 @@ class Character {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
-    final abilityScores = const AbilityScores(
-      strength: 10,
-      dexterity: 10,
-      constitution: 10,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 10,
-    );
     final now = (updatedAt ?? DateTime.now().toUtc()).toUtc();
     return Character(
       id: id,
       name: name,
       primaryRulesetId: primaryRulesetId,
       classes: const [],
-      moralAlignment: MoralAlignment.neutral,
-      abilityScores: abilityScores,
-      modifiers: const CalculatedModifiers(
-        strength: 0,
-        dexterity: 0,
-        constitution: 0,
-        intelligence: 0,
-        wisdom: 0,
-        charisma: 0,
-      ),
+      alignment: '',
+      abilityScores: const AbilityScores(values: <String, int>{}),
+      modifiers: const CalculatedModifiers(values: <String, int>{}),
       proficiencies: const ProficiencySet(
         proficiencyBonus: 2,
         skills: SkillProficiencies(proficiencies: {}),
-        savingThrows: SavingThrowProficiencies(),
+        savingThrows: SavingThrowProficiencies(proficientAbilityIds: {}),
       ),
       combatStats: const CombatStats(
         armorClass: 10,
         initiative: 0,
         speed: 30,
         proficiencyBonus: 2,
-        passivePerception: 10,
-        passiveInsight: 10,
-        passiveInvestigation: 10,
       ),
       health: Health(
         maxHitPoints: 1,
@@ -210,15 +172,6 @@ class Character {
       notes: const Notes(),
       createdAt: createdAt ?? now,
       updatedAt: now,
-      equippedCombatStats: const EquippedCombatStats(
-        equippedArmor: EquippedArmor(
-          armorType: 'cloth',
-          baseAC: 10,
-          manualBonus: 0,
-          usesDexterity: true,
-          maxDexBonus: 999,
-        ),
-      ),
     ).copyWithCalculatedValues();
   }
 
@@ -241,114 +194,73 @@ class Character {
   }
 
   factory Character.fromJson(Map<String, dynamic> json) {
+    final normalizedJson = _normalizeCharacterJson(json);
+    _assertSupportedCharacterJson(normalizedJson);
     final primaryRulesetId =
-        json['primaryRulesetId']?.toString() ??
-        _detectPrimaryRulesetIdFromLegacyPayload(json);
-    final parsedRaceRef =
-        _refFromDynamic(json['raceRef']) ??
-        _legacyRaceRef(
-          json['race'] == null
-              ? Race.custom
-              : EnumParser.race(json['race'] as String),
-          primaryRulesetId,
-        );
-    final parsedBackgroundRef =
-        _refFromDynamic(json['backgroundRef']) ??
-        _legacyBackgroundRef(
-          json['background'] == null
-              ? Background.custom
-              : EnumParser.background(json['background'] as String),
-          primaryRulesetId,
-        );
+        normalizedJson['primaryRulesetId']?.toString().trim() ?? '';
+    final parsedRaceRef = _refFromDynamic(normalizedJson['raceRef']);
+    final parsedBackgroundRef = _refFromDynamic(
+      normalizedJson['backgroundRef'],
+    );
 
     final List<CharacterClassLevel> classes;
-    if (json['classes'] is List) {
-      classes = (json['classes'] as List)
+    if (normalizedJson['classes'] is List) {
+      classes = (normalizedJson['classes'] as List)
           .whereType<Map>()
           .map(
-            (entry) => CharacterClassLevel.fromJson(
-              entry.cast<String, dynamic>(),
-              fallbackRulesetId: primaryRulesetId,
-            ),
+            (entry) =>
+                CharacterClassLevel.fromJson(entry.cast<String, dynamic>()),
           )
           .toList(growable: false);
-    } else if (json['characterClass'] != null) {
-      classes = [
-        CharacterClassLevel.fromJson(<String, dynamic>{
-          'characterClass': json['characterClass'],
-          'subclass': json['subclass'],
-          'level': json['level'],
-        }, fallbackRulesetId: primaryRulesetId),
-      ];
     } else {
       classes = const [];
     }
 
     return Character(
       id:
-          json['id']?.toString() ??
+          normalizedJson['id']?.toString() ??
           'character:${DateTime.now().microsecondsSinceEpoch}',
-      name: json['name']?.toString() ?? 'Unnamed Character',
-      playerName: json['playerName']?.toString() ?? '',
+      name: normalizedJson['name']?.toString() ?? 'Unnamed Character',
+      playerName: normalizedJson['playerName']?.toString() ?? '',
       primaryRulesetId: primaryRulesetId,
       classes: classes,
       raceRef: parsedRaceRef,
-      race: json['race'] == null
-          ? _resolveLegacyRace(parsedRaceRef, Race.custom)
-          : EnumParser.race(json['race'] as String),
       backgroundRef: parsedBackgroundRef,
-      background: json['background'] == null
-          ? _resolveLegacyBackground(parsedBackgroundRef, Background.custom)
-          : EnumParser.background(json['background'] as String),
-      moralAlignment: EnumParser.moralAlignment(
-        json['moralAlignment']?.toString() ?? MoralAlignment.neutral.value,
+      alignment: normalizedJson['alignment']?.toString() ?? '',
+      experiencePoints: _jsonInt(
+        normalizedJson['experiencePoints'],
+        defaultValue: 0,
       ),
-      experiencePoints: json['experiencePoints'] as int? ?? 0,
-      inspiration: json['inspiration'] as int? ?? 0,
+      inspiration: _jsonInt(normalizedJson['inspiration'], defaultValue: 0),
       abilityScores: AbilityScores.fromJson(
-        (json['abilityScores'] as Map?)?.cast<String, dynamic>() ??
-            const <String, dynamic>{
-              'strength': 10,
-              'dexterity': 10,
-              'constitution': 10,
-              'intelligence': 10,
-              'wisdom': 10,
-              'charisma': 10,
-            },
+        (normalizedJson['abilityScores'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{'values': <String, int>{}},
       ),
       modifiers: CalculatedModifiers.fromJson(
-        (json['modifiers'] as Map?)?.cast<String, dynamic>() ??
-            const <String, dynamic>{
-              'strength': 0,
-              'dexterity': 0,
-              'constitution': 0,
-              'intelligence': 0,
-              'wisdom': 0,
-              'charisma': 0,
-            },
+        (normalizedJson['modifiers'] as Map?)?.cast<String, dynamic>() ??
+            const <String, dynamic>{'values': <String, int>{}},
       ),
       proficiencies: ProficiencySet.fromJson(
-        (json['proficiencies'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['proficiencies'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{
               'proficiencyBonus': 2,
-              'skills': <String, dynamic>{},
-              'savingThrows': <String, dynamic>{},
+              'skills': <String, dynamic>{'proficiencies': <String, dynamic>{}},
+              'savingThrows': <String, dynamic>{
+                'proficientAbilityIds': <String>[],
+              },
             },
       ),
       combatStats: CombatStats.fromJson(
-        (json['combatStats'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['combatStats'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{
               'armorClass': 10,
               'initiative': 0,
               'speed': 30,
               'proficiencyBonus': 2,
-              'passivePerception': 10,
-              'passiveInsight': 10,
-              'passiveInvestigation': 10,
             },
       ),
       health: Health.fromJson(
-        (json['health'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['health'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{
               'maxHitPoints': 1,
               'currentHitPoints': 1,
@@ -357,55 +269,53 @@ class Character {
             },
       ),
       equipment: Equipment.fromJson(
-        (json['equipment'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['equipment'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{},
       ),
       wealth: Wealth.fromJson(
-        (json['wealth'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['wealth'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{},
       ),
-      spellcasting: json['spellcasting'] is Map<String, dynamic>
+      spellcasting: normalizedJson['spellcasting'] is Map<String, dynamic>
           ? SpellcastingInfo.fromJson(
-              json['spellcasting'] as Map<String, dynamic>,
+              normalizedJson['spellcasting'] as Map<String, dynamic>,
             )
-          : json['spellcasting'] is Map
+          : normalizedJson['spellcasting'] is Map
           ? SpellcastingInfo.fromJson(
-              (json['spellcasting'] as Map).cast<String, dynamic>(),
+              (normalizedJson['spellcasting'] as Map).cast<String, dynamic>(),
             )
           : null,
       traits: Traits.fromJson(
-        (json['traits'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['traits'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{},
       ),
-      features: _featureListFromDynamic(json['features']),
-      racialTraits: _featureListFromDynamic(json['racialTraits']),
-      backgroundTraits: _featureListFromDynamic(json['backgroundTraits']),
+      features: _featureListFromDynamic(normalizedJson['features']),
+      racialTraits: _featureListFromDynamic(normalizedJson['racialTraits']),
+      backgroundTraits: _featureListFromDynamic(
+        normalizedJson['backgroundTraits'],
+      ),
       physicalDescription: PhysicalDescription.fromJson(
-        (json['physicalDescription'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['physicalDescription'] as Map?)
+                ?.cast<String, dynamic>() ??
             const <String, dynamic>{},
       ),
       notes: Notes.fromJson(
-        (json['notes'] as Map?)?.cast<String, dynamic>() ??
+        (normalizedJson['notes'] as Map?)?.cast<String, dynamic>() ??
             const <String, dynamic>{},
       ),
-      createdAt: json['createdAt'] == null
-          ? DateTime.now().toUtc()
-          : DateTime.parse(json['createdAt'] as String).toUtc(),
-      updatedAt: json['updatedAt'] == null
-          ? DateTime.now().toUtc()
-          : DateTime.parse(json['updatedAt'] as String).toUtc(),
-      equippedCombatStats: EquippedCombatStats.fromJson(
-        (json['equippedCombatStats'] as Map?)?.cast<String, dynamic>() ??
-            const <String, dynamic>{
-              'equippedArmor': <String, dynamic>{
-                'armorType': 'cloth',
-                'baseAC': 10,
-                'manualBonus': 0,
-                'usesDexterity': true,
-                'maxDexBonus': 999,
-              },
-            },
-      ),
+      extraData: _jsonMap(normalizedJson['extraData']),
+      createdAt:
+          _dateTimeFromDynamic(
+            normalizedJson['createdAt'],
+            field: 'createdAt',
+          ) ??
+          DateTime.now().toUtc(),
+      updatedAt:
+          _dateTimeFromDynamic(
+            normalizedJson['updatedAt'],
+            field: 'updatedAt',
+          ) ??
+          DateTime.now().toUtc(),
     ).copyWithCalculatedValues();
   }
 
@@ -414,7 +324,6 @@ class Character {
     Health? health,
     Equipment? equipment,
     ProficiencySet? proficiencies,
-    EquippedCombatStats? equippedCombatStats,
   }) {
     return Character(
       id: id,
@@ -423,10 +332,8 @@ class Character {
       primaryRulesetId: primaryRulesetId,
       classes: classes,
       raceRef: raceRef,
-      race: race,
       backgroundRef: backgroundRef,
-      background: background,
-      moralAlignment: moralAlignment,
+      alignment: alignment,
       experiencePoints: experiencePoints,
       inspiration: inspiration,
       abilityScores: abilityScores,
@@ -443,9 +350,9 @@ class Character {
       backgroundTraits: backgroundTraits,
       physicalDescription: physicalDescription,
       notes: notes,
+      extraData: CompendiumJsonUtils.deepCopyMap(extraData),
       createdAt: createdAt,
       updatedAt: DateTime.now().toUtc(),
-      equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats,
     );
   }
 
@@ -459,7 +366,7 @@ class Character {
       'classes': classes.map((e) => e.toJson()).toList(growable: false),
       if (raceRef != null) 'raceRef': raceRef!.toJson(),
       if (backgroundRef != null) 'backgroundRef': backgroundRef!.toJson(),
-      'moralAlignment': moralAlignment.value,
+      if (alignment.trim().isNotEmpty) 'alignment': alignment.trim(),
       'experiencePoints': experiencePoints,
       'inspiration': inspiration,
       'abilityScores': abilityScores.toJson(),
@@ -471,18 +378,21 @@ class Character {
       'wealth': wealth.toJson(),
       if (spellcasting != null) 'spellcasting': spellcasting!.toJson(),
       'traits': traits.toJson(),
-      'features': features.map((e) => e.toJson()).toList(growable: false),
+      'features': features
+          .map((entry) => entry.toJson())
+          .toList(growable: false),
       'racialTraits': racialTraits
-          .map((e) => e.toJson())
+          .map((entry) => entry.toJson())
           .toList(growable: false),
       'backgroundTraits': backgroundTraits
-          .map((e) => e.toJson())
+          .map((entry) => entry.toJson())
           .toList(growable: false),
       'physicalDescription': physicalDescription.toJson(),
       'notes': notes.toJson(),
+      if (extraData.isNotEmpty)
+        'extraData': CompendiumJsonUtils.deepCopyMap(extraData),
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
-      'equippedCombatStats': equippedCombatStats.toJson(),
     };
   }
 
@@ -494,11 +404,9 @@ class Character {
     List<CharacterClassLevel>? classes,
     CharacterEntityRef? raceRef,
     bool clearRaceRef = false,
-    Race? race,
     CharacterEntityRef? backgroundRef,
     bool clearBackgroundRef = false,
-    Background? background,
-    MoralAlignment? moralAlignment,
+    String? alignment,
     int? experiencePoints,
     int? inspiration,
     AbilityScores? abilityScores,
@@ -516,7 +424,7 @@ class Character {
     List<Feature>? backgroundTraits,
     PhysicalDescription? physicalDescription,
     Notes? notes,
-    EquippedCombatStats? equippedCombatStats,
+    Map<String, dynamic>? extraData,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -527,12 +435,10 @@ class Character {
       primaryRulesetId: primaryRulesetId ?? this.primaryRulesetId,
       classes: classes ?? List.from(this.classes),
       raceRef: clearRaceRef ? null : raceRef ?? this.raceRef,
-      race: race ?? this.race,
       backgroundRef: clearBackgroundRef
           ? null
           : backgroundRef ?? this.backgroundRef,
-      background: background ?? this.background,
-      moralAlignment: moralAlignment ?? this.moralAlignment,
+      alignment: alignment ?? this.alignment,
       experiencePoints: experiencePoints ?? this.experiencePoints,
       inspiration: inspiration ?? this.inspiration,
       abilityScores: abilityScores ?? this.abilityScores,
@@ -551,9 +457,9 @@ class Character {
       backgroundTraits: backgroundTraits ?? List.from(this.backgroundTraits),
       physicalDescription: physicalDescription ?? this.physicalDescription,
       notes: notes ?? this.notes,
+      extraData: extraData ?? CompendiumJsonUtils.deepCopyMap(this.extraData),
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? DateTime.now().toUtc(),
-      equippedCombatStats: equippedCombatStats ?? this.equippedCombatStats,
     ).copyWithCalculatedValues();
   }
 
@@ -563,28 +469,7 @@ class Character {
     final proficiencyBonus = _calculateProficiencyBonus(totalLevel);
     final updatedCombatStats = combatStats.copyWith(
       proficiencyBonus: proficiencyBonus,
-      initiative: calculatedModifiers.dexterity,
-      passivePerception:
-          10 +
-          proficiencies.skills.getModifier(
-            Skill.perception,
-            calculatedModifiers,
-            proficiencyBonus,
-          ),
-      passiveInsight:
-          10 +
-          proficiencies.skills.getModifier(
-            Skill.insight,
-            calculatedModifiers,
-            proficiencyBonus,
-          ),
-      passiveInvestigation:
-          10 +
-          proficiencies.skills.getModifier(
-            Skill.investigation,
-            calculatedModifiers,
-            proficiencyBonus,
-          ),
+      initiative: calculatedModifiers.modifierFor('dex'),
     );
 
     return Character(
@@ -594,10 +479,8 @@ class Character {
       primaryRulesetId: primaryRulesetId,
       classes: classes,
       raceRef: raceRef,
-      race: race,
       backgroundRef: backgroundRef,
-      background: background,
-      moralAlignment: moralAlignment,
+      alignment: alignment,
       experiencePoints: experiencePoints,
       inspiration: inspiration,
       abilityScores: abilityScores,
@@ -628,21 +511,27 @@ class Character {
       backgroundTraits: backgroundTraits,
       physicalDescription: physicalDescription,
       notes: notes,
+      extraData: CompendiumJsonUtils.deepCopyMap(extraData),
       createdAt: createdAt,
       updatedAt: updatedAt,
-      equippedCombatStats: equippedCombatStats,
+    );
+  }
+
+  Character ensureSheetFields({
+    required Iterable<String> abilityIds,
+    required Iterable<String> skillIds,
+  }) {
+    return copyWith(
+      abilityScores: abilityScores.ensureAbilityIds(abilityIds),
+      proficiencies: proficiencies.copyWith(
+        skills: proficiencies.skills.onlyFor(skillIds),
+        savingThrows: proficiencies.savingThrows.onlyFor(abilityIds),
+      ),
     );
   }
 
   CalculatedModifiers _calculateModifiers(AbilityScores scores) {
-    return CalculatedModifiers(
-      strength: ((scores.strength - 10) / 2).floor(),
-      dexterity: ((scores.dexterity - 10) / 2).floor(),
-      constitution: ((scores.constitution - 10) / 2).floor(),
-      intelligence: ((scores.intelligence - 10) / 2).floor(),
-      wisdom: ((scores.wisdom - 10) / 2).floor(),
-      charisma: ((scores.charisma - 10) / 2).floor(),
-    );
+    return CalculatedModifiers.fromAbilityScores(scores);
   }
 
   int _calculateProficiencyBonus(int level) {
@@ -656,57 +545,20 @@ class Character {
 class CharacterClassLevel {
   final CharacterEntityRef? classRef;
   final CharacterEntityRef? subclassRef;
-  final CharacterClass _legacyCharacterClass;
-  final Subclass _legacySubclass;
   final int level;
 
-  CharacterClass get characterClass => _legacyCharacterClass;
-  Subclass get subclass => _legacySubclass;
-  String get className => classRef?.displayName ?? characterClass.displayName;
-  String? get subclassName =>
-      subclassRef?.displayName ??
-      (subclass == Subclass.none ? null : subclass.displayName);
+  String get className => classRef?.displayName ?? 'Unassigned class';
+  String? get subclassName => subclassRef?.displayName;
 
-  CharacterClassLevel({
-    this.classRef,
-    this.subclassRef,
-    CharacterClass? characterClass,
-    Subclass? subclass,
-    required this.level,
-    String rulesetId = '',
-  }) : _legacyCharacterClass = _resolveLegacyCharacterClass(
-         classRef,
-         characterClass ?? CharacterClass.custom,
-       ),
-       _legacySubclass = _resolveLegacySubclass(
-         subclassRef,
-         subclass ?? Subclass.none,
-       );
+  CharacterClassLevel({this.classRef, this.subclassRef, required this.level});
 
-  factory CharacterClassLevel.fromJson(
-    Map<String, dynamic> json, {
-    String fallbackRulesetId = '',
-  }) {
-    final parsedClassRef =
-        _refFromDynamic(json['classRef']) ??
-        _legacyClassRef(
-          json['characterClass'] == null
-              ? CharacterClass.custom
-              : EnumParser.characterClass(json['characterClass'] as String),
-          fallbackRulesetId,
-        );
+  factory CharacterClassLevel.fromJson(Map<String, dynamic> json) {
+    final parsedClassRef = _refFromDynamic(json['classRef']);
     final parsedSubclassRef = _refFromDynamic(json['subclassRef']);
     return CharacterClassLevel(
       classRef: parsedClassRef,
       subclassRef: parsedSubclassRef,
-      characterClass: json['characterClass'] == null
-          ? _resolveLegacyCharacterClass(parsedClassRef, CharacterClass.custom)
-          : EnumParser.characterClass(json['characterClass'] as String),
-      subclass: json['subclass'] == null
-          ? _resolveLegacySubclass(parsedSubclassRef, Subclass.none)
-          : EnumParser.subclass(json['subclass'] as String),
-      level: json['level'] as int? ?? 1,
-      rulesetId: fallbackRulesetId,
+      level: _jsonInt(json['level'], defaultValue: 1, field: 'classes.level'),
     );
   }
 
@@ -723,18 +575,12 @@ class CharacterClassLevel {
     bool clearClassRef = false,
     CharacterEntityRef? subclassRef,
     bool clearSubclassRef = false,
-    CharacterClass? characterClass,
-    Subclass? subclass,
     int? level,
-    String rulesetId = '',
   }) {
     return CharacterClassLevel(
       classRef: clearClassRef ? null : classRef ?? this.classRef,
       subclassRef: clearSubclassRef ? null : subclassRef ?? this.subclassRef,
-      characterClass: characterClass ?? this.characterClass,
-      subclass: subclass ?? this.subclass,
       level: level ?? this.level,
-      rulesetId: rulesetId,
     );
   }
 }
@@ -762,283 +608,302 @@ List<Feature> _featureListFromDynamic(dynamic value) {
       .toList(growable: false);
 }
 
-String _detectPrimaryRulesetIdFromLegacyPayload(Map<String, dynamic> json) {
-  final classes = json['classes'];
-  if (classes is List) {
-    for (final entry in classes.whereType<Map>()) {
-      final classRef = _refFromDynamic(entry['classRef']);
-      if (classRef != null && classRef.rulesetId.trim().isNotEmpty) {
-        return classRef.rulesetId;
-      }
-    }
-  }
+const Set<String> _removedCharacterPayloadKeys = <String>{
+  'race',
+  'background',
+  'characterClass',
+  'subclass',
+  'level',
+  'equippedCombatStats',
+  'inventory',
+  'weapons',
+  'armor',
+};
 
-  for (final key in ['raceRef', 'backgroundRef']) {
-    final ref = _refFromDynamic(json[key]);
-    if (ref != null && ref.rulesetId.trim().isNotEmpty) {
-      return ref.rulesetId;
-    }
+Map<String, dynamic> _normalizeCharacterJson(Map<String, dynamic> json) {
+  final normalized = CompendiumJsonUtils.jsonMap(json);
+  final extraData = _jsonMap(normalized['extraData']);
+  if (extraData.isEmpty) {
+    normalized.remove('extraData');
+  } else {
+    normalized['extraData'] = extraData;
   }
-
-  return '';
+  return normalized;
 }
 
-CharacterEntityRef? _legacyRaceRef(Race race, String rulesetId) {
-  if (race == Race.custom) {
+Map<String, dynamic> _jsonMap(dynamic value) {
+  return CompendiumJsonUtils.jsonMap(value);
+}
+
+List<Map<String, dynamic>> _jsonListOfMaps(dynamic value) {
+  return CompendiumJsonUtils.listOfMaps(value);
+}
+
+int _jsonInt(dynamic value, {required int defaultValue, String? field}) {
+  if (value == null) {
+    return defaultValue;
+  }
+  if (value is int) {
+    return value;
+  }
+  if (value is num) {
+    return value.toInt();
+  }
+  throw FormatException('Invalid integer for ${field ?? 'value'}: $value');
+}
+
+double _jsonDouble(
+  dynamic value, {
+  required double defaultValue,
+  String? field,
+}) {
+  if (value == null) {
+    return defaultValue;
+  }
+  if (value is double) {
+    return value;
+  }
+  if (value is num) {
+    return value.toDouble();
+  }
+  throw FormatException('Invalid number for ${field ?? 'value'}: $value');
+}
+
+bool _jsonBool(dynamic value, {required bool defaultValue, String? field}) {
+  if (value == null) {
+    return defaultValue;
+  }
+  if (value is bool) {
+    return value;
+  }
+  throw FormatException('Invalid boolean for ${field ?? 'value'}: $value');
+}
+
+List<String> _stringListFromDynamic(dynamic value) {
+  if (value is! List) {
+    return const <String>[];
+  }
+
+  return value
+      .map((entry) => entry?.toString().trim() ?? '')
+      .where((entry) => entry.isNotEmpty)
+      .toList(growable: false);
+}
+
+DateTime? _dateTimeFromDynamic(dynamic value, {String? field}) {
+  if (value == null) {
     return null;
   }
-
-  final name = race.displayName;
-  return CharacterEntityRef(
-    entityType: 'race',
-    entityId: CompendiumJsonUtils.stableEntityId(
-      entityType: 'race',
-      payload: <String, dynamic>{
-        'name': name,
-        'data': <String, dynamic>{'name': name},
-      },
-    ),
-    rulesetId: rulesetId,
-    name: name,
-  );
-}
-
-CharacterEntityRef? _legacyBackgroundRef(
-  Background background,
-  String rulesetId,
-) {
-  if (background == Background.custom) {
-    return null;
+  if (value is DateTime) {
+    return value.toUtc();
   }
 
-  final name = background.displayName;
-  return CharacterEntityRef(
-    entityType: 'background',
-    entityId: CompendiumJsonUtils.stableEntityId(
-      entityType: 'background',
-      payload: <String, dynamic>{
-        'name': name,
-        'data': <String, dynamic>{'name': name},
-      },
-    ),
-    rulesetId: rulesetId,
-    name: name,
-  );
-}
-
-CharacterEntityRef? _legacyClassRef(
-  CharacterClass characterClass,
-  String rulesetId,
-) {
-  if (characterClass == CharacterClass.custom) {
-    return null;
+  final parsed = DateTime.tryParse(value.toString());
+  if (parsed != null) {
+    return parsed.toUtc();
   }
 
-  final name = characterClass.displayName;
-  return CharacterEntityRef(
-    entityType: 'class',
-    entityId: CompendiumJsonUtils.stableEntityId(
-      entityType: 'class',
-      payload: <String, dynamic>{
-        'name': name,
-        'data': <String, dynamic>{'name': name},
-      },
-    ),
-    rulesetId: rulesetId,
-    name: name,
-  );
+  throw FormatException('Invalid date for ${field ?? 'value'}: $value');
 }
 
-Race _resolveLegacyRace(CharacterEntityRef? ref, Race fallback) {
-  final matched = _matchEnumByName<Race>(
-    Race.values,
-    ref?.displayName ?? '',
-    (value) => value.displayName,
-    (value) => value.value,
-  );
-  return matched ?? fallback;
-}
-
-Background _resolveLegacyBackground(
-  CharacterEntityRef? ref,
-  Background fallback,
-) {
-  final matched = _matchEnumByName<Background>(
-    Background.values,
-    ref?.displayName ?? '',
-    (value) => value.displayName,
-    (value) => value.value,
-  );
-  return matched ?? fallback;
-}
-
-CharacterClass _resolveLegacyCharacterClass(
-  CharacterEntityRef? ref,
-  CharacterClass fallback,
-) {
-  final matched = _matchEnumByName<CharacterClass>(
-    CharacterClass.values,
-    ref?.displayName ?? '',
-    (value) => value.displayName,
-    (value) => value.value,
-  );
-  return matched ?? fallback;
-}
-
-Subclass _resolveLegacySubclass(CharacterEntityRef? ref, Subclass fallback) {
-  final matched = _matchEnumByName<Subclass>(
-    Subclass.values,
-    ref?.displayName ?? '',
-    (value) => value.displayName,
-    (value) => value.value,
-  );
-  return matched ?? fallback;
-}
-
-T? _matchEnumByName<T>(
-  List<T> values,
-  String raw,
-  String Function(T value) displayName,
-  String Function(T value) rawValue,
-) {
-  final normalized = _normalizeLookupValue(raw);
-  if (normalized.isEmpty) {
-    return null;
+void _assertSupportedCharacterJson(Map<String, dynamic> json) {
+  final rawSchemaVersion = json['schemaVersion']?.toString().trim() ?? '';
+  final hasRemovedKeys = _removedCharacterPayloadKeys.any(json.containsKey);
+  if (hasRemovedKeys) {
+    throw StateError(
+      'This character file uses a removed character schema and can no longer be loaded.',
+    );
   }
-
-  for (final value in values) {
-    final display = _normalizeLookupValue(displayName(value));
-    final canonical = _normalizeLookupValue(rawValue(value));
-    if (display == normalized || canonical == normalized) {
-      return value;
-    }
+  if (rawSchemaVersion != Character.jsonSchemaVersion) {
+    throw StateError(
+      'Unsupported character schema version "$rawSchemaVersion".',
+    );
   }
-  return null;
 }
 
-String _normalizeLookupValue(String value) {
-  return CompendiumJsonUtils.slugify(
-    value
-        .replaceAll('&', 'and')
-        .replaceAll("'", '')
-        .replaceAll('-', ' ')
-        .replaceAll('/', ' '),
-  );
+const Set<String> _canonicalAbilityIds = <String>{
+  'str',
+  'dex',
+  'con',
+  'int',
+  'wis',
+  'cha',
+};
+
+String canonicalAbilityId(String? value) {
+  final normalized = value?.trim().toLowerCase() ?? '';
+  return _canonicalAbilityIds.contains(normalized) ? normalized : '';
+}
+
+String _normalizeLookupId(String? value) {
+  return value?.trim().toLowerCase() ?? '';
 }
 
 class AbilityScores {
-  final int strength;
-  final int dexterity;
-  final int constitution;
-  final int intelligence;
-  final int wisdom;
-  final int charisma;
+  final Map<String, int> values;
 
-  const AbilityScores({
-    required this.strength,
-    required this.dexterity,
-    required this.constitution,
-    required this.intelligence,
-    required this.wisdom,
-    required this.charisma,
-  });
+  const AbilityScores({required this.values});
 
   factory AbilityScores.fromJson(Map<String, dynamic> json) {
-    return AbilityScores(
-      strength: json['strength'] as int,
-      dexterity: json['dexterity'] as int,
-      constitution: json['constitution'] as int,
-      intelligence: json['intelligence'] as int,
-      wisdom: json['wisdom'] as int,
-      charisma: json['charisma'] as int,
-    );
+    if (json.isEmpty) {
+      return const AbilityScores(values: <String, int>{});
+    }
+    final rawValues = json['values'];
+    if (rawValues is! Map) {
+      throw StateError(
+        'Current character schema requires abilityScores.values to be a map.',
+      );
+    }
+    final source = rawValues.cast<String, dynamic>();
+    final values = <String, int>{};
+    for (final entry in source.entries) {
+      final abilityId = canonicalAbilityId(entry.key);
+      if (abilityId.isEmpty) {
+        continue;
+      }
+      values[abilityId] = _jsonInt(
+        entry.value,
+        defaultValue: 10,
+        field: 'abilityScores.values.$abilityId',
+      );
+    }
+    return AbilityScores(values: values);
+  }
+
+  List<String> get ids => values.keys.toList(growable: false);
+
+  int scoreFor(String abilityId, {int defaultValue = 10}) {
+    return values[canonicalAbilityId(abilityId)] ?? defaultValue;
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'strength': strength,
-      'dexterity': dexterity,
-      'constitution': constitution,
-      'intelligence': intelligence,
-      'wisdom': wisdom,
-      'charisma': charisma,
-    };
+    return {'values': Map<String, int>.from(values)};
   }
 
-  AbilityScores copyWith({
-    int? strength,
-    int? dexterity,
-    int? constitution,
-    int? intelligence,
-    int? wisdom,
-    int? charisma,
-  }) {
-    return AbilityScores(
-      strength: strength ?? this.strength,
-      dexterity: dexterity ?? this.dexterity,
-      constitution: constitution ?? this.constitution,
-      intelligence: intelligence ?? this.intelligence,
-      wisdom: wisdom ?? this.wisdom,
-      charisma: charisma ?? this.charisma,
-    );
+  AbilityScores copyWith({Map<String, int>? values}) {
+    return AbilityScores(values: values ?? Map<String, int>.from(this.values));
+  }
+
+  AbilityScores copyWithValue(String abilityId, int score) {
+    final normalizedAbilityId = canonicalAbilityId(abilityId);
+    final next = Map<String, int>.from(values);
+    next[normalizedAbilityId] = score;
+    return AbilityScores(values: next);
+  }
+
+  AbilityScores ensureAbilityIds(Iterable<String> abilityIds) {
+    final allowed = {
+      for (final abilityId in abilityIds)
+        if (canonicalAbilityId(abilityId).isNotEmpty)
+          canonicalAbilityId(abilityId),
+    };
+    final next = <String, int>{};
+    for (final abilityId in allowed) {
+      next[abilityId] = values[abilityId] ?? 10;
+    }
+    return AbilityScores(values: next);
   }
 }
 
 class CalculatedModifiers {
-  final int strength;
-  final int dexterity;
-  final int constitution;
-  final int intelligence;
-  final int wisdom;
-  final int charisma;
+  final Map<String, int> values;
 
-  const CalculatedModifiers({
-    required this.strength,
-    required this.dexterity,
-    required this.constitution,
-    required this.intelligence,
-    required this.wisdom,
-    required this.charisma,
-  });
+  const CalculatedModifiers({required this.values});
+
+  factory CalculatedModifiers.fromAbilityScores(AbilityScores scores) {
+    final values = <String, int>{};
+    for (final entry in scores.values.entries) {
+      values[entry.key] = ((entry.value - 10) / 2).floor();
+    }
+    return CalculatedModifiers(values: values);
+  }
 
   factory CalculatedModifiers.fromJson(Map<String, dynamic> json) {
-    return CalculatedModifiers(
-      strength: json['strength'] as int,
-      dexterity: json['dexterity'] as int,
-      constitution: json['constitution'] as int,
-      intelligence: json['intelligence'] as int,
-      wisdom: json['wisdom'] as int,
-      charisma: json['charisma'] as int,
-    );
+    if (json.isEmpty) {
+      return const CalculatedModifiers(values: <String, int>{});
+    }
+    final rawValues = json['values'];
+    if (rawValues is! Map) {
+      throw StateError(
+        'Current character schema requires modifiers.values to be a map.',
+      );
+    }
+    final source = rawValues.cast<String, dynamic>();
+    final values = <String, int>{};
+    for (final entry in source.entries) {
+      final abilityId = canonicalAbilityId(entry.key);
+      if (abilityId.isEmpty) {
+        continue;
+      }
+      values[abilityId] = _jsonInt(
+        entry.value,
+        defaultValue: 0,
+        field: 'modifiers.values.$abilityId',
+      );
+    }
+    return CalculatedModifiers(values: values);
+  }
+
+  int modifierFor(String abilityId) {
+    return values[canonicalAbilityId(abilityId)] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'strength': strength,
-      'dexterity': dexterity,
-      'constitution': constitution,
-      'intelligence': intelligence,
-      'wisdom': wisdom,
-      'charisma': charisma,
+    return {'values': Map<String, int>.from(values)};
+  }
+
+  CalculatedModifiers copyWith({Map<String, int>? values}) {
+    return CalculatedModifiers(
+      values: values ?? Map<String, int>.from(this.values),
+    );
+  }
+}
+
+abstract final class SkillTrainingLevel {
+  static const String none = 'none';
+  static const String proficient = 'proficient';
+  static const String expertise = 'expertise';
+  static const String half = 'half';
+
+  static const Set<String> supported = <String>{
+    none,
+    proficient,
+    expertise,
+    half,
+  };
+
+  static String normalize(String value) {
+    final normalized = value.trim().toLowerCase();
+    return supported.contains(normalized) ? normalized : none;
+  }
+
+  static String parse(String value, {required String field}) {
+    final normalized = value.trim().toLowerCase();
+    if (supported.contains(normalized)) {
+      return normalized;
+    }
+    throw StateError(
+      'Unsupported skill training "$value" for "$field". '
+      'Expected one of: ${supported.join(', ')}.',
+    );
+  }
+
+  static int bonus(String level, int proficiencyBonus) {
+    return switch (normalize(level)) {
+      proficient => proficiencyBonus,
+      expertise => proficiencyBonus * 2,
+      half => proficiencyBonus ~/ 2,
+      _ => 0,
     };
   }
 
-  CalculatedModifiers copyWith({
-    int? strength,
-    int? dexterity,
-    int? constitution,
-    int? intelligence,
-    int? wisdom,
-    int? charisma,
-  }) {
-    return CalculatedModifiers(
-      strength: strength ?? this.strength,
-      dexterity: dexterity ?? this.dexterity,
-      constitution: constitution ?? this.constitution,
-      intelligence: intelligence ?? this.intelligence,
-      wisdom: wisdom ?? this.wisdom,
-      charisma: charisma ?? this.charisma,
-    );
+  static String shortLabel(String level) {
+    return switch (normalize(level)) {
+      proficient => 'Prof.',
+      expertise => 'Expert',
+      half => 'Half',
+      _ => 'None',
+    };
   }
 }
 
@@ -1065,22 +930,20 @@ class ProficiencySet {
 
   factory ProficiencySet.fromJson(Map<String, dynamic> json) {
     return ProficiencySet(
-      proficiencyBonus: json['proficiencyBonus'] as int,
-      skills: SkillProficiencies.fromJson(
-        json['skills'] as Map<String, dynamic>,
+      proficiencyBonus: _jsonInt(
+        json['proficiencyBonus'],
+        defaultValue: 2,
+        field: 'proficiencies.proficiencyBonus',
       ),
+      skills: SkillProficiencies.fromJson(_jsonMap(json['skills'])),
       savingThrows: SavingThrowProficiencies.fromJson(
-        json['savingThrows'] as Map<String, dynamic>,
+        _jsonMap(json['savingThrows']),
       ),
-      languages: json['languages'] != null
-          ? List<String>.from(json['languages'])
-          : [],
-      tools: json['tools'] != null ? List<String>.from(json['tools']) : [],
-      weapons: json['weapons'] != null
-          ? List<String>.from(json['weapons'])
-          : [],
-      armor: json['armor'] != null ? List<String>.from(json['armor']) : [],
-      other: json['other'] != null ? List<String>.from(json['other']) : [],
+      languages: _stringListFromDynamic(json['languages']),
+      tools: _stringListFromDynamic(json['tools']),
+      weapons: _stringListFromDynamic(json['weapons']),
+      armor: _stringListFromDynamic(json['armor']),
+      other: _stringListFromDynamic(json['other']),
     );
   }
 
@@ -1121,68 +984,48 @@ class ProficiencySet {
 }
 
 class SkillProficiencies {
-  final Map<Skill, ProficiencyLevel> proficiencies;
+  final Map<String, String> proficiencies;
 
   const SkillProficiencies({required this.proficiencies});
 
   int getModifier(
-    Skill skill,
-    CalculatedModifiers modifiers,
-    int proficiencyBonus,
-  ) {
-    final abilityModifier = _getAbilityModifierForSkill(skill, modifiers);
-    final proficiency = proficiencies[skill] ?? ProficiencyLevel.none;
-
-    switch (proficiency) {
-      case ProficiencyLevel.none:
-        return abilityModifier;
-      case ProficiencyLevel.proficient:
-        return abilityModifier + proficiencyBonus;
-      case ProficiencyLevel.expert:
-        return abilityModifier + (proficiencyBonus * 2);
-      case ProficiencyLevel.jackOfAllTrades:
-        return abilityModifier + (proficiencyBonus ~/ 2);
-    }
+    String skillId, {
+    required String abilityId,
+    required CalculatedModifiers modifiers,
+    int proficiencyBonus = 0,
+  }) {
+    return modifiers.modifierFor(abilityId) +
+        SkillTrainingLevel.bonus(proficiencyFor(skillId), proficiencyBonus);
   }
 
-  int _getAbilityModifierForSkill(Skill skill, CalculatedModifiers modifiers) {
-    switch (skill) {
-      case Skill.acrobatics:
-      case Skill.sleightOfHand:
-      case Skill.stealth:
-        return modifiers.dexterity;
-      case Skill.animalHandling:
-      case Skill.insight:
-      case Skill.medicine:
-      case Skill.perception:
-      case Skill.survival:
-        return modifiers.wisdom;
-      case Skill.arcana:
-      case Skill.history:
-      case Skill.investigation:
-      case Skill.nature:
-      case Skill.religion:
-        return modifiers.intelligence;
-      case Skill.deception:
-      case Skill.intimidation:
-      case Skill.performance:
-      case Skill.persuasion:
-        return modifiers.charisma;
-      case Skill.athletics:
-        return modifiers.strength;
-    }
+  String proficiencyFor(String skillId) {
+    return SkillTrainingLevel.normalize(
+      proficiencies[_normalizeLookupId(skillId)] ?? SkillTrainingLevel.none,
+    );
   }
 
   factory SkillProficiencies.fromJson(Map<String, dynamic> json) {
-    final map = <Skill, ProficiencyLevel>{};
+    if (json.isEmpty) {
+      return const SkillProficiencies(proficiencies: <String, String>{});
+    }
+    final map = <String, String>{};
+    final rawProficiencies = json['proficiencies'];
+    if (rawProficiencies is! Map) {
+      throw StateError(
+        'Current character schema requires proficiencies.skills.proficiencies to be a map.',
+      );
+    }
+    final source = rawProficiencies.cast<String, dynamic>();
 
-    if (json['proficiencies'] != null) {
-      final proficiencies = json['proficiencies'] as Map<String, dynamic>;
-      for (final entry in proficiencies.entries) {
-        final skill = EnumParser.skill(entry.key);
-        final level = EnumParser.proficiencyLevel(entry.value as String);
-        map[skill] = level;
+    for (final entry in source.entries) {
+      final skillId = _normalizeLookupId(entry.key);
+      if (skillId.isEmpty) {
+        continue;
       }
+      map[skillId] = SkillTrainingLevel.parse(
+        entry.value.toString(),
+        field: 'proficiencies.skills.proficiencies.$skillId',
+      );
     }
 
     return SkillProficiencies(proficiencies: map);
@@ -1191,104 +1034,96 @@ class SkillProficiencies {
   Map<String, dynamic> toJson() {
     final map = <String, String>{};
     for (final entry in proficiencies.entries) {
-      map[entry.key.value] = entry.value.value;
+      map[entry.key] = SkillTrainingLevel.normalize(entry.value);
     }
     return {'proficiencies': map};
   }
 
-  SkillProficiencies copyWith({Map<Skill, ProficiencyLevel>? proficiencies}) {
+  SkillProficiencies copyWith({Map<String, String>? proficiencies}) {
     return SkillProficiencies(
-      proficiencies: proficiencies ?? Map.from(this.proficiencies),
+      proficiencies:
+          proficiencies ?? Map<String, String>.from(this.proficiencies),
     );
+  }
+
+  SkillProficiencies onlyFor(Iterable<String> skillIds) {
+    final allowed = {
+      for (final skillId in skillIds)
+        if (_normalizeLookupId(skillId).isNotEmpty) _normalizeLookupId(skillId),
+    };
+    final next = <String, String>{};
+    for (final skillId in allowed) {
+      final level = proficiencies[skillId];
+      if (level == null) {
+        continue;
+      }
+      next[skillId] = SkillTrainingLevel.normalize(level);
+    }
+    return SkillProficiencies(proficiencies: next);
   }
 }
 
 class SavingThrowProficiencies {
-  final bool strength;
-  final bool dexterity;
-  final bool constitution;
-  final bool intelligence;
-  final bool wisdom;
-  final bool charisma;
+  final Set<String> proficientAbilityIds;
 
-  const SavingThrowProficiencies({
-    this.strength = false,
-    this.dexterity = false,
-    this.constitution = false,
-    this.intelligence = false,
-    this.wisdom = false,
-    this.charisma = false,
-  });
+  const SavingThrowProficiencies({required this.proficientAbilityIds});
 
   int getModifier(
     String ability,
     CalculatedModifiers modifiers,
     int proficiencyBonus,
   ) {
-    final baseModifier = _getAbilityModifier(ability, modifiers);
-    final isProficient = _isProficient(ability);
-
-    return baseModifier + (isProficient ? proficiencyBonus : 0);
+    final normalizedAbility = canonicalAbilityId(ability);
+    return modifiers.modifierFor(normalizedAbility) +
+        (isProficient(normalizedAbility) ? proficiencyBonus : 0);
   }
 
-  int _getAbilityModifier(String ability, CalculatedModifiers modifiers) {
-    switch (ability.toLowerCase()) {
-      case 'strength':
-        return modifiers.strength;
-      case 'dexterity':
-        return modifiers.dexterity;
-      case 'constitution':
-        return modifiers.constitution;
-      case 'intelligence':
-        return modifiers.intelligence;
-      case 'wisdom':
-        return modifiers.wisdom;
-      case 'charisma':
-        return modifiers.charisma;
-      default:
-        return 0;
-    }
-  }
-
-  bool _isProficient(String ability) {
-    switch (ability.toLowerCase()) {
-      case 'strength':
-        return strength;
-      case 'dexterity':
-        return dexterity;
-      case 'constitution':
-        return constitution;
-      case 'intelligence':
-        return intelligence;
-      case 'wisdom':
-        return wisdom;
-      case 'charisma':
-        return charisma;
-      default:
-        return false;
-    }
+  bool isProficient(String abilityId) {
+    return proficientAbilityIds.contains(canonicalAbilityId(abilityId));
   }
 
   factory SavingThrowProficiencies.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      return const SavingThrowProficiencies(proficientAbilityIds: <String>{});
+    }
+    final rawList = json['proficientAbilityIds'];
+    if (rawList is! List) {
+      throw StateError(
+        'Current character schema requires proficiencies.savingThrows.proficientAbilityIds to be a list.',
+      );
+    }
     return SavingThrowProficiencies(
-      strength: json['strength'] as bool? ?? false,
-      dexterity: json['dexterity'] as bool? ?? false,
-      constitution: json['constitution'] as bool? ?? false,
-      intelligence: json['intelligence'] as bool? ?? false,
-      wisdom: json['wisdom'] as bool? ?? false,
-      charisma: json['charisma'] as bool? ?? false,
+      proficientAbilityIds: rawList
+          .map((entry) => canonicalAbilityId(entry.toString()))
+          .where((entry) => entry.isNotEmpty)
+          .toSet(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'strength': strength,
-      'dexterity': dexterity,
-      'constitution': constitution,
-      'intelligence': intelligence,
-      'wisdom': wisdom,
-      'charisma': charisma,
+      'proficientAbilityIds': proficientAbilityIds.toList(growable: false),
     };
+  }
+
+  SavingThrowProficiencies copyWith({Set<String>? proficientAbilityIds}) {
+    return SavingThrowProficiencies(
+      proficientAbilityIds:
+          proficientAbilityIds ?? Set<String>.from(this.proficientAbilityIds),
+    );
+  }
+
+  SavingThrowProficiencies onlyFor(Iterable<String> abilityIds) {
+    final allowed = {
+      for (final abilityId in abilityIds)
+        if (canonicalAbilityId(abilityId).isNotEmpty)
+          canonicalAbilityId(abilityId),
+    };
+    return SavingThrowProficiencies(
+      proficientAbilityIds: proficientAbilityIds
+          .where(allowed.contains)
+          .toSet(),
+    );
   }
 }
 
@@ -1297,18 +1132,12 @@ class CombatStats {
   final int initiative;
   final int speed;
   final int proficiencyBonus;
-  final int passivePerception;
-  final int passiveInsight;
-  final int passiveInvestigation;
 
   const CombatStats({
     required this.armorClass,
     required this.initiative,
     required this.speed,
     required this.proficiencyBonus,
-    required this.passivePerception,
-    required this.passiveInsight,
-    required this.passiveInvestigation,
   });
 
   CombatStats copyWith({
@@ -1316,30 +1145,37 @@ class CombatStats {
     int? initiative,
     int? speed,
     int? proficiencyBonus,
-    int? passivePerception,
-    int? passiveInsight,
-    int? passiveInvestigation,
   }) {
     return CombatStats(
       armorClass: armorClass ?? this.armorClass,
       initiative: initiative ?? this.initiative,
       speed: speed ?? this.speed,
       proficiencyBonus: proficiencyBonus ?? this.proficiencyBonus,
-      passivePerception: passivePerception ?? this.passivePerception,
-      passiveInsight: passiveInsight ?? this.passiveInsight,
-      passiveInvestigation: passiveInvestigation ?? this.passiveInvestigation,
     );
   }
 
   factory CombatStats.fromJson(Map<String, dynamic> json) {
     return CombatStats(
-      armorClass: json['armorClass'] as int,
-      initiative: json['initiative'] as int,
-      speed: json['speed'] as int,
-      proficiencyBonus: json['proficiencyBonus'] as int,
-      passivePerception: json['passivePerception'] as int,
-      passiveInsight: json['passiveInsight'] as int,
-      passiveInvestigation: json['passiveInvestigation'] as int,
+      armorClass: _jsonInt(
+        json['armorClass'],
+        defaultValue: 10,
+        field: 'combatStats.armorClass',
+      ),
+      initiative: _jsonInt(
+        json['initiative'],
+        defaultValue: 0,
+        field: 'combatStats.initiative',
+      ),
+      speed: _jsonInt(
+        json['speed'],
+        defaultValue: 30,
+        field: 'combatStats.speed',
+      ),
+      proficiencyBonus: _jsonInt(
+        json['proficiencyBonus'],
+        defaultValue: 2,
+        field: 'combatStats.proficiencyBonus',
+      ),
     );
   }
 
@@ -1349,9 +1185,6 @@ class CombatStats {
       'initiative': initiative,
       'speed': speed,
       'proficiencyBonus': proficiencyBonus,
-      'passivePerception': passivePerception,
-      'passiveInsight': passiveInsight,
-      'passiveInvestigation': passiveInvestigation,
     };
   }
 }
@@ -1393,18 +1226,30 @@ class Health {
 
   factory Health.fromJson(Map<String, dynamic> json) {
     return Health(
-      maxHitPoints: json['maxHitPoints'] as int,
-      currentHitPoints: json['currentHitPoints'] as int,
-      temporaryHitPoints: json['temporaryHitPoints'] as int? ?? 0,
-      hitDice: json['hitDice'] != null
-          ? (json['hitDice'] as List)
-                .map((e) => HitDie.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      deathSaves: DeathSaves.fromJson(
-        json['deathSaves'] as Map<String, dynamic>,
+      maxHitPoints: _jsonInt(
+        json['maxHitPoints'],
+        defaultValue: 1,
+        field: 'health.maxHitPoints',
       ),
-      exhaustionLevel: json['exhaustionLevel'] as int? ?? 0,
+      currentHitPoints: _jsonInt(
+        json['currentHitPoints'],
+        defaultValue: 1,
+        field: 'health.currentHitPoints',
+      ),
+      temporaryHitPoints: _jsonInt(
+        json['temporaryHitPoints'],
+        defaultValue: 0,
+        field: 'health.temporaryHitPoints',
+      ),
+      hitDice: _jsonListOfMaps(
+        json['hitDice'],
+      ).map(HitDie.fromJson).toList(growable: false),
+      deathSaves: DeathSaves.fromJson(_jsonMap(json['deathSaves'])),
+      exhaustionLevel: _jsonInt(
+        json['exhaustionLevel'],
+        defaultValue: 0,
+        field: 'health.exhaustionLevel',
+      ),
     );
   }
 
@@ -1431,9 +1276,9 @@ class HitDie {
 
   factory HitDie.fromJson(Map<String, dynamic> json) {
     return HitDie(
-      sides: json['sides'] as int,
-      count: json['count'] as int,
-      used: json['used'] as int? ?? 0,
+      sides: _jsonInt(json['sides'], defaultValue: 0, field: 'hitDice.sides'),
+      count: _jsonInt(json['count'], defaultValue: 0, field: 'hitDice.count'),
+      used: _jsonInt(json['used'], defaultValue: 0, field: 'hitDice.used'),
     );
   }
 
@@ -1450,8 +1295,16 @@ class DeathSaves {
 
   factory DeathSaves.fromJson(Map<String, dynamic> json) {
     return DeathSaves(
-      successes: json['successes'] as int? ?? 0,
-      failures: json['failures'] as int? ?? 0,
+      successes: _jsonInt(
+        json['successes'],
+        defaultValue: 0,
+        field: 'deathSaves.successes',
+      ),
+      failures: _jsonInt(
+        json['failures'],
+        defaultValue: 0,
+        field: 'deathSaves.failures',
+      ),
     );
   }
 
@@ -1460,322 +1313,361 @@ class DeathSaves {
   }
 }
 
-class Equipment {
-  final List<EquipmentItem> inventory;
-  final List<Weapon> weapons;
-  final List<Armor> armor;
-  final double totalWeight;
+enum CharacterInventoryKind { other, weapon, armor }
 
-  const Equipment({
-    this.inventory = const [],
-    this.weapons = const [],
-    this.armor = const [],
-    this.totalWeight = 0,
+class CharacterInventoryEntryOverrides {
+  final String? label;
+  final String? damageDice;
+  final String? damageType;
+  final String? attackAbility;
+  final int? enhancementBonus;
+  final bool? finesse;
+  final String? weaponCategory;
+  final int? armorClass;
+  final String? armorCategory;
+  final bool? usesDexterity;
+  final int? maxDexterityBonus;
+
+  const CharacterInventoryEntryOverrides({
+    this.label,
+    this.damageDice,
+    this.damageType,
+    this.attackAbility,
+    this.enhancementBonus,
+    this.finesse,
+    this.weaponCategory,
+    this.armorClass,
+    this.armorCategory,
+    this.usesDexterity,
+    this.maxDexterityBonus,
   });
 
-  factory Equipment.fromJson(Map<String, dynamic> json) {
-    return Equipment(
-      inventory: json['inventory'] != null
-          ? (json['inventory'] as List)
-                .map((e) => EquipmentItem.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      weapons: json['weapons'] != null
-          ? (json['weapons'] as List)
-                .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      armor: json['armor'] != null
-          ? (json['armor'] as List)
-                .map((e) => Armor.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      totalWeight: (json['totalWeight'] as num?)?.toDouble() ?? 0,
+  bool get isEmpty =>
+      label == null &&
+      damageDice == null &&
+      damageType == null &&
+      attackAbility == null &&
+      enhancementBonus == null &&
+      finesse == null &&
+      weaponCategory == null &&
+      armorClass == null &&
+      armorCategory == null &&
+      usesDexterity == null &&
+      maxDexterityBonus == null;
+
+  factory CharacterInventoryEntryOverrides.fromJson(Map<String, dynamic> json) {
+    return CharacterInventoryEntryOverrides(
+      label: json['label']?.toString(),
+      damageDice: json['damageDice']?.toString(),
+      damageType: json['damageType']?.toString(),
+      attackAbility: json['attackAbility']?.toString(),
+      enhancementBonus: json['enhancementBonus'] == null
+          ? null
+          : _jsonInt(
+              json['enhancementBonus'],
+              defaultValue: 0,
+              field: 'equipment.overrides.enhancementBonus',
+            ),
+      finesse: json['finesse'] == null
+          ? null
+          : _jsonBool(
+              json['finesse'],
+              defaultValue: false,
+              field: 'equipment.overrides.finesse',
+            ),
+      weaponCategory: json['weaponCategory']?.toString(),
+      armorClass: json['armorClass'] == null
+          ? null
+          : _jsonInt(
+              json['armorClass'],
+              defaultValue: 0,
+              field: 'equipment.overrides.armorClass',
+            ),
+      armorCategory: json['armorCategory']?.toString(),
+      usesDexterity: json['usesDexterity'] == null
+          ? null
+          : _jsonBool(
+              json['usesDexterity'],
+              defaultValue: false,
+              field: 'equipment.overrides.usesDexterity',
+            ),
+      maxDexterityBonus: json['maxDexterityBonus'] == null
+          ? null
+          : _jsonInt(
+              json['maxDexterityBonus'],
+              defaultValue: 0,
+              field: 'equipment.overrides.maxDexterityBonus',
+            ),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'inventory': inventory.map((e) => e.toJson()).toList(),
-      'weapons': weapons.map((e) => e.toJson()).toList(),
-      'armor': armor.map((e) => e.toJson()).toList(),
-      'totalWeight': totalWeight,
+      if (label != null) 'label': label,
+      if (damageDice != null) 'damageDice': damageDice,
+      if (damageType != null) 'damageType': damageType,
+      if (attackAbility != null) 'attackAbility': attackAbility,
+      if (enhancementBonus != null) 'enhancementBonus': enhancementBonus,
+      if (finesse != null) 'finesse': finesse,
+      if (weaponCategory != null) 'weaponCategory': weaponCategory,
+      if (armorClass != null) 'armorClass': armorClass,
+      if (armorCategory != null) 'armorCategory': armorCategory,
+      if (usesDexterity != null) 'usesDexterity': usesDexterity,
+      if (maxDexterityBonus != null) 'maxDexterityBonus': maxDexterityBonus,
     };
   }
 
-  Equipment copyWith({
-    List<EquipmentItem>? inventory,
-    List<Weapon>? weapons,
-    List<Armor>? armor,
-    double? totalWeight,
+  CharacterInventoryEntryOverrides copyWith({
+    String? label,
+    String? damageDice,
+    String? damageType,
+    String? attackAbility,
+    int? enhancementBonus,
+    bool? finesse,
+    String? weaponCategory,
+    int? armorClass,
+    String? armorCategory,
+    bool? usesDexterity,
+    int? maxDexterityBonus,
   }) {
-    return Equipment(
-      inventory: inventory ?? List.from(this.inventory),
-      weapons: weapons ?? List.from(this.weapons),
-      armor: armor ?? List.from(this.armor),
-      totalWeight: totalWeight ?? this.totalWeight,
+    return CharacterInventoryEntryOverrides(
+      label: label ?? this.label,
+      damageDice: damageDice ?? this.damageDice,
+      damageType: damageType ?? this.damageType,
+      attackAbility: attackAbility ?? this.attackAbility,
+      enhancementBonus: enhancementBonus ?? this.enhancementBonus,
+      finesse: finesse ?? this.finesse,
+      weaponCategory: weaponCategory ?? this.weaponCategory,
+      armorClass: armorClass ?? this.armorClass,
+      armorCategory: armorCategory ?? this.armorCategory,
+      usesDexterity: usesDexterity ?? this.usesDexterity,
+      maxDexterityBonus: maxDexterityBonus ?? this.maxDexterityBonus,
     );
   }
 }
 
-class EquipmentItem {
+class CharacterInventoryEntry {
   final String id;
+  final CharacterEntityRef? reference;
   final String name;
   final String description;
   final int quantity;
   final double weight;
-  final bool isEquipped;
+  final bool equipped;
+  final bool attuned;
+  final String notes;
+  final CharacterInventoryKind kind;
+  final CharacterInventoryEntryOverrides overrides;
 
-  const EquipmentItem({
+  const CharacterInventoryEntry({
     required this.id,
+    this.reference,
     required this.name,
     this.description = '',
     this.quantity = 1,
     this.weight = 0,
-    this.isEquipped = false,
+    this.equipped = false,
+    this.attuned = false,
+    this.notes = '',
+    this.kind = CharacterInventoryKind.other,
+    this.overrides = const CharacterInventoryEntryOverrides(),
   });
 
-  factory EquipmentItem.fromJson(Map<String, dynamic> json) {
-    return EquipmentItem(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String? ?? '',
-      quantity: json['quantity'] as int? ?? 1,
-      weight: (json['weight'] as num?)?.toDouble() ?? 0,
-      isEquipped: json['isEquipped'] as bool? ?? false,
+  String get displayName => overrides.label?.trim().isNotEmpty == true
+      ? overrides.label!.trim()
+      : name;
+
+  factory CharacterInventoryEntry.fromJson(Map<String, dynamic> json) {
+    final kindName =
+        json['kind']?.toString() ?? CharacterInventoryKind.other.name;
+    CharacterInventoryKind? kind;
+    for (final candidate in CharacterInventoryKind.values) {
+      if (candidate.name.toLowerCase() == kindName.toLowerCase()) {
+        kind = candidate;
+        break;
+      }
+    }
+    if (kind == null) {
+      throw StateError(
+        'Unsupported equipment kind "$kindName" for "equipment.entries.kind".',
+      );
+    }
+    return CharacterInventoryEntry(
+      id: json['id']?.toString() ?? '',
+      reference: _refFromDynamic(json['reference']),
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      quantity: _jsonInt(
+        json['quantity'],
+        defaultValue: 1,
+        field: 'equipment.entries.quantity',
+      ),
+      weight: _jsonDouble(
+        json['weight'],
+        defaultValue: 0,
+        field: 'equipment.entries.weight',
+      ),
+      equipped: _jsonBool(
+        json['equipped'],
+        defaultValue: false,
+        field: 'equipment.entries.equipped',
+      ),
+      attuned: _jsonBool(
+        json['attuned'],
+        defaultValue: false,
+        field: 'equipment.entries.attuned',
+      ),
+      notes: json['notes']?.toString() ?? '',
+      kind: kind,
+      overrides: CharacterInventoryEntryOverrides.fromJson(
+        _jsonMap(json['overrides']),
+      ),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      if (reference != null) 'reference': reference!.toJson(),
       'name': name,
       'description': description,
       'quantity': quantity,
       'weight': weight,
-      'isEquipped': isEquipped,
+      'equipped': equipped,
+      'attuned': attuned,
+      'notes': notes,
+      'kind': kind.name,
+      if (!overrides.isEmpty) 'overrides': overrides.toJson(),
     };
   }
 
-  EquipmentItem copyWith({
+  CharacterInventoryEntry copyWith({
     String? id,
+    CharacterEntityRef? reference,
+    bool clearReference = false,
     String? name,
     String? description,
     int? quantity,
     double? weight,
-    bool? isEquipped,
+    bool? equipped,
+    bool? attuned,
+    String? notes,
+    CharacterInventoryKind? kind,
+    CharacterInventoryEntryOverrides? overrides,
   }) {
-    return EquipmentItem(
+    return CharacterInventoryEntry(
       id: id ?? this.id,
+      reference: clearReference ? null : reference ?? this.reference,
       name: name ?? this.name,
       description: description ?? this.description,
       quantity: quantity ?? this.quantity,
       weight: weight ?? this.weight,
-      isEquipped: isEquipped ?? this.isEquipped,
+      equipped: equipped ?? this.equipped,
+      attuned: attuned ?? this.attuned,
+      notes: notes ?? this.notes,
+      kind: kind ?? this.kind,
+      overrides: overrides ?? this.overrides,
     );
   }
 }
 
-class Weapon extends EquipmentItem {
-  final String damage;
-  final String damageType;
-  final String properties;
-  final int attackBonus;
-  final int damageBonus;
-  final bool isProficient;
-  final String attackAbility; // New: 'strength', 'dexterity', etc.
-  final int enhancementBonus; // New: +1, +2, +3
-  final bool isFinesse;
-  final String
-  weaponType; // 'simple', 'martial', 'firearm', 'natural', 'improvised'
-  final String? damageAbility; // Optional: different ability for damage (rare)
+class EquipmentLoadout {
+  final String? armorEntryId;
+  final String? meleeEntryId;
+  final String? rangedEntryId;
 
-  const Weapon({
-    required super.id,
-    required super.name,
-    super.description = '',
-    super.quantity = 1,
-    super.weight = 0,
-    super.isEquipped = false,
-    required this.damage,
-    required this.damageType,
-    this.properties = '',
-    this.attackBonus = 0,
-    this.damageBonus = 0,
-    this.isProficient = true,
-    this.attackAbility = 'strength',
-    this.enhancementBonus = 0,
-    this.isFinesse = false,
-    this.weaponType = 'simple',
-    this.damageAbility,
+  const EquipmentLoadout({
+    this.armorEntryId,
+    this.meleeEntryId,
+    this.rangedEntryId,
   });
 
-  @override
-  factory Weapon.fromJson(Map<String, dynamic> json) {
-    return Weapon(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String? ?? '',
-      quantity: json['quantity'] as int? ?? 1,
-      weight: (json['weight'] as num?)?.toDouble() ?? 0,
-      isEquipped: json['isEquipped'] as bool? ?? false,
-      damage: json['damage'] as String,
-      damageType: json['damageType'] as String,
-      properties: json['properties'] as String? ?? '',
-      attackBonus: json['attackBonus'] as int? ?? 0,
-      damageBonus: json['damageBonus'] as int? ?? 0,
-      isProficient: json['isProficient'] as bool? ?? true,
-      attackAbility: json['attackAbility'] as String? ?? 'strength',
-      enhancementBonus: json['enhancementBonus'] as int? ?? 0,
-      isFinesse: json['isFinesse'] as bool? ?? false,
-      weaponType: json['weaponType'] as String? ?? 'simple',
-      damageAbility: json['damageAbility'] as String?,
+  factory EquipmentLoadout.fromJson(Map<String, dynamic> json) {
+    return EquipmentLoadout(
+      armorEntryId: json['armorEntryId']?.toString(),
+      meleeEntryId: json['meleeEntryId']?.toString(),
+      rangedEntryId: json['rangedEntryId']?.toString(),
     );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
-      ...super.toJson(),
-      'damage': damage,
-      'damageType': damageType,
-      'properties': properties,
-      'attackBonus': attackBonus,
-      'damageBonus': damageBonus,
-      'isProficient': isProficient,
-      'attackAbility': attackAbility,
-      'enhancementBonus': enhancementBonus,
-      'isFinesse': isFinesse,
-      'weaponType': weaponType,
-      if (damageAbility != null) 'damageAbility': damageAbility,
+      if (armorEntryId != null) 'armorEntryId': armorEntryId,
+      if (meleeEntryId != null) 'meleeEntryId': meleeEntryId,
+      if (rangedEntryId != null) 'rangedEntryId': rangedEntryId,
     };
   }
 
-  Weapon copyWith({
-    String? id,
-    String? name,
-    String? description,
-    int? quantity,
-    double? weight,
-    bool? isEquipped,
-    String? damage,
-    String? damageType,
-    String? properties,
-    int? attackBonus,
-    int? damageBonus,
-    bool? isProficient,
-    String? attackAbility,
-    int? enhancementBonus,
-    bool? isFinesse,
-    String? weaponType,
-    String? damageAbility,
+  EquipmentLoadout copyWith({
+    String? armorEntryId,
+    bool clearArmorEntry = false,
+    String? meleeEntryId,
+    bool clearMeleeEntry = false,
+    String? rangedEntryId,
+    bool clearRangedEntry = false,
   }) {
-    return Weapon(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      quantity: quantity ?? this.quantity,
-      weight: weight ?? this.weight,
-      isEquipped: isEquipped ?? this.isEquipped,
-      damage: damage ?? this.damage,
-      damageType: damageType ?? this.damageType,
-      properties: properties ?? this.properties,
-      attackBonus: attackBonus ?? this.attackBonus,
-      damageBonus: damageBonus ?? this.damageBonus,
-      isProficient: isProficient ?? this.isProficient,
-      attackAbility: attackAbility ?? this.attackAbility,
-      enhancementBonus: enhancementBonus ?? this.enhancementBonus,
-      isFinesse: isFinesse ?? this.isFinesse,
-      weaponType: weaponType ?? this.weaponType,
-      damageAbility: damageAbility ?? this.damageAbility,
+    return EquipmentLoadout(
+      armorEntryId: clearArmorEntry ? null : armorEntryId ?? this.armorEntryId,
+      meleeEntryId: clearMeleeEntry ? null : meleeEntryId ?? this.meleeEntryId,
+      rangedEntryId: clearRangedEntry
+          ? null
+          : rangedEntryId ?? this.rangedEntryId,
     );
-  }
-
-  String get displayName {
-    if (enhancementBonus > 0) {
-      return '+$enhancementBonus $name';
-    }
-    return name;
   }
 }
 
-class Armor extends EquipmentItem {
-  final int baseAC;
-  final ArmorType armorType;
-  final int strengthRequirement;
-  final bool stealthDisadvantage;
+class Equipment {
+  final List<CharacterInventoryEntry> entries;
+  final EquipmentLoadout loadout;
+  final double totalWeight;
 
-  const Armor({
-    required super.id,
-    required super.name,
-    super.description = '',
-    super.quantity = 1,
-    super.weight = 0,
-    super.isEquipped = false,
-    required this.baseAC,
-    required this.armorType,
-    this.strengthRequirement = 0,
-    this.stealthDisadvantage = false,
+  const Equipment({
+    this.entries = const [],
+    this.loadout = const EquipmentLoadout(),
+    this.totalWeight = 0,
   });
 
-  @override
-  factory Armor.fromJson(Map<String, dynamic> json) {
-    return Armor(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String? ?? '',
-      quantity: json['quantity'] as int? ?? 1,
-      weight: (json['weight'] as num?)?.toDouble() ?? 0,
-      isEquipped: json['isEquipped'] as bool? ?? false,
-      baseAC: json['baseAC'] as int,
-      armorType: ArmorType.values.firstWhere(
-        (e) => e.toString() == 'ArmorType.${json['armorType']}',
-        orElse: () => ArmorType.light,
+  double get effectiveTotalWeight => totalWeight > 0
+      ? totalWeight
+      : entries.fold<double>(
+          0,
+          (sum, entry) => sum + (entry.weight * entry.quantity),
+        );
+
+  factory Equipment.fromJson(Map<String, dynamic> json) {
+    return Equipment(
+      entries: _jsonListOfMaps(
+        json['entries'],
+      ).map(CharacterInventoryEntry.fromJson).toList(growable: false),
+      loadout: EquipmentLoadout.fromJson(_jsonMap(json['loadout'])),
+      totalWeight: _jsonDouble(
+        json['totalWeight'],
+        defaultValue: 0,
+        field: 'equipment.totalWeight',
       ),
-      strengthRequirement: json['strengthRequirement'] as int? ?? 0,
-      stealthDisadvantage: json['stealthDisadvantage'] as bool? ?? false,
     );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
-      ...super.toJson(),
-      'baseAC': baseAC,
-      'armorType': armorType.toString().split('.').last,
-      'strengthRequirement': strengthRequirement,
-      'stealthDisadvantage': stealthDisadvantage,
+      'entries': entries.map((entry) => entry.toJson()).toList(growable: false),
+      'loadout': loadout.toJson(),
+      'totalWeight': effectiveTotalWeight,
     };
   }
 
-  Armor copyWith({
-    String? id,
-    String? name,
-    String? description,
-    int? quantity,
-    double? weight,
-    bool? isEquipped,
-    int? baseAC,
-    ArmorType? armorType,
-    int? strengthRequirement,
-    bool? stealthDisadvantage,
+  Equipment copyWith({
+    List<CharacterInventoryEntry>? entries,
+    EquipmentLoadout? loadout,
+    double? totalWeight,
   }) {
-    return Armor(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      quantity: quantity ?? this.quantity,
-      weight: weight ?? this.weight,
-      isEquipped: isEquipped ?? this.isEquipped,
-      baseAC: baseAC ?? this.baseAC,
-      armorType: armorType ?? this.armorType,
-      strengthRequirement: strengthRequirement ?? this.strengthRequirement,
-      stealthDisadvantage: stealthDisadvantage ?? this.stealthDisadvantage,
+    return Equipment(
+      entries: entries ?? List<CharacterInventoryEntry>.from(this.entries),
+      loadout: loadout ?? this.loadout,
+      totalWeight: totalWeight ?? this.totalWeight,
     );
   }
 }
-
-enum ArmorType { light, medium, heavy, shield }
 
 class Wealth {
   final int copper;
@@ -1794,11 +1686,19 @@ class Wealth {
 
   factory Wealth.fromJson(Map<String, dynamic> json) {
     return Wealth(
-      copper: json['copper'] as int? ?? 0,
-      silver: json['silver'] as int? ?? 0,
-      electrum: json['electrum'] as int? ?? 0,
-      gold: json['gold'] as int? ?? 0,
-      platinum: json['platinum'] as int? ?? 0,
+      copper: _jsonInt(json['copper'], defaultValue: 0, field: 'wealth.copper'),
+      silver: _jsonInt(json['silver'], defaultValue: 0, field: 'wealth.silver'),
+      electrum: _jsonInt(
+        json['electrum'],
+        defaultValue: 0,
+        field: 'wealth.electrum',
+      ),
+      gold: _jsonInt(json['gold'], defaultValue: 0, field: 'wealth.gold'),
+      platinum: _jsonInt(
+        json['platinum'],
+        defaultValue: 0,
+        field: 'wealth.platinum',
+      ),
     );
   }
 
@@ -1858,23 +1758,25 @@ class SpellcastingInfo {
   factory SpellcastingInfo.fromJson(Map<String, dynamic> json) {
     return SpellcastingInfo(
       spellcastingAbility: json['spellcastingAbility'] as String?,
-      spellSaveDC: json['spellSaveDC'] as int,
-      spellAttackBonus: json['spellAttackBonus'] as int,
-      spellSlots: json['spellSlots'] != null
-          ? (json['spellSlots'] as List)
-                .map((e) => SpellSlot.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      preparedSpells: json['preparedSpells'] != null
-          ? (json['preparedSpells'] as List)
-                .map((e) => Spell.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
-      knownSpells: json['knownSpells'] != null
-          ? (json['knownSpells'] as List)
-                .map((e) => Spell.fromJson(e as Map<String, dynamic>))
-                .toList()
-          : [],
+      spellSaveDC: _jsonInt(
+        json['spellSaveDC'],
+        defaultValue: 8,
+        field: 'spellcasting.spellSaveDC',
+      ),
+      spellAttackBonus: _jsonInt(
+        json['spellAttackBonus'],
+        defaultValue: 0,
+        field: 'spellcasting.spellAttackBonus',
+      ),
+      spellSlots: _jsonListOfMaps(
+        json['spellSlots'],
+      ).map(SpellSlot.fromJson).toList(growable: false),
+      preparedSpells: _jsonListOfMaps(
+        json['preparedSpells'],
+      ).map(Spell.fromJson).toList(growable: false),
+      knownSpells: _jsonListOfMaps(
+        json['knownSpells'],
+      ).map(Spell.fromJson).toList(growable: false),
     );
   }
 
@@ -1902,9 +1804,21 @@ class SpellSlot {
 
   factory SpellSlot.fromJson(Map<String, dynamic> json) {
     return SpellSlot(
-      level: json['level'] as int,
-      total: json['total'] as int,
-      used: json['used'] as int? ?? 0,
+      level: _jsonInt(
+        json['level'],
+        defaultValue: 0,
+        field: 'spellcasting.spellSlots.level',
+      ),
+      total: _jsonInt(
+        json['total'],
+        defaultValue: 0,
+        field: 'spellcasting.spellSlots.total',
+      ),
+      used: _jsonInt(
+        json['used'],
+        defaultValue: 0,
+        field: 'spellcasting.spellSlots.used',
+      ),
     );
   }
 
@@ -1936,13 +1850,25 @@ class Spell {
 
   factory Spell.fromJson(Map<String, dynamic> json) {
     return Spell(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      level: json['level'] as int,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      level: _jsonInt(json['level'], defaultValue: 0, field: 'spell.level'),
       school: json['school'] as String? ?? '',
-      isPrepared: json['isPrepared'] as bool? ?? false,
-      isRitual: json['isRitual'] as bool? ?? false,
-      isConcentration: json['isConcentration'] as bool? ?? false,
+      isPrepared: _jsonBool(
+        json['isPrepared'],
+        defaultValue: false,
+        field: 'spell.isPrepared',
+      ),
+      isRitual: _jsonBool(
+        json['isRitual'],
+        defaultValue: false,
+        field: 'spell.isRitual',
+      ),
+      isConcentration: _jsonBool(
+        json['isConcentration'],
+        defaultValue: false,
+        field: 'spell.isConcentration',
+      ),
       reference: _refFromDynamic(json['reference']),
     );
   }
@@ -2005,9 +1931,9 @@ class Traits {
       ideals: json['ideals'] as String? ?? '',
       bonds: json['bonds'] as String? ?? '',
       flaws: json['flaws'] as String? ?? '',
-      alliesAndOrganizations: json['alliesAndOrganizations'] != null
-          ? List<String>.from(json['alliesAndOrganizations'])
-          : [],
+      alliesAndOrganizations: _stringListFromDynamic(
+        json['alliesAndOrganizations'],
+      ),
     );
   }
 
@@ -2043,10 +1969,14 @@ class Feature {
 
   factory Feature.fromJson(Map<String, dynamic> json) {
     return Feature(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
       description: json['description'] as String? ?? '',
-      levelObtained: json['levelObtained'] as int? ?? 1,
+      levelObtained: _jsonInt(
+        json['levelObtained'],
+        defaultValue: 1,
+        field: 'feature.levelObtained',
+      ),
       source: json['source'] as String? ?? 'class',
       reference: _refFromDynamic(json['reference']),
       content: json.containsKey('content')
@@ -2098,6 +2028,7 @@ class PhysicalDescription {
   final String skin;
   final String hair;
   final String deity;
+  final CharacterEntityRef? deityRef;
 
   const PhysicalDescription({
     this.age = 0,
@@ -2107,17 +2038,23 @@ class PhysicalDescription {
     this.skin = '',
     this.hair = '',
     this.deity = '',
+    this.deityRef,
   });
 
   factory PhysicalDescription.fromJson(Map<String, dynamic> json) {
     return PhysicalDescription(
-      age: json['age'] as int? ?? 0,
+      age: _jsonInt(
+        json['age'],
+        defaultValue: 0,
+        field: 'physicalDescription.age',
+      ),
       height: json['height'] as String? ?? '',
       weight: json['weight'] as String? ?? '',
       eyes: json['eyes'] as String? ?? '',
       skin: json['skin'] as String? ?? '',
       hair: json['hair'] as String? ?? '',
       deity: json['deity'] as String? ?? '',
+      deityRef: _refFromDynamic(json['deityRef']),
     );
   }
 
@@ -2130,7 +2067,31 @@ class PhysicalDescription {
       'skin': skin,
       'hair': hair,
       'deity': deity,
+      if (deityRef != null) 'deityRef': deityRef!.toJson(),
     };
+  }
+
+  PhysicalDescription copyWith({
+    int? age,
+    String? height,
+    String? weight,
+    String? eyes,
+    String? skin,
+    String? hair,
+    String? deity,
+    CharacterEntityRef? deityRef,
+    bool clearDeityRef = false,
+  }) {
+    return PhysicalDescription(
+      age: age ?? this.age,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      eyes: eyes ?? this.eyes,
+      skin: skin ?? this.skin,
+      hair: hair ?? this.hair,
+      deity: deity ?? this.deity,
+      deityRef: clearDeityRef ? null : deityRef ?? this.deityRef,
+    );
   }
 }
 
@@ -2172,208 +2133,6 @@ class Notes {
 
 extension SpellcastingAbilityExtension on String {
   int getModifier(CalculatedModifiers modifiers) {
-    switch (this.toLowerCase()) {
-      case 'strength':
-        return modifiers.strength;
-      case 'dexterity':
-        return modifiers.dexterity;
-      case 'constitution':
-        return modifiers.constitution;
-      case 'intelligence':
-        return modifiers.intelligence;
-      case 'wisdom':
-        return modifiers.wisdom;
-      case 'charisma':
-        return modifiers.charisma;
-      default:
-        return 0;
-    }
-  }
-}
-
-class EquippedCombatStats {
-  final EquippedWeapon? equippedMeleeWeapon;
-  final EquippedWeapon? equippedRangedWeapon;
-  final EquippedArmor equippedArmor;
-  final List<String> weaponProficiencies;
-  final List<String> armorProficiencies;
-
-  const EquippedCombatStats({
-    this.equippedMeleeWeapon,
-    this.equippedRangedWeapon,
-    required this.equippedArmor,
-    this.weaponProficiencies = const [],
-    this.armorProficiencies = const [],
-  });
-
-  factory EquippedCombatStats.fromJson(Map<String, dynamic> json) {
-    return EquippedCombatStats(
-      equippedMeleeWeapon: json['equippedMeleeWeapon'] != null
-          ? EquippedWeapon.fromJson(
-              json['equippedMeleeWeapon'] as Map<String, dynamic>,
-            )
-          : null,
-      equippedRangedWeapon: json['equippedRangedWeapon'] != null
-          ? EquippedWeapon.fromJson(
-              json['equippedRangedWeapon'] as Map<String, dynamic>,
-            )
-          : null,
-      equippedArmor: EquippedArmor.fromJson(
-        json['equippedArmor'] as Map<String, dynamic>,
-      ),
-      weaponProficiencies: json['weaponProficiencies'] != null
-          ? List<String>.from(json['weaponProficiencies'])
-          : [],
-      armorProficiencies: json['armorProficiencies'] != null
-          ? List<String>.from(json['armorProficiencies'])
-          : [],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      if (equippedMeleeWeapon != null)
-        'equippedMeleeWeapon': equippedMeleeWeapon!.toJson(),
-      if (equippedRangedWeapon != null)
-        'equippedRangedWeapon': equippedRangedWeapon!.toJson(),
-      'equippedArmor': equippedArmor.toJson(),
-      'weaponProficiencies': weaponProficiencies,
-      'armorProficiencies': armorProficiencies,
-    };
-  }
-
-  EquippedCombatStats copyWith({
-    EquippedWeapon? equippedMeleeWeapon,
-    EquippedWeapon? equippedRangedWeapon,
-    EquippedArmor? equippedArmor,
-    List<String>? weaponProficiencies,
-    List<String>? armorProficiencies,
-  }) {
-    return EquippedCombatStats(
-      equippedMeleeWeapon: equippedMeleeWeapon ?? this.equippedMeleeWeapon,
-      equippedRangedWeapon: equippedRangedWeapon ?? this.equippedRangedWeapon,
-      equippedArmor: equippedArmor ?? this.equippedArmor,
-      weaponProficiencies:
-          weaponProficiencies ?? List.from(this.weaponProficiencies),
-      armorProficiencies:
-          armorProficiencies ?? List.from(this.armorProficiencies),
-    );
-  }
-}
-
-class EquippedWeapon {
-  final String weaponClass;
-  final int enhancementBonus; // +0, +1, +2, +3
-  final String ability; // 'strength', 'dexterity', etc.
-  final bool isProficient;
-  final bool isFinesse;
-  final String damageDice; // e.g., "1d8", "2d6"
-  final String damageType; // e.g., "slashing", "piercing"
-
-  const EquippedWeapon({
-    required this.weaponClass,
-    this.enhancementBonus = 0,
-    this.ability = 'strength',
-    this.isProficient = false,
-    this.isFinesse = false,
-    required this.damageDice,
-    required this.damageType,
-  });
-
-  factory EquippedWeapon.fromJson(Map<String, dynamic> json) {
-    return EquippedWeapon(
-      weaponClass: json['weaponClass'] as String,
-      enhancementBonus: json['enhancementBonus'] as int? ?? 0,
-      ability: json['ability'] as String? ?? 'strength',
-      isProficient: json['isProficient'] as bool? ?? false,
-      isFinesse: json['isFinesse'] as bool? ?? false,
-      damageDice: json['damageDice'] as String,
-      damageType: json['damageType'] as String,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'weaponClass': weaponClass,
-      'enhancementBonus': enhancementBonus,
-      'ability': ability,
-      'isProficient': isProficient,
-      'isFinesse': isFinesse,
-      'damageDice': damageDice,
-      'damageType': damageType,
-    };
-  }
-
-  EquippedWeapon copyWith({
-    String? weaponClass,
-    int? enhancementBonus,
-    String? ability,
-    bool? isProficient,
-    bool? isFinesse,
-    String? damageDice,
-    String? damageType,
-  }) {
-    return EquippedWeapon(
-      weaponClass: weaponClass ?? this.weaponClass,
-      enhancementBonus: enhancementBonus ?? this.enhancementBonus,
-      ability: ability ?? this.ability,
-      isProficient: isProficient ?? this.isProficient,
-      isFinesse: isFinesse ?? this.isFinesse,
-      damageDice: damageDice ?? this.damageDice,
-      damageType: damageType ?? this.damageType,
-    );
-  }
-}
-
-class EquippedArmor {
-  final String armorType; // 'cloth', 'light', 'medium', 'heavy'
-  final int baseAC;
-  final int manualBonus; // User can add/subtract from calculated AC
-  final bool usesDexterity;
-  final int
-  maxDexBonus; // 0 for heavy armor, 2 for medium, unlimited for light/cloth
-
-  const EquippedArmor({
-    required this.armorType,
-    required this.baseAC,
-    this.manualBonus = 0,
-    this.usesDexterity = true,
-    this.maxDexBonus = 999,
-  });
-
-  factory EquippedArmor.fromJson(Map<String, dynamic> json) {
-    return EquippedArmor(
-      armorType: json['armorType'] as String,
-      baseAC: json['baseAC'] as int,
-      manualBonus: json['manualBonus'] as int? ?? 0,
-      usesDexterity: json['usesDexterity'] as bool? ?? true,
-      maxDexBonus: json['maxDexBonus'] as int? ?? 999,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'armorType': armorType,
-      'baseAC': baseAC,
-      'manualBonus': manualBonus,
-      'usesDexterity': usesDexterity,
-      'maxDexBonus': maxDexBonus,
-    };
-  }
-
-  EquippedArmor copyWith({
-    String? armorType,
-    int? baseAC,
-    int? manualBonus,
-    bool? usesDexterity,
-    int? maxDexBonus,
-  }) {
-    return EquippedArmor(
-      armorType: armorType ?? this.armorType,
-      baseAC: baseAC ?? this.baseAC,
-      manualBonus: manualBonus ?? this.manualBonus,
-      usesDexterity: usesDexterity ?? this.usesDexterity,
-      maxDexBonus: maxDexBonus ?? this.maxDexBonus,
-    );
+    return modifiers.modifierFor(this);
   }
 }

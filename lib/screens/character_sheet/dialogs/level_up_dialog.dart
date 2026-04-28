@@ -22,7 +22,7 @@ class LevelUpDialog extends StatelessWidget {
           Text('Advancing to level ${character.classes[0].level + 1}'),
           const SizedBox(height: 16),
           const Text('New Hit Points:'),
-          Text('+? HP (+${character.modifiers.constitution} from CON)'),
+          Text('+? HP (+${character.modifiers.modifierFor('con')} from CON)'),
           const SizedBox(height: 16),
           const Text('New class features available!'),
         ],

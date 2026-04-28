@@ -11,9 +11,6 @@ class RulesetExportResult {
   const RulesetExportResult({required this.locationDescription});
 }
 
-Future<String?> loadLegacyRulesetJson(String sourceReference) =>
-    impl.loadLegacyRulesetJson(sourceReference);
-
 Future<Uint8List?> loadRulesetImportBytes(String sourceReference) =>
     impl.loadRulesetImportBytes(sourceReference);
 

@@ -94,8 +94,7 @@ const _supportCollectionKeys = <String>{
   'vehicleFluff',
 };
 
-const _legacyMixedBundledRulesetPath =
-    'assets/rulesets/default_srd.ruleset.json';
+const _mixedDevBundledRulesetPath = 'assets/rulesets/default_srd.ruleset.json';
 const _starterBundledRulesetPath =
     'assets/rulesets/starter_2024_srd.ruleset.json';
 const _browseManifestPath = 'assets/rulesets/browse_manifest.json';
@@ -165,7 +164,7 @@ const _mixedDevBundleProfile = _BundleProfile(
   description:
       'Bundled reference data generated from the local 5etools export.',
   license: 'Local 5etools import',
-  assetPath: _legacyMixedBundledRulesetPath,
+  assetPath: _mixedDevBundledRulesetPath,
   includeOnlyExplicitSrd52: false,
   preserveExtraCollections: true,
 );
@@ -356,14 +355,14 @@ Future<File?> _resolveExistingRulesetSource({
   }
 
   if (profile.includeOnlyExplicitSrd52) {
-    final legacyMixed = File(
-      p.join(projectRoot.path, _legacyMixedBundledRulesetPath),
+    final mixedDevRuleset = File(
+      p.join(projectRoot.path, _mixedDevBundledRulesetPath),
     );
-    if (await legacyMixed.exists()) {
+    if (await mixedDevRuleset.exists()) {
       stdout.writeln(
-        'Using ${legacyMixed.path} as the local development source for the starter profile.',
+        'Using ${mixedDevRuleset.path} as the local development source for the starter profile.',
       );
-      return legacyMixed;
+      return mixedDevRuleset;
     }
   }
 
@@ -635,14 +634,8 @@ String _rewriteStarterString(String key, String value) {
   }
 
   return withRewrittenHints
-      .replaceAll(
-        RegExp(r'\bSRD52\b', caseSensitive: false),
-        '',
-      )
-      .replaceAll(
-        RegExp(r'\bSRD\b', caseSensitive: false),
-        '',
-      )
+      .replaceAll(RegExp(r'\bSRD52\b', caseSensitive: false), '')
+      .replaceAll(RegExp(r'\bSRD\b', caseSensitive: false), '')
       .replaceAll(RegExp(r'\s{2,}'), ' ')
       .trim();
 }
@@ -1055,9 +1048,7 @@ String _buildGeneratedRegistry(List<Map<String, dynamic>> schemas) {
     ..writeln(
       'Map<String, dynamic> _generatedEntityExtra(Map<String, dynamic> json) {',
     )
-    ..writeln(
-      "  const knownKeys = <String>{'id', 'name', 'data'};",
-    )
+    ..writeln("  const knownKeys = <String>{'id', 'name', 'data'};")
     ..writeln('  final extra = <String, dynamic>{};')
     ..writeln('  for (final entry in json.entries) {')
     ..writeln('    if (knownKeys.contains(entry.key)) {')
@@ -1326,15 +1317,15 @@ class CompendiumIdBuilder {
         : Map<String, dynamic>.from(payload);
     final extraSegments = switch (entityType) {
       'classFeature' => <String>[
-          data['className']?.toString() ?? '',
-          data['level']?.toString() ?? '',
-        ],
+        data['className']?.toString() ?? '',
+        data['level']?.toString() ?? '',
+      ],
       'subclass' => <String>[data['className']?.toString() ?? ''],
       'subclassFeature' => <String>[
-          data['className']?.toString() ?? '',
-          data['subclassShortName']?.toString() ?? '',
-          data['level']?.toString() ?? '',
-        ],
+        data['className']?.toString() ?? '',
+        data['subclassShortName']?.toString() ?? '',
+        data['level']?.toString() ?? '',
+      ],
       'subrace' => <String>[data['raceName']?.toString() ?? ''],
       _ => const <String>[],
     };

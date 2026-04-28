@@ -193,10 +193,7 @@ class CompendiumLinkParser {
 
     switch (tag) {
       case 'classFeature':
-        if (parts.length >= 5 && !_looksLikeLevel(parts[2])) {
-          return _fallbackDisplay(parts[4], parts.first);
-        }
-        if (parts.length >= 4 && _looksLikeLevel(parts[2])) {
+        if (parts.length >= 4) {
           return _fallbackDisplay(parts[3], parts.first);
         }
         return parts.first;
@@ -205,9 +202,6 @@ class CompendiumLinkParser {
             ? _fallbackDisplay(parts.last, parts.first)
             : parts.first;
       case 'subclassFeature':
-        if (parts.length >= 7 && !_looksLikeLevel(parts[2])) {
-          return _fallbackDisplay(parts[6], parts.first);
-        }
         if (parts.length >= 5) {
           return _fallbackDisplay(parts[4], parts.first);
         }
@@ -220,7 +214,9 @@ class CompendiumLinkParser {
         if (parts.length >= 3) {
           return _fallbackDisplay(parts[2], parts.first);
         }
-        if (!isInlineTag && parts.length == 2 && !_looksLikeSourceToken(parts[1])) {
+        if (!isInlineTag &&
+            parts.length == 2 &&
+            !_looksLikeSourceToken(parts[1])) {
           return parts[1];
         }
         return parts.first;
@@ -233,10 +229,6 @@ class CompendiumLinkParser {
       return fallback;
     }
     return trimmed;
-  }
-
-  static bool _looksLikeLevel(String value) {
-    return int.tryParse(value.trim()) != null;
   }
 
   static bool _looksLikeSourceToken(String value) {

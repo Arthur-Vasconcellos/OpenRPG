@@ -16,9 +16,8 @@ import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/compendium/models/ruleset.dart';
 
 typedef AssetStringLoader = Future<String> Function(String path);
-typedef RulesetDocumentLoader = Future<Uint8List?> Function(
-  String sourceReference,
-);
+typedef RulesetDocumentLoader =
+    Future<Uint8List?> Function(String sourceReference);
 typedef ImportedRulesetDocumentPersister =
     Future<String> Function({
       required String sourceReference,
@@ -464,16 +463,6 @@ class CompendiumRepository {
       return ruleset;
     }
 
-    final legacyJson = await loadLegacyRulesetJson(record.filePath);
-    if (legacyJson != null) {
-      final ruleset = _normalizeRuleset(
-        jsonDecode(legacyJson) as Map<String, dynamic>,
-        forcedMode: _parseRulesetMode(record.mode),
-      );
-      await _indexRuleset(ruleset, record.filePath);
-      return ruleset;
-    }
-
     throw StateError('Ruleset ${record.rulesetId} could not be loaded.');
   }
 
@@ -492,10 +481,9 @@ class CompendiumRepository {
             .get();
 
     if (rows.isEmpty) {
-      final statRows =
-          await (_database.select(_database.rulesetCollectionStats)
-                ..where((tbl) => tbl.rulesetId.equals(record.rulesetId)))
-              .get();
+      final statRows = await (_database.select(
+        _database.rulesetCollectionStats,
+      )..where((tbl) => tbl.rulesetId.equals(record.rulesetId))).get();
       if (statRows.isEmpty) {
         return null;
       }
@@ -712,7 +700,9 @@ class CompendiumRepository {
     }
   }
 
-  Future<void> _insertPreparedShards(_PreparedRulesetImportData prepared) async {
+  Future<void> _insertPreparedShards(
+    _PreparedRulesetImportData prepared,
+  ) async {
     const chunkSize = 250;
 
     for (final shard in prepared.shards) {
@@ -835,15 +825,23 @@ class _PreparedRulesetImportData {
   });
 
   factory _PreparedRulesetImportData.fromJson(Map<String, dynamic> json) {
+    final schemaVersion = json['schemaVersion']?.toString().trim() ?? '';
+    if (schemaVersion != kCurrentRulesetSchemaVersion) {
+      throw FormatException(
+        'Unsupported ruleset schema version "$schemaVersion".',
+      );
+    }
     return _PreparedRulesetImportData(
       rulesetId: json['rulesetId']?.toString() ?? '',
-      schemaVersion: json['schemaVersion']?.toString() ?? kCurrentRulesetSchemaVersion,
+      schemaVersion: schemaVersion,
       name: json['name']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       author: json['author']?.toString() ?? '',
       version: json['version']?.toString() ?? '1.0.0',
       license: json['license']?.toString() ?? '',
-      mode: RulesetMode.fromValue(json['mode']?.toString() ?? RulesetMode.imported.name),
+      mode: RulesetMode.fromValue(
+        json['mode']?.toString() ?? RulesetMode.imported.name,
+      ),
       createdAt: json['createdAt'] != null
           ? DateTime.tryParse(json['createdAt'].toString())
           : null,
@@ -896,20 +894,39 @@ Map<String, dynamic> _normalizeRulesetJsonMap(
   Map<String, dynamic> json, {
   RulesetMode? forcedMode,
 }) {
-  final normalized = Map<String, dynamic>.from(json);
-  normalized['schemaVersion'] =
-      normalized['schemaVersion']?.toString().trim().isNotEmpty == true
-      ? normalized['schemaVersion']
-      : kCurrentRulesetSchemaVersion;
+  final normalized = CompendiumJsonUtils.jsonMap(json);
+  final rawMode = normalized['mode']?.toString().trim() ?? '';
+  if (rawMode.isNotEmpty &&
+      !RulesetMode.values.any((mode) => mode.name == rawMode)) {
+    throw FormatException(
+      'Ruleset "mode" must be one of: ${RulesetMode.values.map((mode) => mode.name).join(', ')}.',
+    );
+  }
+
+  final rawId = normalized['id']?.toString().trim() ?? '';
+  final rawName = normalized['name']?.toString().trim() ?? '';
+  if (rawId.isEmpty && rawName.isEmpty) {
+    throw const FormatException(
+      'Ruleset import requires a non-empty "name" or "id".',
+    );
+  }
+
+  final rawSchemaVersion = normalized['schemaVersion']?.toString().trim() ?? '';
+  if (rawSchemaVersion != kCurrentRulesetSchemaVersion) {
+    throw FormatException(
+      'Unsupported ruleset schema version "$rawSchemaVersion".',
+    );
+  }
+  normalized['schemaVersion'] = kCurrentRulesetSchemaVersion;
   normalized['mode'] =
       forcedMode?.name ??
-      normalized['mode']?.toString() ??
-      RulesetMode.imported.name;
-  normalized['id'] = normalized['id']?.toString().trim().isNotEmpty == true
-      ? normalized['id']
-      : CompendiumJsonUtils.slugify(normalized['name']?.toString() ?? 'ruleset');
-  normalized['name'] =
-      normalized['name']?.toString() ?? normalized['id'].toString();
+      (rawMode.isNotEmpty ? rawMode : RulesetMode.imported.name);
+  normalized['id'] = rawId.isNotEmpty
+      ? rawId
+      : CompendiumJsonUtils.slugify(rawName);
+  normalized['name'] = rawName.isNotEmpty
+      ? rawName
+      : normalized['id'].toString();
   normalized['description'] = normalized['description']?.toString() ?? '';
   normalized['author'] = normalized['author']?.toString() ?? '';
   normalized['version'] = normalized['version']?.toString() ?? '1.0.0';
@@ -982,13 +999,45 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
     final entityRows = <Map<String, dynamic>>[];
     final linkRows = <Map<String, dynamic>>[];
     final rawList = normalized[descriptor.collection.collectionKey];
+    if (rawList != null && rawList is! List) {
+      throw FormatException(
+        'Ruleset collection "${descriptor.collection.collectionKey}" must be a JSON array.',
+      );
+    }
     if (rawList is List) {
-      for (final item in rawList) {
-        final entity = descriptor.fromJson(CompendiumJsonUtils.jsonMap(item));
+      for (var index = 0; index < rawList.length; index += 1) {
+        final item = rawList[index];
+        if (item is! Map) {
+          throw FormatException(
+            'Ruleset collection "${descriptor.collection.collectionKey}" entry ${index + 1} must be an object.',
+          );
+        }
+
+        final entityJson = CompendiumJsonUtils.jsonMap(item);
+        late final CompendiumEntity entity;
+        try {
+          entity = descriptor.fromJson(entityJson);
+        } on FormatException catch (error) {
+          throw FormatException(
+            'Invalid ${descriptor.collection.entityType} entry at '
+            '"${descriptor.collection.collectionKey}[${index + 1}]": ${error.message}',
+          );
+        } catch (error) {
+          throw FormatException(
+            'Invalid ${descriptor.collection.entityType} entry at '
+            '"${descriptor.collection.collectionKey}[${index + 1}]": $error',
+          );
+        }
+
+        if (entity.displayName.trim().isEmpty) {
+          throw FormatException(
+            'Ruleset collection "${descriptor.collection.collectionKey}" entry ${index + 1} is missing a usable name.',
+          );
+        }
+
         final payload = entity.toJson();
         final entityId = _resolveUniqueImportedEntityId(
           entityType: descriptor.collection.entityType,
-          preferredId: entity.id,
           payload: payload,
           usedIds: usedEntityIdsByType.putIfAbsent(
             descriptor.collection.entityType,
@@ -1006,8 +1055,9 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
           'sourceFile': '',
           'edition': null,
           'sortName': CompendiumJsonUtils.sortName(entity.displayName),
-          'searchText':
-              CompendiumJsonUtils.flattenedSearchText(payload).toLowerCase(),
+          'searchText': CompendiumJsonUtils.flattenedSearchText(
+            payload,
+          ).toLowerCase(),
           'payloadJson': jsonEncode(payload),
         });
         entityCount += 1;
@@ -1069,8 +1119,8 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
 
   return {
     'rulesetId': rulesetId,
-    'schemaVersion': normalized['schemaVersion']?.toString() ??
-        kCurrentRulesetSchemaVersion,
+    'schemaVersion':
+        normalized['schemaVersion']?.toString() ?? kCurrentRulesetSchemaVersion,
     'name': normalized['name']?.toString() ?? rulesetId,
     'description': normalized['description']?.toString() ?? '',
     'author': normalized['author']?.toString() ?? '',
@@ -1081,8 +1131,7 @@ Map<String, dynamic> _prepareRulesetImportMapFromBytes(
     'updatedAt': DateTime.now().toIso8601String(),
     'entityCount': entityCount,
     'extraJson': jsonEncode(extra),
-    if (includePayloadJson)
-      'payloadJson': jsonEncode(exportedRuleset),
+    if (includePayloadJson) 'payloadJson': jsonEncode(exportedRuleset),
     'collectionStats': collectionStats,
     'shards': shards,
   };
@@ -1142,11 +1191,9 @@ List<CompendiumLinkCandidate> _extractLinksFromValue(dynamic value) {
 
 String _resolveUniqueImportedEntityId({
   required String entityType,
-  required String preferredId,
   required Map<String, dynamic> payload,
   required Set<String> usedIds,
 }) {
-  final trimmedPreferred = preferredId.trim();
   final baseId = CompendiumJsonUtils.stableEntityId(
     entityType: entityType,
     payload: payload,
@@ -1156,7 +1203,7 @@ String _resolveUniqueImportedEntityId({
   }
 
   final fingerprinted =
-      '$baseId:${CompendiumJsonUtils.stableDisambiguator(payload, legacyId: trimmedPreferred)}';
+      '$baseId:${CompendiumJsonUtils.stableDisambiguator(payload)}';
   if (usedIds.add(fingerprinted)) {
     return fingerprinted;
   }

@@ -61,7 +61,7 @@ class RulesetCollectionStats extends Table {
   IntColumn get entityCount => integer().withDefault(const Constant(0))();
 
   @override
-  Set<Column<Object>> get primaryKey => {rulesetId, entityType};
+  Set<Column<Object>> get primaryKey => {rulesetId, entityType, collectionKey};
 }
 
 class CompendiumBootstrapStates extends Table {
@@ -104,7 +104,7 @@ class CompendiumDatabase extends _$CompendiumDatabase {
     : super(executor ?? openCompendiumDatabaseConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -118,6 +118,10 @@ class CompendiumDatabase extends _$CompendiumDatabase {
       }
       if (from < 4) {
         await migrator.createTable(characterRecords);
+      }
+      if (from < 5) {
+        await migrator.deleteTable('ruleset_collection_stats');
+        await migrator.createTable(rulesetCollectionStats);
       }
     },
   );

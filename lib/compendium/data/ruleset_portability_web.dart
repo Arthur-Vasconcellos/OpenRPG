@@ -3,8 +3,6 @@ import 'dart:typed_data';
 
 import 'ruleset_portability.dart';
 
-Future<String?> loadLegacyRulesetJson(String sourceReference) async => null;
-
 Future<Uint8List?> loadRulesetImportBytes(String sourceReference) async => null;
 
 Future<String> persistImportedRulesetJsonDocument({

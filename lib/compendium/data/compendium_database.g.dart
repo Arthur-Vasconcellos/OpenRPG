@@ -2185,7 +2185,11 @@ class $RulesetCollectionStatsTable extends RulesetCollectionStats
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {rulesetId, entityType};
+  Set<GeneratedColumn> get $primaryKey => {
+    rulesetId,
+    entityType,
+    collectionKey,
+  };
   @override
   RulesetCollectionStat map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';

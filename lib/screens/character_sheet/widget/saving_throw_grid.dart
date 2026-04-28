@@ -1,94 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:openrpg/characters/data/character_editor_controller.dart';
+import 'package:openrpg/characters/data/character_sheet_schema.dart';
 import 'package:openrpg/models/character.dart';
 
 class SavingThrowGrid extends StatelessWidget {
   final Character character;
-  final Function(Character) onCharacterUpdated;
+  final CharacterEditorController controller;
+  final List<CharacterAbilityDescriptor> abilities;
 
   const SavingThrowGrid({
     super.key,
     required this.character,
-    required this.onCharacterUpdated,
+    required this.controller,
+    required this.abilities,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
-    final saves = [
-      {
-        'name': 'STR',
-        'mod': character.proficiencies.savingThrows.getModifier(
-          'strength',
-          character.modifiers,
-          character.proficiencies.proficiencyBonus,
-        ),
-        'proficient': character.proficiencies.savingThrows.strength,
-      },
-      {
-        'name': 'DEX',
-        'mod': character.proficiencies.savingThrows.getModifier(
-          'dexterity',
-          character.modifiers,
-          character.proficiencies.proficiencyBonus,
-        ),
-        'proficient': character.proficiencies.savingThrows.dexterity,
-      },
-      {
-        'name': 'CON',
-        'mod': character.proficiencies.savingThrows.getModifier(
-          'constitution',
-          character.modifiers,
-          character.proficiencies.proficiencyBonus,
-        ),
-        'proficient': character.proficiencies.savingThrows.constitution,
-      },
-      {
-        'name': 'INT',
-        'mod': character.proficiencies.savingThrows.getModifier(
-          'intelligence',
-          character.modifiers,
-          character.proficiencies.proficiencyBonus,
-        ),
-        'proficient': character.proficiencies.savingThrows.intelligence,
-      },
-      {
-        'name': 'WIS',
-        'mod': character.proficiencies.savingThrows.getModifier(
-          'wisdom',
-          character.modifiers,
-          character.proficiencies.proficiencyBonus,
-        ),
-        'proficient': character.proficiencies.savingThrows.wisdom,
-      },
-      {
-        'name': 'CHA',
-        'mod': character.proficiencies.savingThrows.getModifier(
-          'charisma',
-          character.modifiers,
-          character.proficiencies.proficiencyBonus,
-        ),
-        'proficient': character.proficiencies.savingThrows.charisma,
-      },
-    ];
-
-    return GridView.count(
+    return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      childAspectRatio: 1.5,
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-      children: saves.map((save) {
-        final name = save['name'] as String;
-        final mod = save['mod'] as int;
-        final proficient = save['proficient'] as bool;
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 1.5,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: abilities.length,
+      itemBuilder: (context, index) {
+        final ability = abilities[index];
+        final proficient = character.proficiencies.savingThrows.isProficient(
+          ability.id,
+        );
+        final modifier = character.proficiencies.savingThrows.getModifier(
+          ability.id,
+          character.modifiers,
+          character.proficiencies.proficiencyBonus,
+        );
 
         return GestureDetector(
-          onTap: () {
-            _toggleSavingThrow(name, proficient);
-          },
+          onTap: () => controller.toggleSavingThrow(ability.id),
           child: Container(
             decoration: BoxDecoration(
               color: proficient
@@ -107,7 +60,7 @@ class SavingThrowGrid extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    name,
+                    ability.abbreviation,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: proficient
@@ -118,7 +71,7 @@ class SavingThrowGrid extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    mod >= 0 ? '+$mod' : '$mod',
+                    modifier >= 0 ? '+$modifier' : '$modifier',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -139,45 +92,7 @@ class SavingThrowGrid extends StatelessWidget {
             ),
           ),
         );
-      }).toList(),
+      },
     );
-  }
-
-  void _toggleSavingThrow(String ability, bool current) {
-    final newSavingThrows = SavingThrowProficiencies(
-      strength: ability == 'STR'
-          ? !current
-          : character.proficiencies.savingThrows.strength,
-      dexterity: ability == 'DEX'
-          ? !current
-          : character.proficiencies.savingThrows.dexterity,
-      constitution: ability == 'CON'
-          ? !current
-          : character.proficiencies.savingThrows.constitution,
-      intelligence: ability == 'INT'
-          ? !current
-          : character.proficiencies.savingThrows.intelligence,
-      wisdom: ability == 'WIS'
-          ? !current
-          : character.proficiencies.savingThrows.wisdom,
-      charisma: ability == 'CHA'
-          ? !current
-          : character.proficiencies.savingThrows.charisma,
-    );
-
-    final newProficiencies = ProficiencySet(
-      proficiencyBonus: character.proficiencies.proficiencyBonus,
-      skills: character.proficiencies.skills,
-      savingThrows: newSavingThrows,
-      languages: character.proficiencies.languages,
-      tools: character.proficiencies.tools,
-      weapons: character.proficiencies.weapons,
-      armor: character.proficiencies.armor,
-      other: character.proficiencies.other,
-    );
-
-    final newCharacter = character.copyWith(proficiencies: newProficiencies);
-
-    onCharacterUpdated(newCharacter);
   }
 }
