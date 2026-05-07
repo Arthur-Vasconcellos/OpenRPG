@@ -87,9 +87,9 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                 const SizedBox(height: 8),
                 Text(
                   progress.hasBlockingIssues
-                      ? '${progress.errorCount} blocking issue${progress.errorCount == 1 ? '' : 's'} need attention before this character is ready.'
+                      ? '${progress.errorCount} choice${progress.errorCount == 1 ? '' : 's'} need attention before this character is ready to play.'
                       : issues.isEmpty
-                      ? 'No blocking creation issues remain.'
+                      ? 'No required character choices need attention.'
                       : '${issues.length} warning${issues.length == 1 ? '' : 's'} remain.',
                 ),
                 const SizedBox(height: 16),
@@ -274,7 +274,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
               ),
               IconButton(
                 tooltip: creationProgress.hasBlockingIssues
-                    ? 'Creation checklist: ${creationProgress.errorCount} blocking issue${creationProgress.errorCount == 1 ? '' : 's'}'
+                    ? 'Creation checklist: ${creationProgress.errorCount} choice${creationProgress.errorCount == 1 ? '' : 's'} need attention'
                     : 'Creation checklist',
                 onPressed: _showCreationChecklist,
                 icon: Icon(
@@ -339,7 +339,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                       const SizedBox(width: 8),
                       Tooltip(
                         message:
-                            'These class entries drive level progression, hit dice, subclass availability, and many derived features.',
+                            'These class entries drive level progression, hit dice, subclass availability, and many class features.',
                         child: Chip(
                           label: Text(
                             '${character.classes.length} class selection${character.classes.length == 1 ? '' : 's'}',
@@ -349,10 +349,10 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                       const SizedBox(width: 8),
                       Tooltip(
                         message:
-                            'Derived features come from the current compendium-backed build and can be previewed from the Features and Combat tabs.',
+                            'Features come from the current rules choices and can be previewed from the Features and Combat tabs.',
                         child: Chip(
                           label: Text(
-                            '${_controller.resolvedBuild.allFeatures.length} derived features',
+                            '${_controller.resolvedBuild.allFeatures.length} features',
                           ),
                         ),
                       ),
@@ -364,8 +364,8 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                         child: Chip(
                           label: Text(
                             unresolvedSelections == 0
-                                ? 'All selections resolved'
-                                : '$unresolvedSelections unresolved selections',
+                                ? 'Choices ready'
+                                : '$unresolvedSelections choice${unresolvedSelections == 1 ? '' : 's'} need attention',
                           ),
                         ),
                       ),
@@ -398,7 +398,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
               if (character.primaryRulesetId.trim().isEmpty)
                 MaterialBanner(
                   content: const Text(
-                    'This character does not have a primary ruleset yet. Select one from the core tab before trusting derived build data.',
+                    'This character does not have a primary ruleset yet. Select one from the core tab before using rules-based stats.',
                   ),
                   actions: [
                     TextButton(
@@ -410,7 +410,7 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
               if (primaryRulesetMissing)
                 MaterialBanner(
                   content: const Text(
-                    'This character references a ruleset that is not installed on this device. Choose a replacement from the core tab to restore compendium-backed selections.',
+                    'This character references a ruleset that is not installed on this device. Choose a replacement from the core tab to restore rules-based choices.',
                   ),
                   actions: [
                     TextButton(
@@ -423,8 +423,8 @@ class _CharacterSheetScreenState extends State<CharacterSheetScreen>
                 MaterialBanner(
                   content: Text(
                     unresolvedSelections == 1
-                        ? 'This build has 1 unresolved compendium selection. Derived combat, features, spells, or notes may be incomplete until it is replaced.'
-                        : 'This build has $unresolvedSelections unresolved compendium selections. Derived combat, features, spells, or notes may be incomplete until they are replaced.',
+                        ? 'This character has 1 choice that needs attention. Combat, features, spells, or notes may be incomplete until it is replaced.'
+                        : 'This character has $unresolvedSelections choices that need attention. Combat, features, spells, or notes may be incomplete until they are replaced.',
                   ),
                   actions: [
                     TextButton(

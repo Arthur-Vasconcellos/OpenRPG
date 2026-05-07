@@ -40,6 +40,21 @@ class CompendiumBrowseRepository {
     return _mapRulesetSummary(record);
   }
 
+  Future<Map<String, dynamic>> loadRulesetExtraData(String rulesetId) async {
+    final record = await (_database.select(
+      _database.rulesetRecords,
+    )..where((tbl) => tbl.rulesetId.equals(rulesetId))).getSingleOrNull();
+    if (record == null || record.extraJson.trim().isEmpty) {
+      return const <String, dynamic>{};
+    }
+
+    final decoded = jsonDecode(record.extraJson);
+    if (decoded is! Map) {
+      return const <String, dynamic>{};
+    }
+    return decoded.cast<String, dynamic>();
+  }
+
   Future<List<RulesetCollectionSummary>> loadCollectionSummaries(
     String rulesetId,
   ) async {

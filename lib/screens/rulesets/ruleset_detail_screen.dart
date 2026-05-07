@@ -9,20 +9,25 @@ import 'package:openrpg/screens/rulesets/compendium_entity_preview_sheet.dart';
 import 'package:openrpg/screens/rulesets/compendium_type_badge.dart';
 import 'package:openrpg/screens/rulesets/ruleset_collection_screen.dart';
 
-enum _RulesetDetailMode { browse, search, builder }
+enum _RulesetDetailMode { browse, search }
 
 class RulesetDetailScreen extends StatefulWidget {
   final String rulesetId;
+  final CompendiumBrowseRepository? browseRepository;
 
-  const RulesetDetailScreen({super.key, required this.rulesetId});
+  const RulesetDetailScreen({
+    super.key,
+    required this.rulesetId,
+    this.browseRepository,
+  });
 
   @override
   State<RulesetDetailScreen> createState() => _RulesetDetailScreenState();
 }
 
 class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
-  final CompendiumBrowseRepository _browseRepository =
-      CompendiumBrowseRepository();
+  late final CompendiumBrowseRepository _browseRepository =
+      widget.browseRepository ?? CompendiumBrowseRepository();
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _collectionFilterController =
       TextEditingController();
@@ -239,7 +244,6 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
                   filteredCollections,
                 ),
                 _RulesetDetailMode.search => _buildSearchMode(context, state),
-                _RulesetDetailMode.builder => _buildBuilderMode(context, state),
               },
             ],
           );
@@ -430,73 +434,6 @@ class _RulesetDetailScreenState extends State<RulesetDetailScreen> {
     );
   }
 
-  Widget _buildBuilderMode(BuildContext context, _RulesetDetailState state) {
-    final relevantCollections = state.collections
-        .where(
-          (collection) => const {
-            'class',
-            'subclass',
-            'race',
-            'background',
-            'spell',
-            'item',
-          }.contains(collection.entityType),
-        )
-        .toList(growable: false);
-
-    return Column(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Use This Ruleset In Character Builder',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Start a saved character with this ruleset already pinned as the primary build source. The picks below are the collections most commonly used while building.',
-                ),
-                const SizedBox(height: 14),
-                FilledButton.tonalIcon(
-                  onPressed: () => createCharacterFromRulesetFlow(
-                    context,
-                    preselectedRulesetId: state.summary.id,
-                  ),
-                  icon: const Icon(Icons.auto_awesome_outlined),
-                  label: const Text('Start Character From This Ruleset'),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 14),
-        ...relevantCollections.map(
-          (collection) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: _BuilderShortcutCard(
-              collection: collection,
-              onOpen: () async {
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => RulesetCollectionScreen(
-                      rulesetId: widget.rulesetId,
-                      entityType: collection.entityType,
-                    ),
-                  ),
-                );
-                await _reload();
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   List<RulesetCollectionSummary> _filterCollections(
     List<RulesetCollectionSummary> collections,
   ) {
@@ -587,31 +524,15 @@ class _RulesetHeaderCard extends StatelessWidget {
                   icon: Icon(Icons.search),
                   label: Text('Search'),
                 ),
-                ButtonSegment<_RulesetDetailMode>(
-                  value: _RulesetDetailMode.builder,
-                  icon: Icon(Icons.auto_awesome_outlined),
-                  label: Text('Use In Character Builder'),
-                ),
               ],
-              selected: {_RulesetDetailMode.values[mode.index]},
+              selected: {mode},
               onSelectionChanged: (selection) => onModeChanged(selection.first),
             ),
             const SizedBox(height: 16),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                FilledButton.tonalIcon(
-                  onPressed: onCreateCharacter,
-                  icon: const Icon(Icons.auto_awesome_outlined),
-                  label: const Text('Start Character From This Ruleset'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () => searchController.clear(),
-                  icon: const Icon(Icons.clear_all_outlined),
-                  label: const Text('Clear Search'),
-                ),
-              ],
+            FilledButton.tonalIcon(
+              onPressed: onCreateCharacter,
+              icon: const Icon(Icons.auto_awesome_outlined),
+              label: const Text('Create Character Using This Ruleset'),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -723,35 +644,6 @@ class _RulesetCollectionCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _BuilderShortcutCard extends StatelessWidget {
-  final RulesetCollectionSummary collection;
-  final Future<void> Function() onOpen;
-
-  const _BuilderShortcutCard({required this.collection, required this.onOpen});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        onTap: onOpen,
-        title: Text(collection.label),
-        subtitle: collection.representativeEntries.isEmpty
-            ? Text(
-                collection.entityCount == 0
-                    ? 'No entries available yet.'
-                    : '${collection.entityCount} entries available.',
-              )
-            : Text(
-                collection.representativeEntries
-                    .map((entry) => entry.displayName)
-                    .join(' • '),
-              ),
-        trailing: const Icon(Icons.chevron_right),
       ),
     );
   }

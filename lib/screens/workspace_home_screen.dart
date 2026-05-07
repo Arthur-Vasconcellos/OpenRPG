@@ -190,9 +190,8 @@ class _WorkspaceHomeScreenState extends State<WorkspaceHomeScreen> {
                     accent: colorScheme.primary,
                     icon: Icons.auto_stories_outlined,
                     helperText:
-                        'Use a ruleset as the source of truth for classes, races, spells, items, and linked previews.',
-                    tooltip:
-                        'Rulesets are the source of truth for compendium-backed character building.',
+                        'Use rules references for classes, races, spells, items, and quick previews.',
+                    tooltip: 'Rulesets provide the rules your characters use.',
                     onTap: _openRulesetLibrary,
                     secondaryAction: TextButton(
                       onPressed: recentRulesets.isEmpty
@@ -205,13 +204,13 @@ class _WorkspaceHomeScreenState extends State<WorkspaceHomeScreen> {
                   _WorkspaceCard(
                     title: 'Characters',
                     subtitle:
-                        'Create saved characters, bind them to installed rulesets, and keep editing with portable JSON import and export.',
+                        'Open saved characters, continue editing sheets, and import or export portable JSON.',
                     accent: colorScheme.tertiary,
                     icon: Icons.shield_outlined,
                     helperText:
-                        'Character picks stay compendium-backed, so class features, spells, and previews remain linked to the current ruleset.',
+                        'Character choices stay linked to their rules reference, so features, spells, and items stay easy to inspect.',
                     tooltip:
-                        'Saved characters keep references to installed rulesets instead of duplicating game content.',
+                        'Saved characters keep references to installed rulesets.',
                     onTap: _openCharacterLibrary,
                     secondaryAction: TextButton(
                       onPressed: recentCharacters.isEmpty
@@ -219,19 +218,6 @@ class _WorkspaceHomeScreenState extends State<WorkspaceHomeScreen> {
                           : () => _openCharacter(recentCharacters.first.id),
                       child: const Text('Open last character'),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  _WorkspaceCard(
-                    title: 'Create Character',
-                    subtitle:
-                        'Create a character from an installed local ruleset, then keep every class, feature, spell, and item linked back to the compendium.',
-                    accent: colorScheme.secondary,
-                    icon: Icons.linked_camera_outlined,
-                    helperText:
-                        'Choose Guided Builder for a step-by-step flow or Expert Builder to open the full sheet immediately.',
-                    tooltip:
-                        'Create a saved character with compendium-backed selections and nested previews.',
-                    onTap: () => _createCharacterFromRuleset(),
                   ),
                   const SizedBox(height: 24),
                   _RecentSection<RulesetSummary>(
@@ -255,7 +241,7 @@ class _WorkspaceHomeScreenState extends State<WorkspaceHomeScreen> {
                   _RecentSection<CharacterSummary>(
                     title: 'Recent Characters',
                     emptyLabel:
-                        'No recent characters yet. Create one from a ruleset to keep the builder and compendium connected.',
+                        'No recent characters yet. Use Create Character to start from an installed ruleset.',
                     items: recentCharacters,
                     itemBuilder: (character) => _RecentTile(
                       title: character.name,

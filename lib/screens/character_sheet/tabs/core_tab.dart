@@ -86,7 +86,7 @@ class CoreTab extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Refreshing compendium-backed build selections and derived features...',
+                        'Refreshing rules choices and character features...',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
@@ -221,7 +221,7 @@ class _BuildSelectionsCard extends StatelessWidget {
               service: controller.compendium,
               emptyLabel: 'No race selected yet.',
               helperText:
-                  'Race drives ancestry traits, movement, proficiencies, and other derived features.',
+                  'Race drives ancestry traits, movement, proficiencies, and other features.',
               onSelect: () => _pickRace(context),
               onClear: character.raceRef == null
                   ? null
@@ -453,13 +453,13 @@ class _BuildHealthCard extends StatelessWidget {
                 Chip(
                   label: Text(
                     unresolvedSelections == 0
-                        ? 'All selections resolved'
-                        : '$unresolvedSelections unresolved',
+                        ? 'Choices ready'
+                        : '$unresolvedSelections need attention',
                   ),
                 ),
                 Chip(
                   label: Text(
-                    '${controller.resolvedBuild.allFeatures.length} derived features',
+                    '${controller.resolvedBuild.allFeatures.length} features',
                   ),
                 ),
                 Chip(
@@ -489,8 +489,8 @@ class _BuildHealthCard extends StatelessWidget {
                   Chip(
                     label: Text(
                       previewController?.hasPinnedPreview == true
-                          ? 'Preview rail pinned'
-                          : 'Preview rail available',
+                          ? 'Reference preview pinned'
+                          : 'Reference preview available',
                     ),
                   ),
               ],
@@ -498,16 +498,16 @@ class _BuildHealthCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               unresolvedSelections == 0
-                  ? 'Every current core selection resolves cleanly against the installed compendium, so combat, features, and spells can derive from a stable build.'
-                  : 'Resolve the highlighted selections below to restore full compendium-backed derivation for combat, features, notes, and spells.',
+                  ? 'Ready for play: class, species/race, background, abilities, and rules choices are complete.'
+                  : 'Review the highlighted choices below so combat, features, notes, and spells can update.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             if (hasWidePreviewLayout) ...[
               const SizedBox(height: 8),
               Text(
                 previewController?.hasPinnedPreview == true
-                    ? 'The pinned preview rail is active on this layout, so nested reference browsing stays visible while you edit the build.'
-                    : 'On wider layouts, previewing a compendium-backed name can stay pinned beside the character sheet for quick comparison.',
+                    ? 'The pinned reference preview is active on this layout, so nested rules browsing stays visible while you edit.'
+                    : 'On wider layouts, previewing a rules reference can stay pinned beside the character sheet for quick comparison.',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
