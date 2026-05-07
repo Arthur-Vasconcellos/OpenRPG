@@ -30,28 +30,29 @@ class SpellSlotsWidget extends StatelessWidget {
         final isLow = remaining <= slot.total * 0.3;
 
         return Container(
-          width: 80,
-          height: 80,
+          width: 88,
+          height: 92,
           decoration: BoxDecoration(
             color: isLow
-                ? colorScheme.error.withOpacity(0.1)
-                : colorScheme.tertiary.withOpacity(0.1),
+                ? colorScheme.error.withValues(alpha: 0.1)
+                : colorScheme.tertiary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isLow
-                  ? colorScheme.error.withOpacity(0.3)
-                  : colorScheme.tertiary.withOpacity(0.3),
+                  ? colorScheme.error.withValues(alpha: 0.3)
+                  : colorScheme.tertiary.withValues(alpha: 0.3),
             ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Level ${slot.level}',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: colorScheme.onSurface.withOpacity(0.7),
+                  color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
               const SizedBox(height: 4),
@@ -68,7 +69,7 @@ class SpellSlotsWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: colorScheme.onSurface.withOpacity(0.5),
+                  color: colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ),
             ],

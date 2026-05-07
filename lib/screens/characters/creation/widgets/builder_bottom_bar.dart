@@ -52,6 +52,8 @@ class BuilderBottomBar extends StatelessWidget {
                 children: [
                   _ChecklistIssueSummary(progress: progress),
                   const SizedBox(height: 8),
+                  _SaveStatusSummary(controller: controller),
+                  const SizedBox(height: 8),
                   Wrap(
                     spacing: 10,
                     runSpacing: 10,
@@ -97,6 +99,87 @@ class BuilderBottomBar extends StatelessWidget {
             },
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _SaveStatusSummary extends StatelessWidget {
+  final CharacterEditorController controller;
+
+  const _SaveStatusSummary({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final saveError = controller.saveError;
+    final isError = saveError != null;
+    final isSaving = controller.isSaving;
+    final icon = isError
+        ? Icons.cloud_off_outlined
+        : isSaving
+        ? Icons.sync
+        : Icons.cloud_done_outlined;
+    final label = isError
+        ? 'Save failed'
+        : isSaving
+        ? 'Saving...'
+        : 'Saved recently';
+    final color = isError
+        ? colorScheme.error
+        : isSaving
+        ? colorScheme.primary
+        : colorScheme.onSurfaceVariant;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: isError
+            ? colorScheme.errorContainer.withValues(alpha: 0.36)
+            : colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: isError ? colorScheme.error : colorScheme.outlineVariant,
+        ),
+      ),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Icon(icon, size: 18, color: color),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (isError)
+            Text(
+              saveError,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: colorScheme.onErrorContainer,
+              ),
+            ),
+          if (isError)
+            TextButton.icon(
+              onPressed: () async {
+                await controller.flushPendingSave();
+                if (!context.mounted || controller.saveError == null) {
+                  return;
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Save failed: ${controller.saveError}'),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry Save'),
+            ),
+        ],
       ),
     );
   }

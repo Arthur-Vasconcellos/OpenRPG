@@ -126,7 +126,7 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
                 onSelected: (value) {
                   switch (value) {
                     case 'expert':
-                      _openSheet(replace: true);
+                      _switchToExpertBuilder();
                       break;
                     case 'exit':
                       Navigator.of(context).maybePop();
@@ -291,14 +291,43 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
   }
 
   Future<void> _finishAndOpenSheet() async {
+    if (!await _flushOrShowSaveError()) {
+      return;
+    }
     await _controller.markCreationComplete(
       mode: CharacterCreationMode.guided.storageValue,
     );
-    await _controller.flushPendingSave();
+    if (!await _flushOrShowSaveError()) {
+      return;
+    }
     if (!mounted) {
       return;
     }
     _openSheet(replace: true);
+  }
+
+  Future<void> _switchToExpertBuilder() async {
+    if (!await _flushOrShowSaveError()) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    _openSheet(replace: true);
+  }
+
+  Future<bool> _flushOrShowSaveError() async {
+    await _controller.flushPendingSave();
+    final saveError = _controller.saveError;
+    if (saveError == null) {
+      return true;
+    }
+    if (mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Save failed: $saveError')));
+    }
+    return false;
   }
 
   void _openSheet({required bool replace}) {
