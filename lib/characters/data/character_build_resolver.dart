@@ -11,6 +11,7 @@ class ResolvedCharacterBuild {
   final List<Feature> subclassFeatures;
   final List<Feature> raceTraits;
   final List<Feature> backgroundFeatures;
+  final CharacterResolvedEntity? background;
   final String? spellcastingAbility;
   final String? spellcastingClassName;
   final List<SpellSlot> spellSlots;
@@ -33,6 +34,7 @@ class ResolvedCharacterBuild {
     required this.subclassFeatures,
     required this.raceTraits,
     required this.backgroundFeatures,
+    required this.background,
     required this.spellcastingAbility,
     required this.spellcastingClassName,
     required this.spellSlots,
@@ -56,6 +58,7 @@ class ResolvedCharacterBuild {
       subclassFeatures = const [],
       raceTraits = const [],
       backgroundFeatures = const [],
+      background = null,
       spellcastingAbility = null,
       spellcastingClassName = null,
       spellSlots = const [],
@@ -271,6 +274,7 @@ class CharacterBuildResolver {
       subclassFeatures: subclassFeatures,
       raceTraits: raceTraits,
       backgroundFeatures: backgroundFeatures,
+      background: resolvedBackground,
       spellcastingAbility: spellcastingAbility,
       spellcastingClassName: spellcastingClassName,
       spellSlots:
@@ -599,4 +603,3 @@ class CharacterBuildResolver {
     return jsonEncode(content);
   }
 }
-

@@ -305,6 +305,9 @@ class CharacterCreationProgressResolver {
   ) sync* {
     final abilities = controller.sheetSchema.abilities;
     final creation = characterCreationData(character.extraData);
+    final backgroundOptions = backgroundAbilityBonusOptionsForResolvedEntity(
+      controller.resolvedBuild.background,
+    );
     final validation = validateAbilityScoreGeneration(
       character: character,
       abilities: abilities,
@@ -312,6 +315,7 @@ class CharacterCreationProgressResolver {
       pointBuyRules: PointBuyRules.fromRulesetExtra(
         controller.primaryRulesetExtraData,
       ),
+      backgroundAbilityOptions: backgroundOptions,
     );
     if (validation.status == AbilityScoreValidationStatus.ready) {
       return;

@@ -8,6 +8,7 @@ import 'package:openrpg/characters/data/character_repository.dart';
 import 'package:openrpg/characters/data/character_sheet_schema.dart';
 import 'package:openrpg/compendium/models/compendium_search.dart';
 import 'package:openrpg/models/character.dart';
+import 'package:openrpg/screens/characters/creation/ability_score_generation.dart';
 
 class CharacterEditorController extends ChangeNotifier {
   final String characterId;
@@ -287,6 +288,21 @@ class CharacterEditorController extends ChangeNotifier {
         ),
       );
     });
+  }
+
+  Future<void> setCreationAbilityScores(
+    CharacterCreationAbilityScores abilityScores,
+  ) {
+    return updateManual(
+      (current) => applyCreationAbilityScoresToCharacter(
+        current,
+        abilityScores,
+        backgroundAbilityOptions:
+            backgroundAbilityBonusOptionsForResolvedEntity(
+              _resolvedBuild.background,
+            ),
+      ),
+    );
   }
 
   Future<void> cycleSkillTraining(String skillId) {

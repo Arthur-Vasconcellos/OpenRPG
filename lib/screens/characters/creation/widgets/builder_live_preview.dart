@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openrpg/characters/data/character_editor_controller.dart';
+import 'package:openrpg/characters/data/character_sheet_schema.dart';
+import 'package:openrpg/models/character.dart';
+import 'package:openrpg/screens/characters/creation/ability_score_generation.dart';
 
 class BuilderLivePreview extends StatelessWidget {
   final CharacterEditorController controller;
@@ -20,6 +23,9 @@ class BuilderLivePreview extends StatelessWidget {
         : character.classes
               .map((entry) => '${entry.className} ${entry.level}')
               .join(' / ');
+    final abilities = controller.sheetSchema.abilities.isEmpty
+        ? _fallbackAbilities
+        : controller.sheetSchema.abilities;
 
     return Card(
       child: SizedBox(
@@ -105,6 +111,11 @@ class BuilderLivePreview extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
+            _PreviewAbilityScorePanel(
+              abilities: abilities,
+              scores: character.abilityScores,
+            ),
+            const SizedBox(height: 16),
             Text(
               'Live preview updates from saved character data and rules references.',
               style: Theme.of(context).textTheme.bodySmall,
@@ -112,6 +123,92 @@ class BuilderLivePreview extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+const _fallbackAbilities = <CharacterAbilityDescriptor>[
+  CharacterAbilityDescriptor(id: 'str', label: 'Strength', abbreviation: 'STR'),
+  CharacterAbilityDescriptor(
+    id: 'dex',
+    label: 'Dexterity',
+    abbreviation: 'DEX',
+  ),
+  CharacterAbilityDescriptor(
+    id: 'con',
+    label: 'Constitution',
+    abbreviation: 'CON',
+  ),
+  CharacterAbilityDescriptor(
+    id: 'int',
+    label: 'Intelligence',
+    abbreviation: 'INT',
+  ),
+  CharacterAbilityDescriptor(id: 'wis', label: 'Wisdom', abbreviation: 'WIS'),
+  CharacterAbilityDescriptor(id: 'cha', label: 'Charisma', abbreviation: 'CHA'),
+];
+
+class _PreviewAbilityScorePanel extends StatelessWidget {
+  final List<CharacterAbilityDescriptor> abilities;
+  final AbilityScores scores;
+
+  const _PreviewAbilityScorePanel({
+    required this.abilities,
+    required this.scores,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Ability Scores', style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 8),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final crossAxisCount = constraints.maxWidth < 260 ? 2 : 3;
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisExtent: 66,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: abilities.length,
+              itemBuilder: (context, index) {
+                final ability = abilities[index];
+                final score = scores.scoreFor(ability.id);
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainerLow,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        ability.abbreviation,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '$score (${_formatModifier(abilityModifierForScore(score))})',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -130,35 +227,51 @@ class _PreviewStatGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.55,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-      ),
-      itemCount: stats.length,
-      itemBuilder: (context, index) {
-        final stat = stats[index];
-        return Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerLow,
-            borderRadius: BorderRadius.circular(12),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final crossAxisCount = constraints.maxWidth < 220 ? 1 : 2;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            mainAxisExtent: 78,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(stat.label, style: Theme.of(context).textTheme.labelMedium),
-              const SizedBox(height: 4),
-              Text(stat.value, style: Theme.of(context).textTheme.titleLarge),
-            ],
-          ),
+          itemCount: stats.length,
+          itemBuilder: (context, index) {
+            final stat = stats[index];
+            return Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    stat.label,
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    stat.value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
   }
 }
+
+String _formatModifier(int modifier) =>
+    modifier >= 0 ? '+$modifier' : '$modifier';

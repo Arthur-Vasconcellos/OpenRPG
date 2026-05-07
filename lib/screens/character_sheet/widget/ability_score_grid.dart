@@ -15,27 +15,30 @@ class AbilityScoreGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final crossAxisCount = width < 520 ? 2 : 3;
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: 0.86,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-      ),
-      itemCount: abilities.length,
-      itemBuilder: (context, index) {
-        final ability = abilities[index];
-        return AttributeCard(
-          abbreviation: ability.abbreviation,
-          name: ability.label,
-          value: controller.abilityScoreFor(ability.id),
-          modifier: controller.abilityModifierFor(ability.id),
-          onDecrement: () => _adjustAbility(ability.id, -1),
-          onIncrement: () => _adjustAbility(ability.id, 1),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final crossAxisCount = constraints.maxWidth < 520 ? 2 : 3;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            childAspectRatio: 0.86,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+          ),
+          itemCount: abilities.length,
+          itemBuilder: (context, index) {
+            final ability = abilities[index];
+            return AttributeCard(
+              abbreviation: ability.abbreviation,
+              name: ability.label,
+              value: controller.abilityScoreFor(ability.id),
+              modifier: controller.abilityModifierFor(ability.id),
+              onDecrement: () => _adjustAbility(ability.id, -1),
+              onIncrement: () => _adjustAbility(ability.id, 1),
+            );
+          },
         );
       },
     );
