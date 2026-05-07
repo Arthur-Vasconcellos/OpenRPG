@@ -42,9 +42,9 @@ class ReviewFinishStep extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   progress.hasBlockingIssues
-                      ? '${progress.errorCount} blocking issue${progress.errorCount == 1 ? '' : 's'} need attention before this character is ready for play.'
+                      ? '${progress.errorCount} checklist error${progress.errorCount == 1 ? '' : 's'} need attention before finishing. You can still jump to any step and come back.'
                       : warnings.isEmpty
-                      ? 'Ready for play: class, species/race, background, abilities, and ruleset references are complete.'
+                      ? 'Checklist ready: class, species/race, background, abilities, and ruleset references are complete.'
                       : '${warnings.length} warning${warnings.length == 1 ? '' : 's'} remain. They do not block opening the sheet.',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -161,11 +161,15 @@ class ReviewFinishStep extends StatelessWidget {
               children: [
                 FilledButton.icon(
                   onPressed: () => _finish(context),
-                  icon: const Icon(Icons.open_in_new),
+                  icon: Icon(
+                    progress.hasBlockingIssues
+                        ? Icons.error_outline
+                        : Icons.check_circle_outline,
+                  ),
                   label: Text(
                     progress.hasBlockingIssues
-                        ? 'Fix Required'
-                        : 'Open Character Sheet',
+                        ? 'Resolve Blocking Issues'
+                        : 'Finish Guided Builder',
                   ),
                 ),
                 OutlinedButton.icon(
@@ -203,7 +207,7 @@ class ReviewFinishStep extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'Fix the choices that need attention before finishing Guided Builder.',
+            'Finish is blocked until checklist errors are resolved.',
           ),
         ),
       );

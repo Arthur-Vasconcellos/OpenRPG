@@ -25,14 +25,10 @@ class BuilderBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final character = controller.character!;
     final colorScheme = Theme.of(context).colorScheme;
-    final currentIssues = progress.issuesFor(currentStep);
-    final hasCurrentErrors = currentIssues.any(
-      (issue) => issue.severity == CharacterBuilderIssueSeverity.error,
-    );
     final continueLabel = currentStep == CharacterBuilderStepId.review
-        ? 'Open Sheet'
-        : hasCurrentErrors
-        ? 'Fix Required'
+        ? progress.hasBlockingIssues
+              ? 'Review Errors'
+              : 'Finish Guided Builder'
         : 'Continue';
     final initiative = character.combatStats.initiative;
     final summary =
@@ -45,47 +41,131 @@ class BuilderBottomBar extends StatelessWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-          child: Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.end,
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 220),
-                child: Text(
-                  progress.totalVisibleSteps == 0
-                      ? 'Preview updates as choices are completed.'
-                      : summary,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-              ),
-              OutlinedButton.icon(
-                onPressed: onBack,
-                icon: const Icon(Icons.arrow_back),
-                label: const Text('Back'),
-              ),
-              OutlinedButton.icon(
-                onPressed: onReview,
-                icon: const Icon(Icons.checklist_outlined),
-                label: Text(
-                  progress.errorCount + progress.warningCount == 0
-                      ? 'Review'
-                      : 'Review issues (${progress.errorCount + progress.warningCount})',
-                ),
-              ),
-              FilledButton.icon(
-                onPressed: onContinue,
-                icon: Icon(
-                  currentStep == CharacterBuilderStepId.review
-                      ? Icons.open_in_new
-                      : Icons.arrow_forward,
-                ),
-                label: Text(continueLabel),
-              ),
-            ],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final alignActions = constraints.maxWidth < 760
+                  ? WrapAlignment.start
+                  : WrapAlignment.end;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _ChecklistIssueSummary(progress: progress),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    alignment: alignActions,
+                    children: [
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(minWidth: 220),
+                        child: Text(
+                          progress.totalVisibleSteps == 0
+                              ? 'Guided checklist updates as choices are completed.'
+                              : 'Checklist ${progress.completedVisibleSteps}/${progress.totalVisibleSteps} complete | $summary',
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: onBack,
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text('Back'),
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: onReview,
+                        icon: const Icon(Icons.checklist_outlined),
+                        label: Text(
+                          progress.errorCount + progress.warningCount == 0
+                              ? 'Review Checklist'
+                              : 'Review issues (${progress.errorCount + progress.warningCount})',
+                        ),
+                      ),
+                      FilledButton.icon(
+                        onPressed: onContinue,
+                        icon: Icon(
+                          currentStep == CharacterBuilderStepId.review
+                              ? Icons.check_circle_outline
+                              : Icons.arrow_forward,
+                        ),
+                        label: Text(continueLabel),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ChecklistIssueSummary extends StatelessWidget {
+  final CharacterCreationProgress progress;
+
+  const _ChecklistIssueSummary({required this.progress});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final nextBlockingIssue = progress.nextBlockingIssue;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: colorScheme.outlineVariant),
+      ),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Chip(
+            visualDensity: VisualDensity.compact,
+            avatar: Icon(
+              progress.errorCount == 0
+                  ? Icons.check_circle_outline
+                  : Icons.error_outline,
+              size: 18,
+              color: progress.errorCount == 0
+                  ? colorScheme.primary
+                  : colorScheme.error,
+            ),
+            label: Text('Errors ${progress.errorCount}'),
+          ),
+          Chip(
+            visualDensity: VisualDensity.compact,
+            avatar: Icon(
+              progress.warningCount == 0
+                  ? Icons.check_circle_outline
+                  : Icons.warning_amber_outlined,
+              size: 18,
+              color: progress.warningCount == 0
+                  ? colorScheme.primary
+                  : colorScheme.tertiary,
+            ),
+            label: Text('Warnings ${progress.warningCount}'),
+          ),
+          if (nextBlockingIssue == null)
+            Text(
+              progress.warningCount == 0
+                  ? 'No blocking checklist issues.'
+                  : 'Warnings can be reviewed, but they do not block finish.',
+              style: Theme.of(context).textTheme.bodySmall,
+            )
+          else
+            Text(
+              'Next blocking issue: ${nextBlockingIssue.title}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: colorScheme.error,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -94,6 +94,13 @@ class _StepRailItem extends StatelessWidget {
       CharacterBuilderStepStatus.notStarted => Icons.radio_button_unchecked,
       CharacterBuilderStepStatus.skipped => Icons.remove_circle_outline,
     };
+    final statusLabel = switch (status) {
+      CharacterBuilderStepStatus.complete => 'Complete',
+      CharacterBuilderStepStatus.warning => 'Warning',
+      CharacterBuilderStepStatus.error => 'Error',
+      CharacterBuilderStepStatus.notStarted => 'Not started',
+      CharacterBuilderStepStatus.skipped => 'Skipped',
+    };
 
     return Material(
       color: selected
@@ -120,7 +127,10 @@ class _StepRailItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(statusIcon, size: 18, color: statusColor),
+              Tooltip(
+                message: '$statusLabel - tap to open',
+                child: Icon(statusIcon, size: 18, color: statusColor),
+              ),
             ],
           ),
         ),

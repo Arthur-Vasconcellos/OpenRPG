@@ -49,6 +49,15 @@ class CharacterCreationProgress {
       .where((issue) => issue.severity == CharacterBuilderIssueSeverity.error)
       .length;
 
+  CharacterBuilderIssue? get nextBlockingIssue {
+    for (final issue in issues) {
+      if (issue.severity == CharacterBuilderIssueSeverity.error) {
+        return issue;
+      }
+    }
+    return null;
+  }
+
   List<CharacterBuilderIssue> issuesFor(CharacterBuilderStepId stepId) {
     return issues
         .where((issue) => issue.stepId == stepId)

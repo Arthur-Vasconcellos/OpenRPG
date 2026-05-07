@@ -111,7 +111,7 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
                   ),
                 ),
                 Text(
-                  currentStep.descriptor.title,
+                  'Guided Checklist - ${currentStep.descriptor.title}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
@@ -211,9 +211,9 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
     if (currentStep == CharacterBuilderStepId.review) {
       if (progress.hasBlockingIssues && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Fix the choices that need attention before finishing Guided Builder.',
+              'Finish is blocked by ${progress.errorCount} error${progress.errorCount == 1 ? '' : 's'}. Review keeps the checklist open.',
             ),
           ),
         );
@@ -226,13 +226,6 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
         .issuesFor(currentStep)
         .where((issue) => issue.severity == CharacterBuilderIssueSeverity.error)
         .toList(growable: false);
-    if (blockingIssues.isNotEmpty && mounted) {
-      final firstIssue = blockingIssues.first;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fix this first: ${firstIssue.title}.')),
-      );
-      return;
-    }
     final next = _nextStep(visibleSteps, currentStep);
     if (next == null) {
       setState(() {
@@ -243,6 +236,16 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
     setState(() {
       _currentStep = next;
     });
+    if (blockingIssues.isNotEmpty && mounted) {
+      final firstIssue = blockingIssues.first;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Checklist issue saved for Review: ${firstIssue.title}.',
+          ),
+        ),
+      );
+    }
   }
 
   Widget _buildStep(
@@ -267,10 +270,15 @@ class _CharacterBuilderScreenState extends State<CharacterBuilderScreen> {
       ),
       CharacterBuilderStepId.proficiencies => ProficienciesStep(
         controller: _controller,
+        onGoToStep: (step) => setState(() => _currentStep = step),
       ),
-      CharacterBuilderStepId.spells => SpellsStep(controller: _controller),
+      CharacterBuilderStepId.spells => SpellsStep(
+        controller: _controller,
+        onGoToStep: (step) => setState(() => _currentStep = step),
+      ),
       CharacterBuilderStepId.equipment => EquipmentStep(
         controller: _controller,
+        onGoToStep: (step) => setState(() => _currentStep = step),
       ),
       CharacterBuilderStepId.story => StoryNotesStep(controller: _controller),
       CharacterBuilderStepId.review => ReviewFinishStep(
